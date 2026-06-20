@@ -6,14 +6,13 @@ This repository holds the redesigned website and the open knowledge base that po
 
 ## Structure
 
-- **`web/`** — Next.js (App Router) + TypeScript + Tailwind site, deployed on Vercel.
+- **Next.js (App Router) + TypeScript + Tailwind** app at the repo root (`src/`, `public/`), deployed on Vercel.
 - **`knowledge/`** — [Open-Knowledge-Format](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing/)-aligned content (myths, team, jobs, blog). The single source of truth, read at build time. See [`knowledge/README.md`](knowledge/README.md).
 - **`brand/`** — brand guidelines (PDF + HTML source) and logo assets.
 
 ## Develop
 
 ```bash
-cd web
 pnpm install
 pnpm dev      # http://localhost:3000
 pnpm build    # production build

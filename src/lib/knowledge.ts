@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const KB = path.join(process.cwd(), "..", "knowledge");
+const KB = path.join(process.cwd(), "knowledge");
 
 export type Myth = {
   id: string;
