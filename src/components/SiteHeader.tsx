@@ -42,7 +42,7 @@ export default function SiteHeader({ audience }: { audience: "kid" | "adult" }) 
           audience === "adult" ? "bg-violet-600 text-white" : "text-ink/60"
         }`}
       >
-        18–35
+        Adult
       </button>
     </div>
   );
@@ -74,21 +74,21 @@ export default function SiteHeader({ audience }: { audience: "kid" | "adult" }) 
               className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
                 isActive(l.href)
                   ? "bg-violet-100 text-violet-800"
-                  : "text-ink/70 hover:bg-violet-50 hover:text-brand"
+                  : "text-ink/70 hover:bg-mist hover:text-brand"
               }`}
             >
               {l.label}
             </Link>
           ))}
-          <span className="ml-2">
-            <Toggle />
-          </span>
           <Link
             href="/join"
             className="ml-2 rounded-full bg-violet-600 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-violet-800"
           >
             Join us
           </Link>
+          <span className="ml-3">
+            <Toggle />
+          </span>
         </nav>
 
         <button

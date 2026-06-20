@@ -55,7 +55,7 @@ export default function GamesPage() {
               style={{ transform: `rotate(${i % 2 ? 1.5 : -1.5}deg)` }}
               className="sticker hover-pop rounded-3xl bg-surface p-8"
             >
-              <span className={`rounded-full border-2 border-ink ${g.color} px-3 py-1 font-hand text-xs font-bold text-ink`}>
+              <span className={`rounded-full border-2 border-ink ${g.color} px-3 py-1 font-hand text-xs font-bold text-[#221436]`}>
                 coming soon
               </span>
               <h2 className="mt-4 font-hand text-2xl font-bold">{g.name}</h2>

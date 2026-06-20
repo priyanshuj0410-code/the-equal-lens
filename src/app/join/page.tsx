@@ -47,7 +47,7 @@ export default function JoinPage() {
               <div key={j.id} className="sticker rounded-3xl bg-surface p-7">
                 <div className="flex flex-wrap items-center gap-3">
                   <h3 className="font-hand text-2xl font-bold">{j.title}</h3>
-                  <span className="rounded-full border-2 border-ink bg-sun px-3 py-0.5 font-hand text-xs font-bold text-ink">
+                  <span className="rounded-full border-2 border-ink bg-sun px-3 py-0.5 font-hand text-xs font-bold text-[#221436]">
                     {j.type}
                   </span>
                   {j.location && <span className="text-xs text-ink/50">{j.location}</span>}

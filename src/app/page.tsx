@@ -139,7 +139,7 @@ export default function Home() {
                 className="sticker hover-pop rounded-2xl bg-surface p-6"
               >
                 <div
-                  className={`flex h-10 w-10 items-center justify-center rounded-full border-2 border-ink ${l.color} font-hand text-lg font-extrabold text-ink`}
+                  className={`flex h-10 w-10 items-center justify-center rounded-full border-2 border-ink ${l.color} font-hand text-lg font-extrabold text-[#221436]`}
                 >
                   {i + 1}
                 </div>
@@ -171,7 +171,7 @@ export default function Home() {
           <div className="mt-7 flex flex-wrap justify-center gap-4">
             <Link
               href="/contact"
-              className="rounded-full border-[2.5px] border-ink bg-sun px-6 py-3 font-hand text-base font-bold text-ink shadow-[4px_4px_0_var(--color-ink)] transition-transform hover:-translate-y-0.5"
+              className="rounded-full border-[2.5px] border-ink bg-sun px-6 py-3 font-hand text-base font-bold text-[#221436] shadow-[4px_4px_0_var(--color-ink)] transition-transform hover:-translate-y-0.5"
             >
               Get in touch
             </Link>

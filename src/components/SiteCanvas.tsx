@@ -399,7 +399,7 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
                 pointerEvents: active ? "none" : "auto",
                 transform: "rotate(-2deg)",
               }}
-              className="group absolute flex min-h-36 w-56 flex-col rounded-xl border-2 border-[#221436] p-4 shadow-[3px_3px_0_#221436] [touch-action:none] hover:z-40"
+              className="group absolute flex min-h-36 w-56 flex-col rounded-xl border-2 border-ink p-4 shadow-[3px_3px_0_var(--color-ink)] [touch-action:none] hover:z-40"
             >
               <NoteContent n={n} />
             </div>
@@ -424,7 +424,7 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
                 key={n.id}
                 onClick={() => tapNote(n.id)}
                 style={{ background: n.color, transform: `rotate(${i % 2 ? 1.2 : -1.2}deg)` }}
-                className="flex min-h-[140px] w-full flex-col rounded-xl border-2 border-[#221436] p-4 text-left shadow-[3px_3px_0_#221436]"
+                className="flex min-h-[140px] w-full flex-col rounded-xl border-2 border-ink p-4 text-left shadow-[3px_3px_0_var(--color-ink)]"
               >
                 <NoteContent n={n} />
               </button>
@@ -520,7 +520,7 @@ function NoteContent({ n }: { n: Note }) {
     <>
       <div className="mb-2">
         <span
-          className={`rounded-full bg-surface/70 px-2 py-0.5 font-hand text-[11px] font-bold ${
+          className={`rounded-full bg-white px-2 py-0.5 font-hand text-[11px] font-bold ${
             n.phase === "myth" ? "text-[#993C1D]" : "text-[#0F6E56]"
           }`}
         >
@@ -569,11 +569,11 @@ function ToolButton({
       onClick={onClick}
       title={label}
       className={`flex h-10 w-10 shrink-0 items-center justify-center gap-1.5 rounded-full border-2 transition-transform hover:-translate-y-0.5 sm:w-auto sm:justify-start sm:px-2.5 ${
-        active ? "border-ink bg-sun" : "border-transparent hover:border-mist"
+        active ? "border-ink bg-sun text-[#221436]" : "border-transparent text-ink hover:border-mist"
       }`}
     >
       <span className="flex h-7 w-7 items-center justify-center">{children}</span>
-      <span className="hidden font-hand text-sm font-bold text-ink sm:inline">{label}</span>
+      <span className="hidden font-hand text-sm font-bold sm:inline">{label}</span>
     </button>
   );
 }
@@ -595,8 +595,8 @@ function PillButton({
     <button
       onClick={onClick}
       title={title}
-      className={`flex h-10 w-10 shrink-0 items-center justify-center gap-1.5 rounded-full border-2 border-ink font-hand text-xs font-bold text-ink transition-transform hover:-translate-y-0.5 sm:w-auto sm:px-3 ${
-        tone === "sun" ? "bg-sun" : "bg-surface hover:bg-mist"
+      className={`flex h-10 w-10 shrink-0 items-center justify-center gap-1.5 rounded-full border-2 border-ink font-hand text-xs font-bold transition-transform hover:-translate-y-0.5 sm:w-auto sm:px-3 ${
+        tone === "sun" ? "bg-sun text-[#221436]" : "bg-surface text-ink hover:bg-mist"
       }`}
     >
       {children}
