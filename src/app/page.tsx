@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <div>
       {/* HERO */}
-      <section className="canvas-dots relative overflow-hidden">
+      <section className="relative overflow-hidden">
         <Doodle name="squiggle" className="anim-float absolute left-6 top-28 w-14 text-insight" />
         <Doodle name="sparkle" className="anim-wobble absolute right-10 top-16 w-9 text-grow" />
         <Doodle name="spiral" className="anim-float absolute left-1/3 top-10 w-10 text-violet-400" />
@@ -124,7 +124,7 @@ export default function Home() {
       </section>
 
       {/* LOOP */}
-      <section className="canvas-dots py-16">
+      <section className="py-16">
         <div className="mx-auto max-w-5xl px-5">
           <div className="text-center">
             <span className="font-hand text-sm font-bold uppercase tracking-widest text-violet-400">

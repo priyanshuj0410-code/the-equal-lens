@@ -221,9 +221,6 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
       ),
     ]);
   }
-  function removeNote(id: string) {
-    setNotes((p) => p.filter((n) => n.id !== id));
-  }
   function reset() {
     const c = canvasRef.current;
     const ctx = ctxRef.current;
@@ -274,15 +271,6 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
               >
                 {n.phase === "truth" ? "truth ✓" : n.phase === "erased" ? "now relearn" : "myth"}
               </span>
-              {!active && (
-                <button
-                  onClick={() => removeNote(n.id)}
-                  className="text-ink/40 hover:text-ink"
-                  aria-label="Remove note"
-                >
-                  ✕
-                </button>
-              )}
             </div>
 
             {n.phase === "myth" ? (
