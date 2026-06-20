@@ -25,21 +25,21 @@ export default function Home() {
       <section className="relative overflow-hidden">
         <Doodle name="squiggle" className="anim-float absolute left-6 top-28 w-14 text-insight" />
         <Doodle name="sparkle" className="anim-wobble absolute right-10 top-16 w-9 text-grow" />
-        <Doodle name="spiral" className="anim-float absolute left-1/3 top-10 w-10 text-violet-400" />
+        <Doodle name="spiral" className="anim-float absolute left-1/3 top-10 w-10 text-brandsoft" />
         <Doodle name="star" className="anim-wobble absolute right-1/4 bottom-12 w-8 text-sun" />
-        <Doodle name="arrow" className="anim-float absolute right-16 bottom-24 w-14 text-violet-400" />
+        <Doodle name="arrow" className="anim-float absolute right-16 bottom-24 w-14 text-brandsoft" />
         <Doodle name="heart" className="anim-wobble absolute left-12 bottom-16 w-7 text-grow" />
 
         <MythScatter items={scatterForPath("/")} />
 
         <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-5 py-16 md:grid-cols-2 md:py-24">
           <div>
-            <span className="inline-block rounded-full border-2 border-ink bg-white px-4 py-1 font-hand text-sm font-bold text-violet-600 shadow-[3px_3px_0_#C5B6DE]">
+            <span className="inline-block rounded-full border-2 border-ink bg-surface px-4 py-1 font-hand text-sm font-bold text-brand shadow-[3px_3px_0_#C5B6DE]">
               ✦ Unlearn. Relearn. Grow.
             </span>
             <h1 className="mt-5 font-hand text-4xl font-extrabold leading-[1.05] text-ink sm:text-6xl">
               Kids don&rsquo;t learn{" "}
-              <span className="relative whitespace-nowrap text-violet-600">
+              <span className="relative whitespace-nowrap text-brand">
                 bias
                 <svg
                   className="absolute -bottom-2 left-0 w-full"
@@ -60,18 +60,18 @@ export default function Home() {
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 href="/programs"
-                className="inline-block rounded-full border-[2.5px] border-ink bg-violet-600 px-6 py-3 font-hand text-base font-bold text-white shadow-[4px_4px_0_#221436] transition-transform hover:-translate-y-0.5"
+                className="inline-block rounded-full border-[2.5px] border-ink bg-violet-600 px-6 py-3 font-hand text-base font-bold text-white shadow-[4px_4px_0_var(--color-ink)] transition-transform hover:-translate-y-0.5"
               >
                 Explore programs
               </Link>
               <Link
                 href="/about"
-                className="inline-block rounded-full border-[2.5px] border-violet-600 bg-white px-6 py-3 font-hand text-base font-bold text-violet-600 shadow-[4px_4px_0_#C5B6DE] transition-transform hover:-translate-y-0.5"
+                className="inline-block rounded-full border-[2.5px] border-violet-600 bg-surface px-6 py-3 font-hand text-base font-bold text-brand shadow-[4px_4px_0_#C5B6DE] transition-transform hover:-translate-y-0.5"
               >
                 Our approach
               </Link>
             </div>
-            <p className="mt-5 font-hand text-lg text-violet-600">
+            <p className="mt-5 font-hand text-lg text-brand">
               ✦ Psst — grab <strong>UN</strong> or <strong>RE</strong> from the
               toolbar below and doodle right on this page.
             </p>
@@ -97,7 +97,7 @@ export default function Home() {
             <div
               key={s.cap}
               style={{ transform: `rotate(${i % 2 ? 1.2 : -1.2}deg)` }}
-              className="sticker hover-pop rounded-3xl bg-white p-8 text-center"
+              className="sticker hover-pop rounded-3xl bg-surface p-8 text-center"
             >
               <div className={`font-hand text-6xl font-extrabold ${s.color}`}>{s.n}</div>
               <p className="mt-2 text-ink/70">{s.cap}</p>
@@ -124,7 +124,7 @@ export default function Home() {
       <section className="py-16">
         <div className="mx-auto max-w-5xl px-5">
           <div className="text-center">
-            <span className="font-hand text-sm font-bold uppercase tracking-widest text-violet-400">
+            <span className="font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
               How we change it
             </span>
             <h2 className="mt-2 font-hand text-4xl font-extrabold text-ink">
@@ -136,7 +136,7 @@ export default function Home() {
               <div
                 key={l.step}
                 style={{ transform: `rotate(${i % 2 ? 1.5 : -1.5}deg)` }}
-                className="sticker hover-pop rounded-2xl bg-white p-6"
+                className="sticker hover-pop rounded-2xl bg-surface p-6"
               >
                 <div
                   className={`flex h-10 w-10 items-center justify-center rounded-full border-2 border-ink ${l.color} font-hand text-lg font-extrabold text-ink`}
@@ -171,7 +171,7 @@ export default function Home() {
           <div className="mt-7 flex flex-wrap justify-center gap-4">
             <Link
               href="/contact"
-              className="rounded-full border-[2.5px] border-ink bg-sun px-6 py-3 font-hand text-base font-bold text-ink shadow-[4px_4px_0_#221436] transition-transform hover:-translate-y-0.5"
+              className="rounded-full border-[2.5px] border-ink bg-sun px-6 py-3 font-hand text-base font-bold text-ink shadow-[4px_4px_0_var(--color-ink)] transition-transform hover:-translate-y-0.5"
             >
               Get in touch
             </Link>

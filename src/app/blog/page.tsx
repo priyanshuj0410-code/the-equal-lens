@@ -25,11 +25,11 @@ export default function BlogPage() {
   return (
     <div>
       <section className="relative overflow-hidden">
-        <Doodle name="spiral" className="anim-float absolute left-10 top-16 w-10 text-violet-400" />
+        <Doodle name="spiral" className="anim-float absolute left-10 top-16 w-10 text-brandsoft" />
         <Doodle name="heart" className="anim-wobble absolute right-14 top-12 w-7 text-grow" />
         <MythScatter items={scatterForPath("/blog")} />
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
-          <p className="font-hand text-sm font-bold uppercase tracking-widest text-violet-400">
+          <p className="font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
             Blog
           </p>
           <h1 className="mt-3 font-hand text-4xl font-extrabold text-ink sm:text-5xl">
@@ -48,7 +48,7 @@ export default function BlogPage() {
                 key={p.slug}
                 href={`/blog/${p.slug}`}
                 style={{ transform: `rotate(${i % 2 ? 1 : -1}deg)` }}
-                className="sticker hover-pop block overflow-hidden rounded-3xl bg-white"
+                className="sticker hover-pop block overflow-hidden rounded-3xl bg-surface"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={p.cover || "/blog/placeholder.svg"} alt="" className="h-44 w-full border-b-2 border-ink object-cover" />

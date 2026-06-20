@@ -5,6 +5,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import SiteCanvas from "@/components/SiteCanvas";
 import { getMyths } from "@/lib/knowledge";
+import { getAudience } from "@/lib/audience";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -30,18 +31,20 @@ export const metadata: Metadata = {
     "Helping children unlearn bias and relearn empathy through play.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const audience = await getAudience();
   return (
     <html
       lang="en"
+      data-audience={audience}
       className={`${poppins.variable} ${nunito.variable} ${baloo.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
-        <SiteHeader />
+        <SiteHeader audience={audience} />
         <main className="flex-1">{children}</main>
         <SiteCanvas seedMyths={getMyths()} />
         <SiteFooter />

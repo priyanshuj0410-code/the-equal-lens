@@ -79,10 +79,10 @@ export default function ProgramsPage() {
       <section className="relative overflow-hidden">
         <Doodle name="star" className="anim-wobble absolute right-12 top-12 w-9 text-sun" />
         <Doodle name="squiggle" className="anim-float absolute left-8 top-20 w-14 text-insight" />
-        <Doodle name="arrow" className="anim-float absolute right-20 bottom-10 w-12 text-violet-400" />
+        <Doodle name="arrow" className="anim-float absolute right-20 bottom-10 w-12 text-brandsoft" />
         <MythScatter items={scatterForPath("/programs")} />
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
-          <p className="font-hand text-sm font-bold uppercase tracking-widest text-violet-400">
+          <p className="font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
             Programs
           </p>
           <h1 className="mt-3 font-hand text-4xl font-extrabold text-ink sm:text-5xl">
@@ -101,9 +101,9 @@ export default function ProgramsPage() {
             <div
               key={p.id}
               style={{ transform: `rotate(${i % 2 ? 1 : -1}deg)` }}
-              className="sticker hover-pop rounded-3xl bg-white p-8"
+              className="sticker hover-pop rounded-3xl bg-surface p-8"
             >
-              <h2 className="font-hand text-2xl font-bold text-violet-600">{p.title}</h2>
+              <h2 className="font-hand text-2xl font-bold text-brand">{p.title}</h2>
               <p className="mt-2 text-ink/70">{p.summary}</p>
               <ul className="mt-4 space-y-2">
                 {p.items.map((item) => (
@@ -120,7 +120,7 @@ export default function ProgramsPage() {
 
       <section className="mx-auto max-w-5xl px-5 py-16">
         <div className="text-center">
-          <p className="font-hand text-sm font-bold uppercase tracking-widest text-violet-400">
+          <p className="font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
             Why choose us
           </p>
           <h2 className="mx-auto mt-2 max-w-2xl font-hand text-3xl font-extrabold text-ink sm:text-4xl">
@@ -135,7 +135,7 @@ export default function ProgramsPage() {
 
         {/* the differentiator: the usual way vs ours */}
         <div className="mt-10 grid items-center gap-4 md:grid-cols-[1fr_auto_1fr]">
-          <div className="rounded-3xl border-2 border-dashed border-violet-200 bg-white/50 p-7">
+          <div className="rounded-3xl border-2 border-dashed border-violet-200 bg-surface/50 p-7">
             <span className="font-hand text-xs font-bold uppercase tracking-widest text-ink/40">
               the usual way
             </span>
@@ -145,9 +145,9 @@ export default function ProgramsPage() {
             <p className="mt-3 text-sm text-ink/45">Polite nods… forgotten by lunch.</p>
           </div>
 
-          <Doodle name="arrow" className="mx-auto w-12 rotate-90 text-violet-400 md:rotate-0" />
+          <Doodle name="arrow" className="mx-auto w-12 rotate-90 text-brandsoft md:rotate-0" />
 
-          <div className="relative overflow-hidden rounded-3xl border-2 border-ink bg-violet-600 p-7 text-white shadow-[6px_7px_0_#221436]">
+          <div className="relative overflow-hidden rounded-3xl border-2 border-ink bg-violet-600 p-7 text-white shadow-[6px_7px_0_var(--color-ink)]">
             <span className="font-hand text-xs font-bold uppercase tracking-widest text-violet-200">
               the equal lens way
             </span>
@@ -168,7 +168,7 @@ export default function ProgramsPage() {
         {/* benefit-led reasons */}
         <div className="mt-12 grid gap-5 sm:grid-cols-2">
           {features.map((f) => (
-            <div key={f.title} className="sticker flex gap-4 rounded-3xl bg-white p-6">
+            <div key={f.title} className="sticker flex gap-4 rounded-3xl bg-surface p-6">
               <div
                 className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border-2 border-ink"
                 style={{ background: f.tint, color: f.color }}
@@ -188,7 +188,7 @@ export default function ProgramsPage() {
           {proof.map((p) => (
             <span
               key={p}
-              className="flex items-center gap-1.5 rounded-full border-2 border-ink bg-white px-3 py-1.5 font-hand text-xs font-bold text-ink"
+              className="flex items-center gap-1.5 rounded-full border-2 border-ink bg-surface px-3 py-1.5 font-hand text-xs font-bold text-ink"
             >
               <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-insight" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12l5 5L20 6" />
@@ -211,7 +211,7 @@ export default function ProgramsPage() {
           </p>
           <Link
             href="/contact"
-            className="mt-6 rounded-full border-[2.5px] border-ink bg-sun px-6 py-3 font-hand text-base font-bold text-ink shadow-[4px_4px_0_#221436] transition-transform hover:-translate-y-0.5"
+            className="mt-6 rounded-full border-[2.5px] border-ink bg-sun px-6 py-3 font-hand text-base font-bold text-ink shadow-[4px_4px_0_var(--color-ink)] transition-transform hover:-translate-y-0.5"
           >
             Get in touch
           </Link>

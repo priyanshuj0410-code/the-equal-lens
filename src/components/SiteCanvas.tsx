@@ -399,7 +399,7 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
                 pointerEvents: active ? "none" : "auto",
                 transform: "rotate(-2deg)",
               }}
-              className="group absolute flex min-h-36 w-56 flex-col rounded-xl border-2 border-ink p-4 shadow-[3px_3px_0_#221436] [touch-action:none] hover:z-40"
+              className="group absolute flex min-h-36 w-56 flex-col rounded-xl border-2 border-[#221436] p-4 shadow-[3px_3px_0_#221436] [touch-action:none] hover:z-40"
             >
               <NoteContent n={n} />
             </div>
@@ -414,8 +414,8 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
             Bust these myths
           </h2>
           <p className="mt-1 text-center text-sm text-ink/60">
-            Tap <strong className="text-violet-600">UN</strong> below, then a card to
-            erase it — then <strong className="text-violet-600">RE</strong> to reveal
+            Tap <strong className="text-brand">UN</strong> below, then a card to
+            erase it — then <strong className="text-brand">RE</strong> to reveal
             the truth.
           </p>
           <div className="mt-6 space-y-4">
@@ -424,7 +424,7 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
                 key={n.id}
                 onClick={() => tapNote(n.id)}
                 style={{ background: n.color, transform: `rotate(${i % 2 ? 1.2 : -1.2}deg)` }}
-                className="flex min-h-[140px] w-full flex-col rounded-xl border-2 border-ink p-4 text-left shadow-[3px_3px_0_#221436]"
+                className="flex min-h-[140px] w-full flex-col rounded-xl border-2 border-[#221436] p-4 text-left shadow-[3px_3px_0_#221436]"
               >
                 <NoteContent n={n} />
               </button>
@@ -434,9 +434,9 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
       )}
 
       {/* toolbar */}
-      <div className="fixed bottom-4 left-1/2 z-50 flex max-w-[96vw] -translate-x-1/2 items-center gap-2 overflow-x-auto rounded-full border-2 border-ink bg-white/95 px-3 py-2 shadow-[4px_4px_0_#221436] backdrop-blur">
+      <div className="fixed bottom-4 left-1/2 z-50 flex max-w-[96vw] -translate-x-1/2 items-center gap-2 overflow-x-auto rounded-full border-2 border-ink bg-surface/95 px-3 py-2 shadow-[4px_4px_0_var(--color-ink)] backdrop-blur">
         <ToolButton active={tool === "none"} onClick={() => setTool("none")} label="Browse">
-          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="#221436" aria-hidden="true">
+          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true">
             <path d="M5 2 L5 20 L10 15 L13.5 22 L16 21 L12.5 14 L19 14 Z" />
           </svg>
         </ToolButton>
@@ -467,7 +467,7 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
           onClick={() => setHideNotes((v) => !v)}
           title={hideNotes ? "Show the sticky notes" : "Hide the sticky notes"}
           aria-label={hideNotes ? "Show sticky notes" : "Hide sticky notes"}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-ink bg-white text-ink transition-transform hover:-translate-y-0.5"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-ink bg-surface text-ink transition-transform hover:-translate-y-0.5"
         >
           {hideNotes ? (
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -499,7 +499,7 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
         <div ref={cursorRef} className="pointer-events-none fixed left-0 top-0 z-[60]" style={{ transform: "translate(-300px,-300px)" }}>
           {tool === "eraser" ? (
             <span
-              className="absolute rounded-full border-2 border-dashed border-ink/60 bg-white/30"
+              className="absolute rounded-full border-2 border-dashed border-ink/60 bg-surface/30"
               style={{ width: ERASER_R * 2, height: ERASER_R * 2, transform: "translate(-50%,-50%)" }}
             />
           ) : (
@@ -520,7 +520,7 @@ function NoteContent({ n }: { n: Note }) {
     <>
       <div className="mb-2">
         <span
-          className={`rounded-full bg-white/70 px-2 py-0.5 font-hand text-[11px] font-bold ${
+          className={`rounded-full bg-surface/70 px-2 py-0.5 font-hand text-[11px] font-bold ${
             n.phase === "myth" ? "text-[#993C1D]" : "text-[#0F6E56]"
           }`}
         >
@@ -530,15 +530,15 @@ function NoteContent({ n }: { n: Note }) {
       {n.phase === "myth" ? (
         <>
           <p
-            className="font-hand text-lg font-bold leading-snug text-ink"
+            className="font-hand text-lg font-bold leading-snug text-[#2E1B4A]"
             style={{ opacity: 1 - n.erase * 0.9, filter: `blur(${n.erase * 2.5}px)` }}
           >
             {n.text}
           </p>
-          <p className="mt-auto pt-2 font-hand text-xs text-ink/45">rub me out with UN →</p>
+          <p className="mt-auto pt-2 font-hand text-xs text-[#2E1B4A]/60">rub me out with UN →</p>
         </>
       ) : n.reveal === 0 && n.phase !== "truth" ? (
-        <p className="font-hand text-base text-ink/40">reveal the truth with RE →</p>
+        <p className="font-hand text-base text-[#2E1B4A]/55">reveal the truth with RE →</p>
       ) : (
         <div style={{ opacity: n.phase === "truth" ? 1 : n.reveal }}>
           <p className="font-hand text-lg font-bold leading-snug text-violet-700">{n.truth}</p>
@@ -546,7 +546,7 @@ function NoteContent({ n }: { n: Note }) {
             className="mt-1 h-1 rounded-full bg-grow"
             style={{ width: `${(n.phase === "truth" ? 1 : n.reveal) * 90}%` }}
           />
-          {n.phase === "truth" && <p className="mt-2 text-xs text-ink/55">{n.explanation}</p>}
+          {n.phase === "truth" && <p className="mt-2 text-xs text-[#2E1B4A]/70">{n.explanation}</p>}
         </div>
       )}
     </>
@@ -596,7 +596,7 @@ function PillButton({
       onClick={onClick}
       title={title}
       className={`flex h-10 w-10 shrink-0 items-center justify-center gap-1.5 rounded-full border-2 border-ink font-hand text-xs font-bold text-ink transition-transform hover:-translate-y-0.5 sm:w-auto sm:px-3 ${
-        tone === "sun" ? "bg-sun" : "bg-white hover:bg-mist"
+        tone === "sun" ? "bg-sun" : "bg-surface hover:bg-mist"
       }`}
     >
       {children}

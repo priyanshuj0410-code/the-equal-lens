@@ -1,41 +1,58 @@
 @import "tailwindcss";
 
-@theme inline {
+@theme {
   --color-violet-50: #F3F0F6;
   --color-violet-100: #E5E0ED;
   --color-violet-200: #C5B6DE;
   --color-violet-400: #7F65A4;
   --color-violet-600: #553286;
+  --color-violet-700: #44288B;
   --color-violet-800: #331E50;
   --color-violet-900: #221436;
   --color-paper: #FBF9FF;
+  --color-surface: #FFFFFF;
   --color-mist: #E7E0F1;
   --color-insight: #2DD4BF;
   --color-grow: #FF7A5C;
   --color-sun: #FFC94D;
   --color-sky: #4FB0E8;
   --color-ink: #221436;
+  --color-brand: #553286;
+  --color-brandsoft: #7F65A4;
+  --dot: #ECE6F6;
 
   --font-display: var(--font-poppins);
   --font-body: var(--font-nunito);
   --font-hand: var(--font-baloo);
 }
 
+/* adult mode = dark theme: flip the surface/text/border tokens */
+[data-audience="adult"] {
+  color-scheme: dark;
+  --color-paper: #15101F;
+  --color-surface: #221A30;
+  --color-mist: #3A2E4D;
+  --color-ink: #F1ECFA;
+  --color-brand: #C9B8E6;
+  --color-brandsoft: #B3A4D6;
+  --dot: #2A2140;
+}
+
 body {
   background-color: var(--color-paper);
-  background-image: radial-gradient(#ECE6F6 1.1px, transparent 1.1px);
+  background-image: radial-gradient(var(--dot) 1.1px, transparent 1.1px);
   background-size: 28px 28px;
   color: var(--color-ink);
   font-family: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* canvas dot texture — kept very light for legibility */
+/* canvas dot texture — adapts to the active theme */
 .canvas-dots {
-  background-image: radial-gradient(#ECE6F6 1.1px, transparent 1.1px);
+  background-image: radial-gradient(var(--dot) 1.1px, transparent 1.1px);
   background-size: 28px 28px;
 }
 
-/* sticker look: chunky outline + hard offset shadow */
+/* sticker look: chunky outline + hard offset shadow (use ink so it flips in dark) */
 .sticker {
   border: 2.5px solid var(--color-ink);
   box-shadow: 4px 4px 0 var(--color-ink);

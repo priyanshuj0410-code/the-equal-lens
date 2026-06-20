@@ -104,8 +104,8 @@ export default function BiasChannels() {
               style={on ? { background: ch.tint, color: ch.stroke } : undefined}
               className={`flex items-center gap-2 rounded-full border-2 px-4 py-2 font-hand text-sm font-bold transition-all ${
                 on
-                  ? "-translate-y-0.5 border-ink shadow-[3px_3px_0_#221436]"
-                  : "border-mist bg-white text-ink/70 hover:-translate-y-0.5 hover:border-ink hover:text-ink"
+                  ? "-translate-y-0.5 border-ink shadow-[3px_3px_0_var(--color-ink)]"
+                  : "border-mist bg-surface text-ink/70 hover:-translate-y-0.5 hover:border-ink hover:text-ink"
               }`}
             >
               <span className="h-5 w-5">{ch.icon}</span>
@@ -116,13 +116,13 @@ export default function BiasChannels() {
       </div>
 
       {/* the stage */}
-      <div className="mt-7 overflow-hidden rounded-3xl border-2 border-ink bg-white shadow-[6px_7px_0_#C5B6DE] md:grid md:grid-cols-[38%_1fr]">
+      <div className="mt-7 overflow-hidden rounded-3xl border-2 border-ink bg-surface shadow-[6px_7px_0_#C5B6DE] md:grid md:grid-cols-[38%_1fr]">
         <div
           className="relative flex items-center justify-center overflow-hidden p-12 transition-colors duration-300"
           style={{ background: c.tint }}
         >
           <span
-            className="anim-bob flex h-28 w-28 items-center justify-center rounded-[28px] border-2 border-ink bg-white transition-colors duration-300"
+            className="anim-bob flex h-28 w-28 items-center justify-center rounded-[28px] border-2 border-ink bg-surface transition-colors duration-300"
             style={{ color: c.stroke }}
           >
             <span className="h-14 w-14">{c.icon}</span>
@@ -136,7 +136,7 @@ export default function BiasChannels() {
         </div>
 
         <div className="p-7 sm:p-9">
-          <p className="font-hand text-xs font-bold uppercase tracking-widest text-violet-400">
+          <p className="font-hand text-xs font-bold uppercase tracking-widest text-brandsoft">
             Where bias sneaks in
           </p>
           <h3

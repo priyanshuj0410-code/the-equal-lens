@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 const field =
-  "w-full rounded-lg border border-mist bg-white px-3 py-2 text-ink focus:border-violet-400 focus:outline-none";
+  "w-full rounded-lg border border-mist bg-surface px-3 py-2 text-ink focus:border-violet-400 focus:outline-none";
 const label = "mb-1 block text-sm font-medium text-ink/80";
 
 export default function VolunteerForm() {
