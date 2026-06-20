@@ -21,7 +21,7 @@ export default function ContactPage() {
           <p className="font-hand text-sm font-bold uppercase tracking-widest text-violet-400">
             Contact
           </p>
-          <h1 className="mt-3 font-hand text-5xl font-extrabold text-ink">Get in touch</h1>
+          <h1 className="mt-3 font-hand text-4xl font-extrabold text-ink sm:text-5xl">Get in touch</h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-ink/70">
             Want to bring The Equal Lens to your school or community? We&rsquo;d
             love to hear from you.

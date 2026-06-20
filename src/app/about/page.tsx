@@ -39,7 +39,7 @@ export default function AboutPage() {
           <p className="font-hand text-sm font-bold uppercase tracking-widest text-violet-400">
             About
           </p>
-          <h1 className="mt-3 font-hand text-5xl font-extrabold text-ink">
+          <h1 className="mt-3 font-hand text-4xl font-extrabold text-ink sm:text-5xl">
             Building awareness through play
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-ink/70">

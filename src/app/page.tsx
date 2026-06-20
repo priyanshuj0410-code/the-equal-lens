@@ -36,7 +36,7 @@ export default function Home() {
             <span className="inline-block rounded-full border-2 border-ink bg-white px-4 py-1 font-hand text-sm font-bold text-violet-600 shadow-[3px_3px_0_#C5B6DE]">
               ✦ Unlearn. Relearn. Grow.
             </span>
-            <h1 className="mt-5 font-hand text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl">
+            <h1 className="mt-5 font-hand text-4xl font-extrabold leading-[1.05] text-ink sm:text-6xl">
               Kids don&rsquo;t learn{" "}
               <span className="relative whitespace-nowrap text-violet-600">
                 bias

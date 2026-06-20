@@ -43,8 +43,8 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-paper text-ink">
         <SiteHeader />
         <main className="flex-1">{children}</main>
-        <SiteFooter />
         <SiteCanvas seedMyths={getMyths()} />
+        <SiteFooter />
       </body>
     </html>
   );

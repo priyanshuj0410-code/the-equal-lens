@@ -32,7 +32,7 @@ export default function BlogPage() {
           <p className="font-hand text-sm font-bold uppercase tracking-widest text-violet-400">
             Blog
           </p>
-          <h1 className="mt-3 font-hand text-5xl font-extrabold text-ink">
+          <h1 className="mt-3 font-hand text-4xl font-extrabold text-ink sm:text-5xl">
             Notes on fairness &amp; play
           </h1>
         </div>
