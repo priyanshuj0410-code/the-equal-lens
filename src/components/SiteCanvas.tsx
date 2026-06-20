@@ -270,6 +270,27 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
     );
   }
 
+  // UN rubs out the struck-through scattered statements its tip passes over
+  function eraseScatter(px: number, py: number) {
+    const els = document.querySelectorAll<HTMLElement>(".tel-scatter[data-strike]");
+    els.forEach((el) => {
+      if (el.dataset.gone) return;
+      const r = el.getBoundingClientRect();
+      if (r.width === 0) return;
+      const l = r.left + window.scrollX;
+      const t = r.top + window.scrollY;
+      if (px >= l && px <= l + r.width && py >= t && py <= t + r.height) {
+        const o = parseFloat(el.style.opacity || "1") - 0.34;
+        if (o <= 0.05) {
+          el.style.opacity = "0";
+          el.dataset.gone = "1";
+        } else {
+          el.style.opacity = String(o);
+        }
+      }
+    });
+  }
+
   function onPointerDown(e: React.PointerEvent) {
     if (toolRef.current === "none") return;
     e.preventDefault();
@@ -278,6 +299,7 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
     last.current = p;
     if (!(toolRef.current === "pen" && noteAt(p.x, p.y))) stroke(null, p);
     touchNotes(p.x, p.y);
+    if (toolRef.current === "eraser") eraseScatter(p.x, p.y);
   }
   function onPointerMove(e: React.PointerEvent) {
     if (cursorRef.current) {
@@ -287,6 +309,7 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
     const p = { x: e.pageX, y: e.pageY };
     if (!(toolRef.current === "pen" && noteAt(p.x, p.y))) stroke(last.current, p);
     touchNotes(p.x, p.y);
+    if (toolRef.current === "eraser") eraseScatter(p.x, p.y);
     last.current = p;
   }
   function onPointerUp() {
@@ -315,12 +338,13 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
     drag.current = null;
   }
   function addMyth() {
-    const list = pageMythsRef.current.length ? pageMythsRef.current : seedMyths;
-    const m = list[seededMyth.current % list.length];
+    const present = new Set(notesRef.current.map((n) => n.id.replace(/-\d+$/, "")));
+    const pool = [...pageMythsRef.current, ...seedMyths];
+    const m = pool.find((x) => !present.has(x.id)) ?? pool[seededMyth.current % pool.length];
     seededMyth.current += 1;
     const spot = mobile
       ? { x: 0, y: 0 }
-      : findSpots(notes.length + 1)[notes.length] ?? {
+      : findSpots(notesRef.current.length + 1)[notesRef.current.length] ?? {
           x: window.scrollX + 40,
           y: window.scrollY + 150,
         };

@@ -15,7 +15,8 @@ export default function MythScatter({ items }: { items: Scrap[] }) {
         <span
           key={i}
           aria-hidden="true"
-          className={`tel-scatter pointer-events-none absolute hidden max-w-[170px] font-hand text-sm font-bold lg:block ${SPOTS[i]} ${
+          data-strike={s.strike ? "1" : undefined}
+          className={`tel-scatter pointer-events-none absolute hidden max-w-[170px] font-hand text-sm font-bold transition-opacity lg:block ${SPOTS[i]} ${
             s.strike
               ? "text-ink/25 line-through decoration-grow decoration-2"
               : "text-violet-500/55"
