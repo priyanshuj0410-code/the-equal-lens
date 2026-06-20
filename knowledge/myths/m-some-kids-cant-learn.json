@@ -1,0 +1,10 @@
+{
+  "id": "m-some-kids-cant-learn",
+  "category": "learning",
+  "audience": "kids",
+  "myth": "Some kids just can't learn.",
+  "truth": "Everyone learns — in different ways and at different speeds.",
+  "explanation": "When the way we teach fits the way a kid learns, they thrive.",
+  "tags": ["learning", "inclusion"],
+  "placeholder": true
+}

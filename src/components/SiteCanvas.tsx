@@ -1,8 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import Mascot from "./Mascot";
 import type { Myth } from "@/lib/knowledge";
+import { mythsForPath } from "@/lib/pageMyths";
 
 type Tool = "none" | "pen" | "eraser";
 type Phase = "myth" | "erased" | "truth";
@@ -40,6 +42,8 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
   const cursorRef = useRef<HTMLDivElement>(null);
   const drag = useRef<{ id: string; ox: number; oy: number; sx: number; sy: number } | null>(null);
   const seededMyth = useRef(0);
+  const pageMythsRef = useRef<Myth[]>([]);
+  const pathname = usePathname();
 
   const notesRef = useRef<Note[]>([]);
   useEffect(() => { toolRef.current = tool; }, [tool]);
@@ -64,6 +68,9 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
 
   useEffect(() => {
     setFine(window.matchMedia("(pointer: fine)").matches);
+    const chosen = mythsForPath(seedMyths, pathname);
+    pageMythsRef.current = chosen;
+    seededMyth.current = chosen.length;
     const wide = window.innerWidth > 760;
     const W = window.innerWidth;
     const spots = wide
@@ -78,10 +85,12 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
           { x: 18, y: 920 },
         ];
     setNotes(
-      seedMyths.slice(0, 3).map((m, i) => makeNote(m, i, spots[i].x, spots[i].y)),
+      chosen.slice(0, 3).map((m, i) => makeNote(m, i, spots[i].x, spots[i].y)),
     );
-    seededMyth.current = Math.min(3, seedMyths.length);
-  }, [seedMyths, makeNote]);
+    const c = canvasRef.current;
+    const ctx = ctxRef.current;
+    if (c && ctx) ctx.clearRect(0, 0, c.width, c.height);
+  }, [pathname, seedMyths, makeNote]);
 
   const resize = useCallback(() => {
     const c = canvasRef.current;
@@ -209,7 +218,8 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
     drag.current = null;
   }
   function addMyth() {
-    const m = seedMyths[seededMyth.current % seedMyths.length];
+    const list = pageMythsRef.current.length ? pageMythsRef.current : seedMyths;
+    const m = list[seededMyth.current % list.length];
     seededMyth.current += 1;
     setNotes((p) => [
       ...p,

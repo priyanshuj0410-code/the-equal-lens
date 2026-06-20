@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
+import { getMyths } from "@/lib/knowledge";
+import { mythsForPath } from "@/lib/pageMyths";
+import { Doodle } from "@/components/Doodles";
+import MythScatter from "@/components/MythScatter";
 
 export const metadata: Metadata = {
   title: "Contact — The Equal Lens",
@@ -8,41 +12,39 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
+  const myths = mythsForPath(getMyths(), "/contact");
+
   return (
     <div>
-      <section className="bg-violet-600 text-white">
-        <div className="mx-auto max-w-4xl px-5 py-20 text-center">
-          <p className="font-display text-xs uppercase tracking-widest text-violet-200">
+      <section className="relative overflow-hidden">
+        <Doodle name="squiggle" className="anim-float absolute left-10 top-16 w-14 text-insight" />
+        <Doodle name="sparkle" className="anim-wobble absolute right-14 top-12 w-9 text-grow" />
+        <MythScatter myths={myths} />
+        <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
+          <p className="font-hand text-sm font-bold uppercase tracking-widest text-violet-400">
             Contact
           </p>
-          <h1 className="mt-3 font-display text-4xl font-semibold sm:text-5xl">
-            Get in touch
-          </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-violet-100">
+          <h1 className="mt-3 font-hand text-5xl font-extrabold text-ink">Get in touch</h1>
+          <p className="mx-auto mt-5 max-w-xl text-lg text-ink/70">
             Want to bring The Equal Lens to your school or community? We&rsquo;d
             love to hear from you.
           </p>
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-4xl gap-10 px-5 py-16 md:grid-cols-2">
-        <div>
-          <h2 className="font-display text-xl font-semibold">
-            Contact information
-          </h2>
+      <section className="mx-auto grid max-w-4xl gap-8 px-5 py-10 md:grid-cols-2">
+        <div className="sticker rounded-3xl bg-white p-8">
+          <h2 className="font-hand text-2xl font-bold">Say hello</h2>
           <p className="mt-4 text-sm font-medium text-ink/60">Email</p>
-          <a
-            href="mailto:support@theequallens.com"
-            className="text-violet-600 hover:underline"
-          >
+          <a href="mailto:support@theequallens.com" className="text-violet-600 hover:underline">
             support@theequallens.com
           </a>
-          <p className="mt-8 font-hand text-2xl text-violet-600">
+          <p className="mt-8 font-hand text-2xl font-bold text-violet-600">
             Unlearn. Relearn. Grow.
           </p>
         </div>
-        <div>
-          <h2 className="font-display text-xl font-semibold">Send a message</h2>
+        <div className="sticker rounded-3xl bg-white p-8">
+          <h2 className="font-hand text-2xl font-bold">Send a message</h2>
           <div className="mt-4">
             <ContactForm />
           </div>

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getPostsMeta } from "@/lib/knowledge";
+import { getMyths, getPostsMeta } from "@/lib/knowledge";
+import { mythsForPath } from "@/lib/pageMyths";
+import { Doodle } from "@/components/Doodles";
+import MythScatter from "@/components/MythScatter";
 
 export const metadata: Metadata = {
   title: "Blog — The Equal Lens",
@@ -18,45 +21,42 @@ function formatDate(d: string) {
 
 export default function BlogPage() {
   const posts = getPostsMeta();
+  const myths = mythsForPath(getMyths(), "/blog");
 
   return (
     <div>
-      <section className="bg-violet-600 text-white">
-        <div className="mx-auto max-w-4xl px-5 py-20 text-center">
-          <p className="font-display text-xs uppercase tracking-widest text-violet-200">
+      <section className="relative overflow-hidden">
+        <Doodle name="spiral" className="anim-float absolute left-10 top-16 w-10 text-violet-400" />
+        <Doodle name="heart" className="anim-wobble absolute right-14 top-12 w-7 text-grow" />
+        <MythScatter myths={myths} />
+        <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
+          <p className="font-hand text-sm font-bold uppercase tracking-widest text-violet-400">
             Blog
           </p>
-          <h1 className="mt-3 font-display text-4xl font-semibold sm:text-5xl">
+          <h1 className="mt-3 font-hand text-5xl font-extrabold text-ink">
             Notes on fairness &amp; play
           </h1>
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-5 py-16">
+      <section className="mx-auto max-w-5xl px-5 py-10">
         {posts.length === 0 ? (
           <p className="text-center text-ink/60">No posts yet — check back soon.</p>
         ) : (
           <div className="grid gap-8 md:grid-cols-2">
-            {posts.map((p) => (
+            {posts.map((p, i) => (
               <Link
                 key={p.slug}
                 href={`/blog/${p.slug}`}
-                className="group overflow-hidden rounded-3xl border border-mist bg-white transition-shadow hover:shadow-lg"
+                style={{ transform: `rotate(${i % 2 ? 1 : -1}deg)` }}
+                className="sticker hover-pop block overflow-hidden rounded-3xl bg-white"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={p.cover || "/blog/placeholder.svg"}
-                  alt=""
-                  className="h-44 w-full object-cover"
-                />
+                <img src={p.cover || "/blog/placeholder.svg"} alt="" className="h-44 w-full border-b-2 border-ink object-cover" />
                 <div className="p-6">
                   <p className="text-xs text-ink/50">{formatDate(p.date)}</p>
-                  <h2 className="mt-1 font-display text-xl font-semibold text-ink group-hover:text-violet-600">
-                    {p.title}
-                  </h2>
-                  {p.excerpt && (
-                    <p className="mt-2 text-sm text-ink/70">{p.excerpt}</p>
-                  )}
+                  <h2 className="mt-1 font-hand text-2xl font-bold text-ink">{p.title}</h2>
+                  {p.excerpt && <p className="mt-2 text-sm text-ink/70">{p.excerpt}</p>}
                 </div>
               </Link>
             ))}

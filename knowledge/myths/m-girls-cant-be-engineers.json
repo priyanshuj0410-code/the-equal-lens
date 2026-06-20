@@ -1,0 +1,10 @@
+{
+  "id": "m-girls-cant-be-engineers",
+  "category": "work",
+  "audience": "kids",
+  "myth": "Coding and building are for boys.",
+  "truth": "Girls code, build, and invent too.",
+  "explanation": "Some of the very first computer programmers were women — engineering belongs to everyone.",
+  "tags": ["work", "stem", "gender"],
+  "placeholder": true
+}

@@ -1,4 +1,8 @@
 import type { Metadata } from "next";
+import { getMyths } from "@/lib/knowledge";
+import { mythsForPath } from "@/lib/pageMyths";
+import { Doodle } from "@/components/Doodles";
+import MythScatter from "@/components/MythScatter";
 
 export const metadata: Metadata = {
   title: "Games — The Equal Lens",
@@ -10,46 +14,54 @@ const games = [
     name: "Sort It Out!",
     blurb:
       "Some statements feel normal — but are they fair? Drag each card into the right box and find out.",
+    color: "bg-sun",
   },
   {
     name: "What Would You Do?",
     blurb:
       "Real situations kids face every day. Make your choice: challenge it, or let it slide.",
+    color: "bg-insight",
   },
 ];
 
 export default function GamesPage() {
+  const myths = mythsForPath(getMyths(), "/games");
+
   return (
     <div>
-      <section className="bg-violet-600 text-white">
-        <div className="mx-auto max-w-4xl px-5 py-20 text-center">
-          <p className="font-display text-xs uppercase tracking-widest text-violet-200">
+      <section className="relative overflow-hidden">
+        <Doodle name="zigzag" className="anim-float absolute left-10 top-16 w-16 text-grow" />
+        <Doodle name="sparkle" className="anim-wobble absolute right-12 top-12 w-9 text-sun" />
+        <Doodle name="swirl" className="anim-float absolute right-1/4 bottom-10 w-14 text-violet-400" />
+        <MythScatter myths={myths} />
+        <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
+          <p className="font-hand text-sm font-bold uppercase tracking-widest text-violet-400">
             Games
           </p>
-          <h1 className="mt-3 font-display text-4xl font-semibold sm:text-5xl">
+          <h1 className="mt-3 font-hand text-5xl font-extrabold text-ink">
             Learn fairness through play
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-violet-100">
-            We&rsquo;re rebuilding our games for the new canvas — where you erase
-            myths and scribble the truth. Here&rsquo;s a peek at what&rsquo;s
-            coming.
+          <p className="mx-auto mt-5 max-w-xl text-lg text-ink/70">
+            Until our games are rebuilt, the whole site is your playground —
+            grab <strong className="text-violet-600">UN</strong> and{" "}
+            <strong className="text-violet-600">RE</strong> from the toolbar and
+            bust a myth right here.
           </p>
         </div>
       </section>
 
-      <section className="mx-auto max-w-4xl px-5 py-16">
+      <section className="mx-auto max-w-4xl px-5 py-10">
         <div className="grid gap-6 sm:grid-cols-2">
-          {games.map((g) => (
+          {games.map((g, i) => (
             <div
               key={g.name}
-              className="rounded-3xl border border-mist bg-white p-8"
+              style={{ transform: `rotate(${i % 2 ? 1.5 : -1.5}deg)` }}
+              className="sticker hover-pop rounded-3xl bg-white p-8"
             >
-              <span className="rounded-full bg-mist px-3 py-1 text-xs font-medium text-violet-800">
-                Coming soon
+              <span className={`rounded-full border-2 border-ink ${g.color} px-3 py-1 font-hand text-xs font-bold text-ink`}>
+                coming soon
               </span>
-              <h2 className="mt-4 font-display text-xl font-semibold">
-                {g.name}
-              </h2>
+              <h2 className="mt-4 font-hand text-2xl font-bold">{g.name}</h2>
               <p className="mt-2 text-ink/70">{g.blurb}</p>
             </div>
           ))}
