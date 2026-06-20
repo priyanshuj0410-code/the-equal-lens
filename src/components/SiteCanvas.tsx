@@ -31,6 +31,7 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
   const [tool, setTool] = useState<Tool>("none");
   const [color, setColor] = useState(PEN_COLORS[0]);
   const [notes, setNotes] = useState<Note[]>([]);
+  const [hideNotes, setHideNotes] = useState(false);
   const [fine, setFine] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -46,9 +47,11 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
   const pathname = usePathname();
 
   const notesRef = useRef<Note[]>([]);
+  const hideRef = useRef(false);
   useEffect(() => { toolRef.current = tool; }, [tool]);
   useEffect(() => { colorRef.current = color; }, [color]);
   useEffect(() => { notesRef.current = notes; }, [notes]);
+  useEffect(() => { hideRef.current = hideNotes; }, [hideNotes]);
 
   const makeNote = useCallback(
     (m: Myth, i: number, x: number, y: number): Note => ({
@@ -141,6 +144,7 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
   }
 
   function noteAt(px: number, py: number) {
+    if (hideRef.current) return false;
     return notesRef.current.some(
       (n) => px >= n.x && px <= n.x + NOTE_W && py >= n.y && py <= n.y + NOTE_H,
     );
@@ -149,7 +153,7 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
   // rub out the myth / scribble in the truth on whichever note the tip touches
   function touchNotes(px: number, py: number) {
     const t = toolRef.current;
-    if (t === "none") return;
+    if (t === "none" || hideRef.current) return;
     setNotes((prev) =>
       prev.map((n) => {
         const within = px >= n.x && px <= n.x + NOTE_W && py >= n.y && py <= n.y + NOTE_H;
@@ -301,7 +305,11 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
         aria-hidden="true"
       />
 
-      <div className="absolute left-0 top-0 z-20 w-full" aria-hidden="true">
+      <div
+        className="absolute left-0 top-0 z-20 w-full"
+        style={{ display: hideNotes ? "none" : undefined }}
+        aria-hidden="true"
+      >
         {notes.map((n) => (
           <div
             key={n.id}
@@ -361,22 +369,21 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
         ))}
       </div>
 
-      <div className="fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1.5 rounded-full border-2 border-ink bg-white/95 px-2.5 py-2 shadow-[4px_4px_0_#221436] backdrop-blur">
+      <div className="fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2 rounded-full border-2 border-ink bg-white/95 px-3 py-2 shadow-[4px_4px_0_#221436] backdrop-blur">
         <ToolButton active={tool === "none"} onClick={() => setTool("none")} label="Browse">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="#221436" aria-hidden="true">
+          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="#221436" aria-hidden="true">
             <path d="M5 2 L5 20 L10 15 L13.5 22 L16 21 L12.5 14 L19 14 Z" />
           </svg>
         </ToolButton>
-        <span className="mx-0.5 h-7 w-px bg-mist" />
         <ToolButton active={tool === "eraser"} onClick={() => setTool("eraser")} label="Unlearn">
-          <Mascot type="un" className="h-9 w-auto" />
+          <Mascot type="un" className="h-7 w-auto" />
         </ToolButton>
         <ToolButton active={tool === "pen"} onClick={() => setTool("pen")} label="Relearn">
-          <Mascot type="re" className="h-9 w-auto" />
+          <Mascot type="re" className="h-7 w-auto" />
         </ToolButton>
 
         {tool === "pen" && (
-          <div className="ml-1 flex items-center gap-1">
+          <div className="flex items-center gap-1.5">
             {PEN_COLORS.map((c) => (
               <button
                 key={c}
@@ -389,13 +396,28 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
           </div>
         )}
 
-        <span className="mx-1 h-7 w-px bg-mist" />
-        <button onClick={addMyth} className="rounded-full border-2 border-ink bg-sun px-3 py-1.5 font-hand text-xs font-bold text-ink hover:-translate-y-0.5" title="Add a myth note">
-          + myth
+        <span className="mx-0.5 h-8 w-px bg-mist" />
+
+        <button
+          onClick={() => setHideNotes((v) => !v)}
+          title={hideNotes ? "Show the sticky notes" : "Hide the sticky notes"}
+          aria-label={hideNotes ? "Show sticky notes" : "Hide sticky notes"}
+          className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-ink bg-white text-ink transition-transform hover:-translate-y-0.5"
+        >
+          {hideNotes ? (
+            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 3l18 18" />
+              <path d="M10.6 5.1A9.8 9.8 0 0 1 12 5c6 0 10 7 10 7a17.6 17.6 0 0 1-3.4 4M6.2 6.2A17.6 17.6 0 0 0 2 12s4 7 10 7a9.8 9.8 0 0 0 3.9-.8" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          )}
         </button>
-        <button onClick={reset} className="rounded-full border-2 border-ink bg-white px-3 py-1.5 font-hand text-xs font-bold text-ink hover:bg-mist" title="Reset doodles & myths">
-          reset
-        </button>
+        <PillButton onClick={addMyth} title="Add a myth note" tone="sun">+ myth</PillButton>
+        <PillButton onClick={reset} title="Reset doodles & myths">reset</PillButton>
       </div>
 
       {active && fine && (
@@ -433,12 +455,36 @@ function ToolButton({
     <button
       onClick={onClick}
       title={label}
-      className={`flex items-center gap-1.5 rounded-full border-2 px-2.5 py-1 transition-transform hover:-translate-y-0.5 ${
+      className={`flex h-10 items-center gap-1.5 rounded-full border-2 px-2.5 transition-transform hover:-translate-y-0.5 ${
         active ? "border-ink bg-sun" : "border-transparent hover:border-mist"
       }`}
     >
-      {children}
+      <span className="flex h-7 w-7 items-center justify-center">{children}</span>
       <span className="hidden font-hand text-sm font-bold text-ink sm:inline">{label}</span>
+    </button>
+  );
+}
+
+function PillButton({
+  onClick,
+  title,
+  tone,
+  children,
+}: {
+  onClick: () => void;
+  title: string;
+  tone?: "sun";
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      title={title}
+      className={`flex h-10 items-center rounded-full border-2 border-ink px-3 font-hand text-xs font-bold text-ink transition-transform hover:-translate-y-0.5 ${
+        tone === "sun" ? "bg-sun" : "bg-white hover:bg-mist"
+      }`}
+    >
+      {children}
     </button>
   );
 }
