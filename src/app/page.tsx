@@ -1,8 +1,6 @@
 import Link from "next/link";
-import { getMyths } from "@/lib/knowledge";
 import Mascot from "@/components/Mascot";
 import { Doodle } from "@/components/Doodles";
-import MythCanvas from "@/components/MythCanvas";
 
 const loop = [
   { step: "Notice", body: "Spot the patterns and assumptions hiding in everyday moments.", color: "bg-sun" },
@@ -18,8 +16,6 @@ const why = [
 ] as const;
 
 export default function Home() {
-  const myths = getMyths();
-
   return (
     <div>
       {/* HERO */}
@@ -57,43 +53,28 @@ export default function Home() {
               themselves.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <a
-                href="#playground"
-                className="inline-block rounded-full border-[2.5px] border-ink bg-violet-600 px-6 py-3 font-hand text-base font-bold text-white shadow-[4px_4px_0_#221436] transition-transform hover:-translate-y-0.5"
-              >
-                Try the canvas ↓
-              </a>
               <Link
                 href="/programs"
-                className="inline-block rounded-full border-[2.5px] border-violet-600 bg-white px-6 py-3 font-hand text-base font-bold text-violet-600 shadow-[4px_4px_0_#C5B6DE] transition-transform hover:-translate-y-0.5"
+                className="inline-block rounded-full border-[2.5px] border-ink bg-violet-600 px-6 py-3 font-hand text-base font-bold text-white shadow-[4px_4px_0_#221436] transition-transform hover:-translate-y-0.5"
               >
                 Explore programs
               </Link>
+              <Link
+                href="/about"
+                className="inline-block rounded-full border-[2.5px] border-violet-600 bg-white px-6 py-3 font-hand text-base font-bold text-violet-600 shadow-[4px_4px_0_#C5B6DE] transition-transform hover:-translate-y-0.5"
+              >
+                Our approach
+              </Link>
             </div>
+            <p className="mt-5 font-hand text-lg text-violet-600">
+              ✦ Psst — grab <strong>UN</strong> or <strong>RE</strong> from the
+              toolbar below and doodle right on this page.
+            </p>
           </div>
 
           <div className="flex items-end justify-center gap-2">
             <Mascot type="un" className="anim-bob h-44 w-auto drop-shadow-xl" />
             <Mascot type="re" className="anim-float h-52 w-auto drop-shadow-xl" />
-          </div>
-        </div>
-      </section>
-
-      {/* INTERACTIVE PLAYGROUND */}
-      <section id="playground" className="bg-white/70 py-16">
-        <div className="mx-auto max-w-5xl px-5">
-          <div className="text-center">
-            <h2 className="font-hand text-4xl font-extrabold text-ink">
-              Try it — bust a myth yourself
-            </h2>
-            <p className="mx-auto mt-3 max-w-lg text-ink/70">
-              Pick up <strong className="text-violet-600">UN</strong> to rub out a
-              myth, then <strong className="text-violet-600">RE</strong> to
-              scribble in the truth. Go on.
-            </p>
-          </div>
-          <div className="canvas-dots mt-8 rounded-3xl border-2 border-mist p-6 sm:p-8">
-            <MythCanvas myths={myths} />
           </div>
         </div>
       </section>

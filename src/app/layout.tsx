@@ -3,11 +3,13 @@ import { Poppins, Nunito_Sans, Baloo_2 } from "next/font/google";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import SiteCanvas from "@/components/SiteCanvas";
+import { getMyths } from "@/lib/knowledge";
 
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["500", "600"],
+  weight: ["500", "600", "700"],
 });
 
 const nunito = Nunito_Sans({
@@ -19,7 +21,7 @@ const nunito = Nunito_Sans({
 const baloo = Baloo_2({
   variable: "--font-baloo",
   subsets: ["latin"],
-  weight: ["500", "600"],
+  weight: ["500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -42,6 +44,7 @@ export default function RootLayout({
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
+        <SiteCanvas seedMyths={getMyths()} />
       </body>
     </html>
   );
