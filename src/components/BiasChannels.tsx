@@ -86,9 +86,20 @@ const CHANNELS: Channel[] = [
   },
 ];
 
-export default function BiasChannels() {
+const DARK: Record<string, { stroke: string; tint: string }> = {
+  playground: { stroke: "#FF9C7A", tint: "#3A2620" },
+  media: { stroke: "#7FC0F5", tint: "#1E2E3E" },
+  family: { stroke: "#F2C566", tint: "#3A2F18" },
+  language: { stroke: "#5FD6BD", tint: "#1B3A33" },
+  classroom: { stroke: "#C9B8E6", tint: "#2E2440" },
+};
+
+export default function BiasChannels({ audience }: { audience: "kid" | "adult" }) {
   const [open, setOpen] = useState(0);
   const c = CHANNELS[open];
+  const dark = audience === "adult";
+  const sc = (ch: Channel) => (dark ? DARK[ch.key].stroke : ch.stroke);
+  const tc = (ch: Channel) => (dark ? DARK[ch.key].tint : ch.tint);
 
   return (
     <div>
@@ -101,7 +112,7 @@ export default function BiasChannels() {
               key={ch.key}
               onClick={() => setOpen(i)}
               aria-pressed={on}
-              style={on ? { background: ch.tint, color: ch.stroke } : undefined}
+              style={on ? { background: tc(ch), color: sc(ch) } : undefined}
               className={`flex items-center gap-2 rounded-full border-2 px-4 py-2 font-hand text-sm font-bold transition-all ${
                 on
                   ? "-translate-y-0.5 border-ink shadow-[3px_3px_0_var(--color-ink)]"
@@ -119,17 +130,17 @@ export default function BiasChannels() {
       <div className="mt-7 overflow-hidden rounded-3xl border-2 border-ink bg-surface shadow-[6px_7px_0_#C5B6DE] md:grid md:grid-cols-[38%_1fr]">
         <div
           className="relative flex items-center justify-center overflow-hidden p-12 transition-colors duration-300"
-          style={{ background: c.tint }}
+          style={{ background: tc(c) }}
         >
           <span
             className="anim-bob flex h-28 w-28 items-center justify-center rounded-[28px] border-2 border-ink bg-surface transition-colors duration-300"
-            style={{ color: c.stroke }}
+            style={{ color: sc(c) }}
           >
             <span className="h-14 w-14">{c.icon}</span>
           </span>
           <span
             className="absolute right-5 top-5 font-hand text-5xl font-extrabold opacity-20"
-            style={{ color: c.stroke }}
+            style={{ color: sc(c) }}
           >
             {open + 1}
           </span>
@@ -141,14 +152,14 @@ export default function BiasChannels() {
           </p>
           <h3
             className="mt-1 font-hand text-3xl font-extrabold transition-colors duration-300"
-            style={{ color: c.stroke }}
+            style={{ color: sc(c) }}
           >
             {c.label}
           </h3>
           <p className="mt-3 leading-relaxed text-ink/75">{c.body}</p>
           <div
             className="mt-5 rounded-2xl border-2 border-dashed p-4 transition-colors duration-300"
-            style={{ borderColor: c.stroke }}
+            style={{ borderColor: sc(c) }}
           >
             <p className="font-hand text-xs font-bold uppercase tracking-wide" style={{ color: c.stroke }}>
               a kid might hear…

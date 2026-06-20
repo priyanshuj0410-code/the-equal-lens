@@ -46,7 +46,7 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col bg-paper text-ink">
         <SiteHeader audience={audience} />
         <main className="flex-1">{children}</main>
-        <SiteCanvas seedMyths={getMyths()} />
+        <SiteCanvas seedMyths={getMyths()} audience={audience} />
         <SiteFooter />
       </body>
     </html>

@@ -199,7 +199,7 @@ export default function ProgramsPage() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-violet-600 text-white">
+      <section className="relative overflow-hidden bg-band text-white">
         <Doodle name="sparkle" className="anim-wobble absolute left-10 top-10 w-9 text-sun" />
         <div className="relative mx-auto flex max-w-4xl flex-col items-center px-5 py-16 text-center">
           <h2 className="font-hand text-3xl font-extrabold">

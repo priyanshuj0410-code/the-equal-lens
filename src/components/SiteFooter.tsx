@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function SiteFooter() {
   return (
-    <footer className="bg-violet-600 text-white">
+    <footer className="bg-band text-white">
       <div className="mx-auto grid max-w-6xl gap-8 px-5 py-12 sm:grid-cols-2 md:grid-cols-4">
         <div className="md:col-span-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}

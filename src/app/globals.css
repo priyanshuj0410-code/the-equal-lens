@@ -19,6 +19,7 @@
   --color-ink: #221436;
   --color-brand: #553286;
   --color-brandsoft: #7F65A4;
+  --color-band: #553286;
   --dot: #ECE6F6;
 
   --font-display: var(--font-poppins);
@@ -35,7 +36,20 @@
   --color-ink: #F1ECFA;
   --color-brand: #C9B8E6;
   --color-brandsoft: #B3A4D6;
+  --color-band: #241B38;
   --dot: #2A2140;
+}
+
+/* smooth kid <-> adult theme switch */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-duration: 320ms;
+  transition-timing-function: ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0ms !important; }
 }
 
 body {

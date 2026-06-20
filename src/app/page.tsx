@@ -4,6 +4,7 @@ import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
 import BiasChannels from "@/components/BiasChannels";
 import { scatterForPath } from "@/lib/pageMyths";
+import { getAudience } from "@/lib/audience";
 
 const loop = [
   { step: "Notice", body: "Spot the patterns and assumptions hiding in everyday moments.", color: "bg-sun" },
@@ -18,7 +19,8 @@ const stats = [
   { n: "92%", cap: "representation shapes aspiration", color: "text-insight" },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const audience = await getAudience();
   return (
     <div>
       {/* HERO */}
@@ -116,7 +118,7 @@ export default function Home() {
           </p>
         </div>
         <div className="mt-8">
-          <BiasChannels />
+          <BiasChannels audience={audience} />
         </div>
       </section>
 
@@ -152,7 +154,7 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="relative overflow-hidden bg-violet-600 text-white">
+      <section className="relative overflow-hidden bg-band text-white">
         <Doodle name="sparkle" className="anim-wobble absolute left-10 top-10 w-10 text-sun" />
         <Doodle name="squiggle" className="anim-float absolute right-12 top-16 w-16 text-insight" />
         <Doodle name="star" className="anim-wobble absolute right-1/3 bottom-8 w-8 text-grow" />

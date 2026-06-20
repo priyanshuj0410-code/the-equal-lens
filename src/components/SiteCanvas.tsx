@@ -23,13 +23,21 @@ type Note = {
 };
 
 const NOTE_COLORS = ["#FFF3C2", "#D7F5EC", "#FAD9CE", "#E4DAF7"];
+const NOTE_COLORS_DARK = ["#4A3D17", "#1E3F36", "#48301F", "#322952"];
 const PEN_COLORS = ["#FF7A5C", "#553286", "#2DD4BF", "#4FB0E8", "#221436"];
 const ERASER_R = 16;
 const NOTE_W = 224;
 const NOTE_H = 170;
 const MOBILE = 768;
 
-export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
+export default function SiteCanvas({
+  seedMyths,
+  audience,
+}: {
+  seedMyths: Myth[];
+  audience: "kid" | "adult";
+}) {
+  const dark = audience === "adult";
   const [tool, setTool] = useState<Tool>("none");
   const [color, setColor] = useState(PEN_COLORS[0]);
   const [notes, setNotes] = useState<Note[]>([]);
@@ -64,13 +72,13 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
       text: m.myth,
       truth: m.truth,
       explanation: m.explanation,
-      color: NOTE_COLORS[i % NOTE_COLORS.length],
+      color: (dark ? NOTE_COLORS_DARK : NOTE_COLORS)[i % NOTE_COLORS.length],
       erase: 0,
       reveal: 0,
       phase: "myth",
       moved: false,
     }),
-    [],
+    [dark],
   );
 
   // find empty spots so desktop notes don't cover content / scatter / footer
@@ -401,7 +409,7 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
               }}
               className="group absolute flex min-h-36 w-56 flex-col rounded-xl border-2 border-ink p-4 shadow-[3px_3px_0_var(--color-ink)] [touch-action:none] hover:z-40"
             >
-              <NoteContent n={n} />
+              <NoteContent n={n} dark={dark} />
             </div>
           ))}
         </div>
@@ -426,7 +434,7 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
                 style={{ background: n.color, transform: `rotate(${i % 2 ? 1.2 : -1.2}deg)` }}
                 className="flex min-h-[140px] w-full flex-col rounded-xl border-2 border-ink p-4 text-left shadow-[3px_3px_0_var(--color-ink)]"
               >
-                <NoteContent n={n} />
+                <NoteContent n={n} dark={dark} />
               </button>
             ))}
           </div>
@@ -515,7 +523,9 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
   );
 }
 
-function NoteContent({ n }: { n: Note }) {
+function NoteContent({ n, dark }: { n: Note; dark: boolean }) {
+  const ink = dark ? "#EFE9FB" : "#2E1B4A";
+  const truth = dark ? "#D7C8F0" : "#44288B";
   return (
     <>
       <div className="mb-2">
@@ -530,23 +540,33 @@ function NoteContent({ n }: { n: Note }) {
       {n.phase === "myth" ? (
         <>
           <p
-            className="font-hand text-lg font-bold leading-snug text-[#2E1B4A]"
-            style={{ opacity: 1 - n.erase * 0.9, filter: `blur(${n.erase * 2.5}px)` }}
+            className="font-hand text-lg font-bold leading-snug"
+            style={{ color: ink, opacity: 1 - n.erase * 0.9, filter: `blur(${n.erase * 2.5}px)` }}
           >
             {n.text}
           </p>
-          <p className="mt-auto pt-2 font-hand text-xs text-[#2E1B4A]/60">rub me out with UN →</p>
+          <p className="mt-auto pt-2 font-hand text-xs" style={{ color: ink, opacity: 0.6 }}>
+            rub me out with UN →
+          </p>
         </>
       ) : n.reveal === 0 && n.phase !== "truth" ? (
-        <p className="font-hand text-base text-[#2E1B4A]/55">reveal the truth with RE →</p>
+        <p className="font-hand text-base" style={{ color: ink, opacity: 0.55 }}>
+          reveal the truth with RE →
+        </p>
       ) : (
         <div style={{ opacity: n.phase === "truth" ? 1 : n.reveal }}>
-          <p className="font-hand text-lg font-bold leading-snug text-violet-700">{n.truth}</p>
+          <p className="font-hand text-lg font-bold leading-snug" style={{ color: truth }}>
+            {n.truth}
+          </p>
           <div
             className="mt-1 h-1 rounded-full bg-grow"
             style={{ width: `${(n.phase === "truth" ? 1 : n.reveal) * 90}%` }}
           />
-          {n.phase === "truth" && <p className="mt-2 text-xs text-[#2E1B4A]/70">{n.explanation}</p>}
+          {n.phase === "truth" && (
+            <p className="mt-2 text-xs" style={{ color: ink, opacity: 0.7 }}>
+              {n.explanation}
+            </p>
+          )}
         </div>
       )}
     </>
