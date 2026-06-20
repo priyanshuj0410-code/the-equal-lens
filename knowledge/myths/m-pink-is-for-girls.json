@@ -1,0 +1,15 @@
+{
+  "id": "m-pink-is-for-girls",
+  "category": "gender-equality",
+  "audience": "kids",
+  "myth": "Pink is for girls and blue is for boys.",
+  "truth": "Colours are for everyone — pick the ones you like.",
+  "explanation": "These colour 'rules' are recent and made up. A hundred years ago, many shops sold pink as a bold colour for boys and blue as a gentle one for girls. Colours don't have a gender.",
+  "sources": [
+    { "label": "Smithsonian Magazine — When Did Girls Start Wearing Pink?", "url": "https://www.smithsonianmag.com/arts-culture/when-did-girls-start-wearing-pink-1370097/" }
+  ],
+  "tags": ["colours", "stereotype", "gender"],
+  "doodle": "pink-ribbon",
+  "difficulty": 1,
+  "placeholder": true
+}

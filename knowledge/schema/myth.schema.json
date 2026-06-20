@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://theequallens.com/schema/myth.schema.json",
+  "title": "Myth",
+  "description": "A myth or stereotype paired with its truth. Powers a canvas easter egg.",
+  "type": "object",
+  "required": ["id", "category", "audience", "myth", "truth", "explanation"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^m-[a-z0-9-]+$" },
+    "category": {
+      "type": "string",
+      "enum": ["gender-equality", "body-autonomy", "emotions", "leadership", "respect-and-consent", "work-and-play"]
+    },
+    "audience": { "type": "string", "enum": ["kids", "parents", "educators"] },
+    "myth": { "type": "string", "description": "The false statement, in plain kid-friendly language." },
+    "truth": { "type": "string", "description": "The short, affirming correction revealed by Relearn." },
+    "explanation": { "type": "string", "description": "A sentence or two of why, age-appropriate." },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["label"],
+        "additionalProperties": false,
+        "properties": {
+          "label": { "type": "string" },
+          "url": { "type": "string", "format": "uri" }
+        }
+      }
+    },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "doodle": { "type": "string", "description": "Sticker/doodle asset id rendered on the canvas." },
+    "difficulty": { "type": "integer", "minimum": 1, "maximum": 3 },
+    "placeholder": { "type": "boolean" }
+  }
+}

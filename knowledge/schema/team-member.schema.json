@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://theequallens.com/schema/team-member.schema.json",
+  "title": "TeamMember",
+  "type": "object",
+  "required": ["id", "name", "role", "bio"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "name": { "type": "string" },
+    "role": { "type": "string" },
+    "pronouns": { "type": "string" },
+    "bio": { "type": "string" },
+    "photo": { "type": "string", "description": "Path under web/public, e.g. /team/name.jpg" },
+    "links": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "format": "uri" }
+    },
+    "order": { "type": "integer" },
+    "placeholder": { "type": "boolean" }
+  }
+}

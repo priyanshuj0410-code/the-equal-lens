@@ -1,0 +1,15 @@
+{
+  "id": "m-body-belongs-to-you",
+  "category": "body-autonomy",
+  "audience": "kids",
+  "myth": "You have to hug or kiss relatives, even if you don't want to.",
+  "truth": "Your body belongs to you. It's okay to say no — a wave or high-five works too.",
+  "explanation": "Learning that you can say no to unwanted touch, and that your no is respected, is how kids learn consent and stay safe. Grown-ups can help by always asking first.",
+  "sources": [
+    { "label": "AMAZE.org — age-appropriate body & consent education", "url": "https://amaze.org" }
+  ],
+  "tags": ["consent", "body-autonomy", "safety"],
+  "doodle": "hand-wave",
+  "difficulty": 2,
+  "placeholder": true
+}

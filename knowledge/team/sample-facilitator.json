@@ -1,0 +1,11 @@
+{
+  "id": "sample-facilitator",
+  "name": "Sample Name (replace me)",
+  "role": "Lead Facilitator",
+  "pronouns": "they/them",
+  "bio": "Placeholder bio — replace with the real team. Designs the games and scenarios kids play with, and trains new facilitators to run them with warmth and zero preachiness.",
+  "photo": "/team/placeholder.svg",
+  "links": {},
+  "order": 2,
+  "placeholder": true
+}

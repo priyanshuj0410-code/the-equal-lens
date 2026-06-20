@@ -1,0 +1,15 @@
+{
+  "id": "m-leaders-can-be-anyone",
+  "category": "leadership",
+  "audience": "kids",
+  "myth": "Only boys can be the leader.",
+  "truth": "Anyone can lead — leadership has no gender.",
+  "explanation": "Leaders come in every gender. When teams pick leaders from only one group, they miss out on lots of great ideas and people.",
+  "sources": [
+    { "label": "UN Women — Facts and figures: Women's leadership", "url": "https://www.unwomen.org" }
+  ],
+  "tags": ["leadership", "gender", "stereotype"],
+  "doodle": "megaphone",
+  "difficulty": 1,
+  "placeholder": true
+}

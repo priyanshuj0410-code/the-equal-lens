@@ -1,0 +1,15 @@
+{
+  "id": "m-boys-dont-cry",
+  "category": "emotions",
+  "audience": "kids",
+  "myth": "Big boys don't cry.",
+  "truth": "Everybody cries — feelings aren't just for some people.",
+  "explanation": "Crying is how all humans let out big feelings. Telling boys to hide their tears teaches them to bottle things up, which isn't healthy for anyone.",
+  "sources": [
+    { "label": "American Psychological Association — Guidelines for Psychological Practice with Boys and Men", "url": "https://www.apa.org" }
+  ],
+  "tags": ["emotions", "stereotype", "gender"],
+  "doodle": "tear-drop",
+  "difficulty": 1,
+  "placeholder": true
+}
