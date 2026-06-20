@@ -5,11 +5,25 @@ import Mascot from "./Mascot";
 import type { Myth } from "@/lib/knowledge";
 
 type Tool = "none" | "pen" | "eraser";
-type Note = { id: string; x: number; y: number; text: string; color: string };
+type Phase = "myth" | "erased" | "truth";
+type Note = {
+  id: string;
+  x: number;
+  y: number;
+  text: string;
+  truth: string;
+  explanation: string;
+  color: string;
+  erase: number;
+  reveal: number;
+  phase: Phase;
+};
 
 const NOTE_COLORS = ["#FFF3C2", "#D7F5EC", "#FAD9CE", "#E4DAF7"];
 const PEN_COLORS = ["#FF7A5C", "#553286", "#2DD4BF", "#4FB0E8", "#221436"];
 const ERASER_R = 16;
+const NOTE_W = 224;
+const NOTE_H = 170;
 
 export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
   const [tool, setTool] = useState<Tool>("none");
@@ -30,23 +44,38 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
   useEffect(() => { toolRef.current = tool; }, [tool]);
   useEffect(() => { colorRef.current = color; }, [color]);
 
-  // seed a couple of myth notes once
+  const makeNote = useCallback(
+    (m: Myth, i: number, x: number, y: number): Note => ({
+      id: `${m.id}-${i}`,
+      x,
+      y,
+      text: m.myth,
+      truth: m.truth,
+      explanation: m.explanation,
+      color: NOTE_COLORS[i % NOTE_COLORS.length],
+      erase: 0,
+      reveal: 0,
+      phase: "myth",
+    }),
+    [],
+  );
+
   useEffect(() => {
     setFine(window.matchMedia("(pointer: fine)").matches);
     const wide = window.innerWidth > 760;
     setNotes(
-      seedMyths.slice(0, 3).map((m, i) => ({
-        id: m.id,
-        x: wide ? (i === 1 ? window.innerWidth - 290 : 50) : 24,
-        y: wide ? 210 + i * 150 : 540 + i * 140,
-        text: m.myth,
-        color: NOTE_COLORS[i % NOTE_COLORS.length],
-      })),
+      seedMyths.slice(0, 3).map((m, i) =>
+        makeNote(
+          m,
+          i,
+          wide ? (i === 1 ? window.innerWidth - 290 : 50) : 24,
+          wide ? 210 + i * 150 : 540 + i * 140,
+        ),
+      ),
     );
     seededMyth.current = Math.min(3, seedMyths.length);
-  }, [seedMyths]);
+  }, [seedMyths, makeNote]);
 
-  // size the canvas to the whole document, preserve drawing on resize
   const resize = useCallback(() => {
     const c = canvasRef.current;
     if (!c) return;
@@ -65,7 +94,7 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
     ctx.lineJoin = "round";
     ctxRef.current = ctx;
     if (prev) {
-      try { ctx.putImageData(prev, 0, 0); } catch { /* size shrank */ }
+      try { ctx.putImageData(prev, 0, 0); } catch { /* shrank */ }
     }
   }, []);
 
@@ -83,42 +112,44 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
     };
   }, [resize]);
 
-  function applyStyle() {
+  function stroke(a: { x: number; y: number } | null, b: { x: number; y: number }) {
     const ctx = ctxRef.current;
     if (!ctx) return;
-    if (toolRef.current === "eraser") {
-      ctx.globalCompositeOperation = "destination-out";
-      ctx.lineWidth = ERASER_R * 2;
-      ctx.strokeStyle = "rgba(0,0,0,1)";
-    } else {
-      ctx.globalCompositeOperation = "source-over";
-      ctx.lineWidth = 5;
-      ctx.strokeStyle = colorRef.current;
-    }
-  }
-  function dab(x: number, y: number) {
-    const ctx = ctxRef.current;
-    if (!ctx) return;
-    applyStyle();
+    const eraser = toolRef.current === "eraser";
+    ctx.globalCompositeOperation = eraser ? "destination-out" : "source-over";
+    ctx.strokeStyle = eraser ? "rgba(0,0,0,1)" : colorRef.current;
+    ctx.fillStyle = eraser ? "rgba(0,0,0,1)" : colorRef.current;
+    ctx.lineWidth = eraser ? ERASER_R * 2 : 5;
     ctx.beginPath();
-    ctx.arc(x, y, toolRef.current === "eraser" ? ERASER_R : 2.5, 0, Math.PI * 2);
-    if (toolRef.current === "eraser") {
-      ctx.globalCompositeOperation = "destination-out";
-      ctx.fillStyle = "rgba(0,0,0,1)";
-    } else {
-      ctx.globalCompositeOperation = "source-over";
-      ctx.fillStyle = colorRef.current;
-    }
+    ctx.arc(b.x, b.y, eraser ? ERASER_R : 2.5, 0, Math.PI * 2);
     ctx.fill();
+    if (a) {
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    }
   }
-  function seg(a: { x: number; y: number }, b: { x: number; y: number }) {
-    const ctx = ctxRef.current;
-    if (!ctx) return;
-    applyStyle();
-    ctx.beginPath();
-    ctx.moveTo(a.x, a.y);
-    ctx.lineTo(b.x, b.y);
-    ctx.stroke();
+
+  // rub out the myth / scribble in the truth on whichever note the tip touches
+  function touchNotes(px: number, py: number) {
+    const t = toolRef.current;
+    if (t === "none") return;
+    setNotes((prev) =>
+      prev.map((n) => {
+        const within = px >= n.x && px <= n.x + NOTE_W && py >= n.y && py <= n.y + NOTE_H;
+        if (!within) return n;
+        if (t === "eraser" && n.phase === "myth") {
+          const erase = Math.min(1, n.erase + 0.09);
+          return { ...n, erase, phase: erase >= 1 ? "erased" : n.phase };
+        }
+        if (t === "pen" && n.phase === "erased") {
+          const reveal = Math.min(1, n.reveal + 0.09);
+          return { ...n, reveal, phase: reveal >= 1 ? "truth" : n.phase };
+        }
+        return n;
+      }),
+    );
   }
 
   function onPointerDown(e: React.PointerEvent) {
@@ -127,7 +158,8 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
     drawing.current = true;
     const p = { x: e.pageX, y: e.pageY };
     last.current = p;
-    dab(p.x, p.y);
+    stroke(null, p);
+    touchNotes(p.x, p.y);
   }
   function onPointerMove(e: React.PointerEvent) {
     if (cursorRef.current) {
@@ -135,7 +167,8 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
     }
     if (!drawing.current || toolRef.current === "none") return;
     const p = { x: e.pageX, y: e.pageY };
-    if (last.current) seg(last.current, p);
+    stroke(last.current, p);
+    touchNotes(p.x, p.y);
     last.current = p;
   }
   function onPointerUp() {
@@ -143,7 +176,6 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
     last.current = null;
   }
 
-  // ---- notes ----
   function noteDown(e: React.PointerEvent, n: Note) {
     if (toolRef.current !== "none") return;
     e.stopPropagation();
@@ -153,9 +185,11 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
   function noteMove(e: React.PointerEvent) {
     const d = drag.current;
     if (!d) return;
-    const nx = d.ox + (e.pageX - d.sx);
-    const ny = d.oy + (e.pageY - d.sy);
-    setNotes((prev) => prev.map((n) => (n.id === d.id ? { ...n, x: nx, y: ny } : n)));
+    setNotes((prev) =>
+      prev.map((n) =>
+        n.id === d.id ? { ...n, x: d.ox + (e.pageX - d.sx), y: d.oy + (e.pageY - d.sy) } : n,
+      ),
+    );
   }
   function noteUp() {
     drag.current = null;
@@ -163,32 +197,30 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
   function addMyth() {
     const m = seedMyths[seededMyth.current % seedMyths.length];
     seededMyth.current += 1;
-    const id = `${m.id}-${seededMyth.current}`;
     setNotes((p) => [
       ...p,
-      {
-        id,
-        x: window.scrollX + window.innerWidth / 2 - 110,
-        y: window.scrollY + 160,
-        text: m.myth,
-        color: NOTE_COLORS[p.length % NOTE_COLORS.length],
-      },
+      makeNote(
+        m,
+        seededMyth.current + 100,
+        window.scrollX + window.innerWidth / 2 - 110,
+        window.scrollY + 150,
+      ),
     ]);
   }
   function removeNote(id: string) {
     setNotes((p) => p.filter((n) => n.id !== id));
   }
-  function clearDrawing() {
+  function reset() {
     const c = canvasRef.current;
     const ctx = ctxRef.current;
     if (c && ctx) ctx.clearRect(0, 0, c.width, c.height);
+    setNotes((p) => p.map((n) => ({ ...n, erase: 0, reveal: 0, phase: "myth" })));
   }
 
   const active = tool !== "none";
 
   return (
     <>
-      {/* drawing surface (whole document) */}
       <canvas
         ref={canvasRef}
         onPointerDown={onPointerDown}
@@ -204,7 +236,6 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
         aria-hidden="true"
       />
 
-      {/* sticky notes */}
       <div className="absolute left-0 top-0 z-20 w-full" aria-hidden="true">
         {notes.map((n) => (
           <div
@@ -219,31 +250,61 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
               pointerEvents: active ? "none" : "auto",
               transform: "rotate(-2deg)",
             }}
-            className="group absolute w-56 select-none rounded-xl border-2 border-ink p-4 shadow-[3px_3px_0_#221436] [touch-action:none] hover:z-40"
+            className="group absolute flex min-h-36 w-56 flex-col rounded-xl border-2 border-ink p-4 shadow-[3px_3px_0_#221436] [touch-action:none] hover:z-40"
           >
             <div className="mb-2 flex items-center justify-between">
-              <span className="rounded-full bg-white/70 px-2 py-0.5 font-hand text-[11px] font-bold text-[#993C1D]">
-                myth
-              </span>
-              <button
-                onClick={() => removeNote(n.id)}
-                className="text-ink/40 hover:text-ink"
-                aria-label="Remove note"
+              <span
+                className={`rounded-full bg-white/70 px-2 py-0.5 font-hand text-[11px] font-bold ${
+                  n.phase === "myth" ? "text-[#993C1D]" : "text-[#0F6E56]"
+                }`}
               >
-                ✕
-              </button>
+                {n.phase === "truth" ? "truth ✓" : n.phase === "erased" ? "now relearn" : "myth"}
+              </span>
+              {!active && (
+                <button
+                  onClick={() => removeNote(n.id)}
+                  className="text-ink/40 hover:text-ink"
+                  aria-label="Remove note"
+                >
+                  ✕
+                </button>
+              )}
             </div>
-            <p className="font-hand text-lg font-bold leading-snug text-ink">
-              {n.text}
-            </p>
-            <p className="mt-2 font-hand text-xs text-ink/45">
-              erase me, then scribble the truth →
-            </p>
+
+            {n.phase === "myth" ? (
+              <>
+                <p
+                  className="font-hand text-lg font-bold leading-snug text-ink"
+                  style={{ opacity: 1 - n.erase * 0.9, filter: `blur(${n.erase * 2.5}px)` }}
+                >
+                  {n.text}
+                </p>
+                <p className="mt-auto pt-2 font-hand text-xs text-ink/45">
+                  rub me out with UN →
+                </p>
+              </>
+            ) : n.reveal === 0 && n.phase !== "truth" ? (
+              <p className="font-hand text-base text-ink/40">
+                erased! now scribble the truth with RE →
+              </p>
+            ) : (
+              <div style={{ opacity: n.phase === "truth" ? 1 : n.reveal }}>
+                <p className="font-hand text-lg font-bold leading-snug text-violet-700">
+                  {n.truth}
+                </p>
+                <div
+                  className="mt-1 h-1 rounded-full bg-grow"
+                  style={{ width: `${(n.phase === "truth" ? 1 : n.reveal) * 90}%` }}
+                />
+                {n.phase === "truth" && (
+                  <p className="mt-2 text-xs text-ink/55">{n.explanation}</p>
+                )}
+              </div>
+            )}
           </div>
         ))}
       </div>
 
-      {/* floating toolbar */}
       <div className="fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1.5 rounded-full border-2 border-ink bg-white/95 px-2.5 py-2 shadow-[4px_4px_0_#221436] backdrop-blur">
         <ToolButton active={tool === "eraser"} onClick={() => setTool(tool === "eraser" ? "none" : "eraser")} label="Unlearn">
           <Mascot type="un" className="h-9 w-auto" />
@@ -270,12 +331,11 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
         <button onClick={addMyth} className="rounded-full border-2 border-ink bg-sun px-3 py-1.5 font-hand text-xs font-bold text-ink hover:-translate-y-0.5" title="Add a myth note">
           + myth
         </button>
-        <button onClick={clearDrawing} className="rounded-full border-2 border-ink bg-white px-3 py-1.5 font-hand text-xs font-bold text-ink hover:bg-mist" title="Clear doodles">
-          clear
+        <button onClick={reset} className="rounded-full border-2 border-ink bg-white px-3 py-1.5 font-hand text-xs font-bold text-ink hover:bg-mist" title="Reset doodles & myths">
+          reset
         </button>
       </div>
 
-      {/* custom mascot cursor */}
       {active && fine && (
         <div ref={cursorRef} className="pointer-events-none fixed left-0 top-0 z-[60]" style={{ transform: "translate(-300px,-300px)" }}>
           {tool === "eraser" ? (
