@@ -385,7 +385,7 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
 
       {/* mobile: notes flow into a reserved gap above the footer */}
       {mobile && !hideNotes && notes.length > 0 && (
-        <section className="relative z-40 mx-auto max-w-md px-5 py-12">
+        <section className="relative z-30 mx-auto max-w-md px-5 py-12">
           <h2 className="text-center font-hand text-2xl font-extrabold text-ink">
             Bust these myths
           </h2>
