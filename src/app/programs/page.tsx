@@ -11,6 +11,50 @@ export const metadata: Metadata = {
     "Workshops, school programs, family sessions, and community events that bring fairness education to life.",
 };
 
+const features = [
+  {
+    title: "Custom Content",
+    body: "Programs tailored to your community's needs",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z" />
+      </svg>
+    ),
+  },
+  {
+    title: "Measurable Impact",
+    body: "Pre and post-session assessments available",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="9" />
+        <circle cx="12" cy="12" r="5" />
+        <circle cx="12" cy="12" r="1" />
+      </svg>
+    ),
+  },
+  {
+    title: "Certified Facilitators",
+    body: "All sessions led by trained educators",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="8" r="6" />
+        <path d="m8.5 13-1.5 9 5-3 5 3-1.5-9" />
+      </svg>
+    ),
+  },
+  {
+    title: "Flexible Scheduling",
+    body: "Available weekdays, evenings, and weekends",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" />
+        <path d="M16 2v4M8 2v4M3 10h18" />
+      </svg>
+    ),
+  },
+];
+
 export default function ProgramsPage() {
   const programs = getPrograms();
 
@@ -53,6 +97,23 @@ export default function ProgramsPage() {
                   </li>
                 ))}
               </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-5 py-12">
+        <h2 className="text-center font-hand text-4xl font-extrabold text-ink">
+          Why choose our programs
+        </h2>
+        <div className="mt-10 grid gap-8 text-center sm:grid-cols-2 lg:grid-cols-4">
+          {features.map((f) => (
+            <div key={f.title}>
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-ink bg-sun text-ink">
+                {f.icon}
+              </div>
+              <h3 className="mt-3 font-hand text-lg font-bold">{f.title}</h3>
+              <p className="mt-1 text-sm text-ink/70">{f.body}</p>
             </div>
           ))}
         </div>

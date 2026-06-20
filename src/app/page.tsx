@@ -2,6 +2,7 @@ import Link from "next/link";
 import Mascot from "@/components/Mascot";
 import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
+import BiasChannels from "@/components/BiasChannels";
 import { scatterForPath } from "@/lib/pageMyths";
 
 const loop = [
@@ -11,11 +12,11 @@ const loop = [
   { step: "Act", body: "Make choices that challenge stereotypes — and mean it.", color: "bg-grow" },
 ];
 
-const why = [
-  { title: "Absorbed early", body: "Much of our bias is picked up before age 12 — through play, not lessons.", doodle: "sparkle", color: "text-sun" },
-  { title: "Empathy grows", body: "Mixed, inclusive groups help kids build empathy for one another.", doodle: "heart", color: "text-grow" },
-  { title: "Seeing is believing", body: "What kids see represented shapes what they believe they can be.", doodle: "star", color: "text-sky" },
-] as const;
+const stats = [
+  { n: "70%", cap: "of stereotypes absorbed before age 12", color: "text-grow" },
+  { n: "85%", cap: "of mixed classrooms improve empathy", color: "text-sky" },
+  { n: "92%", cap: "representation shapes aspiration", color: "text-insight" },
+];
 
 export default function Home() {
   return (
@@ -83,24 +84,39 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WHY */}
+      {/* STATS */}
       <section className="mx-auto max-w-5xl px-5 py-16">
-        <h2 className="text-center font-hand text-4xl font-extrabold text-ink">
-          Why this matters
-        </h2>
+        <div className="text-center">
+          <h2 className="font-hand text-4xl font-extrabold text-ink">Why this matters</h2>
+          <p className="mx-auto mt-3 max-w-xl text-ink/70">
+            The numbers tell a powerful story about early childhood learning.
+          </p>
+        </div>
         <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {why.map((w) => (
+          {stats.map((s, i) => (
             <div
-              key={w.title}
-              className="sticker hover-pop rounded-3xl bg-white p-7"
+              key={s.cap}
+              style={{ transform: `rotate(${i % 2 ? 1.2 : -1.2}deg)` }}
+              className="sticker hover-pop rounded-3xl bg-white p-8 text-center"
             >
-              <Doodle name={w.doodle} className={`w-10 ${w.color}`} />
-              <h3 className="mt-4 font-hand text-2xl font-bold text-violet-600">
-                {w.title}
-              </h3>
-              <p className="mt-2 text-ink/70">{w.body}</p>
+              <div className={`font-hand text-6xl font-extrabold ${s.color}`}>{s.n}</div>
+              <p className="mt-2 text-ink/70">{s.cap}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* HOW KIDS LEARN BIAS */}
+      <section className="mx-auto max-w-5xl px-5 py-16">
+        <div className="text-center">
+          <h2 className="font-hand text-4xl font-extrabold text-ink">How kids learn bias</h2>
+          <p className="mx-auto mt-3 max-w-xl text-ink/70">
+            Bias isn&rsquo;t taught in lessons — it&rsquo;s absorbed through everyday
+            experiences. Tap each to explore.
+          </p>
+        </div>
+        <div className="mt-8">
+          <BiasChannels />
         </div>
       </section>
 
