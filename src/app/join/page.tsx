@@ -7,9 +7,9 @@ import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
 
 export const metadata: Metadata = {
-  title: "Join us — The Equal Lens",
+  title: "Join us - The Equal Lens",
   description:
-    "Volunteer or join the team — help bring fairness education to more children.",
+    "Volunteer or join the team - help bring fairness education to more children.",
 };
 
 export default async function JoinPage() {
@@ -43,7 +43,7 @@ export default async function JoinPage() {
         <h2 className="font-hand text-3xl font-extrabold">Open roles</h2>
         {jobs.length === 0 ? (
           <p className="mt-4 text-ink/60">
-            No open roles right now — but we&rsquo;d still love volunteers. Fill
+            No open roles right now - but we&rsquo;d still love volunteers. Fill
             in the form below.
           </p>
         ) : (

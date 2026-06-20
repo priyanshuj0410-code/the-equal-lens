@@ -44,7 +44,7 @@ export default function ContactForm() {
       </button>
       {sent && (
         <p className="text-sm text-ink/60">
-          Thanks! Your email app should have opened — hit send and we&rsquo;ll be
+          Thanks! Your email app should have opened - hit send and we&rsquo;ll be
           in touch.
         </p>
       )}

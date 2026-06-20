@@ -16,8 +16,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = getPost(slug);
-  if (!post) return { title: "Post not found — The Equal Lens" };
-  return { title: `${post.title} — The Equal Lens`, description: post.excerpt };
+  if (!post) return { title: "Post not found - The Equal Lens" };
+  return { title: `${post.title} - The Equal Lens`, description: post.excerpt };
 }
 
 function formatDate(d: string) {

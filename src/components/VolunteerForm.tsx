@@ -25,7 +25,7 @@ export default function VolunteerForm() {
       `Availability: ${get("availability")}`,
     ].join("\n");
     window.location.href = `mailto:support@theequallens.com?subject=${encodeURIComponent(
-      `Volunteer application — ${name}`,
+      `Volunteer application - ${name}`,
     )}&body=${encodeURIComponent(body)}`;
     setSent(true);
   }
@@ -70,7 +70,7 @@ export default function VolunteerForm() {
       </button>
       {sent && (
         <p className="text-sm text-ink/60">
-          Thanks! Your email app should have opened — hit send and we&rsquo;ll be
+          Thanks! Your email app should have opened - hit send and we&rsquo;ll be
           in touch.
         </p>
       )}

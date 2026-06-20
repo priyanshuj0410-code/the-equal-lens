@@ -11,7 +11,7 @@ const HOME = {
     title: "Kids don’t learn",
     highlight: "bias",
     titleEnd: "in classrooms.",
-    sub: "They pick it up on playgrounds, in jokes, online. So we don’t lecture — we hand kids an eraser and a pencil, and let them fix it themselves.",
+    sub: "They pick it up on playgrounds, in jokes, online. So we don’t lecture - we hand kids an eraser and a pencil, and let them fix it themselves.",
     psstDo: "doodle",
     statsSub: "The numbers tell a powerful story about early childhood learning.",
     stats: [
@@ -20,21 +20,21 @@ const HOME = {
       { n: "92%", cap: "representation shapes aspiration", color: "text-insight" },
     ],
     biasHeading: "How kids learn bias",
-    biasSub: "Bias isn’t taught in lessons — it’s absorbed through everyday experiences. Tap each to explore.",
+    biasSub: "Bias isn’t taught in lessons - it’s absorbed through everyday experiences. Tap each to explore.",
     loop: [
       { step: "Notice", body: "Spot the patterns and assumptions hiding in everyday moments." },
       { step: "Question", body: "Get curious about why things are the way they are." },
       { step: "Reflect", body: "Think about fairness, impact, and other points of view." },
-      { step: "Act", body: "Make choices that challenge stereotypes — and mean it." },
+      { step: "Act", body: "Make choices that challenge stereotypes - and mean it." },
     ],
     ctaHeading: "Bring The Equal Lens to your community",
-    ctaSub: "Workshops, school programs, family sessions, and events — tailored to your group.",
+    ctaSub: "Workshops, school programs, family sessions, and events - tailored to your group.",
   },
   adult: {
     title: "Bias doesn’t",
     highlight: "retire",
     titleEnd: "when you grow up.",
-    sub: "It just gets quieter — in who we hire, who we date, who we expect to ‘settle down.’ But anything learned can be unlearned.",
+    sub: "It just gets quieter - in who we hire, who we date, who we expect to ‘settle down.’ But anything learned can be unlearned.",
     psstDo: "scribble",
     statsSub: "The bias we carry into adulthood quietly shapes the decisions that matter most.",
     stats: [
@@ -43,11 +43,11 @@ const HOME = {
       { n: "One kind of leader", cap: "we still expect authority to look a certain way", color: "text-insight" },
     ],
     biasHeading: "How grown-ups absorb bias",
-    biasSub: "It doesn’t stop at 18 — it just moves into work, dating, and family. Tap each to explore.",
+    biasSub: "It doesn’t stop at 18 - it just moves into work, dating, and family. Tap each to explore.",
     loop: [
       { step: "Notice", body: "Catch the assumptions running on autopilot." },
       { step: "Question", body: "Ask where the ‘obvious’ actually came from." },
-      { step: "Reflect", body: "Sit with how it lands — and on whom." },
+      { step: "Reflect", body: "Sit with how it lands - and on whom." },
       { step: "Act", body: "Make the fairer call, even when it’s the harder one." },
     ],
     ctaHeading: "Bring The Equal Lens to your workplace or campus",
@@ -105,7 +105,7 @@ export default async function Home() {
               </Link>
             </div>
             <p className="mt-5 font-hand text-lg text-brand">
-              ✦ Psst — grab <strong>UN</strong> or <strong>RE</strong> from the toolbar
+              ✦ Psst - grab <strong>UN</strong> or <strong>RE</strong> from the toolbar
               below and {t.psstDo} right on this page.
             </p>
           </div>

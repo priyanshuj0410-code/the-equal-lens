@@ -5,24 +5,24 @@ import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
 
 export const metadata: Metadata = {
-  title: "Games — The Equal Lens",
+  title: "Games - The Equal Lens",
   description: "Learn about fairness and challenge bias through play.",
 };
 
 const GAMES = {
   kid: {
     title: "Learn fairness through play",
-    sub: "Until our games are rebuilt, the whole site is your playground — grab UN and RE from the toolbar and bust a myth right here.",
+    sub: "Until our games are rebuilt, the whole site is your playground - grab UN and RE from the toolbar and bust a myth right here.",
     items: [
-      { name: "Sort It Out!", blurb: "Some statements feel normal — but are they fair? Drag each card into the right box and find out.", color: "bg-sun" },
+      { name: "Sort It Out!", blurb: "Some statements feel normal - but are they fair? Drag each card into the right box and find out.", color: "bg-sun" },
       { name: "What Would You Do?", blurb: "Real situations kids face every day. Make your choice: challenge it, or let it slide.", color: "bg-insight" },
     ],
   },
   adult: {
     title: "Same idea, grown-up edition",
-    sub: "Until our games are rebuilt, the whole site is your canvas — grab UN and RE from the toolbar and bust a myth right here.",
+    sub: "Until our games are rebuilt, the whole site is your canvas - grab UN and RE from the toolbar and bust a myth right here.",
     items: [
-      { name: "Spot the Bias", blurb: "Real moments from work, dating, and family. Which are fair — and which just feel normal?", color: "bg-sun" },
+      { name: "Spot the Bias", blurb: "Real moments from work, dating, and family. Which are fair - and which just feel normal?", color: "bg-sun" },
       { name: "What Would You Do?", blurb: "You see it in a meeting or a group chat. Speak up, or let it slide?", color: "bg-insight" },
     ],
   },

@@ -423,7 +423,7 @@ export default function SiteCanvas({
           </h2>
           <p className="mt-1 text-center text-sm text-ink/60">
             Tap <strong className="text-brand">UN</strong> below, then a card to
-            erase it — then <strong className="text-brand">RE</strong> to reveal
+            erase it - then <strong className="text-brand">RE</strong> to reveal
             the truth.
           </p>
           <div className="mt-6 space-y-4">

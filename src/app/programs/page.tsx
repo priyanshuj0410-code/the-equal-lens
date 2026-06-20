@@ -8,47 +8,47 @@ import MythScatter from "@/components/MythScatter";
 import Mascot from "@/components/Mascot";
 
 export const metadata: Metadata = {
-  title: "Programs — The Equal Lens",
+  title: "Programs - The Equal Lens",
   description:
-    "Workshops and sessions that bring fairness education to life — for schools, families, workplaces, and communities.",
+    "Workshops and sessions that bring fairness education to life - for schools, families, workplaces, and communities.",
 };
 
 const PROGRAMS = {
   kid: {
     heroTitle: "Fairness education, brought to life",
     heroSub:
-      "Playful, research-backed programs for schools, families, and communities — never preachy, always purposeful.",
+      "Playful, research-backed programs for schools, families, and communities - never preachy, always purposeful.",
     whyTitle: "Kids don’t remember lectures. They remember what they figure out themselves.",
-    whySub: "That’s the idea behind every Equal Lens program — and why the lesson actually sticks.",
+    whySub: "That’s the idea behind every Equal Lens program - and why the lesson actually sticks.",
     oldText: "Sit kids down and tell them what’s fair.",
     oldOutcome: "Polite nods… forgotten by lunch.",
-    newText: "Hand kids the tools to spot bias and rewrite it — through play they enjoy.",
+    newText: "Hand kids the tools to spot bias and rewrite it - through play they enjoy.",
     newOutcome: "A shift they actually carry with them.",
     proof: ["Age-appropriate", "Research-backed", "Fits your curriculum", "No prep for you"],
     ctaTitle: "Ready to bring The Equal Lens to your community?",
-    ctaSub: "We’ll tailor a program to your school or organization — and hand you everything you need.",
+    ctaSub: "We’ll tailor a program to your school or organization - and hand you everything you need.",
   },
   adult: {
     heroTitle: "Bias workshops people don’t roll their eyes at",
     heroSub:
-      "Honest, practical, research-backed sessions for workplaces, campuses, and communities — never preachy.",
+      "Honest, practical, research-backed sessions for workplaces, campuses, and communities - never preachy.",
     whyTitle: "Slideshows don’t change minds. Noticing it yourself does.",
-    whySub: "That’s the idea behind every Equal Lens session — and why it actually outlasts the meeting.",
+    whySub: "That’s the idea behind every Equal Lens session - and why it actually outlasts the meeting.",
     oldText: "Run a one-off ‘unconscious bias’ slideshow and tick the box.",
     oldOutcome: "Everyone nods. Nothing changes by Monday.",
-    newText: "Give people honest tools to spot bias in real situations — and practise doing it differently.",
+    newText: "Give people honest tools to spot bias in real situations - and practise doing it differently.",
     newOutcome: "Habits that outlast the session.",
     proof: ["Judgment-free", "Research-backed", "Fits your org", "No prep for you"],
     ctaTitle: "Ready to bring The Equal Lens to your team?",
-    ctaSub: "We’ll tailor a session to your workplace, campus, or community — and hand you everything you need.",
+    ctaSub: "We’ll tailor a session to your workplace, campus, or community - and hand you everything you need.",
   },
 };
 
 const features = [
   {
     title: "Built around your group",
-    body: "Every session is shaped to your community’s ages, context, and goals — never copy-paste.",
-    bodyAdult: "Every session is shaped to your team’s context, seniority, and goals — never a generic deck.",
+    body: "Every session is shaped to your community’s ages, context, and goals - never copy-paste.",
+    bodyAdult: "Every session is shaped to your team’s context, seniority, and goals - never a generic deck.",
     color: "#993C1D",
     tint: "#FAD9CE",
     icon: (
@@ -74,8 +74,8 @@ const features = [
   },
   {
     title: "Led by real educators",
-    body: "Trained facilitators who hold the room with warmth — and zero preachiness.",
-    bodyAdult: "Trained facilitators who hold the room with honesty — and zero preachiness.",
+    body: "Trained facilitators who hold the room with warmth - and zero preachiness.",
+    bodyAdult: "Trained facilitators who hold the room with honesty - and zero preachiness.",
     color: "#185FA5",
     tint: "#DCEEFB",
     icon: (
@@ -87,8 +87,8 @@ const features = [
   },
   {
     title: "Around your timetable",
-    body: "Weekdays, evenings, weekends — we fit you, not the other way round.",
-    bodyAdult: "Weekdays, evenings, remote — we fit your calendar, not the other way round.",
+    body: "Weekdays, evenings, weekends - we fit you, not the other way round.",
+    bodyAdult: "Weekdays, evenings, remote - we fit your calendar, not the other way round.",
     color: "#8A5A00",
     tint: "#FCEFCB",
     icon: (

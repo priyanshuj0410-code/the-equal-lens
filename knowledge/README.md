@@ -1,12 +1,12 @@
-# The Equal Lens — Knowledge Base
+# The Equal Lens - Knowledge Base
 
 This folder is the **single source of truth** for the content that powers the website: the myths and stereotypes behind the canvas easter eggs, plus blog posts, team members, and job listings.
 
-It is designed in the spirit of the **Open Knowledge Format (OKF)** — content lives as plain, structured, version-controlled files (JSON + Markdown) rather than locked inside a database or page. That makes it:
+It is designed in the spirit of the **Open Knowledge Format (OKF)** - content lives as plain, structured, version-controlled files (JSON + Markdown) rather than locked inside a database or page. That makes it:
 
-- **Portable** — any tool can read it; nothing is tied to our website.
-- **Shareable** — educators and partners can reuse the myth/truth pairs.
-- **Reviewable** — every change is a Git diff with a clear history and sources.
+- **Portable** - any tool can read it; nothing is tied to our website.
+- **Shareable** - educators and partners can reuse the myth/truth pairs.
+- **Reviewable** - every change is a Git diff with a clear history and sources.
 
 The Next.js app in `../web` reads these files at **build time** and renders them.
 
@@ -28,7 +28,7 @@ Each entry in `myths/` carries both the **myth** and its **truth**:
 
 1. The myth is drawn on the canvas as a doodle/sticker (`doodle` field).
 2. The visitor switches their cursor to **Unlearn** and erases the myth.
-3. They switch to **Relearn** and scribble — which reveals the entry's `truth` and `explanation`.
+3. They switch to **Relearn** and scribble - which reveals the entry's `truth` and `explanation`.
 
 So the brand values (Unlearn → Relearn) become something the visitor *does*, and the content drives the interaction.
 
@@ -41,4 +41,4 @@ So the brand values (Unlearn → Relearn) become something the visitor *does*, a
 ## Editing
 
 - Add a myth: copy an existing file in `myths/`, give it a new `id` (`m-...`), validate against `schema/myth.schema.json`.
-- Team, jobs, and the sample blog post are **placeholders** — replace with real content.
+- Team, jobs, and the sample blog post are **placeholders** - replace with real content.

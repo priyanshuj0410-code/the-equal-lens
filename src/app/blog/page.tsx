@@ -7,7 +7,7 @@ import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
 
 export const metadata: Metadata = {
-  title: "Blog — The Equal Lens",
+  title: "Blog - The Equal Lens",
   description:
     "Ideas on fairness, play, and helping kids unlearn bias and relearn empathy.",
 };
@@ -42,7 +42,7 @@ export default async function BlogPage() {
 
       <section className="mx-auto max-w-5xl px-5 py-10">
         {posts.length === 0 ? (
-          <p className="text-center text-ink/60">No posts yet — check back soon.</p>
+          <p className="text-center text-ink/60">No posts yet - check back soon.</p>
         ) : (
           <div className="grid gap-8 md:grid-cols-2">
             {posts.map((p, i) => (

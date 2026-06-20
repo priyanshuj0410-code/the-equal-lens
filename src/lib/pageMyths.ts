@@ -2,7 +2,7 @@ import type { Myth } from "./knowledge";
 
 type Audience = "kid" | "adult";
 
-// Which myths become the interactive sticky notes on each page — all distinct.
+// Which myths become the interactive sticky notes on each page - all distinct.
 const ROUTE_MYTHS_KID: Record<string, string[]> = {
   "/": ["m-pink-is-for-girls", "m-leaders-can-be-anyone", "m-sports-no-gender"],
   "/about": ["m-boys-dont-cry", "m-scared-is-weak", "m-all-feelings-ok"],
@@ -44,7 +44,7 @@ export function mythsForPath(all: Myth[], path: string, audience: Audience = "ki
   return all.filter((m) => (m.audience ?? "kid") === audience).slice(0, 3);
 }
 
-// Short ambient phrases scattered on the canvas — never the same as the sticky myths.
+// Short ambient phrases scattered on the canvas - never the same as the sticky myths.
 export type Scrap = { t: string; strike: boolean };
 
 const SCATTER_KID: Scrap[] = [

@@ -83,7 +83,7 @@ export default function WelcomeModal() {
             today?
           </h2>
           <p className="mx-auto mt-3 max-w-sm text-sm text-ink/70">
-            No wrong answers — it just sets the vibe. You can switch any time from
+            No wrong answers - it just sets the vibe. You can switch any time from
             the toggle, top-right.
           </p>
         </div>
@@ -104,11 +104,11 @@ export default function WelcomeModal() {
               A kid 🧒
             </span>
             <span className="text-sm font-medium text-[#5a3d12]">
-              Bright, playful, doodles everywhere — and a bit younger at heart.
+              Bright, playful, doodles everywhere - and a bit younger at heart.
             </span>
           </button>
 
-          {/* ADULT — previews the dark theme */}
+          {/* ADULT - previews the dark theme */}
           <button
             onClick={() => choose("adult")}
             className="hover-pop group flex flex-col items-start gap-3 rounded-2xl border-[3px] border-[#221436] bg-gradient-to-br from-[#2b1d4d] to-[#181030] p-5 text-left text-white shadow-[4px_5px_0_#221436] transition-transform"
@@ -122,13 +122,13 @@ export default function WelcomeModal() {
               A grown-up 🫠
             </span>
             <span className="text-sm font-medium text-violet-200">
-              Dark theme, grown-up myths — 18 and (mostly) over it.
+              Dark theme, grown-up myths - 18 and (mostly) over it.
             </span>
           </button>
         </div>
 
         <p className="mt-5 text-center text-xs text-ink/45">
-          psst — you&rsquo;re never locked in. Toggle whenever you like.
+          psst - you&rsquo;re never locked in. Toggle whenever you like.
         </p>
       </div>
     </div>

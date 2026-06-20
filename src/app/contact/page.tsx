@@ -6,7 +6,7 @@ import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
 
 export const metadata: Metadata = {
-  title: "Contact — The Equal Lens",
+  title: "Contact - The Equal Lens",
   description:
     "Questions, or want to bring The Equal Lens to your school or community? Get in touch.",
 };

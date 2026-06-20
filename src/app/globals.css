@@ -60,7 +60,7 @@ body {
   font-family: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* canvas dot texture — adapts to the active theme */
+/* canvas dot texture - adapts to the active theme */
 .canvas-dots {
   background-image: radial-gradient(var(--dot) 1.1px, transparent 1.1px);
   background-size: 28px 28px;

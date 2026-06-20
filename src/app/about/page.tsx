@@ -6,7 +6,7 @@ import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
 
 export const metadata: Metadata = {
-  title: "About — The Equal Lens",
+  title: "About - The Equal Lens",
   description:
     "Our vision, mission, values, and the people helping people unlearn bias and relearn empathy.",
 };
@@ -14,23 +14,23 @@ export const metadata: Metadata = {
 const ABOUT = {
   kid: {
     title: "Building awareness through play",
-    sub: "Children don’t learn bias in lessons — they soak it up from playgrounds, media, family, and the words around them. We’re here to interrupt that, gently.",
+    sub: "Children don’t learn bias in lessons - they soak it up from playgrounds, media, family, and the words around them. We’re here to interrupt that, gently.",
     narrative:
-      "By middle school, many of these patterns are already set. So we don’t lecture — we design playful, purposeful experiences that make bias visible and invite reflection. When kids meet fairness through play instead of memorisation, they build the confidence to question what they’re told to accept.",
+      "By middle school, many of these patterns are already set. So we don’t lecture - we design playful, purposeful experiences that make bias visible and invite reflection. When kids meet fairness through play instead of memorisation, they build the confidence to question what they’re told to accept.",
     vision:
-      "A generation that treats fairness as something they do — noticing bias and choosing better, on their own.",
+      "A generation that treats fairness as something they do - noticing bias and choosing better, on their own.",
     mission:
       "We help children unlearn bias and relearn empathy through play, before inherited ideas harden into lifelong assumptions.",
   },
   adult: {
     title: "The bias you carry didn’t start with you",
-    sub: "We absorbed it from playgrounds, screens, and ‘that’s just how it is’ — long before we could question it. The Equal Lens helps adults notice it and choose differently.",
+    sub: "We absorbed it from playgrounds, screens, and ‘that’s just how it is’ - long before we could question it. The Equal Lens helps adults notice it and choose differently.",
     narrative:
-      "By adulthood most of it runs on autopilot — in who we hire, who we expect to caretake, who we picture as ‘the leader.’ We don’t lecture. We make those patterns visible and give people honest, judgment-free ways to unlearn them and relearn something fairer.",
+      "By adulthood most of it runs on autopilot - in who we hire, who we expect to caretake, who we picture as ‘the leader.’ We don’t lecture. We make those patterns visible and give people honest, judgment-free ways to unlearn them and relearn something fairer.",
     vision:
-      "Adults who treat fairness as a daily practice — noticing bias and choosing better, on their own.",
+      "Adults who treat fairness as a daily practice - noticing bias and choosing better, on their own.",
     mission:
-      "We help 18–35s unlearn the bias they absorbed and relearn empathy — in their workplaces, relationships, and homes.",
+      "We help 18–35s unlearn the bias they absorbed and relearn empathy - in their workplaces, relationships, and homes.",
   },
 };
 

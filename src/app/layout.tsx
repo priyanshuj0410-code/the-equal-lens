@@ -27,7 +27,7 @@ const baloo = Baloo_2({
 });
 
 export const metadata: Metadata = {
-  title: "The Equal Lens — Unlearn. Relearn. Grow.",
+  title: "The Equal Lens - Unlearn. Relearn. Grow.",
   description:
     "Helping children unlearn bias and relearn empathy through play.",
 };
