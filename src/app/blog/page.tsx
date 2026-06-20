@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getMyths, getPostsMeta } from "@/lib/knowledge";
-import { mythsForPath } from "@/lib/pageMyths";
+import { getPostsMeta } from "@/lib/knowledge";
+import { scatterForPath } from "@/lib/pageMyths";
 import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
 
@@ -21,14 +21,13 @@ function formatDate(d: string) {
 
 export default function BlogPage() {
   const posts = getPostsMeta();
-  const myths = mythsForPath(getMyths(), "/blog");
 
   return (
     <div>
       <section className="relative overflow-hidden">
         <Doodle name="spiral" className="anim-float absolute left-10 top-16 w-10 text-violet-400" />
         <Doodle name="heart" className="anim-wobble absolute right-14 top-12 w-7 text-grow" />
-        <MythScatter myths={myths} />
+        <MythScatter items={scatterForPath("/blog")} />
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
           <p className="font-hand text-sm font-bold uppercase tracking-widest text-violet-400">
             Blog

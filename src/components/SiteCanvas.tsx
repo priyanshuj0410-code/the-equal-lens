@@ -71,25 +71,18 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
     const chosen = mythsForPath(seedMyths, pathname);
     pageMythsRef.current = chosen;
     seededMyth.current = chosen.length;
-    const wide = window.innerWidth > 760;
-    const W = window.innerWidth;
-    const spots = wide
-      ? [
-          { x: 36, y: 500 },
-          { x: W - 300, y: 515 },
-          { x: W / 2 - 118, y: 610 },
-        ]
-      : [
-          { x: 18, y: 620 },
-          { x: 18, y: 770 },
-          { x: 18, y: 920 },
-        ];
-    setNotes(
-      chosen.slice(0, 3).map((m, i) => makeNote(m, i, spots[i].x, spots[i].y)),
-    );
     const c = canvasRef.current;
     const ctx = ctxRef.current;
     if (c && ctx) ctx.clearRect(0, 0, c.width, c.height);
+    // place after layout settles so we can measure real content boxes
+    const raf = requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        const spots = findSpots(chosen.length);
+        setNotes(chosen.map((m, i) => makeNote(m, i, spots[i].x, spots[i].y)));
+      }),
+    );
+    return () => cancelAnimationFrame(raf);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, seedMyths, makeNote]);
 
   const resize = useCallback(() => {
@@ -172,6 +165,57 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
         return n;
       }),
     );
+  }
+
+  // find empty spots for the seeded notes so they don't cover content/scatter
+  function findSpots(count: number): { x: number; y: number }[] {
+    const W = document.documentElement.clientWidth;
+    const docH = Math.max(document.body.scrollHeight, window.innerHeight);
+    const sel =
+      "main h1, main h2, main h3, main p, main li, main a, main button, main img, main input, main textarea, .tel-scatter";
+    const obs = Array.from(document.querySelectorAll(sel))
+      .map((el) => {
+        const r = el.getBoundingClientRect();
+        return {
+          l: r.left + window.scrollX,
+          t: r.top + window.scrollY,
+          r: r.right + window.scrollX,
+          b: r.bottom + window.scrollY,
+        };
+      })
+      .filter((o) => o.r > o.l && o.b > o.t && o.b - o.t < 600);
+    const pad = 16;
+    const free = (x: number, y: number) =>
+      x >= 10 &&
+      x + NOTE_W <= W - 10 &&
+      y >= 120 &&
+      y + NOTE_H <= docH - 12 &&
+      !obs.some(
+        (o) =>
+          x < o.r + pad &&
+          x + NOTE_W > o.l - pad &&
+          y < o.b + pad &&
+          y + NOTE_H > o.t - pad,
+      );
+    const chosen: { x: number; y: number }[] = [];
+    for (let y = 130; y <= docH - NOTE_H - 12 && chosen.length < count; y += 56) {
+      for (let x = 12; x <= W - NOTE_W - 12 && chosen.length < count; x += 64) {
+        if (
+          free(x, y) &&
+          chosen.every(
+            (c) => Math.abs(c.y - y) > NOTE_H + 8 || Math.abs(c.x - x) > NOTE_W + 8,
+          )
+        ) {
+          chosen.push({ x, y });
+        }
+      }
+    }
+    let fy = 150;
+    while (chosen.length < count) {
+      chosen.push({ x: Math.max(12, W - NOTE_W - 14), y: fy });
+      fy += NOTE_H + 24;
+    }
+    return chosen;
   }
 
   function onPointerDown(e: React.PointerEvent) {

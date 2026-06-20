@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import VolunteerForm from "@/components/VolunteerForm";
-import { getJobs, getMyths } from "@/lib/knowledge";
-import { mythsForPath } from "@/lib/pageMyths";
+import { getJobs } from "@/lib/knowledge";
+import { scatterForPath } from "@/lib/pageMyths";
 import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
 
@@ -13,14 +13,13 @@ export const metadata: Metadata = {
 
 export default function JoinPage() {
   const jobs = getJobs();
-  const myths = mythsForPath(getMyths(), "/join");
 
   return (
     <div>
       <section className="relative overflow-hidden">
         <Doodle name="star" className="anim-wobble absolute left-12 top-14 w-9 text-sun" />
         <Doodle name="arrow" className="anim-float absolute right-16 top-16 w-12 text-violet-400" />
-        <MythScatter myths={myths} />
+        <MythScatter items={scatterForPath("/join")} />
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
           <p className="font-hand text-sm font-bold uppercase tracking-widest text-violet-400">
             Join us

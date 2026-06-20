@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Mascot from "@/components/Mascot";
 import { Doodle } from "@/components/Doodles";
-import { getMyths } from "@/lib/knowledge";
+import MythScatter from "@/components/MythScatter";
+import { scatterForPath } from "@/lib/pageMyths";
 
 const loop = [
   { step: "Notice", body: "Spot the patterns and assumptions hiding in everyday moments.", color: "bg-sun" },
@@ -17,14 +18,6 @@ const why = [
 ] as const;
 
 export default function Home() {
-  const myths = getMyths();
-  const scatter = [
-    { t: myths[0]?.myth, strike: true, cls: "bottom-28 left-4 -rotate-6 text-ink/25" },
-    { t: myths[0]?.truth, strike: false, cls: "top-44 right-8 rotate-3 text-violet-500/55" },
-    { t: myths[2]?.myth, strike: true, cls: "bottom-8 left-1/3 rotate-2 text-ink/20" },
-    { t: myths[3]?.truth, strike: false, cls: "top-28 right-1/4 -rotate-3 text-violet-500/50" },
-  ];
-
   return (
     <div>
       {/* HERO */}
@@ -36,19 +29,7 @@ export default function Home() {
         <Doodle name="arrow" className="anim-float absolute right-16 bottom-24 w-14 text-violet-400" />
         <Doodle name="heart" className="anim-wobble absolute left-12 bottom-16 w-7 text-grow" />
 
-        {scatter.map(
-          (s, i) =>
-            s.t && (
-              <span
-                key={i}
-                className={`pointer-events-none absolute hidden max-w-[180px] font-hand text-sm font-bold lg:block ${s.cls} ${
-                  s.strike ? "line-through decoration-grow decoration-2" : ""
-                }`}
-              >
-                {s.t}
-              </span>
-            ),
-        )}
+        <MythScatter items={scatterForPath("/")} />
 
         <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-5 py-16 md:grid-cols-2 md:py-24">
           <div>

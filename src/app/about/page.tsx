@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { getMyths, getTeam } from "@/lib/knowledge";
-import { mythsForPath } from "@/lib/pageMyths";
+import { getTeam } from "@/lib/knowledge";
+import { scatterForPath } from "@/lib/pageMyths";
 import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
 
@@ -27,7 +27,6 @@ const values = [
 
 export default function AboutPage() {
   const team = getTeam();
-  const myths = mythsForPath(getMyths(), "/about");
 
   return (
     <div>
@@ -35,7 +34,7 @@ export default function AboutPage() {
         <Doodle name="sparkle" className="anim-wobble absolute right-10 top-12 w-9 text-grow" />
         <Doodle name="spiral" className="anim-float absolute left-8 top-24 w-10 text-violet-400" />
         <Doodle name="heart" className="anim-wobble absolute right-1/4 bottom-10 w-7 text-grow" />
-        <MythScatter myths={myths} />
+        <MythScatter items={scatterForPath("/about")} />
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
           <p className="font-hand text-sm font-bold uppercase tracking-widest text-violet-400">
             About

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { getMyths } from "@/lib/knowledge";
-import { mythsForPath } from "@/lib/pageMyths";
+import { scatterForPath } from "@/lib/pageMyths";
 import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
 
@@ -25,15 +24,13 @@ const games = [
 ];
 
 export default function GamesPage() {
-  const myths = mythsForPath(getMyths(), "/games");
-
   return (
     <div>
       <section className="relative overflow-hidden">
         <Doodle name="zigzag" className="anim-float absolute left-10 top-16 w-16 text-grow" />
         <Doodle name="sparkle" className="anim-wobble absolute right-12 top-12 w-9 text-sun" />
         <Doodle name="swirl" className="anim-float absolute right-1/4 bottom-10 w-14 text-violet-400" />
-        <MythScatter myths={myths} />
+        <MythScatter items={scatterForPath("/games")} />
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
           <p className="font-hand text-sm font-bold uppercase tracking-widest text-violet-400">
             Games
