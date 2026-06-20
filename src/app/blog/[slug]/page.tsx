@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { getPost, getPostsMeta } from "@/lib/knowledge";
 
 export function generateStaticParams() {
-  return getPostsMeta().map((p) => ({ slug: p.slug }));
+  return [...getPostsMeta("kid"), ...getPostsMeta("adult")].map((p) => ({
+    slug: p.slug,
+  }));
 }
 
 export async function generateMetadata({

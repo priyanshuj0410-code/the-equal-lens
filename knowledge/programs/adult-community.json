@@ -1,0 +1,15 @@
+{
+  "id": "adult-community",
+  "audience": "adult",
+  "title": "Community Talks",
+  "summary": "Open, judgment-free talks and workshops for community groups and organizations.",
+  "items": [
+    "Tailored to your group",
+    "Honest, no-lecture format",
+    "Live Q&A with facilitators",
+    "Take-home conversation guides",
+    "Festival and event friendly"
+  ],
+  "icon": "users",
+  "order": 3
+}

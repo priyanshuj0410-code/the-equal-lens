@@ -130,7 +130,7 @@ export default function SiteCanvas({
   // seed page-specific notes whenever the route changes
   useEffect(() => {
     setFine(window.matchMedia("(pointer: fine)").matches);
-    const chosen = mythsForPath(seedMyths, pathname);
+    const chosen = mythsForPath(seedMyths, pathname, audience);
     pageMythsRef.current = chosen;
     seededMyth.current = chosen.length;
     const ctx = ctxRef.current;
@@ -148,7 +148,7 @@ export default function SiteCanvas({
       }),
     );
     return () => cancelAnimationFrame(raf);
-  }, [pathname, seedMyths, makeNote, findSpots]);
+  }, [pathname, seedMyths, makeNote, findSpots, audience]);
 
   // size the drawing canvas to the whole document
   const resize = useCallback(() => {

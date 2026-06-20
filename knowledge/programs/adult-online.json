@@ -1,0 +1,15 @@
+{
+  "id": "adult-online",
+  "audience": "adult",
+  "title": "Online Sessions",
+  "summary": "Remote workshops for distributed teams and groups, anywhere.",
+  "items": [
+    "Live, interactive, and remote",
+    "Works across timezones",
+    "The same playful, no-lecture approach",
+    "Small-group breakouts",
+    "Shareable follow-up materials"
+  ],
+  "icon": "globe",
+  "order": 4
+}

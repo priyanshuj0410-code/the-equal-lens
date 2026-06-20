@@ -1,0 +1,15 @@
+{
+  "id": "adult-campus",
+  "audience": "adult",
+  "title": "Campus & University",
+  "summary": "Sessions for young adults stepping into work, relationships, and independence.",
+  "items": [
+    "Relationships, consent, and respect",
+    "Online and media literacy",
+    "Confidence and speaking up",
+    "Navigating bias at work",
+    "Peer-led discussion"
+  ],
+  "icon": "school",
+  "order": 2
+}

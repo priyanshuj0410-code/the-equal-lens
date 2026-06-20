@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import VolunteerForm from "@/components/VolunteerForm";
 import { getJobs } from "@/lib/knowledge";
 import { scatterForPath } from "@/lib/pageMyths";
+import { getAudience } from "@/lib/audience";
 import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
 
@@ -11,7 +12,8 @@ export const metadata: Metadata = {
     "Volunteer or join the team — help bring fairness education to more children.",
 };
 
-export default function JoinPage() {
+export default async function JoinPage() {
+  const audience = await getAudience();
   const jobs = getJobs();
 
   return (
@@ -19,17 +21,20 @@ export default function JoinPage() {
       <section className="relative overflow-hidden">
         <Doodle name="star" className="anim-wobble absolute left-12 top-14 w-9 text-sun" />
         <Doodle name="arrow" className="anim-float absolute right-16 top-16 w-12 text-brandsoft" />
-        <MythScatter items={scatterForPath("/join")} />
+        <MythScatter items={scatterForPath("/join", audience)} />
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
           <p className="font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
             Join us
           </p>
           <h1 className="mt-3 font-hand text-4xl font-extrabold text-ink sm:text-5xl">
-            Be part of how kids learn fairness
+            {audience === "adult"
+              ? "Help more people unlearn bias"
+              : "Be part of how kids learn fairness"}
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-ink/70">
-            Bring a workshop to life, or help behind the scenes. Every bit moves
-            a child from noticing to acting.
+            {audience === "adult"
+              ? "Bring a session to your workplace or campus, or help behind the scenes. Every bit moves someone from noticing to acting."
+              : "Bring a workshop to life, or help behind the scenes. Every bit moves a child from noticing to acting."}
           </p>
         </div>
       </section>

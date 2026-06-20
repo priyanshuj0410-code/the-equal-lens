@@ -54,6 +54,7 @@ export type Program = {
   items: string[];
   icon?: string;
   order?: number;
+  audience?: string;
 };
 
 export type PostMeta = {
@@ -65,6 +66,7 @@ export type PostMeta = {
   tags?: string[];
   cover?: string;
   status?: string;
+  audience?: string;
   placeholder?: boolean;
 };
 
@@ -90,15 +92,17 @@ export function getTeam(): TeamMember[] {
   return readJsonDir<TeamMember>("team").sort(byOrder);
 }
 
-export function getPrograms(): Program[] {
-  return readJsonDir<Program>("programs").sort(byOrder);
+export function getPrograms(audience: "kid" | "adult" = "kid"): Program[] {
+  return readJsonDir<Program>("programs")
+    .filter((p) => (p.audience ?? "kid") === audience)
+    .sort(byOrder);
 }
 
 export function getJobs(): Job[] {
   return readJsonDir<Job>("jobs").filter((j) => j.status === "open");
 }
 
-export function getPostsMeta(): PostMeta[] {
+export function getPostsMeta(audience: "kid" | "adult" = "kid"): PostMeta[] {
   const dir = path.join(KB, "blog");
   if (!fs.existsSync(dir)) return [];
   return fs
@@ -107,7 +111,7 @@ export function getPostsMeta(): PostMeta[] {
     .map(
       (f) => matter(fs.readFileSync(path.join(dir, f), "utf8")).data as PostMeta,
     )
-    .filter((p) => p.status !== "draft")
+    .filter((p) => p.status !== "draft" && (p.audience ?? "kid") === audience)
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
