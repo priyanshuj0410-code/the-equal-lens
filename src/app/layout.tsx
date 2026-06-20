@@ -4,8 +4,9 @@ import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import SiteCanvas from "@/components/SiteCanvas";
+import WelcomeModal from "@/components/WelcomeModal";
 import { getMyths } from "@/lib/knowledge";
-import { getAudience } from "@/lib/audience";
+import { getAudience, hasAudienceChoice } from "@/lib/audience";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -37,6 +38,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const audience = await getAudience();
+  const chosen = await hasAudienceChoice();
   return (
     <html
       lang="en"
@@ -48,6 +50,7 @@ export default async function RootLayout({
         <main className="flex-1">{children}</main>
         <SiteCanvas seedMyths={getMyths()} audience={audience} />
         <SiteFooter />
+        {!chosen && <WelcomeModal />}
       </body>
     </html>
   );
