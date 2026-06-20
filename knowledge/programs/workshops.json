@@ -1,0 +1,14 @@
+{
+  "id": "workshops",
+  "title": "Interactive Workshops",
+  "summary": "Engaging 60–90 minute sessions for schools, youth groups, and community organizations.",
+  "items": [
+    "Age-appropriate games and activities",
+    "Bias detection exercises",
+    "Scenario-based learning",
+    "Group discussions and reflection",
+    "Take-home resources for continued learning"
+  ],
+  "icon": "puzzle",
+  "order": 1
+}

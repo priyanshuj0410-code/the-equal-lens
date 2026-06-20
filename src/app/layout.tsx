@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins, Nunito_Sans, Baloo_2 } from "next/font/google";
 import "./globals.css";
+import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -37,7 +39,9 @@ export default function RootLayout({
       className={`${poppins.variable} ${nunito.variable} ${baloo.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
-        {children}
+        <SiteHeader />
+        <main className="flex-1">{children}</main>
+        <SiteFooter />
       </body>
     </html>
   );

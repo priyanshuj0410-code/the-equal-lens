@@ -1,0 +1,14 @@
+{
+  "id": "community-events",
+  "title": "Community Events",
+  "summary": "Public events that bring awareness and engagement to broader audiences beyond schools.",
+  "items": [
+    "Festival and fair booths",
+    "Library programs",
+    "Community center partnerships",
+    "Youth organization collaborations",
+    "Special themed events"
+  ],
+  "icon": "users",
+  "order": 4
+}
