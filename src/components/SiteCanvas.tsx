@@ -41,8 +41,10 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
   const drag = useRef<{ id: string; ox: number; oy: number; sx: number; sy: number } | null>(null);
   const seededMyth = useRef(0);
 
+  const notesRef = useRef<Note[]>([]);
   useEffect(() => { toolRef.current = tool; }, [tool]);
   useEffect(() => { colorRef.current = color; }, [color]);
+  useEffect(() => { notesRef.current = notes; }, [notes]);
 
   const makeNote = useCallback(
     (m: Myth, i: number, x: number, y: number): Note => ({
@@ -63,15 +65,20 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
   useEffect(() => {
     setFine(window.matchMedia("(pointer: fine)").matches);
     const wide = window.innerWidth > 760;
+    const W = window.innerWidth;
+    const spots = wide
+      ? [
+          { x: 36, y: 500 },
+          { x: W - 300, y: 515 },
+          { x: W / 2 - 118, y: 610 },
+        ]
+      : [
+          { x: 18, y: 620 },
+          { x: 18, y: 770 },
+          { x: 18, y: 920 },
+        ];
     setNotes(
-      seedMyths.slice(0, 3).map((m, i) =>
-        makeNote(
-          m,
-          i,
-          wide ? (i === 1 ? window.innerWidth - 290 : 50) : 24,
-          wide ? 210 + i * 150 : 540 + i * 140,
-        ),
-      ),
+      seedMyths.slice(0, 3).map((m, i) => makeNote(m, i, spots[i].x, spots[i].y)),
     );
     seededMyth.current = Math.min(3, seedMyths.length);
   }, [seedMyths, makeNote]);
@@ -131,6 +138,12 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
     }
   }
 
+  function noteAt(px: number, py: number) {
+    return notesRef.current.some(
+      (n) => px >= n.x && px <= n.x + NOTE_W && py >= n.y && py <= n.y + NOTE_H,
+    );
+  }
+
   // rub out the myth / scribble in the truth on whichever note the tip touches
   function touchNotes(px: number, py: number) {
     const t = toolRef.current;
@@ -158,7 +171,8 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
     drawing.current = true;
     const p = { x: e.pageX, y: e.pageY };
     last.current = p;
-    stroke(null, p);
+    // RE only reveals on notes (no scribbles left behind); eraser still works
+    if (!(toolRef.current === "pen" && noteAt(p.x, p.y))) stroke(null, p);
     touchNotes(p.x, p.y);
   }
   function onPointerMove(e: React.PointerEvent) {
@@ -167,7 +181,7 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
     }
     if (!drawing.current || toolRef.current === "none") return;
     const p = { x: e.pageX, y: e.pageY };
-    stroke(last.current, p);
+    if (!(toolRef.current === "pen" && noteAt(p.x, p.y))) stroke(last.current, p);
     touchNotes(p.x, p.y);
     last.current = p;
   }
@@ -306,10 +320,16 @@ export default function SiteCanvas({ seedMyths }: { seedMyths: Myth[] }) {
       </div>
 
       <div className="fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1.5 rounded-full border-2 border-ink bg-white/95 px-2.5 py-2 shadow-[4px_4px_0_#221436] backdrop-blur">
-        <ToolButton active={tool === "eraser"} onClick={() => setTool(tool === "eraser" ? "none" : "eraser")} label="Unlearn">
+        <ToolButton active={tool === "none"} onClick={() => setTool("none")} label="Browse">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#221436" aria-hidden="true">
+            <path d="M5 2 L5 20 L10 15 L13.5 22 L16 21 L12.5 14 L19 14 Z" />
+          </svg>
+        </ToolButton>
+        <span className="mx-0.5 h-7 w-px bg-mist" />
+        <ToolButton active={tool === "eraser"} onClick={() => setTool("eraser")} label="Unlearn">
           <Mascot type="un" className="h-9 w-auto" />
         </ToolButton>
-        <ToolButton active={tool === "pen"} onClick={() => setTool(tool === "pen" ? "none" : "pen")} label="Relearn">
+        <ToolButton active={tool === "pen"} onClick={() => setTool("pen")} label="Relearn">
           <Mascot type="re" className="h-9 w-auto" />
         </ToolButton>
 

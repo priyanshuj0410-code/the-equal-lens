@@ -23,6 +23,8 @@
 
 body {
   background-color: var(--color-paper);
+  background-image: radial-gradient(#ECE6F6 1.1px, transparent 1.1px);
+  background-size: 28px 28px;
   color: var(--color-ink);
   font-family: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
 }
