@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SWIPEED_URL } from "@/lib/links";
 
 export default function SiteFooter() {
   return (
@@ -16,11 +17,15 @@ export default function SiteFooter() {
         <div>
           <h3 className="font-display text-sm font-semibold">Explore</h3>
           <ul className="mt-3 space-y-2 text-sm text-violet-100">
-            <li><Link href="/about" className="hover:text-white">About</Link></li>
             <li><Link href="/programs" className="hover:text-white">Programs</Link></li>
-            <li><Link href="/games" className="hover:text-white">Games</Link></li>
-            <li><Link href="/blog" className="hover:text-white">Blog</Link></li>
+            <li><Link href="/blog" className="hover:text-white">Blogs</Link></li>
+            <li><Link href="/about" className="hover:text-white">About</Link></li>
             <li><Link href="/join" className="hover:text-white">Join us</Link></li>
+            <li>
+              <a href={SWIPEED_URL} target="_blank" rel="noreferrer" className="hover:text-white">
+                Play SwipeEd
+              </a>
+            </li>
           </ul>
         </div>
 

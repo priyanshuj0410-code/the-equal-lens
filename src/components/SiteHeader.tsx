@@ -4,17 +4,16 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Segmented, navLinkClass } from "@equal-lens/brand";
+import { SWIPEED_URL } from "@/lib/links";
 
 // Home isn't a tab — the logo + wordmark link home. Games is hidden for now.
 const links = [
   { href: "/programs", label: "Programs" },
-  { href: "/blog", label: "Blog" },
+  { href: "/blog", label: "Blogs" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
   { href: "/join", label: "Join us" },
 ];
-
-const SWIPEED_URL = "https://swipeed.vercel.app/path";
 
 const AUDIENCE_OPTIONS: { value: "kid" | "adult"; label: string }[] = [
   { value: "kid", label: "Kids" },
@@ -76,7 +75,13 @@ export default function SiteHeader({ audience }: { audience: "kid" | "adult" }) 
           <span className="ml-3">
             <AudienceToggle value={audience} onChange={setAudience} />
           </span>
-          <a href={SWIPEED_URL} className="btn btn--primary btn--sm ml-3">
+          <a
+            href={SWIPEED_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn--primary btn--sm ml-3"
+            style={{ boxShadow: "none" }}
+          >
             Play SwipeEd
           </a>
         </nav>
@@ -123,8 +128,11 @@ export default function SiteHeader({ audience }: { audience: "kid" | "adult" }) 
           ))}
           <a
             href={SWIPEED_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={() => setOpen(false)}
             className="btn btn--primary mt-3 w-full justify-center"
+            style={{ boxShadow: "none" }}
           >
             Play SwipeEd
           </a>
