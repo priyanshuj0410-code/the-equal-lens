@@ -66,22 +66,11 @@ const BIO: [string, string][] = [
   ["Current status", "Confused, but learning 🚀"],
 ];
 
-const FLEW_KEY = "lensy-flew";
+const OPEN_KEY = "lensy-opened";
 type View = "q" | "tell" | "meet" | "thanks";
 
 function isMobileVp() {
   return typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches;
-}
-
-// hard refresh (cmd+shift+r) re-downloads immutable assets; soft reloads serve them from cache
-function wasHardReload() {
-  try {
-    const list = performance.getEntriesByType("resource") as PerformanceResourceTiming[];
-    const asset = list.find((r) => r.name.includes("/_next/static/"));
-    return !!asset && asset.transferSize > 0;
-  } catch {
-    return false;
-  }
 }
 
 export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) {
@@ -98,7 +87,7 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
   const knockTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const flightRef = useRef<HTMLDivElement | null>(null);
-  const enteredRef = useRef(false);
+  const openOnceRef = useRef(false);
   const landedOnce = useRef(false);
 
   // grab the toolbar's mobile dock slot (rendered by SiteCanvas)
@@ -106,23 +95,26 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
     setDock(document.getElementById("lensy-dock"));
   }, []);
 
-  // decide the entrance before paint: fly in once per session (and on a hard refresh)
+  // the ship flies in on every full page load (so a hard refresh always replays it);
+  // Lensy then auto-opens once per session on desktop.
   useIsoLayoutEffect(() => {
     setQi(Math.floor(Math.random() * QUESTIONS.length));
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let flewBefore = false;
+    let openedBefore = false;
     try {
-      flewBefore = !!sessionStorage.getItem(FLEW_KEY);
+      openedBefore = !!sessionStorage.getItem(OPEN_KEY);
     } catch {}
-    const entrance = !flewBefore || wasHardReload();
-    enteredRef.current = entrance;
-    try {
-      sessionStorage.setItem(FLEW_KEY, "1");
-    } catch {}
-    if (entrance && !reduce) {
+    const willOpen = !openedBefore && !isMobileVp();
+    openOnceRef.current = willOpen;
+    if (willOpen) {
+      try {
+        sessionStorage.setItem(OPEN_KEY, "1");
+      } catch {}
+    }
+    if (!reduce) {
       setLanded(false);
       setFlying(true);
-    } else if (entrance && reduce && !isMobileVp()) {
+    } else if (willOpen) {
       openTimer.current = setTimeout(() => setOpen(true), 2500);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -160,10 +152,10 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
         { transform: `translate(-50%, calc(-50% - ${offset}px))` },
         { transform: "translate(-50%, -50%)" },
       ],
-      { duration: 1500, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "forwards" }
+      { duration: 2600, easing: "cubic-bezier(0.45, 0.05, 0.25, 1)", fill: "forwards" }
     );
     anim.onfinish = () => land();
-    const fallback = setTimeout(() => land(), 1700); // safety net if onfinish is missed
+    const fallback = setTimeout(() => land(), 2900); // safety net if onfinish is missed
     return () => {
       anim.cancel();
       clearTimeout(fallback);
@@ -191,7 +183,7 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
     setLanded(true);
     setFlying(false);
     setFlight(null);
-    if (enteredRef.current && !isMobileVp()) {
+    if (openOnceRef.current) {
       if (openTimer.current) clearTimeout(openTimer.current);
       openTimer.current = setTimeout(() => setOpen(true), 1000);
     }
