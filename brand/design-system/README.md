@@ -14,7 +14,8 @@ required for the plain-CSS version.
 | `utilities.css` | dotted-paper bg, `.sticker`, motion classes |
 | `tailwind.css` | **Tailwind v4 version** — registers the palette as `bg-brand`, `text-ink`, `font-hand`, … |
 | `tokens.json` / `tokens.ts` | the tokens as data (for JS/TS, theming, design tools) |
-| `preview.html` | open in a browser to see the palette + components + the light/dark toggle |
+| `assets/` | **the brand SVGs** — logo, mascots, Lensy poses, ship, doodles (see below) |
+| `preview.html` | open in a browser to see the palette + components + assets + the light/dark toggle |
 
 ## Quick start
 
@@ -83,10 +84,25 @@ Full violet ramp: `--color-violet-50…900`.
 - dotted-paper background is applied to `body`; `.canvas-dots` puts the same texture on any element.
 - motion: `.anim-float` `.anim-wobble` `.anim-bob` `.anim-pop` and `.hover-pop` (lift + tilt on hover). All respect `prefers-reduced-motion`.
 
-## Brand assets (in this repo, copy what you need)
-- Logo (the eQ mark): `brand/logo/` (primary, reversed, mono, square avatars)
-- Mascots / doodles / ship: `public/` (`un.svg`, `re.svg`, `Lensy - *.svg`, `Ship - *.svg`) and the doodle set in `src/components/Doodles.tsx`
-- Full brand guidelines: `brand/The-Equal-Lens-Brand-Guidelines-v2.pdf`
+## Brand assets — `assets/`
+All SVG, transparent background, recolorable. Bundled here so the package is
+self-contained (no need to reach back into the main site repo).
+
+| Folder | Files | What |
+|---|---|---|
+| `assets/logo/` | `logo-primary.svg` · `logo-reversed.svg` · `logo-mono.svg` · `avatar-violet.svg` · `avatar-light.svg` | the **eQ mark** — violet, white (for dark bg), black, and two square avatar lockups |
+| `assets/mascots/` | `un.svg` · `re.svg` | the **Unlearn / Relearn** character pair |
+| `assets/lensy/` | `lensy-wave.svg` · `lensy-stand.svg` · `lensy-think.svg` · `lensy-idea.svg` · `lensy-icon.svg` | **Lensy**, the magnifying-glass mascot, in five poses (`-icon` is the compact face) |
+| `assets/ship/` | `ship-closed.svg` · `ship-flying.svg` · `ship-front.svg` · `ship-diagonal.svg` | the **ship** illustration, four angles |
+| `assets/doodles/` | `squiggle` · `sparkle` · `spiral` · `arrow` · `heart` · `star` · `zigzag` · `swirl` `.svg` | the hand-drawn **doodle set** (filled in brand violet `#553286` — change `fill`/`stroke` to recolor) |
+
+Drop them in with a plain `<img>` (`<img src="assets/lensy/lensy-wave.svg" alt="" />`),
+inline the markup, or import as a component. The doodles are also available as a
+React component (`<Doodle name="star" />`) in the main site at
+`src/components/Doodles.tsx` if you'd rather pass `color` as a prop.
+
+Full brand guidelines (the PDF) live in the main repo at
+`brand/The-Equal-Lens-Brand-Guidelines-v2.pdf`.
 
 ## Voice (one line)
 Curious, warm, brave — playful not preachy. Sentence case, hyphens not em dashes.
