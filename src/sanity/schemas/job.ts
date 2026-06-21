@@ -20,6 +20,7 @@ export const job = defineType({
         list: [
           { title: "Full-time", value: "full-time" },
           { title: "Part-time", value: "part-time" },
+          { title: "Internship", value: "internship" },
           { title: "Contract", value: "contract" },
           { title: "Volunteer", value: "volunteer" },
         ],
