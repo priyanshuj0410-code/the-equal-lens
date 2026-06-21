@@ -1,9 +1,19 @@
 import fs from "node:fs";
 import path from "node:path";
+import { toHTML } from "@portabletext/to-html";
 import matter from "gray-matter";
 import { marked } from "marked";
+import { client } from "@/sanity/client";
+import { sanityEnabled } from "@/sanity/env";
+import { urlFor } from "@/sanity/image";
+import { ptComponents } from "@/sanity/portableText";
+import { jobsQuery, postQuery, postsMetaQuery, teamQuery } from "@/sanity/queries";
 
 const KB = path.join(process.cwd(), "knowledge");
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type SanityImageRef = any;
+const fetchOpts = (tag: string) => ({ next: { tags: [tag], revalidate: 60 } });
 
 export type Myth = {
   id: string;
@@ -88,7 +98,17 @@ export function getMyths(): Myth[] {
   return readJsonDir<Myth>("myths");
 }
 
-export function getTeam(): TeamMember[] {
+export async function getTeam(): Promise<TeamMember[]> {
+  if (sanityEnabled) {
+    type Row = Omit<TeamMember, "photo"> & { photo?: SanityImageRef };
+    const rows = await client.fetch<Row[]>(teamQuery, {}, fetchOpts("team"));
+    return rows.map((m): TeamMember => ({
+      ...m,
+      photo: m.photo
+        ? urlFor(m.photo).width(240).height(240).fit("crop").auto("format").url()
+        : undefined,
+    }));
+  }
   return readJsonDir<TeamMember>("team").sort(byOrder);
 }
 
@@ -98,11 +118,24 @@ export function getPrograms(audience: "kid" | "adult" = "kid"): Program[] {
     .sort(byOrder);
 }
 
-export function getJobs(): Job[] {
+export async function getJobs(): Promise<Job[]> {
+  if (sanityEnabled) {
+    return client.fetch<Job[]>(jobsQuery, {}, fetchOpts("jobs"));
+  }
   return readJsonDir<Job>("jobs").filter((j) => j.status === "open");
 }
 
-export function getPostsMeta(audience: "kid" | "adult" = "kid"): PostMeta[] {
+export async function getPostsMeta(
+  audience: "kid" | "adult" = "kid",
+): Promise<PostMeta[]> {
+  if (sanityEnabled) {
+    type Row = Omit<PostMeta, "cover"> & { cover?: SanityImageRef };
+    const rows = await client.fetch<Row[]>(postsMetaQuery, { audience }, fetchOpts("posts"));
+    return rows.map((p): PostMeta => ({
+      ...p,
+      cover: p.cover ? urlFor(p.cover).width(800).auto("format").url() : undefined,
+    }));
+  }
   const dir = path.join(KB, "blog");
   if (!fs.existsSync(dir)) return [];
   return fs
@@ -115,7 +148,20 @@ export function getPostsMeta(audience: "kid" | "adult" = "kid"): PostMeta[] {
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
-export function getPost(slug: string): Post | null {
+export async function getPost(slug: string): Promise<Post | null> {
+  if (sanityEnabled) {
+    type Row = Omit<PostMeta, "cover"> & { cover?: SanityImageRef; body?: unknown[] };
+    const p = await client.fetch<Row | null>(postQuery, { slug }, fetchOpts("posts"));
+    if (!p) return null;
+    const { body, cover, ...meta } = p;
+    return {
+      ...meta,
+      cover: cover ? urlFor(cover).width(1000).auto("format").url() : undefined,
+      html: Array.isArray(body)
+        ? toHTML(body as Parameters<typeof toHTML>[0], { components: ptComponents })
+        : "",
+    };
+  }
   const dir = path.join(KB, "blog");
   if (!fs.existsSync(dir)) return null;
   for (const f of fs.readdirSync(dir).filter((x) => x.endsWith(".md"))) {

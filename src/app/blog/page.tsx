@@ -22,7 +22,7 @@ function formatDate(d: string) {
 
 export default async function BlogPage() {
   const audience = await getAudience();
-  const posts = getPostsMeta(audience);
+  const posts = await getPostsMeta(audience);
 
   return (
     <div>

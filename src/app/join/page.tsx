@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default async function JoinPage() {
   const audience = await getAudience();
-  const jobs = getJobs();
+  const jobs = await getJobs();
 
   return (
     <div>

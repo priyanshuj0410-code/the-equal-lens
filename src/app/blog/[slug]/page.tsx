@@ -3,10 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPost, getPostsMeta } from "@/lib/knowledge";
 
-export function generateStaticParams() {
-  return [...getPostsMeta("kid"), ...getPostsMeta("adult")].map((p) => ({
-    slug: p.slug,
-  }));
+export async function generateStaticParams() {
+  const [kid, adult] = await Promise.all([
+    getPostsMeta("kid"),
+    getPostsMeta("adult"),
+  ]);
+  return [...kid, ...adult].map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
@@ -15,7 +17,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (!post) return { title: "Post not found - The Equal Lens" };
   return { title: `${post.title} - The Equal Lens`, description: post.excerpt };
 }
@@ -34,7 +36,7 @@ export default async function PostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (!post) notFound();
 
   return (

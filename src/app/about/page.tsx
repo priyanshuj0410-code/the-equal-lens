@@ -52,7 +52,7 @@ const values = [
 export default async function AboutPage() {
   const audience = await getAudience();
   const t = ABOUT[audience];
-  const team = getTeam();
+  const team = await getTeam();
 
   return (
     <div>
