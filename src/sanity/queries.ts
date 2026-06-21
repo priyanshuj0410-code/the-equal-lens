@@ -2,7 +2,7 @@ import { groq } from "next-sanity";
 
 export const teamQuery = groq`*[_type == "teamMember"] | order(order asc, name asc){
   "id": coalesce(slug.current, _id),
-  name, role, pronouns, bio, photo, links, order
+  name, role, pronouns, bio, photo, babyPhoto, links, order
 }`;
 
 export const jobsQuery = groq`*[_type == "job" && status == "open"] | order(postedDate desc){

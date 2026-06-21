@@ -36,6 +36,7 @@ export type TeamMember = {
   pronouns?: string;
   bio: string;
   photo?: string;
+  babyPhoto?: string;
   links?: Record<string, string>;
   order?: number;
   placeholder?: boolean;
@@ -100,13 +101,17 @@ export function getMyths(): Myth[] {
 
 export async function getTeam(): Promise<TeamMember[]> {
   if (sanityEnabled) {
-    type Row = Omit<TeamMember, "photo"> & { photo?: SanityImageRef };
+    type Row = Omit<TeamMember, "photo" | "babyPhoto"> & {
+      photo?: SanityImageRef;
+      babyPhoto?: SanityImageRef;
+    };
     const rows = await client.fetch<Row[]>(teamQuery, {}, fetchOpts("team"));
+    const img = (ref?: SanityImageRef) =>
+      ref ? urlFor(ref).width(240).height(240).fit("crop").auto("format").url() : undefined;
     return rows.map((m): TeamMember => ({
       ...m,
-      photo: m.photo
-        ? urlFor(m.photo).width(240).height(240).fit("crop").auto("format").url()
-        : undefined,
+      photo: img(m.photo),
+      babyPhoto: img(m.babyPhoto),
     }));
   }
   return readJsonDir<TeamMember>("team").sort(byOrder);

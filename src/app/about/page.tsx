@@ -119,20 +119,27 @@ export default async function AboutPage() {
           <h2 className="mt-2 font-hand text-4xl font-extrabold">The people behind the lens</h2>
         </div>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {team.map((m) => (
-            <div key={m.id} className="sticker hover-pop rounded-3xl bg-surface p-6 text-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={m.photo || "/team/placeholder.svg"}
-                alt={m.name}
-                className="mx-auto h-24 w-24 rounded-full border-2 border-ink object-cover"
-              />
-              <h3 className="mt-4 font-hand text-lg font-bold">{m.name}</h3>
-              <p className="text-sm text-brand">{m.role}</p>
-              {m.pronouns && <p className="text-xs text-ink/50">{m.pronouns}</p>}
-              <p className="mt-3 text-sm text-ink/70">{m.bio}</p>
-            </div>
-          ))}
+          {team.map((m) => {
+            const now = m.photo || "/team/placeholder.svg";
+            const baby = m.babyPhoto || now; // graceful fallback when no baby pic yet
+            return (
+              <div
+                key={m.id}
+                className="team-card sticker hover-pop rounded-3xl bg-surface p-6 text-center"
+              >
+                <div className="team-photo mx-auto h-24 w-24 overflow-hidden rounded-full border-2 border-ink">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className="now" src={now} alt={m.name} />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className="baby" src={baby} alt="" aria-hidden="true" />
+                </div>
+                <h3 className="mt-4 font-hand text-lg font-bold">{m.name}</h3>
+                <p className="text-sm text-brand">{m.role}</p>
+                {m.pronouns && <p className="text-xs text-ink/50">{m.pronouns}</p>}
+                <p className="mt-3 text-sm text-ink/70">{m.bio}</p>
+              </div>
+            );
+          })}
         </div>
       </section>
     </div>

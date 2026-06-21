@@ -11,7 +11,15 @@ export const teamMember = defineType({
     defineField({ name: "bio", title: "Bio", type: "text", rows: 4 }),
     defineField({
       name: "photo",
-      title: "Photo",
+      title: "Photo (now)",
+      description: "Current photo — the default in Adult mode, shown on hover in Kids mode.",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "babyPhoto",
+      title: "Baby photo",
+      description: "Childhood photo — the default in Kids mode, shown on hover in Adult mode.",
       type: "image",
       options: { hotspot: true },
     }),

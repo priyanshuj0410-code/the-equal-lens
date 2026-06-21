@@ -115,3 +115,25 @@ body {
     transition: none !important;
   }
 }
+
+/* Team photo: baby <-> now crossfade. The two photos stack inside .team-photo;
+   the default depends on audience and hovering the card flips it.
+   Kids: baby by default, now on hover.  Adult: now by default, baby on hover. */
+.team-photo { position: relative; }
+.team-photo img {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: opacity 0.4s ease;
+}
+.team-photo .now { opacity: 0; }
+.team-photo .baby { opacity: 1; }
+.team-card:hover .team-photo .now { opacity: 1; }
+.team-card:hover .team-photo .baby { opacity: 0; }
+
+[data-audience="adult"] .team-photo .now { opacity: 1; }
+[data-audience="adult"] .team-photo .baby { opacity: 0; }
+[data-audience="adult"] .team-card:hover .team-photo .now { opacity: 0; }
+[data-audience="adult"] .team-card:hover .team-photo .baby { opacity: 1; }
