@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 
 // public/ filenames have spaces + capitals - encode for the URL
-const SHIP_OPEN = "/Ship%20-%20Diagonal.svg";
 const SHIP_CLOSED = "/Ship%20-%20Closed.svg";
 const LENSY_WAVE = "/Lensy%20-%20Wave.svg";
 const LENSY_IDEA = "/Lensy%20-%20Idea.svg";
@@ -40,14 +39,13 @@ type View = "q" | "tell" | "meet" | "thanks";
 
 export default function LensyPopup() {
   const [open, setOpen] = useState(false);
-  const [landing, setLanding] = useState(false); // ship-landing animation on the card
   const [knocking, setKnocking] = useState(false); // "knock knock" scribble
   const [view, setView] = useState<View>("q");
   const [qi, setQi] = useState(0);
   const [thought, setThought] = useState("");
   const knockTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // first-visit auto-landing (once per session); the ship launcher stays forever
+  // first-visit auto-open (once per session); the ship bubble stays forever
   useEffect(() => {
     if (typeof window === "undefined") return;
     setQi(Math.floor(Math.random() * QUESTIONS.length));
@@ -56,10 +54,7 @@ export default function LensyPopup() {
       seen = !!sessionStorage.getItem(SEEN_KEY);
     } catch {}
     if (seen) return;
-    const t = setTimeout(() => {
-      setLanding(true);
-      setOpen(true);
-    }, 4000);
+    const t = setTimeout(() => setOpen(true), 4000);
     return () => clearTimeout(t);
   }, []);
 
@@ -94,7 +89,6 @@ export default function LensyPopup() {
     setView("q");
     knockTimer.current = setTimeout(() => {
       setKnocking(false);
-      setLanding(false);
       setOpen(true);
       markSeen();
     }, 850);
@@ -112,9 +106,11 @@ export default function LensyPopup() {
   const btnGhost =
     "rounded-full px-3 py-2 font-hand text-sm font-bold text-brandsoft transition-colors hover:text-brand";
 
-  // ---- CLOSED: persistent ship launcher in its own bubble (+ knock scribble) ----
-  if (!open) {
-    return (
+  const q = QUESTIONS[qi];
+
+  return (
+    <>
+      {/* persistent ship bubble - parked in the corner, never moves to the popover */}
       <div className="fixed bottom-4 right-3 z-50 sm:right-5">
         {knocking && (
           <div
@@ -131,144 +127,134 @@ export default function LensyPopup() {
         )}
         {/* bubble matches the canvas toolbar's height + look */}
         <button
-          onClick={knock}
-          aria-label="Call Lensy"
-          title="Call Lensy"
+          onClick={open ? close : knock}
+          aria-label={open ? "Close Lensy" : "Call Lensy"}
+          title={open ? "Close Lensy" : "Call Lensy"}
           className="flex h-14 w-14 items-center justify-center overflow-visible rounded-full border-2 border-ink bg-surface/95 shadow-[4px_4px_0_var(--color-ink)] backdrop-blur transition-transform hover:-translate-y-0.5"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={SHIP_CLOSED} alt="Lensy's spaceship - tap to call Lensy" className={`h-11 w-auto ${knocking ? "anim-wobble" : "anim-bob"}`} />
         </button>
       </div>
-    );
-  }
 
-  // ---- OPEN: corner popover on desktop, fullscreen takeover on mobile ----
-  const q = QUESTIONS[qi];
-  return (
-    <div
-      role="dialog"
-      aria-label="Lensy says hi"
-      className="fixed inset-0 z-50 flex flex-col justify-center overflow-y-auto bg-surface px-5 py-6 sm:inset-auto sm:bottom-24 sm:right-5 sm:z-40 sm:block sm:w-[340px] sm:max-w-[calc(100vw-1.5rem)] sm:overflow-visible sm:rounded-3xl sm:border-[2.5px] sm:border-ink sm:p-4 sm:shadow-[5px_6px_0_var(--color-ink)] sm:anim-pop"
-      style={{ animationDelay: landing ? "0.65s" : "0s" }}
-    >
-      {/* spaceship perched on top (desktop popover only) */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={SHIP_OPEN}
-        alt=""
-        aria-hidden
-        className={`pointer-events-none absolute -top-9 right-3 hidden h-16 w-auto drop-shadow-md sm:block ${landing ? "lensy-land" : "anim-pop"}`}
-      />
-        <button
-          onClick={close}
-          aria-label="Close Lensy"
-          className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full border-2 border-ink bg-surface text-ink transition-colors hover:bg-mist"
+      {/* the chat popover (corner on desktop, fullscreen on mobile) - no ship here */}
+      {open && (
+        <div
+          role="dialog"
+          aria-label="Lensy says hi"
+          className="fixed inset-0 z-50 flex flex-col justify-center overflow-y-auto bg-surface px-5 py-6 sm:inset-auto sm:bottom-24 sm:right-5 sm:z-40 sm:block sm:w-[340px] sm:max-w-[calc(100vw-1.5rem)] sm:overflow-visible sm:rounded-3xl sm:border-[2.5px] sm:border-ink sm:p-4 sm:shadow-[5px_6px_0_var(--color-ink)] sm:anim-pop"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-            <line x1="6" y1="6" x2="18" y2="18" />
-            <line x1="6" y1="18" x2="18" y2="6" />
-          </svg>
-        </button>
+          <button
+            onClick={close}
+            aria-label="Close Lensy"
+            className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full border-2 border-ink bg-surface text-ink transition-colors hover:bg-mist"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <line x1="6" y1="6" x2="18" y2="18" />
+              <line x1="6" y1="18" x2="18" y2="6" />
+            </svg>
+          </button>
 
-        {/* greeting */}
-        <div className="flex items-end gap-2 pr-7">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={view === "thanks" ? LENSY_IDEA : LENSY_WAVE} alt="Lensy" className="anim-bob h-16 w-auto shrink-0" />
-          <div className="mb-1 rounded-2xl rounded-bl-sm bg-mist px-3 py-2 text-xs leading-snug text-ink">
-            <span className="font-hand text-sm font-bold text-brand">Lensy</span>
-            <br />
-            Hi! I just landed on Planet Earth 👋 My spaceship is still figuring a few things out…
-          </div>
-        </div>
-
-        {/* QUESTION */}
-        {view === "q" && (
-          <>
-            <div className="mt-3 rounded-2xl border-2 border-mist bg-paper p-3 text-sm text-ink/80">
-              <p className="font-semibold text-ink">{q.place}</p>
-              <p className="mt-1">{q.body}</p>
-              <p className="mt-2 font-hand font-bold text-brand">My spaceship is confused. Can you help me understand?</p>
+          {/* greeting */}
+          <div className="flex items-end gap-2 pr-7">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={view === "thanks" ? LENSY_IDEA : LENSY_WAVE} alt="Lensy" className="anim-bob h-16 w-auto shrink-0" />
+            <div className="mb-1 rounded-2xl rounded-bl-sm bg-mist px-3 py-2 text-xs leading-snug text-ink">
+              <span className="font-hand text-sm font-bold text-brand">Lensy</span>
+              <br />
+              Hi! I just landed on Planet Earth 👋 My spaceship is still figuring a few things out…
             </div>
-            <div className="mt-3 flex flex-col gap-2">
-              <button onClick={() => setView("tell")} className={btnPrimary}>
-                Tell Lensy what you think
-              </button>
-              <div className="flex gap-2">
-                <button onClick={nextQuestion} className={`${btnOutline} flex-1`}>
-                  Another question
+          </div>
+
+          {/* QUESTION */}
+          {view === "q" && (
+            <>
+              <div className="mt-3 rounded-2xl border-2 border-mist bg-paper p-3 text-sm text-ink/80">
+                <p className="font-semibold text-ink">{q.place}</p>
+                <p className="mt-1">{q.body}</p>
+                <p className="mt-2 font-hand font-bold text-brand">My spaceship is confused. Can you help me understand?</p>
+              </div>
+              <div className="mt-3 flex flex-col gap-2">
+                <button onClick={() => setView("tell")} className={btnPrimary}>
+                  Tell Lensy what you think
                 </button>
-                <button onClick={() => setView("meet")} className={`${btnGhost} shrink-0`}>
-                  Meet Lensy
+                <div className="flex gap-2">
+                  <button onClick={nextQuestion} className={`${btnOutline} flex-1`}>
+                    Another question
+                  </button>
+                  <button onClick={() => setView("meet")} className={`${btnGhost} shrink-0`}>
+                    Meet Lensy
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* TELL LENSY */}
+          {view === "tell" && (
+            <div className="mt-3">
+              <p className="text-sm text-ink/80">What do you think? Lensy is listening 👀</p>
+              <textarea
+                value={thought}
+                onChange={(e) => setThought(e.target.value)}
+                rows={3}
+                placeholder="Type your thought for Lensy…"
+                className="mt-2 w-full resize-none rounded-2xl border-2 border-mist bg-paper p-3 text-sm text-ink outline-none focus:border-violet-300"
+              />
+              <div className="mt-2 flex items-center gap-2">
+                <button onClick={() => setView("q")} className={btnGhost} aria-label="Back">
+                  ← Back
+                </button>
+                <button
+                  onClick={() => setView("thanks")}
+                  disabled={!thought.trim()}
+                  className={`${btnPrimary} ml-auto disabled:cursor-not-allowed disabled:opacity-40`}
+                >
+                  Send to Lensy
                 </button>
               </div>
             </div>
-          </>
-        )}
+          )}
 
-        {/* TELL LENSY */}
-        {view === "tell" && (
-          <div className="mt-3">
-            <p className="text-sm text-ink/80">What do you think? Lensy is listening 👀</p>
-            <textarea
-              value={thought}
-              onChange={(e) => setThought(e.target.value)}
-              rows={3}
-              placeholder="Type your thought for Lensy…"
-              className="mt-2 w-full resize-none rounded-2xl border-2 border-mist bg-paper p-3 text-sm text-ink outline-none focus:border-violet-300"
-            />
-            <div className="mt-2 flex items-center gap-2">
-              <button onClick={() => setView("q")} className={btnGhost} aria-label="Back">
-                ← Back
-              </button>
-              <button
-                onClick={() => setView("thanks")}
-                disabled={!thought.trim()}
-                className={`${btnPrimary} ml-auto disabled:cursor-not-allowed disabled:opacity-40`}
-              >
-                Send to Lensy
-              </button>
+          {/* THANKS */}
+          {view === "thanks" && (
+            <div className="mt-3">
+              <div className="rounded-2xl border-2 border-mist bg-paper p-3 text-sm text-ink/80">
+                <p className="font-hand font-bold text-brand">Thank you! 📝</p>
+                <p className="mt-1">I wrote that in my notebook. That helps my spaceship understand Earth a little better.</p>
+              </div>
+              <div className="mt-3 flex gap-2">
+                <button onClick={nextQuestion} className={`${btnOutline} flex-1`}>
+                  Another question
+                </button>
+                <button onClick={close} className={btnGhost}>
+                  Bye, Lensy
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* THANKS */}
-        {view === "thanks" && (
-          <div className="mt-3">
-            <div className="rounded-2xl border-2 border-mist bg-paper p-3 text-sm text-ink/80">
-              <p className="font-hand font-bold text-brand">Thank you! 📝</p>
-              <p className="mt-1">I wrote that in my notebook. That helps my spaceship understand Earth a little better.</p>
-            </div>
-            <div className="mt-3 flex gap-2">
-              <button onClick={nextQuestion} className={`${btnOutline} flex-1`}>
-                Another question
+          {/* MEET LENSY */}
+          {view === "meet" && (
+            <div className="mt-3">
+              <div className="rounded-2xl border-2 border-mist bg-paper p-3">
+                <p className="font-hand text-base font-extrabold text-brand">Meet Lensy</p>
+                <dl className="mt-2 space-y-1.5">
+                  {BIO.map(([k, v]) => (
+                    <div key={k} className="flex gap-2 text-xs">
+                      <dt className="w-24 shrink-0 font-bold uppercase tracking-wide text-brandsoft">{k}</dt>
+                      <dd className="text-ink/80">{v}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+              <button onClick={() => setView("q")} className={`${btnGhost} mt-2`} aria-label="Back to questions">
+                ← Back to questions
               </button>
-              <button onClick={close} className={btnGhost}>
-                Bye, Lensy
-              </button>
             </div>
-          </div>
-        )}
-
-        {/* MEET LENSY */}
-        {view === "meet" && (
-          <div className="mt-3">
-            <div className="rounded-2xl border-2 border-mist bg-paper p-3">
-              <p className="font-hand text-base font-extrabold text-brand">Meet Lensy</p>
-              <dl className="mt-2 space-y-1.5">
-                {BIO.map(([k, v]) => (
-                  <div key={k} className="flex gap-2 text-xs">
-                    <dt className="w-24 shrink-0 font-bold uppercase tracking-wide text-brandsoft">{k}</dt>
-                    <dd className="text-ink/80">{v}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-            <button onClick={() => setView("q")} className={`${btnGhost} mt-2`} aria-label="Back to questions">
-              ← Back to questions
-            </button>
-          </div>
-        )}
-    </div>
+          )}
+        </div>
+      )}
+    </>
   );
 }
