@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Equal Lens — components (atoms & molecules)</title>
+  <link rel="stylesheet" href="equal-lens.css" />
+  <style>
+    .wrap { max-width: 920px; margin: 0 auto; padding: 40px 20px 140px; }
+    h1 { font-family: var(--font-hand); font-size: 30px; color: var(--color-ink); margin: 0; }
+    h2 { font-family: var(--font-hand); font-size: 20px; color: var(--color-brand); margin: 0; }
+    section { margin-top: 40px; }
+    .head { display: flex; align-items: baseline; gap: 12px; }
+    .row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: 14px; }
+    p.lead { font-family: var(--font-hand); color: var(--color-brand); font-size: 18px; }
+    .panel { margin-top: 12px; padding: 22px; }
+    .icon { width: 18px; height: 18px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="row" style="justify-content: space-between;">
+      <h1>Atoms &amp; molecules</h1>
+      <button class="btn btn--outline" onclick="document.documentElement.dataset.audience = document.documentElement.dataset.audience === 'adult' ? '' : 'adult'">
+        Toggle light / dark
+      </button>
+    </div>
+    <p class="lead">Unlearn. Relearn. Grow.</p>
+
+    <section>
+      <div class="head"><h2>Buttons</h2><span class="eyebrow">.btn</span></div>
+      <div class="row">
+        <button class="btn btn--primary">Get started</button>
+        <button class="btn btn--sun">Add a myth</button>
+        <button class="btn btn--outline">Learn more</button>
+        <button class="btn btn--ghost">Skip</button>
+        <button class="btn btn--primary btn--sm">Small</button>
+        <button class="btn btn--sun" disabled>Disabled</button>
+      </div>
+    </section>
+
+    <section>
+      <div class="head"><h2>Tags &amp; eyebrows</h2><span class="eyebrow">.tag · .eyebrow</span></div>
+      <div class="row">
+        <span class="tag">New lesson ✦</span>
+        <span class="tag">For ages 8–12</span>
+        <span class="eyebrow">section label</span>
+      </div>
+    </section>
+
+    <section>
+      <div class="head"><h2>Segmented toggle &amp; nav pills</h2><span class="eyebrow">.segmented · .nav-link</span></div>
+      <div class="row">
+        <div class="segmented">
+          <button class="segmented__option is-active">Kids</button>
+          <button class="segmented__option">Adult</button>
+        </div>
+        <nav class="row" style="margin-top: 0; gap: 4px;">
+          <a class="nav-link is-active" href="#">Home</a>
+          <a class="nav-link" href="#">About</a>
+          <a class="nav-link" href="#">Programs</a>
+          <a class="nav-link" href="#">Blog</a>
+        </nav>
+      </div>
+    </section>
+
+    <section>
+      <div class="head"><h2>Cards</h2><span class="eyebrow">.card</span></div>
+      <div class="row" style="align-items: stretch;">
+        <div class="card hover-pop" style="flex: 1; min-width: 240px; transform: rotate(-1.2deg);">
+          <span class="eyebrow">Why this matters</span>
+          <div style="font-family: var(--font-hand); font-weight: 800; font-size: 48px; color: var(--color-grow); line-height: 1;">73%</div>
+          <p style="color: color-mix(in srgb, var(--color-ink) 70%, transparent); margin: 8px 0 0;">of kids pick up gender stereotypes before age 10.</p>
+        </div>
+        <div class="card card--soft" style="flex: 1; min-width: 240px; transform: rotate(1deg);">
+          <span class="eyebrow">Soft variant</span>
+          <h2 style="margin-top: 6px;">.card--soft</h2>
+          <p style="color: color-mix(in srgb, var(--color-ink) 70%, transparent);">Violet outline + violet offset shadow.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="head"><h2>Sticky notes</h2><span class="eyebrow">.note</span></div>
+      <div class="row" style="align-items: flex-start;">
+        <div class="note note--yellow">
+          <span class="note__chip">myth</span>
+          <p style="font-size: 18px; font-weight: 700; margin: 8px 0 0;">Boys don't cry.</p>
+          <p style="font-size: 12px; opacity: .6; margin-top: auto; padding-top: 8px;">rub me out with UN →</p>
+        </div>
+        <div class="note note--mint" style="transform: rotate(1.5deg);">
+          <span class="note__chip note__chip--truth">truth ✓</span>
+          <p style="font-size: 18px; font-weight: 700; margin: 8px 0 0;">Everyone has feelings.</p>
+        </div>
+        <div class="note note--peach" style="transform: rotate(-1deg);">
+          <span class="note__chip">myth</span>
+          <p style="font-size: 18px; font-weight: 700; margin: 8px 0 0;">Pink is for girls.</p>
+        </div>
+        <div class="note note--violet" style="transform: rotate(2deg);">
+          <span class="note__chip">myth</span>
+          <p style="font-size: 18px; font-weight: 700; margin: 8px 0 0;">Some jobs aren't for everyone.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="head"><h2>Tabs</h2><span class="eyebrow">.tabs · .tab</span></div>
+      <div class="tabs" style="justify-content: flex-start; margin-top: 14px;">
+        <button class="tab is-active">Playground</button>
+        <button class="tab">Media</button>
+        <button class="tab">Family</button>
+        <button class="tab">Language</button>
+        <button class="tab">Classroom</button>
+      </div>
+      <div class="card panel">
+        <span class="eyebrow">Playground</span>
+        <p style="color: color-mix(in srgb, var(--color-ink) 75%, transparent); margin: 6px 0 0;">Games, teams, and teasing quietly teach who belongs where.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="head"><h2>Lensy's popover</h2><span class="eyebrow">.popover · .bubble</span></div>
+      <div class="popover" style="max-width: 340px; margin-top: 14px;">
+        <div style="display: flex; align-items: flex-end; gap: 8px;">
+          <img src="assets/lensy/lensy-wave.svg" alt="Lensy" class="anim-bob" style="height: 56px; width: auto;" />
+          <div class="bubble">
+            <span style="font-family: var(--font-hand); font-weight: 700; color: var(--color-brand);">Lensy</span><br />
+            Hi! I just landed on Planet Earth 👋
+          </div>
+        </div>
+        <div class="row" style="margin-top: 12px;">
+          <button class="btn btn--sun btn--sm">Tell Lensy what you think</button>
+          <button class="btn btn--outline btn--sm">Another question</button>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="head"><h2>Bottom toolbar + ship dock</h2><span class="eyebrow">.toolbar · .ship-bubble</span></div>
+      <p style="color: color-mix(in srgb, var(--color-ink) 60%, transparent); font-size: 13px;">The real toolbar is pinned bottom-center (<code>.toolbar--dock</code>); shown inline here.</p>
+      <div class="row" style="align-items: center;">
+        <div class="toolbar">
+          <button class="toolbar__btn is-active" title="Browse">
+            <svg viewBox="0 0 24 24" class="icon" fill="currentColor"><path d="M5 2 L5 20 L10 15 L13.5 22 L16 21 L12.5 14 L19 14 Z"/></svg>
+            <span>Browse</span>
+          </button>
+          <button class="toolbar__btn" title="Unlearn">
+            <img src="assets/mascots/un.svg" alt="" style="height: 26px; width: auto;" /><span>Unlearn</span>
+          </button>
+          <button class="toolbar__btn" title="Relearn">
+            <img src="assets/mascots/re.svg" alt="" style="height: 26px; width: auto;" /><span>Relearn</span>
+          </button>
+          <span class="toolbar__sep"></span>
+          <button class="toolbar__btn" title="Add a myth" style="border-color: var(--color-ink); background: var(--color-sun); color: #221436;">
+            <svg viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            <span>myth</span>
+          </button>
+        </div>
+        <button class="ship-bubble" title="Call Lensy">
+          <img src="assets/ship/ship-closed.svg" alt="Lensy's spaceship" />
+        </button>
+      </div>
+    </section>
+
+    <section>
+      <div class="head"><h2>Doodles</h2><span class="eyebrow">assets/doodles</span></div>
+      <div class="row">
+        <img src="assets/doodles/squiggle.svg" alt="" style="height: 28px;" />
+        <img src="assets/doodles/sparkle.svg" alt="" style="height: 32px;" />
+        <img src="assets/doodles/spiral.svg" alt="" style="height: 32px;" />
+        <img src="assets/doodles/arrow.svg" alt="" style="height: 30px;" />
+        <img src="assets/doodles/star.svg" alt="" style="height: 30px;" />
+        <img src="assets/doodles/heart.svg" alt="" style="height: 28px;" />
+        <img src="assets/doodles/zigzag.svg" alt="" style="height: 24px;" />
+        <img src="assets/doodles/swirl.svg" alt="" style="height: 30px;" />
+      </div>
+    </section>
+  </div>
+</body>
+</html>

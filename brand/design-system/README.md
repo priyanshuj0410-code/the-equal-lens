@@ -8,14 +8,16 @@ required for the plain-CSS version.
 ## What's in here
 | File | Use |
 |---|---|
-| `equal-lens.css` | **One-file plain-CSS bundle** — imports the three below. Start here. |
+| `equal-lens.css` | **One-file plain-CSS bundle** — imports the four below. Start here. |
 | `fonts.css` | Google Fonts import (Poppins, Nunito Sans, Baloo 2 — all free) |
 | `tokens.css` | the colour + font CSS variables (+ the dark-theme flip) |
 | `utilities.css` | dotted-paper bg, `.sticker`, motion classes |
+| `components.css` | **the atoms & molecules** — buttons, tags, cards, sticky notes, segmented toggle, nav pills, tabs, bottom toolbar, ship dock (see below) |
 | `tailwind.css` | **Tailwind v4 version** — registers the palette as `bg-brand`, `text-ink`, `font-hand`, … |
 | `tokens.json` / `tokens.ts` | the tokens as data (for JS/TS, theming, design tools) |
 | `assets/` | **the brand SVGs** — logo, mascots, Lensy poses, ship, doodles (see below) |
-| `preview.html` | open in a browser to see the palette + components + assets + the light/dark toggle |
+| `preview.html` | palette + type + the sticker look + assets + the light/dark toggle |
+| `components.html` | **every atom & molecule rendered live** — open this to see the UI kit |
 
 ## Quick start
 
@@ -83,6 +85,40 @@ Full violet ramp: `--color-violet-50…900`.
 - `.sticker` — chunky 2.5px outline + hard 4px offset shadow (the cut-out card look). `.sticker-soft` is the violet variant.
 - dotted-paper background is applied to `body`; `.canvas-dots` puts the same texture on any element.
 - motion: `.anim-float` `.anim-wobble` `.anim-bob` `.anim-pop` and `.hover-pop` (lift + tilt on hover). All respect `prefers-reduced-motion`.
+
+## Atoms & molecules — `components.css`
+The website's UI kit as plain-CSS classes (in the `equal-lens.css` bundle).
+**Open `components.html` to see them all rendered.** Active/selected states are
+driven by ARIA (`aria-pressed`, `aria-selected`, `aria-current`) or an
+`.is-active` class, so they work with any framework. Recolour via the tokens.
+
+**Atoms**
+- `.btn` + `.btn--primary` (violet) · `.btn--sun` · `.btn--outline` · `.btn--ghost`; add `.btn--sm` for compact. Pill shape, hand font, lift-on-hover, `:disabled` dims.
+- `.tag` — the shadowed pill label that sits above headings. `.eyebrow` — the uppercase mini-label (no box).
+- `.card` — the signature sticker card; `.card--soft` is the violet-shadow variant.
+- `.note` — a sticky note; pair with a tone: `.note--yellow` `.note--mint` `.note--peach` `.note--violet` (each flips in dark). `.note__chip` / `.note__chip--truth` is the status chip.
+
+**Molecules**
+- `.segmented` + `.segmented__option` — the Kids / Adult (light/dark) toggle. Mark the on option `aria-pressed="true"` or `.is-active`.
+- `.nav-link` — header nav pills; current page = `aria-current="page"` or `.is-active`.
+- `.tabs` + `.tab` (+ `.tab__icon`) — the pill-tab row that switches a panel. Selected = `aria-selected="true"` or `.is-active`.
+- `.toolbar` (+ `.toolbar--dock` to pin it bottom-centre) with `.toolbar__btn` and `.toolbar__sep` — the floating bottom tool pill.
+- `.ship-bubble` — Lensy's round ship dock (drop a `ship-*.svg` inside).
+- `.popover` + `.bubble` — Lensy's chat card and its speech bubble.
+
+```html
+<button class="btn btn--primary">Get started</button>
+<div class="card hover-pop"> … </div>
+<div class="toolbar toolbar--dock">
+  <button class="toolbar__btn is-active">Browse</button>
+  <button class="toolbar__btn"><img src="assets/mascots/un.svg" alt=""> Unlearn</button>
+</div>
+```
+
+> **Using Tailwind instead?** These class names are plain CSS and don't depend on
+> Tailwind — just also `@import "./components.css";` in your entry stylesheet
+> (order doesn't matter; they read the same tokens). The live site builds these
+> inline with Tailwind utilities; `components.css` reproduces the identical look.
 
 ## Brand assets — `assets/`
 All SVG, transparent background, recolorable. Bundled here so the package is
