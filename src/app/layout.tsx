@@ -52,7 +52,7 @@ export default async function RootLayout({
         <SiteCanvas seedMyths={getMyths()} audience={audience} />
         <SiteFooter />
         {!chosen && <WelcomeModal />}
-        {chosen && audience === "kid" && <LensyPopup />}
+        {chosen && <LensyPopup audience={audience} />}
       </body>
     </html>
   );

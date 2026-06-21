@@ -8,7 +8,7 @@ const SHIP_CLOSED = "/Ship%20-%20Closed.svg";
 const LENSY_WAVE = "/Lensy%20-%20Wave.svg";
 const LENSY_IDEA = "/Lensy%20-%20Idea.svg";
 
-const QUESTIONS = [
+const KID_QUESTIONS = [
   {
     place: "At the airport, I saw a toy store.",
     body: "One aisle said “Boys.” One said “Girls.” Nobody could explain why dinosaurs and science belonged on only one side.",
@@ -27,6 +27,33 @@ const QUESTIONS = [
   },
 ];
 
+const ADULT_QUESTIONS = [
+  {
+    place: "I sat in on a work meeting today.",
+    body: "A woman shared an idea and the room went quiet. A man said the same thing later and everyone loved it. Did the idea change shape on the way across the table?",
+  },
+  {
+    place: "I learned two Earth words: “bossy” and “strong leader.”",
+    body: "They seem to describe the exact same actions… but people only use one for women and the other for men. My spaceship can’t tell them apart.",
+  },
+  {
+    place: "I visited a home where two grown-ups both have jobs.",
+    body: "Yet only one of them remembers the birthdays, the groceries, and the dentist. How did that extra job get handed out?",
+  },
+  {
+    place: "A dad asked for time off for his new baby.",
+    body: "People acted surprised, like caring was a strange hobby for him. On my planet, a parent is just a parent. What did I miss?",
+  },
+  {
+    place: "People kept asking a happy, single woman when she’d “settle down.”",
+    body: "As if she were unfinished. Nobody asked the man beside her. Is one of them more finished than the other?",
+  },
+  {
+    place: "A grown man teared up at a film — then apologised for it.",
+    body: "Apologised! For having a feeling. Are feelings handed out in different amounts depending on who you are?",
+  },
+];
+
 const BIO: [string, string][] = [
   ["Species", "Curious Alien"],
   ["Mission", "Understand Humans"],
@@ -38,7 +65,8 @@ const BIO: [string, string][] = [
 const SEEN_KEY = "lensy-seen";
 type View = "q" | "tell" | "meet" | "thanks";
 
-export default function LensyPopup() {
+export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) {
+  const QUESTIONS = audience === "adult" ? ADULT_QUESTIONS : KID_QUESTIONS;
   const [open, setOpen] = useState(false);
   const [knocking, setKnocking] = useState(false); // "knock knock" scribble
   const [view, setView] = useState<View>("q");
@@ -113,7 +141,7 @@ export default function LensyPopup() {
   const btnGhost =
     "rounded-full px-3 py-2 font-hand text-sm font-bold text-brandsoft transition-colors hover:text-brand";
 
-  const q = QUESTIONS[qi];
+  const q = QUESTIONS[qi % QUESTIONS.length];
 
   // the ship bubble (rendered in the corner on desktop, docked by the toolbar on mobile)
   const launcher = (
