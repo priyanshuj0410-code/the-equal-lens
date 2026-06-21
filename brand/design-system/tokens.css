@@ -1,0 +1,50 @@
+/* The Equal Lens — design tokens (framework-agnostic CSS custom properties).
+   Use anywhere: color: var(--color-brand); background: var(--color-paper); etc.
+   Dark theme flips a handful of tokens when [data-audience="adult"] is on a
+   parent (usually <html>). Rename that selector to .dark / [data-theme="dark"]
+   if your project uses a different convention. */
+:root {
+  /* primary violet ramp */
+  --color-violet-50: #f3f0f6;
+  --color-violet-100: #e5e0ed;
+  --color-violet-200: #c5b6de;
+  --color-violet-400: #7f65a4;
+  --color-violet-600: #553286; /* Equal Violet — the brand colour */
+  --color-violet-700: #44288b;
+  --color-violet-800: #331e50;
+  --color-violet-900: #221436; /* Deep Indigo */
+
+  /* semantic surfaces + text (these flip in dark) */
+  --color-paper: #fbf9ff; /* page background */
+  --color-surface: #ffffff; /* cards / notes */
+  --color-mist: #e7e0f1; /* hairlines / hover */
+  --color-ink: #221436; /* text + outlines */
+  --color-brand: #553286; /* primary violet in use */
+  --color-brandsoft: #7f65a4; /* muted violet */
+  --color-band: #553286; /* footer / CTA band */
+  --dot: #ece6f6; /* dotted-paper texture */
+
+  /* accents (shared by both themes) */
+  --color-insight: #2dd4bf; /* teal · "unlearn" */
+  --color-grow: #ff7a5c; /* coral · "relearn" / CTA */
+  --color-sun: #ffc94d; /* yellow · highlight / CTA (use ink text on it) */
+  --color-sky: #4fb0e8; /* blue · support */
+
+  /* type */
+  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif; /* wordmark / UI labels */
+  --font-body: "Nunito Sans", ui-sans-serif, system-ui, sans-serif; /* body copy */
+  --font-hand: "Baloo 2", "Poppins", ui-sans-serif, sans-serif; /* headlines / playful */
+}
+
+/* dark theme (the "adult" mode): same brand, flipped surfaces, lightened violet */
+[data-audience="adult"] {
+  color-scheme: dark;
+  --color-paper: #15101f;
+  --color-surface: #221a30;
+  --color-mist: #3a2e4d;
+  --color-ink: #f1ecfa;
+  --color-brand: #c9b8e6;
+  --color-brandsoft: #b3a4d6;
+  --color-band: #241b38;
+  --dot: #2a2140;
+}

@@ -1,0 +1,99 @@
+/* The Equal Lens brand — Tailwind v4 version.
+   Paste this into your Tailwind v4 entry CSS, right after:  @import "tailwindcss";
+   It registers the palette + fonts as Tailwind theme tokens, so you get
+   utilities like  bg-brand  text-ink  border-mist  bg-sun  font-hand  etc.,
+   plus the dark flip and the playful UI kit.
+
+   Dark mode: set data-audience="adult" on <html>. */
+
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap");
+
+@theme {
+  --color-violet-50: #f3f0f6;
+  --color-violet-100: #e5e0ed;
+  --color-violet-200: #c5b6de;
+  --color-violet-400: #7f65a4;
+  --color-violet-600: #553286;
+  --color-violet-700: #44288b;
+  --color-violet-800: #331e50;
+  --color-violet-900: #221436;
+
+  --color-paper: #fbf9ff;
+  --color-surface: #ffffff;
+  --color-mist: #e7e0f1;
+  --color-ink: #221436;
+  --color-brand: #553286;
+  --color-brandsoft: #7f65a4;
+  --color-band: #553286;
+  --dot: #ece6f6;
+
+  --color-insight: #2dd4bf;
+  --color-grow: #ff7a5c;
+  --color-sun: #ffc94d;
+  --color-sky: #4fb0e8;
+
+  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-hand: "Baloo 2", "Poppins", ui-sans-serif, sans-serif;
+}
+
+/* dark theme: same brand, flipped surfaces + lightened violet */
+[data-audience="adult"] {
+  color-scheme: dark;
+  --color-paper: #15101f;
+  --color-surface: #221a30;
+  --color-mist: #3a2e4d;
+  --color-ink: #f1ecfa;
+  --color-brand: #c9b8e6;
+  --color-brandsoft: #b3a4d6;
+  --color-band: #241b38;
+  --dot: #2a2140;
+}
+
+body {
+  background-color: var(--color-paper);
+  background-image: radial-gradient(var(--dot) 1.1px, transparent 1.1px);
+  background-size: 28px 28px;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+.canvas-dots {
+  background-image: radial-gradient(var(--dot) 1.1px, transparent 1.1px);
+  background-size: 28px 28px;
+}
+
+.sticker {
+  border: 2.5px solid var(--color-ink);
+  box-shadow: 4px 4px 0 var(--color-ink);
+}
+.sticker-soft {
+  border: 2.5px solid var(--color-violet-600);
+  box-shadow: 4px 5px 0 var(--color-violet-200);
+}
+
+/* smooth light <-> dark cross-fade (optional; remove if unused) */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-duration: 320ms;
+  transition-timing-function: ease;
+}
+
+@keyframes tel-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+@keyframes tel-wobble { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+@keyframes tel-pop { 0% { transform: scale(0.5); opacity: 0; } 70% { transform: scale(1.08); } 100% { transform: scale(1); opacity: 1; } }
+@keyframes tel-bob { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-6px) rotate(3deg); } }
+.anim-float { animation: tel-float 5s ease-in-out infinite; }
+.anim-wobble { animation: tel-wobble 4.5s ease-in-out infinite; }
+.anim-bob { animation: tel-bob 5.5s ease-in-out infinite; }
+.anim-pop { animation: tel-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.hover-pop { transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.hover-pop:hover { transform: translateY(-4px) rotate(-1.5deg) scale(1.03); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0ms !important; }
+  .anim-float, .anim-wobble, .anim-bob, .anim-pop, .hover-pop {
+    animation: none !important;
+    transition: none !important;
+  }
+}

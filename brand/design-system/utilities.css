@@ -1,0 +1,73 @@
+/* The Equal Lens — the playful UI kit (depends on tokens.css).
+   Dotted-paper background, the "sticker" cut-out look, and tasteful motion. */
+
+/* dotted-paper page background (apply to <body> or your app root) */
+body {
+  background-color: var(--color-paper);
+  background-image: radial-gradient(var(--dot) 1.1px, transparent 1.1px);
+  background-size: 28px 28px;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+/* the same dot texture as a reusable class */
+.canvas-dots {
+  background-image: radial-gradient(var(--dot) 1.1px, transparent 1.1px);
+  background-size: 28px 28px;
+}
+
+/* sticker = chunky outline + hard offset shadow (no blur). The signature card look. */
+.sticker {
+  border: 2.5px solid var(--color-ink);
+  box-shadow: 4px 4px 0 var(--color-ink);
+}
+.sticker-soft {
+  border: 2.5px solid var(--color-violet-600);
+  box-shadow: 4px 5px 0 var(--color-violet-200);
+}
+
+/* OPTIONAL: smooth cross-fade when toggling the light/dark theme.
+   Remove this block if you don't use the kid/adult (light/dark) switch — it
+   adds a transition to every element, which you may not want globally. */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-duration: 320ms;
+  transition-timing-function: ease;
+}
+
+/* playful motion */
+@keyframes tel-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+@keyframes tel-wobble {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+@keyframes tel-pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  70% { transform: scale(1.08); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes tel-bob {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-6px) rotate(3deg); }
+}
+.anim-float { animation: tel-float 5s ease-in-out infinite; }
+.anim-wobble { animation: tel-wobble 4.5s ease-in-out infinite; }
+.anim-bob { animation: tel-bob 5.5s ease-in-out infinite; }
+.anim-pop { animation: tel-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+.hover-pop { transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.hover-pop:hover { transform: translateY(-4px) rotate(-1.5deg) scale(1.03); }
+
+/* respect reduced-motion: kill animations + the theme transition */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0ms !important; }
+  .anim-float, .anim-wobble, .anim-bob, .anim-pop, .hover-pop {
+    animation: none !important;
+    transition: none !important;
+  }
+}

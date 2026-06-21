@@ -1,0 +1,13 @@
+/* The Equal Lens brand — one-file bundle (plain CSS, no framework needed).
+   Import this single file and you get fonts + tokens + the playful UI kit.
+
+   In any project:
+     <link rel="stylesheet" href="equal-lens.css">
+   or in CSS/JS:
+     @import "./equal-lens.css";   /  import "./equal-lens.css";
+
+   Then use the tokens (var(--color-brand) …) and classes (.sticker, .anim-*).
+   For dark mode, set data-audience="adult" on <html>. */
+@import "./fonts.css";
+@import "./tokens.css";
+@import "./utilities.css";
