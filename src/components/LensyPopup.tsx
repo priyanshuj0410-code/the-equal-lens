@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // public/ filenames have spaces + capitals - encode for the URL
-const SHIP = "/Ship%20-%20Diagonal.svg";
+const SHIP_OPEN = "/Ship%20-%20Diagonal.svg";
+const SHIP_CLOSED = "/Ship%20-%20Closed.svg";
 const LENSY_WAVE = "/Lensy%20-%20Wave.svg";
 const LENSY_IDEA = "/Lensy%20-%20Idea.svg";
 
@@ -39,48 +40,70 @@ type View = "q" | "tell" | "meet" | "thanks";
 
 export default function LensyPopup() {
   const [open, setOpen] = useState(false);
-  const [closed, setClosed] = useState(false);
+  const [landing, setLanding] = useState(false); // ship-landing animation on the card
+  const [knocking, setKnocking] = useState(false); // "knock knock" scribble
   const [view, setView] = useState<View>("q");
   const [qi, setQi] = useState(0);
   const [thought, setThought] = useState("");
+  const knockTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // first-visit auto-landing (once per session); the ship launcher stays forever
   useEffect(() => {
     if (typeof window === "undefined") return;
-    try {
-      if (sessionStorage.getItem(SEEN_KEY)) {
-        setClosed(true);
-        return;
-      }
-    } catch {}
     setQi(Math.floor(Math.random() * QUESTIONS.length));
-    const t = setTimeout(() => setOpen(true), 4000);
+    let seen = false;
+    try {
+      seen = !!sessionStorage.getItem(SEEN_KEY);
+    } catch {}
+    if (seen) return;
+    const t = setTimeout(() => {
+      setLanding(true);
+      setOpen(true);
+    }, 4000);
     return () => clearTimeout(t);
   }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") dismiss();
+      if (e.key === "Escape") close();
     };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      if (knockTimer.current) clearTimeout(knockTimer.current);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function dismiss() {
-    setClosed(true);
+  function markSeen() {
     try {
       sessionStorage.setItem(SEEN_KEY, "1");
     } catch {}
+  }
+
+  function close() {
+    setOpen(false);
+    setView("q");
+    markSeen();
+  }
+
+  // tap the ship -> knock, knock -> Lensy comes out
+  function knock() {
+    if (knocking || open) return;
+    setKnocking(true);
+    setView("q");
+    knockTimer.current = setTimeout(() => {
+      setKnocking(false);
+      setLanding(false);
+      setOpen(true);
+      markSeen();
+    }, 850);
   }
 
   function nextQuestion() {
     setQi((i) => (i + 1) % QUESTIONS.length);
     setView("q");
   }
-
-  if (closed || !open) return null;
-
-  const q = QUESTIONS[qi];
 
   const btnPrimary =
     "rounded-full border-2 border-ink bg-sun px-3 py-2 font-hand text-sm font-bold text-[#221436] shadow-[2px_2px_0_var(--color-ink)] transition-transform hover:-translate-y-0.5";
@@ -89,25 +112,57 @@ export default function LensyPopup() {
   const btnGhost =
     "rounded-full px-3 py-2 font-hand text-sm font-bold text-brandsoft transition-colors hover:text-brand";
 
+  // ---- CLOSED: persistent ship launcher (+ knock scribble) ----
+  if (!open) {
+    return (
+      <div className="fixed bottom-24 right-4 z-40 sm:bottom-6 sm:right-6">
+        {knocking && (
+          <div
+            aria-hidden
+            className="anim-pop pointer-events-none absolute bottom-full right-1 mb-2 -rotate-6 whitespace-nowrap text-right"
+          >
+            <span className="font-hand text-2xl font-extrabold text-brand [text-shadow:1px_1px_0_var(--color-surface)]">
+              knock, knock!
+            </span>
+            <svg viewBox="0 0 120 12" className="ml-auto mt-0.5 h-2 w-28 text-grow">
+              <path d="M2 7c10-6 20 4 30-1s20-6 30 0 20 4 30-1 18-2 26 1" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+            </svg>
+          </div>
+        )}
+        <button
+          onClick={knock}
+          aria-label="Call Lensy"
+          className="hover-pop block transition-transform"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={SHIP_CLOSED} alt="Lensy's spaceship - tap to call Lensy" className={`h-20 w-auto drop-shadow-md ${knocking ? "anim-wobble" : "anim-bob"}`} />
+        </button>
+      </div>
+    );
+  }
+
+  // ---- OPEN: Lensy's card ----
+  const q = QUESTIONS[qi];
   return (
     <aside
       aria-label="Lensy says hi"
       className="fixed bottom-24 right-3 z-40 w-[340px] max-w-[calc(100vw-1.5rem)] sm:right-5"
     >
-      {/* spaceship lands first */}
+      {/* spaceship perched on top */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={SHIP}
+        src={SHIP_OPEN}
         alt=""
         aria-hidden
-        className="lensy-land pointer-events-none absolute -top-9 right-3 h-16 w-auto drop-shadow-md"
+        className={`pointer-events-none absolute -top-9 right-3 h-16 w-auto drop-shadow-md ${landing ? "lensy-land" : "anim-pop"}`}
       />
 
       <div
         className="anim-pop relative rounded-3xl border-[2.5px] border-ink bg-surface p-4 shadow-[5px_6px_0_var(--color-ink)]"
-        style={{ animationDelay: "0.65s" }}
+        style={{ animationDelay: landing ? "0.65s" : "0s" }}
       >
         <button
-          onClick={dismiss}
+          onClick={close}
           aria-label="Close Lensy"
           className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full border-2 border-ink bg-surface text-ink transition-colors hover:bg-mist"
         >
@@ -189,7 +244,7 @@ export default function LensyPopup() {
               <button onClick={nextQuestion} className={`${btnOutline} flex-1`}>
                 Another question
               </button>
-              <button onClick={dismiss} className={btnGhost}>
+              <button onClick={close} className={btnGhost}>
                 Bye, Lensy
               </button>
             </div>
