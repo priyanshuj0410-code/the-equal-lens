@@ -4,13 +4,15 @@
    and Lensy's ship dock. All themable via the brand tokens + the
    data-audience="adult" dark flip. No Tailwind required.
 
-   Bundled into equal-lens.css. The live site builds these inline with
-   Tailwind; these classes reproduce the same look one-to-one. */
+   In a Tailwind project, import this AFTER Tailwind so these classes win over
+   utilities on shared properties; use the `.sticker` primitive (not `.card`)
+   when you need a non-standard padding/radius. */
 
 /* ─────────────────────────  ATOMS  ───────────────────────── */
 
 /* Buttons — pill shape, hand font, lift on hover.
-   Variants: --primary (violet), --sun, --outline, --ghost. --sm for compact. */
+   Fills: --primary (violet) · --sun · --outline · --band (on dark) · --solid
+   (flat, no sticker — forms). --ghost is text-only. --sm = compact. */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -50,6 +52,19 @@
   color: var(--color-brand);
   box-shadow: 4px 4px 0 var(--color-violet-200);
 }
+.btn--band {
+  border-color: #fff;
+  background: transparent;
+  color: #fff;
+}
+.btn--solid {
+  border-color: transparent;
+  background: var(--color-violet-600);
+  color: #fff;
+  font-family: var(--font-body);
+  font-weight: 500;
+}
+.btn--solid:hover { background: var(--color-violet-800); transform: none; }
 .btn--ghost {
   border-color: transparent;
   background: transparent;
@@ -57,7 +72,11 @@
 }
 .btn--ghost:hover { color: var(--color-brand); transform: none; }
 
-.btn--sm { padding: 0.5rem 0.75rem; font-size: 0.875rem; }
+/* compact: smaller padding + text, and a tighter offset shadow on the sticker fills */
+.btn--sm { padding: 0.5rem 1.25rem; font-size: 0.875rem; }
+.btn--primary.btn--sm,
+.btn--sun.btn--sm { box-shadow: 3px 3px 0 var(--color-ink); }
+.btn--outline.btn--sm { box-shadow: 3px 3px 0 var(--color-violet-200); }
 
 /* Tag / eyebrow pill — the little "shadowed sticker" label above headings. */
 .tag {
@@ -73,17 +92,18 @@
   box-shadow: 3px 3px 0 var(--color-violet-200);
 }
 
-/* Eyebrow — uppercase mini-label (no box). */
+/* Eyebrow — uppercase mini-label (no box). Default text-sm; add text-xs to shrink. */
 .eyebrow {
   font-family: var(--font-hand);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  font-size: 0.875rem;
   color: var(--color-brandsoft);
 }
 
-/* Card — the signature sticker cut-out. --soft = violet shadow variant. */
+/* Card — the signature sticker cut-out. --soft = violet shadow variant.
+   Padding/radius can be overridden per-call (e.g. add p-6 or rounded-2xl). */
 .card {
   background: var(--color-surface);
   border: 2.5px solid var(--color-ink);
@@ -179,7 +199,9 @@
   color: var(--color-violet-800);
 }
 
-/* Tabs — the row of pill tabs that switch a detail panel (BiasChannels). */
+/* Tabs — the row of pill tabs that switch a detail panel (BiasChannels).
+   Active/hover lift + offset shadow; override the active tint per-tab with an
+   inline background/color if you want channel-specific colours. */
 .tabs {
   display: flex;
   flex-wrap: wrap;
@@ -201,19 +223,22 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
-.tab:hover { border-color: var(--color-violet-200); }
+.tab:hover { border-color: var(--color-ink); transform: translateY(-2px); }
 .tab[aria-selected="true"],
 .tab.is-active {
   border-color: var(--color-ink);
   background: var(--color-violet-100);
   color: var(--color-violet-800);
+  transform: translateY(-2px);
+  box-shadow: 3px 3px 0 var(--color-ink);
 }
 .tab__icon { display: inline-flex; width: 1.25rem; height: 1.25rem; }
 
 /* Bottom toolbar — the floating pill of tools. Add .toolbar--dock to pin it
    centered at the bottom of the viewport (as on the live site). */
 .toolbar {
-  display: inline-flex;
+  display: flex;
+  width: fit-content;
   align-items: center;
   gap: 0.5rem;
   border: 2px solid var(--color-ink);

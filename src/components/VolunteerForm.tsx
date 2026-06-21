@@ -62,10 +62,7 @@ export default function VolunteerForm() {
         <label className={label}>Availability</label>
         <input name="availability" className={field} />
       </div>
-      <button
-        type="submit"
-        className="rounded-full bg-violet-600 px-6 py-2.5 font-medium text-white transition-colors hover:bg-violet-800"
-      >
+      <button type="submit" className="btn btn--solid">
         Submit application
       </button>
       {sent && (

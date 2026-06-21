@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { buttonClass, cardClass } from "@equal-lens/brand";
 import Mascot from "@/components/Mascot";
 import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
@@ -77,7 +76,7 @@ export default async function Home() {
 
         <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-5 py-16 md:grid-cols-2 md:py-24">
           <div>
-            <span className="inline-block rounded-full border-2 border-ink bg-surface px-4 py-1 font-hand text-sm font-bold text-brand shadow-[3px_3px_0_#C5B6DE]">
+            <span className="tag">
               ✦ Unlearn. Relearn. Grow.
             </span>
             <h1 className="mt-5 font-hand text-4xl font-extrabold leading-[1.05] text-ink sm:text-6xl">
@@ -92,10 +91,10 @@ export default async function Home() {
             </h1>
             <p className="mt-6 max-w-md text-lg text-ink/70">{t.sub}</p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link href="/programs" className={buttonClass({ variant: "primary" })}>
+              <Link href="/programs" className="btn btn--primary">
                 Explore programs
               </Link>
-              <Link href="/about" className={buttonClass({ variant: "outline" })}>
+              <Link href="/about" className="btn btn--outline">
                 Our approach
               </Link>
             </div>
@@ -123,7 +122,7 @@ export default async function Home() {
             <div
               key={s.cap}
               style={{ transform: `rotate(${i % 2 ? 1.2 : -1.2}deg)` }}
-              className={`${cardClass()} hover-pop text-center`}
+              className="card hover-pop text-center"
             >
               <div
                 className={`font-hand font-extrabold leading-tight ${s.color} ${
@@ -153,7 +152,7 @@ export default async function Home() {
       <section className="py-16">
         <div className="mx-auto max-w-5xl px-5">
           <div className="text-center">
-            <span className="font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
+            <span className="eyebrow">
               How we change it
             </span>
             <h2 className="mt-2 font-hand text-4xl font-extrabold text-ink">
@@ -193,12 +192,12 @@ export default async function Home() {
           <h2 className="mt-4 font-hand text-4xl font-extrabold">{t.ctaHeading}</h2>
           <p className="mt-3 max-w-xl text-violet-100">{t.ctaSub}</p>
           <div className="mt-7 flex flex-wrap justify-center gap-4">
-            <Link href="/contact" className={buttonClass({ variant: "sun" })}>
+            <Link href="/contact" className="btn btn--sun">
               Get in touch
             </Link>
             <Link
               href="/join"
-              className="rounded-full border-[2.5px] border-white bg-transparent px-6 py-3 font-hand text-base font-bold text-white transition-transform hover:-translate-y-0.5"
+              className="btn btn--band"
             >
               Join us
             </Link>

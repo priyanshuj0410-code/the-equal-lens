@@ -20,7 +20,7 @@ export default async function ContactPage() {
         <Doodle name="sparkle" className="anim-wobble absolute right-14 top-12 w-9 text-grow" />
         <MythScatter items={scatterForPath("/contact", audience)} />
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
-          <p className="font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
+          <p className="eyebrow">
             Contact
           </p>
           <h1 className="mt-3 font-hand text-4xl font-extrabold text-ink sm:text-5xl">Get in touch</h1>
@@ -33,7 +33,7 @@ export default async function ContactPage() {
       </section>
 
       <section className="mx-auto grid max-w-4xl gap-8 px-5 py-10 md:grid-cols-2">
-        <div className="sticker rounded-3xl bg-surface p-8">
+        <div className="card">
           <h2 className="font-hand text-2xl font-bold">Say hello</h2>
           <p className="mt-4 text-sm font-medium text-ink/60">Email</p>
           <a href="mailto:support@theequallens.com" className="text-brand hover:underline">
@@ -43,7 +43,7 @@ export default async function ContactPage() {
             Unlearn. Relearn. Grow.
           </p>
         </div>
-        <div className="sticker rounded-3xl bg-surface p-8">
+        <div className="card">
           <h2 className="font-hand text-2xl font-bold">Send a message</h2>
           <div className="mt-4">
             <ContactForm />

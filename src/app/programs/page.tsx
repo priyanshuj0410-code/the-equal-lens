@@ -113,7 +113,7 @@ export default async function ProgramsPage() {
         <Doodle name="arrow" className="anim-float absolute right-20 bottom-10 w-12 text-brandsoft" />
         <MythScatter items={scatterForPath("/programs", audience)} />
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
-          <p className="font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
+          <p className="eyebrow">
             Programs
           </p>
           <h1 className="mt-3 font-hand text-4xl font-extrabold text-ink sm:text-5xl">
@@ -129,7 +129,7 @@ export default async function ProgramsPage() {
             <div
               key={p.id}
               style={{ transform: `rotate(${i % 2 ? 1 : -1}deg)` }}
-              className="sticker hover-pop rounded-3xl bg-surface p-8"
+              className="card hover-pop"
             >
               <h2 className="font-hand text-2xl font-bold text-brand">{p.title}</h2>
               <p className="mt-2 text-ink/70">{p.summary}</p>
@@ -148,7 +148,7 @@ export default async function ProgramsPage() {
 
       <section className="mx-auto max-w-5xl px-5 py-16">
         <div className="text-center">
-          <p className="font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
+          <p className="eyebrow">
             Why choose us
           </p>
           <h2 className="mx-auto mt-2 max-w-2xl font-hand text-3xl font-extrabold text-ink sm:text-4xl">
@@ -221,7 +221,7 @@ export default async function ProgramsPage() {
           <p className="mt-3 max-w-xl text-violet-100">{t.ctaSub}</p>
           <Link
             href="/contact"
-            className="mt-6 rounded-full border-[2.5px] border-ink bg-sun px-6 py-3 font-hand text-base font-bold text-[#221436] shadow-[4px_4px_0_var(--color-ink)] transition-transform hover:-translate-y-0.5"
+            className="mt-6 btn btn--sun"
           >
             Get in touch
           </Link>

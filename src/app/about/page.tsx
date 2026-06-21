@@ -62,7 +62,7 @@ export default async function AboutPage() {
         <Doodle name="heart" className="anim-wobble absolute right-1/4 bottom-10 w-7 text-grow" />
         <MythScatter items={scatterForPath("/about", audience)} />
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
-          <p className="font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
+          <p className="eyebrow">
             About
           </p>
           <h1 className="mt-3 font-hand text-4xl font-extrabold text-ink sm:text-5xl">
@@ -77,14 +77,14 @@ export default async function AboutPage() {
       </section>
 
       <section className="mx-auto grid max-w-5xl gap-6 px-5 py-12 md:grid-cols-2">
-        <div className="sticker hover-pop rounded-3xl bg-surface p-8">
-          <p className="font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
+        <div className="card hover-pop">
+          <p className="eyebrow">
             Vision
           </p>
           <p className="mt-3 font-hand text-2xl font-bold text-ink">{t.vision}</p>
         </div>
-        <div className="sticker hover-pop rounded-3xl bg-surface p-8">
-          <p className="font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
+        <div className="card hover-pop">
+          <p className="eyebrow">
             Mission
           </p>
           <p className="mt-3 font-hand text-2xl font-bold text-ink">{t.mission}</p>
@@ -93,14 +93,14 @@ export default async function AboutPage() {
 
       <section className="mx-auto max-w-5xl px-5 py-12">
         <div className="text-center">
-          <p className="font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
+          <p className="eyebrow">
             Core values
           </p>
           <h2 className="mt-2 font-hand text-4xl font-extrabold">Unlearn &amp; Relearn</h2>
         </div>
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           {values.map((v) => (
-            <div key={v.tag} className="sticker hover-pop rounded-3xl bg-surface p-8">
+            <div key={v.tag} className="card hover-pop">
               <div className={`flex h-12 w-12 items-center justify-center rounded-2xl font-hand text-lg font-extrabold ${v.color}`}>
                 {v.tag}
               </div>
@@ -113,7 +113,7 @@ export default async function AboutPage() {
 
       <section className="mx-auto max-w-5xl px-5 py-12">
         <div className="text-center">
-          <p className="font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
+          <p className="eyebrow">
             Our team
           </p>
           <h2 className="mt-2 font-hand text-4xl font-extrabold">The people behind the lens</h2>

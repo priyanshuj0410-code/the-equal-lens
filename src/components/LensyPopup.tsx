@@ -314,7 +314,7 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
         onClick={open ? close : knock}
         aria-label={open ? "Close Lensy" : "Call Lensy"}
         title={open ? "Close Lensy" : "Call Lensy"}
-        className="flex h-14 w-14 items-center justify-center overflow-visible rounded-full border-2 border-ink bg-surface/95 shadow-[4px_4px_0_var(--color-ink)] backdrop-blur transition-transform hover:-translate-y-0.5"
+        className="ship-bubble overflow-visible"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -387,7 +387,7 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
           <div className="flex items-end gap-2 pr-7">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={view === "thanks" ? LENSY_IDEA : LENSY_WAVE} alt="Lensy" className="anim-bob h-16 w-auto shrink-0" />
-            <div className="mb-1 rounded-2xl rounded-bl-sm bg-mist px-3 py-2 text-xs leading-snug text-ink">
+            <div className="bubble mb-1">
               <span className="font-hand text-sm font-bold text-brand">Lensy</span>
               <br />
               Hi! I just landed on Planet Earth 👋 My spaceship is still figuring a few things out…

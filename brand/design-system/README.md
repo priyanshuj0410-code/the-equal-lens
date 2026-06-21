@@ -113,7 +113,7 @@ components just apply the classes, so they're interchangeable.
 
 | Component | Class (CSS) | Notes |
 |---|---|---|
-| `<Button variant size href>` | `.btn .btn--{primary\|sun\|outline\|ghost}` `.btn--sm` | `href` → renders `<a>` |
+| `<Button variant size href>` | `.btn .btn--{primary\|sun\|outline\|band\|solid\|ghost}` `.btn--sm` | `band` = white-on-dark, `solid` = flat (forms); `href` → `<a>` |
 | `<Tag>` `<Eyebrow>` | `.tag` · `.eyebrow` | label pill / uppercase mini-label |
 | `<Card soft>` | `.card` `.card--soft` | the sticker card |
 | `<Note tone>` `<NoteChip truth>` | `.note .note--{yellow\|mint\|peach\|violet}` · `.note__chip` | sticky note + status chip |
@@ -134,7 +134,7 @@ raw classes work in any framework.
 
 ### CSS class reference
 **Atoms**
-- `.btn` + `.btn--primary` (violet) · `.btn--sun` · `.btn--outline` · `.btn--ghost`; add `.btn--sm` for compact. Pill shape, hand font, lift-on-hover, `:disabled` dims.
+- `.btn` + `.btn--primary` (violet) · `.btn--sun` · `.btn--outline` (violet sticker) · `.btn--band` (white outline, for dark CTA bands) · `.btn--solid` (flat fill, no sticker — forms) · `.btn--ghost` (text only); add `.btn--sm` for compact. Pill shape, hand font, lift-on-hover, `:disabled` dims.
 - `.tag` — the shadowed pill label that sits above headings. `.eyebrow` — the uppercase mini-label (no box).
 - `.card` — the signature sticker card; `.card--soft` is the violet-shadow variant.
 - `.note` — a sticky note; pair with a tone: `.note--yellow` `.note--mint` `.note--peach` `.note--violet` (each flips in dark). `.note__chip` / `.note__chip--truth` is the status chip.

@@ -31,7 +31,7 @@ export default async function BlogPage() {
         <Doodle name="heart" className="anim-wobble absolute right-14 top-12 w-7 text-grow" />
         <MythScatter items={scatterForPath("/blog", audience)} />
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
-          <p className="font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
+          <p className="eyebrow">
             Blog
           </p>
           <h1 className="mt-3 font-hand text-4xl font-extrabold text-ink sm:text-5xl">

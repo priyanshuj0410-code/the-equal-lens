@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { tabClass } from "@equal-lens/brand";
 
 type Channel = {
   key: string;
@@ -115,13 +116,9 @@ export default function BiasChannels({ audience }: { audience: "kid" | "adult" }
               onClick={() => setOpen(i)}
               aria-pressed={on}
               style={on ? { background: tc(ch), color: sc(ch) } : undefined}
-              className={`flex items-center gap-2 rounded-full border-2 px-4 py-2 font-hand text-sm font-bold transition-all ${
-                on
-                  ? "-translate-y-0.5 border-ink shadow-[3px_3px_0_var(--color-ink)]"
-                  : "border-mist bg-surface text-ink/70 hover:-translate-y-0.5 hover:border-ink hover:text-ink"
-              }`}
+              className={tabClass(on)}
             >
-              <span className="h-5 w-5">{ch.icon}</span>
+              <span className="tab__icon">{ch.icon}</span>
               {ch.label}
             </button>
           );

@@ -3,7 +3,13 @@
    wrapper components. They return the same classes components.css defines. */
 import { cn } from "./cn";
 
-export type ButtonVariant = "primary" | "sun" | "outline" | "ghost";
+export type ButtonVariant =
+  | "primary"
+  | "sun"
+  | "outline"
+  | "band"
+  | "solid"
+  | "ghost";
 
 export const buttonClass = (
   opts: { variant?: ButtonVariant; size?: "sm" } = {},

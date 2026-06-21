@@ -454,7 +454,7 @@ export default function SiteCanvas({
 
       {/* toolbar (+ Lensy's ship docks beside it on mobile) */}
       <div className="fixed bottom-4 left-1/2 z-50 flex max-w-[96vw] -translate-x-1/2 items-center justify-center gap-3">
-        <div className="flex min-w-0 items-center gap-2 overflow-x-auto rounded-full border-2 border-ink bg-surface/95 px-3 py-2 shadow-[4px_4px_0_var(--color-ink)] backdrop-blur">
+        <div className="toolbar min-w-0 overflow-x-auto">
         <ToolButton active={tool === "none"} onClick={() => setTool("none")} label="Browse">
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true">
             <path d="M5 2 L5 20 L10 15 L13.5 22 L16 21 L12.5 14 L19 14 Z" />
@@ -481,7 +481,7 @@ export default function SiteCanvas({
           </div>
         )}
 
-        <span className="mx-0.5 h-8 w-px shrink-0 bg-mist" />
+        <span className="toolbar__sep mx-0.5 shrink-0" />
 
         <button
           onClick={() => setHideNotes((v) => !v)}

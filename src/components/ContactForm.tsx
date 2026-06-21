@@ -36,10 +36,7 @@ export default function ContactForm() {
         <label className={label}>Message *</label>
         <textarea name="message" required rows={5} className={field} />
       </div>
-      <button
-        type="submit"
-        className="rounded-full bg-violet-600 px-6 py-2.5 font-medium text-white transition-colors hover:bg-violet-800"
-      >
+      <button type="submit" className="btn btn--solid">
         Send message
       </button>
       {sent && (

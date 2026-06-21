@@ -40,7 +40,7 @@ export default async function GamesPage() {
         <Doodle name="swirl" className="anim-float absolute right-1/4 bottom-10 w-14 text-brandsoft" />
         <MythScatter items={scatterForPath("/games", audience)} />
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
-          <p className="font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
+          <p className="eyebrow">
             Games
           </p>
           <h1 className="mt-3 font-hand text-4xl font-extrabold text-ink sm:text-5xl">{t.title}</h1>
@@ -54,7 +54,7 @@ export default async function GamesPage() {
             <div
               key={g.name}
               style={{ transform: `rotate(${i % 2 ? 1.5 : -1.5}deg)` }}
-              className="sticker hover-pop rounded-3xl bg-surface p-8"
+              className="card hover-pop"
             >
               <span className={`rounded-full border-2 border-ink ${g.color} px-3 py-1 font-hand text-xs font-bold text-[#221436]`}>
                 coming soon
