@@ -1,3 +1,6 @@
+packages:
+  - "brand/design-system"
+
 allowBuilds:
   esbuild: true
   sharp: true

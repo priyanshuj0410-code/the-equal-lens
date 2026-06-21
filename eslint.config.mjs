@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Build artifacts: the Sanity Studio bundle + the brand package's dist.
+    "dist/**",
+    "**/dist/**",
+    // The brand package is a separate workspace with its own toolchain.
+    "brand/design-system/**",
   ]),
 ]);
 

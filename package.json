@@ -10,6 +10,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@equal-lens/brand": "workspace:*",
     "@portabletext/to-html": "^5.0.2",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^6.1.0",

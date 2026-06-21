@@ -45,11 +45,11 @@
   box-shadow: 4px 4px 0 var(--color-ink);
 }
 .btn--outline {
-  border-color: var(--color-violet-200);
+  border-color: var(--color-violet-600);
   background: var(--color-surface);
   color: var(--color-brand);
+  box-shadow: 4px 4px 0 var(--color-violet-200);
 }
-.btn--outline:hover { background: var(--color-mist); }
 .btn--ghost {
   border-color: transparent;
   background: transparent;

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buttonClass, cardClass } from "@equal-lens/brand";
 import Mascot from "@/components/Mascot";
 import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
@@ -91,16 +92,10 @@ export default async function Home() {
             </h1>
             <p className="mt-6 max-w-md text-lg text-ink/70">{t.sub}</p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/programs"
-                className="inline-block rounded-full border-[2.5px] border-ink bg-violet-600 px-6 py-3 font-hand text-base font-bold text-white shadow-[4px_4px_0_var(--color-ink)] transition-transform hover:-translate-y-0.5"
-              >
+              <Link href="/programs" className={buttonClass({ variant: "primary" })}>
                 Explore programs
               </Link>
-              <Link
-                href="/about"
-                className="inline-block rounded-full border-[2.5px] border-violet-600 bg-surface px-6 py-3 font-hand text-base font-bold text-brand shadow-[4px_4px_0_#C5B6DE] transition-transform hover:-translate-y-0.5"
-              >
+              <Link href="/about" className={buttonClass({ variant: "outline" })}>
                 Our approach
               </Link>
             </div>
@@ -128,7 +123,7 @@ export default async function Home() {
             <div
               key={s.cap}
               style={{ transform: `rotate(${i % 2 ? 1.2 : -1.2}deg)` }}
-              className="sticker hover-pop rounded-3xl bg-surface p-8 text-center"
+              className={`${cardClass()} hover-pop text-center`}
             >
               <div
                 className={`font-hand font-extrabold leading-tight ${s.color} ${
@@ -198,10 +193,7 @@ export default async function Home() {
           <h2 className="mt-4 font-hand text-4xl font-extrabold">{t.ctaHeading}</h2>
           <p className="mt-3 max-w-xl text-violet-100">{t.ctaSub}</p>
           <div className="mt-7 flex flex-wrap justify-center gap-4">
-            <Link
-              href="/contact"
-              className="rounded-full border-[2.5px] border-ink bg-sun px-6 py-3 font-hand text-base font-bold text-[#221436] shadow-[4px_4px_0_var(--color-ink)] transition-transform hover:-translate-y-0.5"
-            >
+            <Link href="/contact" className={buttonClass({ variant: "sun" })}>
               Get in touch
             </Link>
             <Link

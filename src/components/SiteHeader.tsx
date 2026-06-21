@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { Segmented, navLinkClass } from "@equal-lens/brand";
 
 const links = [
   { href: "/", label: "Home" },
@@ -12,6 +13,21 @@ const links = [
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];
+
+const AUDIENCE_OPTIONS: { value: "kid" | "adult"; label: string }[] = [
+  { value: "kid", label: "Kids" },
+  { value: "adult", label: "Adult" },
+];
+
+function AudienceToggle({
+  value,
+  onChange,
+}: {
+  value: "kid" | "adult";
+  onChange: (a: "kid" | "adult") => void;
+}) {
+  return <Segmented options={AUDIENCE_OPTIONS} value={value} onChange={onChange} />;
+}
 
 export default function SiteHeader({ audience }: { audience: "kid" | "adult" }) {
   const pathname = usePathname();
@@ -25,27 +41,6 @@ export default function SiteHeader({ audience }: { audience: "kid" | "adult" }) 
     router.refresh();
     setOpen(false);
   }
-
-  const Toggle = () => (
-    <div className="flex items-center rounded-full border-2 border-mist p-0.5 font-hand text-xs font-bold">
-      <button
-        onClick={() => setAudience("kid")}
-        className={`rounded-full px-2.5 py-1 transition-colors ${
-          audience === "kid" ? "bg-violet-600 text-white" : "text-ink/60"
-        }`}
-      >
-        Kids
-      </button>
-      <button
-        onClick={() => setAudience("adult")}
-        className={`rounded-full px-2.5 py-1 transition-colors ${
-          audience === "adult" ? "bg-violet-600 text-white" : "text-ink/60"
-        }`}
-      >
-        Adult
-      </button>
-    </div>
-  );
 
   return (
     <header className="sticky top-0 z-40 border-b border-mist bg-paper/90 backdrop-blur">
@@ -71,11 +66,7 @@ export default function SiteHeader({ audience }: { audience: "kid" | "adult" }) 
             <Link
               key={l.href}
               href={l.href}
-              className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
-                isActive(l.href)
-                  ? "bg-violet-100 text-violet-800"
-                  : "text-ink/70 hover:bg-mist hover:text-brand"
-              }`}
+              className={navLinkClass(isActive(l.href))}
             >
               {l.label}
             </Link>
@@ -87,7 +78,7 @@ export default function SiteHeader({ audience }: { audience: "kid" | "adult" }) 
             Join us
           </Link>
           <span className="ml-3">
-            <Toggle />
+            <AudienceToggle value={audience} onChange={setAudience} />
           </span>
         </nav>
 
@@ -117,7 +108,7 @@ export default function SiteHeader({ audience }: { audience: "kid" | "adult" }) 
       {open && (
         <nav className="border-t border-mist bg-paper px-5 py-3 md:hidden">
           <div className="mb-3">
-            <Toggle />
+            <AudienceToggle value={audience} onChange={setAudience} />
           </div>
           {[...links, { href: "/join", label: "Join us" }].map((l) => (
             <Link

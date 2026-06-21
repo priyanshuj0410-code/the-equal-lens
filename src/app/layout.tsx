@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins, Nunito_Sans, Baloo_2 } from "next/font/google";
 import "./globals.css";
+import "@equal-lens/brand/components.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import SiteCanvas from "@/components/SiteCanvas";

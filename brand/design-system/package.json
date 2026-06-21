@@ -1,0 +1,65 @@
+{
+  "name": "@equal-lens/brand",
+  "version": "0.1.0",
+  "description": "The Equal Lens — brand design system: tokens, the plain-CSS UI kit, React components, and SVG assets.",
+  "license": "UNLICENSED",
+  "private": false,
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "dist",
+    "assets",
+    "*.css",
+    "tokens.json",
+    "README.md"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./styles.css": "./equal-lens.css",
+    "./components.css": "./components.css",
+    "./tokens.css": "./tokens.css",
+    "./tailwind.css": "./tailwind.css",
+    "./tokens.json": "./tokens.json",
+    "./assets/*": "./assets/*"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "prepare": "tsup",
+    "prepublishOnly": "tsup"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": false
+    }
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "react": "^19",
+    "tsup": "^8.3.5",
+    "typescript": "^5"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "design-system",
+    "the-equal-lens",
+    "brand",
+    "react",
+    "ui-kit"
+  ]
+}
