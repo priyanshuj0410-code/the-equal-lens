@@ -184,28 +184,55 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flying]);
 
-  // fly the ship along the path; grow a little near the top of the loop
+  // fly the ship along the path with a gravity-like feel: launch fast, slow to a
+  // near-stop at the loop's apex (where it swells ~2x), then cruise at a constant
+  // speed to landing. A slow ease-in/out drives the zoom.
   useEffect(() => {
     const el = flightRef.current;
     const sc = flightScaleRef.current;
     if (!flight || !el) return;
-    const dur = 3400;
-    const ease = "cubic-bezier(0.35, 0.1, 0.35, 1)";
+    const dur = 6000;
+    const tApex = 0.46; // when (in time) the ship reaches the apex
+
+    // find where along the path length the apex (highest point) sits
+    let apexFrac = 0.38;
+    try {
+      const m = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      m.setAttribute("d", flight.d);
+      const total = m.getTotalLength();
+      if (total > 0) {
+        let minY = Infinity;
+        let apexLen = 0;
+        for (let i = 0; i <= 120; i++) {
+          const L = (i / 120) * total;
+          const pt = m.getPointAtLength(L);
+          if (pt.y < minY) {
+            minY = pt.y;
+            apexLen = L;
+          }
+        }
+        apexFrac = Math.min(0.6, Math.max(0.2, apexLen / total));
+      }
+    } catch {}
+
     const path = el.animate(
-      [{ offsetDistance: "0%" }, { offsetDistance: "100%" }],
-      { duration: dur, easing: ease, fill: "forwards" }
+      [
+        { offsetDistance: "0%", offset: 0, easing: "cubic-bezier(0.1, 0.65, 0.35, 1)" },
+        { offsetDistance: `${(apexFrac * 100).toFixed(1)}%`, offset: tApex, easing: "linear" },
+        { offsetDistance: "100%", offset: 1 },
+      ],
+      { duration: dur, fill: "forwards" }
     );
     const grow = sc?.animate(
       [
-        { transform: "scale(1)", offset: 0 },
-        { transform: "scale(1.35)", offset: 0.28 },
-        { transform: "scale(1.12)", offset: 0.6 },
+        { transform: "scale(1)", offset: 0, easing: "cubic-bezier(0.42, 0, 0.58, 1)" },
+        { transform: "scale(2)", offset: tApex, easing: "cubic-bezier(0.42, 0, 0.58, 1)" },
         { transform: "scale(1)", offset: 1 },
       ],
-      { duration: dur, easing: ease, fill: "forwards" }
+      { duration: dur, fill: "forwards" }
     );
     path.onfinish = () => land();
-    const fallback = setTimeout(() => land(), dur + 300); // safety net if onfinish is missed
+    const fallback = setTimeout(() => land(), dur + 400); // safety net if onfinish is missed
     return () => {
       path.cancel();
       grow?.cancel();
