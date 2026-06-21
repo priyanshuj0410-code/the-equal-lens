@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 // public/ filenames have spaces + capitals - encode for the URL
 const SHIP_CLOSED = "/Ship%20-%20Closed.svg";
@@ -43,7 +44,13 @@ export default function LensyPopup() {
   const [view, setView] = useState<View>("q");
   const [qi, setQi] = useState(0);
   const [thought, setThought] = useState("");
+  const [dock, setDock] = useState<HTMLElement | null>(null); // mobile slot next to the toolbar
   const knockTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // grab the toolbar's mobile dock slot (rendered by SiteCanvas)
+  useEffect(() => {
+    setDock(document.getElementById("lensy-dock"));
+  }, []);
 
   // first-visit auto-open (once per session); the ship bubble stays forever
   useEffect(() => {
@@ -108,34 +115,42 @@ export default function LensyPopup() {
 
   const q = QUESTIONS[qi];
 
+  // the ship bubble (rendered in the corner on desktop, docked by the toolbar on mobile)
+  const launcher = (
+    <div className="relative">
+      {knocking && (
+        <div
+          aria-hidden
+          className="anim-pop pointer-events-none absolute bottom-full right-0 mb-2 -rotate-6 whitespace-nowrap text-right"
+        >
+          <span className="font-hand text-2xl font-extrabold text-brand [text-shadow:1px_1px_0_var(--color-surface)]">
+            knock, knock!
+          </span>
+          <svg viewBox="0 0 120 12" className="ml-auto mt-0.5 h-2 w-28 text-grow">
+            <path d="M2 7c10-6 20 4 30-1s20-6 30 0 20 4 30-1 18-2 26 1" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+          </svg>
+        </div>
+      )}
+      {/* bubble matches the canvas toolbar's height + look */}
+      <button
+        onClick={open ? close : knock}
+        aria-label={open ? "Close Lensy" : "Call Lensy"}
+        title={open ? "Close Lensy" : "Call Lensy"}
+        className="flex h-14 w-14 items-center justify-center overflow-visible rounded-full border-2 border-ink bg-surface/95 shadow-[4px_4px_0_var(--color-ink)] backdrop-blur transition-transform hover:-translate-y-0.5"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={SHIP_CLOSED} alt="Lensy's spaceship - tap to call Lensy" className="h-11 w-auto" />
+      </button>
+    </div>
+  );
+
   return (
     <>
-      {/* persistent ship bubble - parked in the corner, never moves to the popover */}
-      <div className="fixed bottom-4 right-3 z-50 sm:right-5">
-        {knocking && (
-          <div
-            aria-hidden
-            className="anim-pop pointer-events-none absolute bottom-full right-0 mb-2 -rotate-6 whitespace-nowrap text-right"
-          >
-            <span className="font-hand text-2xl font-extrabold text-brand [text-shadow:1px_1px_0_var(--color-surface)]">
-              knock, knock!
-            </span>
-            <svg viewBox="0 0 120 12" className="ml-auto mt-0.5 h-2 w-28 text-grow">
-              <path d="M2 7c10-6 20 4 30-1s20-6 30 0 20 4 30-1 18-2 26 1" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
-          </div>
-        )}
-        {/* bubble matches the canvas toolbar's height + look */}
-        <button
-          onClick={open ? close : knock}
-          aria-label={open ? "Close Lensy" : "Call Lensy"}
-          title={open ? "Close Lensy" : "Call Lensy"}
-          className="flex h-14 w-14 items-center justify-center overflow-visible rounded-full border-2 border-ink bg-surface/95 shadow-[4px_4px_0_var(--color-ink)] backdrop-blur transition-transform hover:-translate-y-0.5"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={SHIP_CLOSED} alt="Lensy's spaceship - tap to call Lensy" className={`h-11 w-auto ${knocking ? "anim-wobble" : "anim-bob"}`} />
-        </button>
-      </div>
+      {/* desktop: ship parked in the bottom-right corner */}
+      <div className="fixed bottom-4 right-3 z-50 hidden sm:block sm:right-5">{launcher}</div>
+
+      {/* mobile: ship docked next to the centered toolbar (portaled into SiteCanvas) */}
+      {dock && createPortal(launcher, dock)}
 
       {/* the chat popover (corner on desktop, fullscreen on mobile) - no ship here */}
       {open && (
