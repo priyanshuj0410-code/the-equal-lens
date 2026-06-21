@@ -5,6 +5,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import SiteCanvas from "@/components/SiteCanvas";
 import WelcomeModal from "@/components/WelcomeModal";
+import LensyPopup from "@/components/LensyPopup";
 import { getMyths } from "@/lib/knowledge";
 import { getAudience, hasAudienceChoice } from "@/lib/audience";
 
@@ -51,6 +52,7 @@ export default async function RootLayout({
         <SiteCanvas seedMyths={getMyths()} audience={audience} />
         <SiteFooter />
         {!chosen && <WelcomeModal />}
+        {chosen && audience === "kid" && <LensyPopup />}
       </body>
     </html>
   );
