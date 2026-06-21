@@ -63,10 +63,19 @@ body {
 .hover-pop { transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1); }
 .hover-pop:hover { transform: translateY(-4px) rotate(-1.5deg) scale(1.03); }
 
+/* rocket-flame flicker — overlay ship-flame.svg under ship-flying.svg.
+   Pure scale from the top edge, so centre the flame with positioning
+   (left:50% + a negative margin), not a transform. */
+@keyframes flame-flicker {
+  0%, 100% { transform: scaleY(0.92) scaleX(1.05); }
+  50%      { transform: scaleY(1.08) scaleX(0.95); }
+}
+.flame-flicker { transform-origin: 50% 0; animation: flame-flicker 0.55s ease-in-out infinite; }
+
 /* respect reduced-motion: kill animations + the theme transition */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0ms !important; }
-  .anim-float, .anim-wobble, .anim-bob, .anim-pop, .hover-pop {
+  .anim-float, .anim-wobble, .anim-bob, .anim-pop, .hover-pop, .flame-flicker {
     animation: none !important;
     transition: none !important;
   }

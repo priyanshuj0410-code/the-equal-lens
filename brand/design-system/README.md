@@ -169,13 +169,25 @@ self-contained (no need to reach back into the main site repo).
 | `assets/logo/` | `logo-primary.svg` · `logo-reversed.svg` · `logo-mono.svg` · `avatar-violet.svg` · `avatar-light.svg` | the **eQ mark** — violet, white (for dark bg), black, and two square avatar lockups |
 | `assets/mascots/` | `un.svg` · `re.svg` | the **Unlearn / Relearn** character pair |
 | `assets/lensy/` | `lensy-wave.svg` · `lensy-stand.svg` · `lensy-think.svg` · `lensy-idea.svg` · `lensy-icon.svg` | **Lensy**, the magnifying-glass mascot, in five poses (`-icon` is the compact face) |
-| `assets/ship/` | `ship-closed.svg` · `ship-flying.svg` · `ship-front.svg` · `ship-diagonal.svg` | the **ship** illustration, four angles |
+| `assets/ship/` | `ship-closed.svg` · `ship-flying.svg` · `ship-front.svg` · `ship-diagonal.svg` · `ship-flame.svg` | the **ship** (four angles) + its **rocket flame** (overlay under `ship-flying`) |
 | `assets/doodles/` | `squiggle` · `sparkle` · `spiral` · `arrow` · `heart` · `star` · `zigzag` · `swirl` `.svg` | the hand-drawn **doodle set** (filled in brand violet `#553286` — change `fill`/`stroke` to recolor) |
 
 Drop them in with a plain `<img>` (`<img src="assets/lensy/lensy-wave.svg" alt="" />`),
 inline the markup, or import as a component. The doodles are also available as a
 React component (`<Doodle name="star" />`) in the main site at
 `src/components/Doodles.tsx` if you'd rather pass `color` as a prop.
+
+**Animated ship flame.** `ship-flame.svg` is the rocket exhaust. Overlay it under
+the ship and add the `.flame-flicker` class (from `styles.css` / `tailwind.css`)
+for the gentle flicker. Centre it with positioning — not a transform — so the
+scale animation stays put:
+```html
+<div style="position: relative; width: 120px;">
+  <img src="assets/ship/ship-flying.svg" style="width: 120px" alt="" />
+  <img src="assets/ship/ship-flame.svg" class="flame-flicker"
+       style="position:absolute; left:50%; top:62%; width:26px; margin-left:-13px; z-index:-1" alt="" />
+</div>
+```
 
 Full brand guidelines (the PDF) live in the main repo at
 `brand/The-Equal-Lens-Brand-Guidelines-v2.pdf`.
