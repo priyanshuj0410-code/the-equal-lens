@@ -134,7 +134,10 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
 
   // grab the toolbar's mobile dock slot (rendered by SiteCanvas)
   useEffect(() => {
-    setDock(document.getElementById("lensy-dock"));
+    const id = requestAnimationFrame(() =>
+      setDock(document.getElementById("lensy-dock")),
+    );
+    return () => cancelAnimationFrame(id);
   }, []);
 
   // the ship flies in on every full page load (so a hard refresh always replays it);
@@ -158,9 +161,7 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
       setFlying(true);
     } else if (willOpen) {
       openTimer.current = setTimeout(() => setOpen(true), 2500);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    }  }, []);
 
   // once flying, find the (visible) bubble and aim the ship at it
   useEffect(() => {
@@ -180,9 +181,7 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
       }
     };
     raf = requestAnimationFrame(find);
-    return () => cancelAnimationFrame(raf);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [flying]);
+    return () => cancelAnimationFrame(raf);  }, [flying]);
 
   // fly the ship along the path with a gravity-like feel: launch fast, slow to a
   // near-stop at the loop's apex (where it swells ~2x), then cruise at a constant
@@ -237,9 +236,7 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
       path.cancel();
       grow?.cancel();
       clearTimeout(fallback);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [flight]);
+    };  }, [flight]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -250,9 +247,7 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
       window.removeEventListener("keydown", onKey);
       if (knockTimer.current) clearTimeout(knockTimer.current);
       if (openTimer.current) clearTimeout(openTimer.current);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    };  }, []);
 
   // touchdown: park the ship, then (desktop only) deliver Lensy without the knock-knock
   function land() {

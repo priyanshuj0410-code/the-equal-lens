@@ -127,9 +127,20 @@ export default function SiteCanvas({
     return chosen;
   }, []);
 
+  // track whether this device has a fine pointer (mouse) for the custom cursor
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: fine)");
+    const update = () => setFine(mq.matches);
+    const raf = requestAnimationFrame(update);
+    mq.addEventListener("change", update);
+    return () => {
+      cancelAnimationFrame(raf);
+      mq.removeEventListener("change", update);
+    };
+  }, []);
+
   // seed page-specific notes whenever the route changes
   useEffect(() => {
-    setFine(window.matchMedia("(pointer: fine)").matches);
     const chosen = mythsForPath(seedMyths, pathname, audience);
     pageMythsRef.current = chosen;
     seededMyth.current = chosen.length;
