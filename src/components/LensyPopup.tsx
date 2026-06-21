@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
 
 // run a layout effect on the client, a no-op-ish effect on the server (avoids SSR warning)
@@ -73,6 +73,47 @@ function isMobileVp() {
   return typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches;
 }
 
+// smooth Catmull-Rom spline through the waypoints -> an SVG path string
+function catmullRom(pts: [number, number][]) {
+  if (pts.length < 2) return "";
+  const d = [`M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i - 1] ?? pts[i];
+    const p1 = pts[i];
+    const p2 = pts[i + 1];
+    const p3 = pts[i + 2] ?? p2;
+    const c1x = p1[0] + (p2[0] - p0[0]) / 6;
+    const c1y = p1[1] + (p2[1] - p0[1]) / 6;
+    const c2x = p2[0] - (p3[0] - p1[0]) / 6;
+    const c2y = p2[1] - (p3[1] - p1[1]) / 6;
+    d.push(
+      `C ${c1x.toFixed(1)} ${c1y.toFixed(1)} ${c2x.toFixed(1)} ${c2y.toFixed(1)} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`
+    );
+  }
+  return d.join(" ");
+}
+
+// the looping flight path (traced from the drawing): up the left, around a loop,
+// sweep right, then down into the bubble at (bx, by). Waypoints scale with the viewport.
+function flightPath(bx: number, by: number) {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const wp: [number, number][] = [
+    [0.18 * w, 1.15 * h],
+    [0.38 * w, 0.61 * h],
+    [0.385 * w, 0.3 * h],
+    [0.46 * w, 0.245 * h],
+    [0.525 * w, 0.34 * h],
+    [0.41 * w, 0.585 * h],
+    [0.6 * w, 0.645 * h],
+    [0.74 * w, 0.49 * h],
+    [0.86 * w, 0.47 * h],
+    [0.965 * w, 0.66 * h],
+    [bx, by],
+  ];
+  return catmullRom(wp);
+}
+
 export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) {
   const QUESTIONS = audience === "adult" ? ADULT_QUESTIONS : KID_QUESTIONS;
   const [open, setOpen] = useState(false);
@@ -83,10 +124,11 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
   const [dock, setDock] = useState<HTMLElement | null>(null); // mobile slot next to the toolbar
   const [landed, setLanded] = useState(true); // ship parked in its bubble
   const [flying, setFlying] = useState(false); // play the fly-in
-  const [flight, setFlight] = useState<{ x: number; y: number } | null>(null);
+  const [flight, setFlight] = useState<{ d: string } | null>(null);
   const knockTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const flightRef = useRef<HTMLDivElement | null>(null);
+  const flightScaleRef = useRef<HTMLDivElement | null>(null);
   const openOnceRef = useRef(false);
   const landedOnce = useRef(false);
 
@@ -130,7 +172,7 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
       const target = bubbles.find((b) => b.getBoundingClientRect().width > 0);
       if (target) {
         const r = target.getBoundingClientRect();
-        setFlight({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
+        setFlight({ d: flightPath(r.left + r.width / 2, r.top + r.height / 2) });
       } else if (tries++ < 20) {
         raf = requestAnimationFrame(find);
       } else {
@@ -142,22 +184,31 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flying]);
 
-  // animate the descent with the Web Animations API (end point is measured)
+  // fly the ship along the path; grow a little near the top of the loop
   useEffect(() => {
     const el = flightRef.current;
+    const sc = flightScaleRef.current;
     if (!flight || !el) return;
-    const offset = flight.y + 160;
-    const anim = el.animate(
-      [
-        { transform: `translate(-50%, calc(-50% - ${offset}px))` },
-        { transform: "translate(-50%, -50%)" },
-      ],
-      { duration: 2600, easing: "cubic-bezier(0.45, 0.05, 0.25, 1)", fill: "forwards" }
+    const dur = 3400;
+    const ease = "cubic-bezier(0.35, 0.1, 0.35, 1)";
+    const path = el.animate(
+      [{ offsetDistance: "0%" }, { offsetDistance: "100%" }],
+      { duration: dur, easing: ease, fill: "forwards" }
     );
-    anim.onfinish = () => land();
-    const fallback = setTimeout(() => land(), 2900); // safety net if onfinish is missed
+    const grow = sc?.animate(
+      [
+        { transform: "scale(1)", offset: 0 },
+        { transform: "scale(1.35)", offset: 0.28 },
+        { transform: "scale(1.12)", offset: 0.6 },
+        { transform: "scale(1)", offset: 1 },
+      ],
+      { duration: dur, easing: ease, fill: "forwards" }
+    );
+    path.onfinish = () => land();
+    const fallback = setTimeout(() => land(), dur + 300); // safety net if onfinish is missed
     return () => {
-      anim.cancel();
+      path.cancel();
+      grow?.cancel();
       clearTimeout(fallback);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -261,15 +312,22 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
       {/* mobile: ship docked next to the centered toolbar (portaled into SiteCanvas) */}
       {dock && createPortal(launcher, dock)}
 
-      {/* the ship flying down from the top edge, with its rocket flame */}
+      {/* the ship flying in along the drawn path, with its rocket flame */}
       {flight && (
         <div
           ref={flightRef}
           aria-hidden
-          className="pointer-events-none fixed z-[55]"
-          style={{ left: flight.x, top: flight.y, transform: "translate(-50%, -50%)", willChange: "transform" }}
+          className="pointer-events-none fixed left-0 top-0 z-[55]"
+          style={
+            {
+              offsetPath: `path('${flight.d}')`,
+              offsetRotate: "0deg",
+              offsetDistance: "0%",
+              willChange: "offset-distance",
+            } as CSSProperties
+          }
         >
-          <div className="relative">
+          <div ref={flightScaleRef} className="relative">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={SHIP_FLYING} alt="" className="relative z-10 block h-12 w-auto" />
             <svg
