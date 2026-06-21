@@ -1,10 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+
+// run a layout effect on the client, a no-op-ish effect on the server (avoids SSR warning)
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 // public/ filenames have spaces + capitals - encode for the URL
 const SHIP_CLOSED = "/Ship%20-%20Closed.svg";
+const SHIP_FLYING = "/Ship%20-%20Flying.svg";
 const LENSY_WAVE = "/Lensy%20-%20Wave.svg";
 const LENSY_IDEA = "/Lensy%20-%20Idea.svg";
 
@@ -62,8 +66,23 @@ const BIO: [string, string][] = [
   ["Current status", "Confused, but learning 🚀"],
 ];
 
-const SEEN_KEY = "lensy-seen";
+const FLEW_KEY = "lensy-flew";
 type View = "q" | "tell" | "meet" | "thanks";
+
+function isMobileVp() {
+  return typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches;
+}
+
+// hard refresh (cmd+shift+r) re-downloads immutable assets; soft reloads serve them from cache
+function wasHardReload() {
+  try {
+    const list = performance.getEntriesByType("resource") as PerformanceResourceTiming[];
+    const asset = list.find((r) => r.name.includes("/_next/static/"));
+    return !!asset && asset.transferSize > 0;
+  } catch {
+    return false;
+  }
+}
 
 export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) {
   const QUESTIONS = audience === "adult" ? ADULT_QUESTIONS : KID_QUESTIONS;
@@ -73,27 +92,84 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
   const [qi, setQi] = useState(0);
   const [thought, setThought] = useState("");
   const [dock, setDock] = useState<HTMLElement | null>(null); // mobile slot next to the toolbar
+  const [landed, setLanded] = useState(true); // ship parked in its bubble
+  const [flying, setFlying] = useState(false); // play the fly-in
+  const [flight, setFlight] = useState<{ x: number; y: number } | null>(null);
   const knockTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const flightRef = useRef<HTMLDivElement | null>(null);
+  const enteredRef = useRef(false);
+  const landedOnce = useRef(false);
 
   // grab the toolbar's mobile dock slot (rendered by SiteCanvas)
   useEffect(() => {
     setDock(document.getElementById("lensy-dock"));
   }, []);
 
-  // first-visit auto-open (once per session); the ship bubble stays forever.
-  // On mobile we never auto-open - tapping the ship is the only way in.
-  useEffect(() => {
-    if (typeof window === "undefined") return;
+  // decide the entrance before paint: fly in once per session (and on a hard refresh)
+  useIsoLayoutEffect(() => {
     setQi(Math.floor(Math.random() * QUESTIONS.length));
-    if (window.matchMedia("(max-width: 639px)").matches) return;
-    let seen = false;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let flewBefore = false;
     try {
-      seen = !!sessionStorage.getItem(SEEN_KEY);
+      flewBefore = !!sessionStorage.getItem(FLEW_KEY);
     } catch {}
-    if (seen) return;
-    const t = setTimeout(() => setOpen(true), 4000);
-    return () => clearTimeout(t);
+    const entrance = !flewBefore || wasHardReload();
+    enteredRef.current = entrance;
+    try {
+      sessionStorage.setItem(FLEW_KEY, "1");
+    } catch {}
+    if (entrance && !reduce) {
+      setLanded(false);
+      setFlying(true);
+    } else if (entrance && reduce && !isMobileVp()) {
+      openTimer.current = setTimeout(() => setOpen(true), 2500);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // once flying, find the (visible) bubble and aim the ship at it
+  useEffect(() => {
+    if (!flying) return;
+    let raf = 0;
+    let tries = 0;
+    const find = () => {
+      const bubbles = Array.from(document.querySelectorAll<HTMLElement>("[data-lensy-bubble]"));
+      const target = bubbles.find((b) => b.getBoundingClientRect().width > 0);
+      if (target) {
+        const r = target.getBoundingClientRect();
+        setFlight({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
+      } else if (tries++ < 20) {
+        raf = requestAnimationFrame(find);
+      } else {
+        land();
+      }
+    };
+    raf = requestAnimationFrame(find);
+    return () => cancelAnimationFrame(raf);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flying]);
+
+  // animate the descent with the Web Animations API (end point is measured)
+  useEffect(() => {
+    const el = flightRef.current;
+    if (!flight || !el) return;
+    const offset = flight.y + 160;
+    const anim = el.animate(
+      [
+        { transform: `translate(-50%, calc(-50% - ${offset}px))` },
+        { transform: "translate(-50%, -50%)" },
+      ],
+      { duration: 1500, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "forwards" }
+    );
+    anim.onfinish = () => land();
+    const fallback = setTimeout(() => land(), 1700); // safety net if onfinish is missed
+    return () => {
+      anim.cancel();
+      clearTimeout(fallback);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flight]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -103,31 +179,37 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
     return () => {
       window.removeEventListener("keydown", onKey);
       if (knockTimer.current) clearTimeout(knockTimer.current);
+      if (openTimer.current) clearTimeout(openTimer.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function markSeen() {
-    try {
-      sessionStorage.setItem(SEEN_KEY, "1");
-    } catch {}
+  // touchdown: park the ship, then (desktop only) deliver Lensy without the knock-knock
+  function land() {
+    if (landedOnce.current) return;
+    landedOnce.current = true;
+    setLanded(true);
+    setFlying(false);
+    setFlight(null);
+    if (enteredRef.current && !isMobileVp()) {
+      if (openTimer.current) clearTimeout(openTimer.current);
+      openTimer.current = setTimeout(() => setOpen(true), 1000);
+    }
   }
 
   function close() {
     setOpen(false);
     setView("q");
-    markSeen();
   }
 
   // tap the ship -> knock, knock -> Lensy comes out
   function knock() {
-    if (knocking || open) return;
+    if (knocking || open || !landed) return;
     setKnocking(true);
     setView("q");
     knockTimer.current = setTimeout(() => {
       setKnocking(false);
       setOpen(true);
-      markSeen();
     }, 850);
   }
 
@@ -163,13 +245,18 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
       )}
       {/* bubble matches the canvas toolbar's height + look */}
       <button
+        data-lensy-bubble
         onClick={open ? close : knock}
         aria-label={open ? "Close Lensy" : "Call Lensy"}
         title={open ? "Close Lensy" : "Call Lensy"}
         className="flex h-14 w-14 items-center justify-center overflow-visible rounded-full border-2 border-ink bg-surface/95 shadow-[4px_4px_0_var(--color-ink)] backdrop-blur transition-transform hover:-translate-y-0.5"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={SHIP_CLOSED} alt="Lensy's spaceship - tap to call Lensy" className="h-11 w-auto" />
+        <img
+          src={SHIP_CLOSED}
+          alt="Lensy's spaceship - tap to call Lensy"
+          className={`h-11 w-auto transition-opacity duration-200 ${landed ? "opacity-100" : "opacity-0"}`}
+        />
       </button>
     </div>
   );
@@ -181,6 +268,30 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
 
       {/* mobile: ship docked next to the centered toolbar (portaled into SiteCanvas) */}
       {dock && createPortal(launcher, dock)}
+
+      {/* the ship flying down from the top edge, with its rocket flame */}
+      {flight && (
+        <div
+          ref={flightRef}
+          aria-hidden
+          className="pointer-events-none fixed z-[55]"
+          style={{ left: flight.x, top: flight.y, transform: "translate(-50%, -50%)", willChange: "transform" }}
+        >
+          <div className="relative">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={SHIP_FLYING} alt="" className="relative z-10 block h-12 w-auto" />
+            <svg
+              viewBox="0 0 110 150"
+              className="lz-flame-fly absolute left-1/2 top-[64%] z-0"
+              style={{ width: 24, height: 33 }}
+            >
+              <path d="M16,8 C0,54 16,92 30,118 C40,134 48,142 55,150 C62,142 70,134 80,118 C94,92 110,54 94,8 C84,30 72,28 55,30 C38,28 26,30 16,8 Z" fill="#FF7A5C" />
+              <path d="M30,14 C16,52 30,84 42,106 C48,116 52,122 55,128 C58,122 62,116 68,106 C80,84 94,52 80,14 C70,32 62,32 55,34 C48,32 40,32 30,14 Z" fill="#FFC94D" />
+              <path d="M42,22 C32,52 42,76 50,94 C52,98 54,102 55,106 C56,102 58,98 60,94 C68,76 78,52 68,22 C62,36 58,36 55,38 C52,36 48,36 42,22 Z" fill="#FFF1C9" />
+            </svg>
+          </div>
+        </div>
+      )}
 
       {/* the chat popover (corner on desktop, fullscreen on mobile) - no ship here */}
       {open && (
