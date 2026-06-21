@@ -112,14 +112,14 @@ export default function LensyPopup() {
   const btnGhost =
     "rounded-full px-3 py-2 font-hand text-sm font-bold text-brandsoft transition-colors hover:text-brand";
 
-  // ---- CLOSED: persistent ship launcher (+ knock scribble) ----
+  // ---- CLOSED: persistent ship launcher in its own bubble (+ knock scribble) ----
   if (!open) {
     return (
-      <div className="fixed bottom-24 right-4 z-40 sm:bottom-6 sm:right-6">
+      <div className="fixed bottom-4 right-3 z-50 sm:right-5">
         {knocking && (
           <div
             aria-hidden
-            className="anim-pop pointer-events-none absolute bottom-full right-1 mb-2 -rotate-6 whitespace-nowrap text-right"
+            className="anim-pop pointer-events-none absolute bottom-full right-0 mb-2 -rotate-6 whitespace-nowrap text-right"
           >
             <span className="font-hand text-2xl font-extrabold text-brand [text-shadow:1px_1px_0_var(--color-surface)]">
               knock, knock!
@@ -129,38 +129,37 @@ export default function LensyPopup() {
             </svg>
           </div>
         )}
+        {/* bubble matches the canvas toolbar's height + look */}
         <button
           onClick={knock}
           aria-label="Call Lensy"
-          className="hover-pop block transition-transform"
+          title="Call Lensy"
+          className="flex h-14 w-14 items-center justify-center overflow-visible rounded-full border-2 border-ink bg-surface/95 shadow-[4px_4px_0_var(--color-ink)] backdrop-blur transition-transform hover:-translate-y-0.5"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={SHIP_CLOSED} alt="Lensy's spaceship - tap to call Lensy" className={`h-20 w-auto drop-shadow-md ${knocking ? "anim-wobble" : "anim-bob"}`} />
+          <img src={SHIP_CLOSED} alt="Lensy's spaceship - tap to call Lensy" className={`h-11 w-auto ${knocking ? "anim-wobble" : "anim-bob"}`} />
         </button>
       </div>
     );
   }
 
-  // ---- OPEN: Lensy's card ----
+  // ---- OPEN: corner popover on desktop, fullscreen takeover on mobile ----
   const q = QUESTIONS[qi];
   return (
-    <aside
+    <div
+      role="dialog"
       aria-label="Lensy says hi"
-      className="fixed bottom-24 right-3 z-40 w-[340px] max-w-[calc(100vw-1.5rem)] sm:right-5"
+      className="fixed inset-0 z-50 flex flex-col justify-center overflow-y-auto bg-surface px-5 py-6 sm:inset-auto sm:bottom-24 sm:right-5 sm:z-40 sm:block sm:w-[340px] sm:max-w-[calc(100vw-1.5rem)] sm:overflow-visible sm:rounded-3xl sm:border-[2.5px] sm:border-ink sm:p-4 sm:shadow-[5px_6px_0_var(--color-ink)] sm:anim-pop"
+      style={{ animationDelay: landing ? "0.65s" : "0s" }}
     >
-      {/* spaceship perched on top */}
+      {/* spaceship perched on top (desktop popover only) */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={SHIP_OPEN}
         alt=""
         aria-hidden
-        className={`pointer-events-none absolute -top-9 right-3 h-16 w-auto drop-shadow-md ${landing ? "lensy-land" : "anim-pop"}`}
+        className={`pointer-events-none absolute -top-9 right-3 hidden h-16 w-auto drop-shadow-md sm:block ${landing ? "lensy-land" : "anim-pop"}`}
       />
-
-      <div
-        className="anim-pop relative rounded-3xl border-[2.5px] border-ink bg-surface p-4 shadow-[5px_6px_0_var(--color-ink)]"
-        style={{ animationDelay: landing ? "0.65s" : "0s" }}
-      >
         <button
           onClick={close}
           aria-label="Close Lensy"
@@ -270,7 +269,6 @@ export default function LensyPopup() {
             </button>
           </div>
         )}
-      </div>
-    </aside>
+    </div>
   );
 }

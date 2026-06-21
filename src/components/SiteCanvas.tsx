@@ -475,7 +475,7 @@ export default function SiteCanvas({
           onClick={() => setHideNotes((v) => !v)}
           title={hideNotes ? "Show the sticky notes" : "Hide the sticky notes"}
           aria-label={hideNotes ? "Show sticky notes" : "Hide sticky notes"}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-ink bg-surface text-ink transition-transform hover:-translate-y-0.5"
+          className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-ink bg-surface text-ink transition-transform hover:-translate-y-0.5 sm:flex"
         >
           {hideNotes ? (
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
