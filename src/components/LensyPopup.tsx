@@ -80,10 +80,12 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
     setDock(document.getElementById("lensy-dock"));
   }, []);
 
-  // first-visit auto-open (once per session); the ship bubble stays forever
+  // first-visit auto-open (once per session); the ship bubble stays forever.
+  // On mobile we never auto-open - tapping the ship is the only way in.
   useEffect(() => {
     if (typeof window === "undefined") return;
     setQi(Math.floor(Math.random() * QUESTIONS.length));
+    if (window.matchMedia("(max-width: 639px)").matches) return;
     let seen = false;
     try {
       seen = !!sessionStorage.getItem(SEEN_KEY);
