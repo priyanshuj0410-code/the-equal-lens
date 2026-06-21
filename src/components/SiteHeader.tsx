@@ -5,14 +5,16 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Segmented, navLinkClass } from "@equal-lens/brand";
 
+// Home isn't a tab — the logo + wordmark link home. Games is hidden for now.
 const links = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
   { href: "/programs", label: "Programs" },
-  { href: "/games", label: "Games" },
   { href: "/blog", label: "Blog" },
+  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+  { href: "/join", label: "Join us" },
 ];
+
+const SWIPEED_URL = "https://swipeed.vercel.app/path";
 
 const AUDIENCE_OPTIONS: { value: "kid" | "adult"; label: string }[] = [
   { value: "kid", label: "Kids" },
@@ -71,15 +73,12 @@ export default function SiteHeader({ audience }: { audience: "kid" | "adult" }) 
               {l.label}
             </Link>
           ))}
-          <Link
-            href="/join"
-            className="ml-2 rounded-full bg-violet-600 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-violet-800"
-          >
-            Join us
-          </Link>
           <span className="ml-3">
             <AudienceToggle value={audience} onChange={setAudience} />
           </span>
+          <a href={SWIPEED_URL} className="btn btn--primary btn--sm ml-3">
+            Play SwipeEd
+          </a>
         </nav>
 
         <button
@@ -110,7 +109,7 @@ export default function SiteHeader({ audience }: { audience: "kid" | "adult" }) 
           <div className="mb-3">
             <AudienceToggle value={audience} onChange={setAudience} />
           </div>
-          {[...links, { href: "/join", label: "Join us" }].map((l) => (
+          {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
@@ -122,6 +121,13 @@ export default function SiteHeader({ audience }: { audience: "kid" | "adult" }) 
               {l.label}
             </Link>
           ))}
+          <a
+            href={SWIPEED_URL}
+            onClick={() => setOpen(false)}
+            className="btn btn--primary mt-3 w-full justify-center"
+          >
+            Play SwipeEd
+          </a>
         </nav>
       )}
     </header>
