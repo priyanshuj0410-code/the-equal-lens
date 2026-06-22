@@ -4,9 +4,15 @@
    utilities like  bg-brand  text-ink  border-mist  bg-sun  font-hand  etc.,
    plus the dark flip and the playful UI kit.
 
-   Dark mode: set data-audience="adult" on <html>. */
+   FONTS: load them separately — this file deliberately has NO @import, so it
+   stays order-safe to import at ANY position in your entry CSS. (A CSS @import
+   must precede all other rules; a font @import buried in this theme file lands
+   mid-bundle when the file is imported after other rules, which PostCSS and
+   Turbopack's dev CSS pipeline reject.) Load the families — Baloo 2 (headlines),
+   Nunito Sans (body), Poppins (UI) — via next/font, a <link> in <head>, or
+   `@import "@equal-lens/brand/fonts.css";` as the FIRST line of your entry CSS.
 
-@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap");
+   Dark mode: set data-audience="adult" on <html>. */
 
 @theme {
   --color-violet-50: #f3f0f6;

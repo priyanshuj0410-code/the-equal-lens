@@ -25,6 +25,7 @@
       "require": "./dist/index.cjs"
     },
     "./styles.css": "./equal-lens.css",
+    "./fonts.css": "./fonts.css",
     "./components.css": "./components.css",
     "./tokens.css": "./tokens.css",
     "./tailwind.css": "./tailwind.css",
