@@ -177,7 +177,14 @@ async function run() {
     });
   }
 
-  const tx = docs.reduce((t, d) => t.createOrReplace(d as never), client.transaction());
+  // Page singletons + programs are new content -> createOrReplace (backfill).
+  // Collections an editor may have changed in the Studio (team/jobs/posts) use
+  // createIfNotExists so re-running never clobbers their edits.
+  const tx = docs.reduce((t, d) => {
+    const type = String(d._type);
+    const replace = type === "program" || type.endsWith("Page");
+    return replace ? t.createOrReplace(d as never) : t.createIfNotExists(d as never);
+  }, client.transaction());
   await tx.commit();
   console.log(`Seeded ${docs.length} documents into Sanity.`);
 }
