@@ -107,7 +107,7 @@ export async function getTeam(): Promise<TeamMember[]> {
     };
     const rows = await client.fetch<Row[]>(teamQuery, {}, fetchOpts("team"));
     const img = (ref?: SanityImageRef) =>
-      ref ? urlFor(ref).width(240).height(240).fit("crop").auto("format").url() : undefined;
+      ref ? urlFor(ref).width(640).height(640).fit("crop").auto("format").url() : undefined;
     return rows.map((m): TeamMember => ({
       ...m,
       photo: img(m.photo),

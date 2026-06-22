@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { getTeam } from "@/lib/knowledge";
 import { scatterForPath } from "@/lib/pageMyths";
 import { getAudience } from "@/lib/audience";
@@ -48,6 +49,25 @@ const values = [
     body: "The empathy to build something fairer in its place. We help people imagine new possibilities and act on them.",
   },
 ];
+
+const LINK_ICONS: Record<string, ReactNode> = {
+  linkedin: (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+      <path d="M4.98 3.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.4 4.78 5.52V21h-4v-5.5c0-1.3-.02-3-1.95-3-1.95 0-2.25 1.45-2.25 2.9V21H10z" />
+    </svg>
+  ),
+  twitter: (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+      <path d="M18.9 2H22l-7.5 8.6L23 22h-6.9l-5.4-7-6.2 7H1.4l8-9.1L1 2h7l4.9 6.5zm-2.4 18h1.9L7.6 4H5.6z" />
+    </svg>
+  ),
+  website: (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18" />
+    </svg>
+  ),
+};
 
 export default async function AboutPage() {
   const audience = await getAudience();
@@ -122,21 +142,46 @@ export default async function AboutPage() {
           {team.map((m) => {
             const now = m.photo || "/team/placeholder.svg";
             const baby = m.babyPhoto || now; // graceful fallback when no baby pic yet
+            const links = m.links ? Object.entries(m.links).filter(([, v]) => v) : [];
             return (
               <div
                 key={m.id}
-                className="team-card sticker hover-pop rounded-3xl bg-surface p-6 text-center"
+                className="team-card sticker hover-pop overflow-hidden rounded-3xl bg-surface"
               >
-                <div className="team-photo mx-auto h-24 w-24 overflow-hidden rounded-full border-2 border-ink">
+                <div className="team-photo aspect-square w-full bg-mist">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img className="now" src={now} alt={m.name} />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img className="baby" src={baby} alt="" aria-hidden="true" />
                 </div>
-                <h3 className="mt-4 font-hand text-lg font-bold">{m.name}</h3>
-                <p className="text-sm text-brand">{m.role}</p>
-                {m.pronouns && <p className="text-xs text-ink/50">{m.pronouns}</p>}
-                <p className="mt-3 text-sm text-ink/70">{m.bio}</p>
+                <div className="p-5">
+                  <h3 className="font-hand text-xl font-extrabold text-ink">{m.name}</h3>
+                  <p className="mt-0.5 text-sm font-semibold text-brand">
+                    {m.role}
+                    {m.pronouns && (
+                      <span className="font-normal text-ink/40"> · {m.pronouns}</span>
+                    )}
+                  </p>
+                  <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink/65">
+                    {m.bio}
+                  </p>
+                  {links.length > 0 && (
+                    <div className="mt-4 flex gap-2">
+                      {links.map(([k, href]) => (
+                        <a
+                          key={k}
+                          href={href}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={`${m.name} on ${k}`}
+                          className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-mist text-brand transition-colors hover:border-ink hover:bg-mist hover:text-ink"
+                        >
+                          {LINK_ICONS[k] ?? LINK_ICONS.website}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             );
           })}
