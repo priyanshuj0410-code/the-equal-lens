@@ -1,4 +1,4 @@
-import { defineField, defineType, type Rule } from "sanity";
+import { defineField, defineType } from "sanity";
 
 const audienceObject = (
   name: string,
@@ -6,27 +6,23 @@ const audienceObject = (
   kind: "string" | "text",
   description?: string,
   required?: boolean,
-) =>
-  defineField({
+) => {
+  // Branch on kind so defineField gets a concrete literal type (its overloads
+  // can't resolve a "string" | "text" union).
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const req = required ? { validation: (r: any) => r.required() } : {};
+  const sub = (subName: "kid" | "adult", subTitle: string) =>
+    kind === "text"
+      ? defineField({ name: subName, title: subTitle, type: "text", ...req })
+      : defineField({ name: subName, title: subTitle, type: "string", ...req });
+  return defineField({
     name,
     title,
     type: "object",
     description,
-    fields: [
-      defineField({
-        name: "kid",
-        title: "Kid",
-        type: kind,
-        ...(required ? { validation: (r: Rule) => r.required() } : {}),
-      }),
-      defineField({
-        name: "adult",
-        title: "Adult",
-        type: kind,
-        ...(required ? { validation: (r: Rule) => r.required() } : {}),
-      }),
-    ],
+    fields: [sub("kid", "Kid"), sub("adult", "Adult")],
   });
+};
 
 export const programsPage = defineType({
   name: "programsPage",
