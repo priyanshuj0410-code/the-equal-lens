@@ -1,0 +1,24 @@
+{
+  "hero": {
+    "eyebrow": "Games",
+    "headline": {
+      "kid": "Learn fairness through play",
+      "adult": "Same idea, grown-up edition"
+    },
+    "body": {
+      "kid": "Until our games are rebuilt, the whole site is your playground - grab UN and RE from the toolbar and bust a myth right here.",
+      "adult": "Until our games are rebuilt, the whole site is your canvas - grab UN and RE from the toolbar and bust a myth right here."
+    }
+  },
+  "items": {
+    "kid": [
+      { "name": "Sort It Out!", "blurb": "Some statements feel normal - but are they fair? Drag each card into the right box and find out." },
+      { "name": "What Would You Do?", "blurb": "Real situations kids face every day. Make your choice: challenge it, or let it slide." }
+    ],
+    "adult": [
+      { "name": "Spot the Bias", "blurb": "Real moments from work, dating, and family. Which are fair - and which just feel normal?" },
+      { "name": "What Would You Do?", "blurb": "You see it in a meeting or a group chat. Speak up, or let it slide?" }
+    ]
+  },
+  "badge": "coming soon"
+}

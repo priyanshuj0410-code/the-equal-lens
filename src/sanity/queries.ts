@@ -5,6 +5,14 @@ export const teamQuery = groq`*[_type == "teamMember"] | order(order asc, name a
   name, role, pronouns, bio, photo, babyPhoto, links, order
 }`;
 
+// Per-page singleton copy: fetch the one document of the given page type.
+export const pageQuery = groq`*[_type == $type][0]`;
+
+export const programsQuery = groq`*[_type == "program" && coalesce(audience, "kid") == $audience] | order(order asc, title asc){
+  "id": coalesce(slug.current, _id),
+  title, summary, items, icon, order, "audience": coalesce(audience, "kid")
+}`;
+
 export const jobsQuery = groq`*[_type == "job" && status == "open"] | order(postedDate desc){
   "id": coalesce(slug.current, _id),
   title, type, location, remote, summary, responsibilities, requirements,

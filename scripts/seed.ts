@@ -70,6 +70,25 @@ function cleanLinks(links: unknown) {
   return Object.keys(out).length ? out : undefined;
 }
 
+const isPlainObject = (v: unknown): v is Record<string, unknown> =>
+  typeof v === "object" && v !== null && !Array.isArray(v);
+
+// Sanity requires a _key on every array-of-objects item; add them recursively.
+function withKeys(v: unknown): unknown {
+  if (Array.isArray(v)) {
+    return v.map((item) => {
+      const mapped = withKeys(item);
+      return isPlainObject(mapped) ? { _key: key(), ...mapped } : mapped;
+    });
+  }
+  if (isPlainObject(v)) {
+    const out: Record<string, unknown> = {};
+    for (const [k, val] of Object.entries(v)) out[k] = withKeys(val);
+    return out;
+  }
+  return v;
+}
+
 async function run() {
   const docs: Record<string, unknown>[] = [];
 
@@ -127,6 +146,35 @@ async function run() {
         body: mdToPortableText(content),
       });
     }
+  }
+
+  // per-page editable copy: one singleton doc per knowledge/pages/<key>.json
+  const pagesDir = path.join(KB, "pages");
+  if (fs.existsSync(pagesDir)) {
+    for (const f of fs.readdirSync(pagesDir).filter((x) => x.endsWith(".json"))) {
+      const pageKey = f.replace(/\.json$/, "");
+      const data = JSON.parse(fs.readFileSync(path.join(pagesDir, f), "utf8"));
+      docs.push({
+        _id: `${pageKey}Page`,
+        _type: `${pageKey}Page`,
+        ...(withKeys(data) as Record<string, unknown>),
+      });
+    }
+  }
+
+  for (const p of readJson("programs")) {
+    const id = String(p.id);
+    docs.push({
+      _id: `program-${id}`,
+      _type: "program",
+      title: p.title,
+      audience: p.audience ?? "kid",
+      summary: p.summary,
+      items: p.items,
+      icon: p.icon,
+      slug: { _type: "slug", current: id },
+      order: p.order,
+    });
   }
 
   const tx = docs.reduce((t, d) => t.createOrReplace(d as never), client.transaction());

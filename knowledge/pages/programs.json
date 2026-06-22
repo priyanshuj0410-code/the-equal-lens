@@ -1,0 +1,91 @@
+{
+  "hero": {
+    "eyebrow": "Programs",
+    "headline": {
+      "kid": "Fairness education, brought to life",
+      "adult": "Bias workshops people don’t roll their eyes at"
+    },
+    "body": {
+      "kid": "Playful, research-backed programs for schools, families, and communities - never preachy, always purposeful.",
+      "adult": "Honest, practical, research-backed sessions for workplaces, campuses, and communities - never preachy."
+    }
+  },
+  "why": {
+    "eyebrow": "Why choose us",
+    "title": {
+      "kid": "Kids don’t remember lectures. They remember what they figure out themselves.",
+      "adult": "Slideshows don’t change minds. Noticing it yourself does."
+    },
+    "sub": {
+      "kid": "That’s the idea behind every Equal Lens program - and why the lesson actually sticks.",
+      "adult": "That’s the idea behind every Equal Lens session - and why it actually outlasts the meeting."
+    }
+  },
+  "oldWay": {
+    "label": "the usual way",
+    "text": {
+      "kid": "Sit kids down and tell them what’s fair.",
+      "adult": "Run a one-off ‘unconscious bias’ slideshow and tick the box."
+    },
+    "outcome": {
+      "kid": "Polite nods… forgotten by lunch.",
+      "adult": "Everyone nods. Nothing changes by Monday."
+    }
+  },
+  "newWay": {
+    "label": "the equal lens way",
+    "text": {
+      "kid": "Hand kids the tools to spot bias and rewrite it - through play they enjoy.",
+      "adult": "Give people honest tools to spot bias in real situations - and practise doing it differently."
+    },
+    "outcome": {
+      "kid": "A shift they actually carry with them.",
+      "adult": "Habits that outlast the session."
+    }
+  },
+  "features": [
+    {
+      "title": "Built around your group",
+      "body": {
+        "kid": "Every session is shaped to your community’s ages, context, and goals - never copy-paste.",
+        "adult": "Every session is shaped to your team’s context, seniority, and goals - never a generic deck."
+      }
+    },
+    {
+      "title": "Proof it's working",
+      "body": {
+        "kid": "Quick pre- and post-session check-ins show exactly how attitudes shift.",
+        "adult": "Quick pre- and post-session check-ins show exactly how attitudes and behaviours shift."
+      }
+    },
+    {
+      "title": "Led by real educators",
+      "body": {
+        "kid": "Trained facilitators who hold the room with warmth - and zero preachiness.",
+        "adult": "Trained facilitators who hold the room with honesty - and zero preachiness."
+      }
+    },
+    {
+      "title": "Around your timetable",
+      "body": {
+        "kid": "Weekdays, evenings, weekends - we fit you, not the other way round.",
+        "adult": "Weekdays, evenings, remote - we fit your calendar, not the other way round."
+      }
+    }
+  ],
+  "proof": {
+    "kid": ["Age-appropriate", "Research-backed", "Fits your curriculum", "No prep for you"],
+    "adult": ["Judgment-free", "Research-backed", "Fits your org", "No prep for you"]
+  },
+  "cta": {
+    "title": {
+      "kid": "Ready to bring The Equal Lens to your community?",
+      "adult": "Ready to bring The Equal Lens to your team?"
+    },
+    "sub": {
+      "kid": "We’ll tailor a program to your school or organization - and hand you everything you need.",
+      "adult": "We’ll tailor a session to your workplace, campus, or community - and hand you everything you need."
+    },
+    "button": "Get in touch"
+  }
+}

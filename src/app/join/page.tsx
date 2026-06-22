@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import VolunteerForm from "@/components/VolunteerForm";
-import { getJobs } from "@/lib/knowledge";
+import { getJobs, getPageContent } from "@/lib/knowledge";
 import { scatterForPath } from "@/lib/pageMyths";
 import { getAudience } from "@/lib/audience";
 import { Doodle } from "@/components/Doodles";
@@ -12,9 +12,27 @@ export const metadata: Metadata = {
     "Volunteer or join the team - help bring fairness education to more children.",
 };
 
+type Content = {
+  hero: {
+    eyebrow: string;
+    headline: { kid: string; adult: string };
+    body: { kid: string; adult: string };
+  };
+  openRolesHeading: string;
+  noOpenRolesFallback: string;
+  jobCardLabels: {
+    responsibilitiesLabel: string;
+    requirementsLabel: string;
+    applyCta: string;
+  };
+  volunteerHeading: string;
+  volunteerIntro: string;
+};
+
 export default async function JoinPage() {
   const audience = await getAudience();
   const jobs = await getJobs();
+  const c = (await getPageContent("join")) as Content;
 
   return (
     <div>
@@ -24,27 +42,22 @@ export default async function JoinPage() {
         <MythScatter items={scatterForPath("/join", audience)} />
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
           <p className="eyebrow">
-            Join us
+            {c.hero.eyebrow}
           </p>
           <h1 className="mt-3 font-hand text-4xl font-extrabold text-ink sm:text-5xl">
-            {audience === "adult"
-              ? "Help more people unlearn bias"
-              : "Be part of how kids learn fairness"}
+            {c.hero.headline[audience]}
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-ink/70">
-            {audience === "adult"
-              ? "Bring a session to your workplace or campus, or help behind the scenes. Every bit moves someone from noticing to acting."
-              : "Bring a workshop to life, or help behind the scenes. Every bit moves a child from noticing to acting."}
+            {c.hero.body[audience]}
           </p>
         </div>
       </section>
 
       <section className="mx-auto max-w-4xl px-5 py-8">
-        <h2 className="font-hand text-3xl font-extrabold">Open roles</h2>
+        <h2 className="font-hand text-3xl font-extrabold">{c.openRolesHeading}</h2>
         {jobs.length === 0 ? (
           <p className="mt-4 text-ink/60">
-            No open roles right now - but we&rsquo;d still love volunteers. Fill
-            in the form below.
+            {c.noOpenRolesFallback}
           </p>
         ) : (
           <div className="mt-6 space-y-5">
@@ -61,7 +74,7 @@ export default async function JoinPage() {
                 <div className="mt-4 grid gap-6 sm:grid-cols-2">
                   {j.responsibilities && (
                     <div>
-                      <p className="font-hand text-sm font-bold text-ink/80">What you&rsquo;ll do</p>
+                      <p className="font-hand text-sm font-bold text-ink/80">{c.jobCardLabels.responsibilitiesLabel}</p>
                       <ul className="mt-2 space-y-1 text-sm text-ink/70">
                         {j.responsibilities.map((r) => (
                           <li key={r} className="flex gap-2"><span className="text-insight">✓</span><span>{r}</span></li>
@@ -71,7 +84,7 @@ export default async function JoinPage() {
                   )}
                   {j.requirements && (
                     <div>
-                      <p className="font-hand text-sm font-bold text-ink/80">What we look for</p>
+                      <p className="font-hand text-sm font-bold text-ink/80">{c.jobCardLabels.requirementsLabel}</p>
                       <ul className="mt-2 space-y-1 text-sm text-ink/70">
                         {j.requirements.map((r) => (
                           <li key={r} className="flex gap-2"><span className="text-grow">•</span><span>{r}</span></li>
@@ -84,7 +97,7 @@ export default async function JoinPage() {
                   href={`mailto:${j.applyEmail || "support@theequallens.com"}?subject=${encodeURIComponent(`Application: ${j.title}`)}`}
                   className="mt-5 btn btn--primary btn--sm"
                 >
-                  Apply by email
+                  {c.jobCardLabels.applyCta}
                 </a>
               </div>
             ))}
@@ -94,9 +107,9 @@ export default async function JoinPage() {
 
       <section className="mx-auto max-w-2xl px-5 py-12">
         <div className="card">
-          <h2 className="font-hand text-3xl font-extrabold">Volunteer with us</h2>
+          <h2 className="font-hand text-3xl font-extrabold">{c.volunteerHeading}</h2>
           <p className="mt-2 text-ink/70">
-            Tell us a little about yourself and how you&rsquo;d like to help.
+            {c.volunteerIntro}
           </p>
           <div className="mt-6">
             <VolunteerForm />

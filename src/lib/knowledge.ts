@@ -7,13 +7,39 @@ import { client } from "@/sanity/client";
 import { sanityEnabled } from "@/sanity/env";
 import { urlFor } from "@/sanity/image";
 import { ptComponents } from "@/sanity/portableText";
-import { jobsQuery, postQuery, postsMetaQuery, teamQuery } from "@/sanity/queries";
+import {
+  jobsQuery,
+  pageQuery,
+  postQuery,
+  postsMetaQuery,
+  programsQuery,
+  teamQuery,
+} from "@/sanity/queries";
 
 const KB = path.join(process.cwd(), "knowledge");
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SanityImageRef = any;
 const fetchOpts = (tag: string) => ({ next: { tags: [tag], revalidate: 60 } });
+
+const isObj = (v: unknown): v is Record<string, unknown> =>
+  typeof v === "object" && v !== null && !Array.isArray(v);
+
+// Deep-merge a Sanity doc over the local JSON default so partially-filled
+// Sanity content still falls back field-by-field to the shipped copy.
+// Objects recurse; arrays + primitives from the override win when defined.
+function deepMerge<T>(base: T, override: unknown): T {
+  if (!isObj(base) || !isObj(override)) {
+    return override === undefined ? base : (override as T);
+  }
+  const out: Record<string, unknown> = { ...base };
+  for (const [k, v] of Object.entries(override)) {
+    if (v === undefined) continue;
+    const bv = (base as Record<string, unknown>)[k];
+    out[k] = isObj(bv) && isObj(v) ? deepMerge(bv, v) : v;
+  }
+  return out as T;
+}
 
 export type Myth = {
   id: string;
@@ -117,10 +143,34 @@ export async function getTeam(): Promise<TeamMember[]> {
   return readJsonDir<TeamMember>("team").sort(byOrder);
 }
 
-export function getPrograms(audience: "kid" | "adult" = "kid"): Program[] {
+export async function getPrograms(
+  audience: "kid" | "adult" = "kid",
+): Promise<Program[]> {
+  if (sanityEnabled) {
+    return client.fetch<Program[]>(programsQuery, { audience }, fetchOpts("programs"));
+  }
   return readJsonDir<Program>("programs")
     .filter((p) => (p.audience ?? "kid") === audience)
     .sort(byOrder);
+}
+
+// Per-page editable copy. Returns the local knowledge/pages/<key>.json default
+// with the Sanity singleton (_type "<key>Page") deep-merged over it, so the page
+// renders identically when Sanity is empty/disabled and is overridable when set.
+export async function getPageContent(
+  key: string,
+): Promise<Record<string, unknown>> {
+  const file = path.join(KB, "pages", `${key}.json`);
+  const fallback: Record<string, unknown> = fs.existsSync(file)
+    ? JSON.parse(fs.readFileSync(file, "utf8"))
+    : {};
+  if (!sanityEnabled) return fallback;
+  const doc = await client.fetch<Record<string, unknown> | null>(
+    pageQuery,
+    { type: `${key}Page` },
+    fetchOpts("page"),
+  );
+  return doc ? deepMerge(fallback, doc) : fallback;
 }
 
 export async function getJobs(): Promise<Job[]> {

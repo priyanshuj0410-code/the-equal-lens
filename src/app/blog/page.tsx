@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getPostsMeta } from "@/lib/knowledge";
+import { getPostsMeta, getPageContent } from "@/lib/knowledge";
 import { scatterForPath } from "@/lib/pageMyths";
 import { getAudience } from "@/lib/audience";
 import { Doodle } from "@/components/Doodles";
@@ -10,6 +10,14 @@ export const metadata: Metadata = {
   title: "Blog - The Equal Lens",
   description:
     "Ideas on fairness, play, and helping kids unlearn bias and relearn empathy.",
+};
+
+type Content = {
+  hero: {
+    eyebrow: string;
+    headline: { kid: string; adult: string };
+  };
+  emptyState: string;
 };
 
 function formatDate(d: string) {
@@ -23,6 +31,7 @@ function formatDate(d: string) {
 export default async function BlogPage() {
   const audience = await getAudience();
   const posts = await getPostsMeta(audience);
+  const c = (await getPageContent("blog")) as Content;
 
   return (
     <div>
@@ -32,17 +41,17 @@ export default async function BlogPage() {
         <MythScatter items={scatterForPath("/blog", audience)} />
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
           <p className="eyebrow">
-            Blog
+            {c.hero.eyebrow}
           </p>
           <h1 className="mt-3 font-hand text-4xl font-extrabold text-ink sm:text-5xl">
-            {audience === "adult" ? "Notes on bias, work & life" : "Notes on fairness & play"}
+            {c.hero.headline[audience]}
           </h1>
         </div>
       </section>
 
       <section className="mx-auto max-w-5xl px-5 py-10">
         {posts.length === 0 ? (
-          <p className="text-center text-ink/60">No posts yet - check back soon.</p>
+          <p className="text-center text-ink/60">{c.emptyState}</p>
         ) : (
           <div className="grid gap-8 md:grid-cols-2">
             {posts.map((p, i) => (

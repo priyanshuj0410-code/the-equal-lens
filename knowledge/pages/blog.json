@@ -1,0 +1,10 @@
+{
+  "hero": {
+    "eyebrow": "Blog",
+    "headline": {
+      "kid": "Notes on fairness & play",
+      "adult": "Notes on bias, work & life"
+    }
+  },
+  "emptyState": "No posts yet - check back soon."
+}

@@ -5,61 +5,54 @@ import MythScatter from "@/components/MythScatter";
 import BiasChannels from "@/components/BiasChannels";
 import { scatterForPath } from "@/lib/pageMyths";
 import { getAudience } from "@/lib/audience";
+import { getPageContent } from "@/lib/knowledge";
 
-const HOME = {
-  kid: {
-    title: "Kids don’t learn",
-    highlight: "bias",
-    titleEnd: "in classrooms.",
-    sub: "They pick it up on playgrounds, in jokes, online. So we don’t lecture - we hand kids an eraser and a pencil, and let them fix it themselves.",
-    psstDo: "doodle",
-    statsSub: "The numbers tell a powerful story about early childhood learning.",
-    stats: [
-      { n: "70%", cap: "of stereotypes absorbed before age 12", color: "text-grow" },
-      { n: "85%", cap: "of mixed classrooms improve empathy", color: "text-sky" },
-      { n: "92%", cap: "representation shapes aspiration", color: "text-insight" },
-    ],
-    biasHeading: "How kids learn bias",
-    biasSub: "Bias isn’t taught in lessons - it’s absorbed through everyday experiences. Tap each to explore.",
-    loop: [
-      { step: "Notice", body: "Spot the patterns and assumptions hiding in everyday moments." },
-      { step: "Question", body: "Get curious about why things are the way they are." },
-      { step: "Reflect", body: "Think about fairness, impact, and other points of view." },
-      { step: "Act", body: "Make choices that challenge stereotypes - and mean it." },
-    ],
-    ctaHeading: "Bring The Equal Lens to your community",
-    ctaSub: "Workshops, school programs, family sessions, and events - tailored to your group.",
-  },
-  adult: {
-    title: "Bias doesn’t",
-    highlight: "retire",
-    titleEnd: "when you grow up.",
-    sub: "It just gets quieter - in who we hire, who we date, who we expect to ‘settle down.’ But anything learned can be unlearned.",
-    psstDo: "scribble",
-    statsSub: "The bias we carry into adulthood quietly shapes the decisions that matter most.",
-    stats: [
-      { n: "Fewer callbacks", cap: "identical résumés get judged by the name on top", color: "text-grow" },
-      { n: "Unpaid & unseen", cap: "caregiving and the mental load still skew to women", color: "text-sky" },
-      { n: "One kind of leader", cap: "we still expect authority to look a certain way", color: "text-insight" },
-    ],
-    biasHeading: "How grown-ups absorb bias",
-    biasSub: "It doesn’t stop at 18 - it just moves into work, dating, and family. Tap each to explore.",
-    loop: [
-      { step: "Notice", body: "Catch the assumptions running on autopilot." },
-      { step: "Question", body: "Ask where the ‘obvious’ actually came from." },
-      { step: "Reflect", body: "Sit with how it lands - and on whom." },
-      { step: "Act", body: "Make the fairer call, even when it’s the harder one." },
-    ],
-    ctaHeading: "Bring The Equal Lens to your workplace or campus",
-    ctaSub: "Workshops, talks, and team sessions for offices, universities, and communities.",
-  },
+type Audience = "kid" | "adult";
+
+type ByAudience<T> = { kid: T; adult: T };
+
+type Headline = { title: string; highlight: string; titleEnd: string };
+type LinkItem = { label: string; href: string };
+type Stat = { n: string; cap: string };
+type LoopStep = { step: string; body: string };
+
+type Content = {
+  hero: {
+    tag: string;
+    headline: ByAudience<Headline>;
+    body: ByAudience<string>;
+    psstDo: ByAudience<string>;
+    ctaButtons: LinkItem[];
+  };
+  stats: {
+    heading: string;
+    sub: ByAudience<string>;
+    items: ByAudience<Stat[]>;
+  };
+  bias: {
+    heading: ByAudience<string>;
+    sub: ByAudience<string>;
+  };
+  loop: {
+    eyebrow: string;
+    heading: string;
+    items: ByAudience<LoopStep[]>;
+  };
+  cta: {
+    heading: ByAudience<string>;
+    sub: ByAudience<string>;
+    buttons: LinkItem[];
+  };
 };
 
+const STAT_COLORS = ["text-grow", "text-sky", "text-insight"];
 const LOOP_COLORS = ["bg-sun", "bg-insight", "bg-sky", "bg-grow"];
 
 export default async function Home() {
-  const audience = await getAudience();
-  const t = HOME[audience];
+  const audience = (await getAudience()) as Audience;
+  const c = (await getPageContent("home")) as Content;
+
+  const headline = c.hero.headline[audience];
 
   return (
     <div>
@@ -77,30 +70,30 @@ export default async function Home() {
         <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-5 py-16 md:grid-cols-2 md:py-24">
           <div>
             <span className="tag">
-              ✦ Unlearn. Relearn. Grow.
+              {c.hero.tag}
             </span>
             <h1 className="mt-5 font-hand text-4xl font-extrabold leading-[1.05] text-ink sm:text-6xl">
-              {t.title}{" "}
+              {headline.title}{" "}
               <span className="relative whitespace-nowrap text-brand">
-                {t.highlight}
+                {headline.highlight}
                 <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 100 12" preserveAspectRatio="none" aria-hidden="true">
                   <path d="M2 8 C28 2 72 2 98 7" fill="none" stroke="#FF7A5C" strokeWidth="5" strokeLinecap="round" />
                 </svg>
               </span>{" "}
-              {t.titleEnd}
+              {headline.titleEnd}
             </h1>
-            <p className="mt-6 max-w-md text-lg text-ink/70">{t.sub}</p>
+            <p className="mt-6 max-w-md text-lg text-ink/70">{c.hero.body[audience]}</p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link href="/programs" className="btn btn--primary">
-                Explore programs
+              <Link href={c.hero.ctaButtons[0].href} className="btn btn--primary">
+                {c.hero.ctaButtons[0].label}
               </Link>
-              <Link href="/about" className="btn btn--outline">
-                Our approach
+              <Link href={c.hero.ctaButtons[1].href} className="btn btn--outline">
+                {c.hero.ctaButtons[1].label}
               </Link>
             </div>
             <p className="mt-5 font-hand text-lg text-brand">
               ✦ Psst - grab <strong>UN</strong> or <strong>RE</strong> from the toolbar
-              below and {t.psstDo} right on this page.
+              below and {c.hero.psstDo[audience]} right on this page.
             </p>
           </div>
 
@@ -114,18 +107,18 @@ export default async function Home() {
       {/* STATS */}
       <section className="mx-auto max-w-5xl px-5 py-16">
         <div className="text-center">
-          <h2 className="font-hand text-4xl font-extrabold text-ink">Why this matters</h2>
-          <p className="mx-auto mt-3 max-w-xl text-ink/70">{t.statsSub}</p>
+          <h2 className="font-hand text-4xl font-extrabold text-ink">{c.stats.heading}</h2>
+          <p className="mx-auto mt-3 max-w-xl text-ink/70">{c.stats.sub[audience]}</p>
         </div>
         <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {t.stats.map((s, i) => (
+          {c.stats.items[audience].map((s, i) => (
             <div
               key={s.cap}
               style={{ transform: `rotate(${i % 2 ? 1.2 : -1.2}deg)` }}
               className="card hover-pop text-center"
             >
               <div
-                className={`font-hand font-extrabold leading-tight ${s.color} ${
+                className={`font-hand font-extrabold leading-tight ${STAT_COLORS[i]} ${
                   audience === "adult" ? "text-3xl" : "text-6xl"
                 }`}
               >
@@ -140,8 +133,8 @@ export default async function Home() {
       {/* HOW BIAS IS ABSORBED */}
       <section className="mx-auto max-w-5xl px-5 py-16">
         <div className="text-center">
-          <h2 className="font-hand text-4xl font-extrabold text-ink">{t.biasHeading}</h2>
-          <p className="mx-auto mt-3 max-w-xl text-ink/70">{t.biasSub}</p>
+          <h2 className="font-hand text-4xl font-extrabold text-ink">{c.bias.heading[audience]}</h2>
+          <p className="mx-auto mt-3 max-w-xl text-ink/70">{c.bias.sub[audience]}</p>
         </div>
         <div className="mt-8">
           <BiasChannels audience={audience} />
@@ -153,14 +146,14 @@ export default async function Home() {
         <div className="mx-auto max-w-5xl px-5">
           <div className="text-center">
             <span className="eyebrow">
-              How we change it
+              {c.loop.eyebrow}
             </span>
             <h2 className="mt-2 font-hand text-4xl font-extrabold text-ink">
-              Notice → Question → Reflect → Act
+              {c.loop.heading}
             </h2>
           </div>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {t.loop.map((l, i) => (
+            {c.loop.items[audience].map((l, i) => (
               <div
                 key={l.step}
                 style={{ transform: `rotate(${i % 2 ? 1.5 : -1.5}deg)` }}
@@ -189,17 +182,17 @@ export default async function Home() {
             <Mascot type="un" className="anim-bob h-24 w-auto" />
             <Mascot type="re" className="anim-float h-28 w-auto" />
           </div>
-          <h2 className="mt-4 font-hand text-4xl font-extrabold">{t.ctaHeading}</h2>
-          <p className="mt-3 max-w-xl text-violet-100">{t.ctaSub}</p>
+          <h2 className="mt-4 font-hand text-4xl font-extrabold">{c.cta.heading[audience]}</h2>
+          <p className="mt-3 max-w-xl text-violet-100">{c.cta.sub[audience]}</p>
           <div className="mt-7 flex flex-wrap justify-center gap-4">
-            <Link href="/contact" className="btn btn--sun">
-              Get in touch
+            <Link href={c.cta.buttons[0].href} className="btn btn--sun">
+              {c.cta.buttons[0].label}
             </Link>
             <Link
-              href="/join"
+              href={c.cta.buttons[1].href}
               className="btn btn--band"
             >
-              Join us
+              {c.cta.buttons[1].label}
             </Link>
           </div>
         </div>

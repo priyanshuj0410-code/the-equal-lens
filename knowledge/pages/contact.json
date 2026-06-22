@@ -1,0 +1,15 @@
+{
+  "hero": {
+    "eyebrow": "Contact",
+    "headline": "Get in touch",
+    "body": {
+      "kid": "Want to bring The Equal Lens to your school or community? We’d love to hear from you.",
+      "adult": "Want to bring The Equal Lens to your workplace, campus, or community? We’d love to hear from you."
+    }
+  },
+  "sayHelloHeading": "Say hello",
+  "emailLabel": "Email",
+  "emailAddress": "support@theequallens.com",
+  "tagline": "Unlearn. Relearn. Grow.",
+  "sendMessageHeading": "Send a message"
+}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { scatterForPath } from "@/lib/pageMyths";
 import { getAudience } from "@/lib/audience";
+import { getPageContent } from "@/lib/knowledge";
 import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
 
@@ -9,28 +10,24 @@ export const metadata: Metadata = {
   description: "Learn about fairness and challenge bias through play.",
 };
 
-const GAMES = {
-  kid: {
-    title: "Learn fairness through play",
-    sub: "Until our games are rebuilt, the whole site is your playground - grab UN and RE from the toolbar and bust a myth right here.",
-    items: [
-      { name: "Sort It Out!", blurb: "Some statements feel normal - but are they fair? Drag each card into the right box and find out.", color: "bg-sun" },
-      { name: "What Would You Do?", blurb: "Real situations kids face every day. Make your choice: challenge it, or let it slide.", color: "bg-insight" },
-    ],
-  },
-  adult: {
-    title: "Same idea, grown-up edition",
-    sub: "Until our games are rebuilt, the whole site is your canvas - grab UN and RE from the toolbar and bust a myth right here.",
-    items: [
-      { name: "Spot the Bias", blurb: "Real moments from work, dating, and family. Which are fair - and which just feel normal?", color: "bg-sun" },
-      { name: "What Would You Do?", blurb: "You see it in a meeting or a group chat. Speak up, or let it slide?", color: "bg-insight" },
-    ],
-  },
+type GameItem = { name: string; blurb: string };
+
+type Content = {
+  hero: {
+    eyebrow: string;
+    headline: { kid: string; adult: string };
+    body: { kid: string; adult: string };
+  };
+  items: { kid: GameItem[]; adult: GameItem[] };
+  badge: string;
 };
+
+const ITEM_COLORS = ["bg-sun", "bg-insight"];
 
 export default async function GamesPage() {
   const audience = await getAudience();
-  const t = GAMES[audience];
+  const c = (await getPageContent("games")) as Content;
+  const items = c.items[audience];
 
   return (
     <div>
@@ -41,23 +38,23 @@ export default async function GamesPage() {
         <MythScatter items={scatterForPath("/games", audience)} />
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
           <p className="eyebrow">
-            Games
+            {c.hero.eyebrow}
           </p>
-          <h1 className="mt-3 font-hand text-4xl font-extrabold text-ink sm:text-5xl">{t.title}</h1>
-          <p className="mx-auto mt-5 max-w-xl text-lg text-ink/70">{t.sub}</p>
+          <h1 className="mt-3 font-hand text-4xl font-extrabold text-ink sm:text-5xl">{c.hero.headline[audience]}</h1>
+          <p className="mx-auto mt-5 max-w-xl text-lg text-ink/70">{c.hero.body[audience]}</p>
         </div>
       </section>
 
       <section className="mx-auto max-w-4xl px-5 py-10">
         <div className="grid gap-6 sm:grid-cols-2">
-          {t.items.map((g, i) => (
+          {items.map((g, i) => (
             <div
               key={g.name}
               style={{ transform: `rotate(${i % 2 ? 1.5 : -1.5}deg)` }}
               className="card hover-pop"
             >
-              <span className={`rounded-full border-2 border-ink ${g.color} px-3 py-1 font-hand text-xs font-bold text-[#221436]`}>
-                coming soon
+              <span className={`rounded-full border-2 border-ink ${ITEM_COLORS[i % ITEM_COLORS.length]} px-3 py-1 font-hand text-xs font-bold text-[#221436]`}>
+                {c.badge}
               </span>
               <h2 className="mt-4 font-hand text-2xl font-bold">{g.name}</h2>
               <p className="mt-2 text-ink/70">{g.blurb}</p>

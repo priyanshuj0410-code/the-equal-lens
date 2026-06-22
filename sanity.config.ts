@@ -3,6 +3,7 @@ import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { apiVersion, dataset, projectId } from "./src/sanity/env";
 import { schemaTypes } from "./src/sanity/schemas";
+import { structure } from "./src/sanity/structure";
 
 export default defineConfig({
   name: "the-equal-lens",
@@ -11,5 +12,5 @@ export default defineConfig({
   projectId: projectId || "placeholder",
   dataset,
   schema: { types: schemaTypes },
-  plugins: [structureTool(), visionTool({ defaultApiVersion: apiVersion })],
+  plugins: [structureTool({ structure }), visionTool({ defaultApiVersion: apiVersion })],
 });

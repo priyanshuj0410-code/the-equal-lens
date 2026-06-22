@@ -1,0 +1,51 @@
+{
+  "hero": {
+    "eyebrow": "About",
+    "headline": {
+      "kid": "Building awareness through play",
+      "adult": "The bias you carry didn’t start with you"
+    },
+    "body": {
+      "kid": "Children don’t learn bias in lessons - they soak it up from playgrounds, media, family, and the words around them. We’re here to interrupt that, gently.",
+      "adult": "We absorbed it from playgrounds, screens, and ‘that’s just how it is’ - long before we could question it. The Equal Lens helps adults notice it and choose differently."
+    }
+  },
+  "narrative": {
+    "kid": "By middle school, many of these patterns are already set. So we don’t lecture - we design playful, purposeful experiences that make bias visible and invite reflection. When kids meet fairness through play instead of memorisation, they build the confidence to question what they’re told to accept.",
+    "adult": "By adulthood most of it runs on autopilot - in who we hire, who we expect to caretake, who we picture as ‘the leader.’ We don’t lecture. We make those patterns visible and give people honest, judgment-free ways to unlearn them and relearn something fairer."
+  },
+  "vision": {
+    "eyebrow": "Vision",
+    "body": {
+      "kid": "A generation that treats fairness as something they do - noticing bias and choosing better, on their own.",
+      "adult": "Adults who treat fairness as a daily practice - noticing bias and choosing better, on their own."
+    }
+  },
+  "mission": {
+    "eyebrow": "Mission",
+    "body": {
+      "kid": "We help children unlearn bias and relearn empathy through play, before inherited ideas harden into lifelong assumptions.",
+      "adult": "We help 18–35s unlearn the bias they absorbed and relearn empathy - in their workplaces, relationships, and homes."
+    }
+  },
+  "coreValues": {
+    "sectionEyebrow": "Core values",
+    "sectionHeading": "Unlearn & Relearn",
+    "items": [
+      {
+        "tag": "UN",
+        "name": "Unlearn",
+        "body": "The courage to question and let go of inherited bias. We help people notice patterns, ask why, and start fresh."
+      },
+      {
+        "tag": "RE",
+        "name": "Relearn",
+        "body": "The empathy to build something fairer in its place. We help people imagine new possibilities and act on them."
+      }
+    ]
+  },
+  "team": {
+    "sectionEyebrow": "Our team",
+    "sectionHeading": "The people behind the lens"
+  }
+}

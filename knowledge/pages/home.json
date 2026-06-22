@@ -1,0 +1,90 @@
+{
+  "hero": {
+    "tag": "✦ Unlearn. Relearn. Grow.",
+    "headline": {
+      "kid": {
+        "title": "Kids don’t learn",
+        "highlight": "bias",
+        "titleEnd": "in classrooms."
+      },
+      "adult": {
+        "title": "Bias doesn’t",
+        "highlight": "retire",
+        "titleEnd": "when you grow up."
+      }
+    },
+    "body": {
+      "kid": "They pick it up on playgrounds, in jokes, online. So we don’t lecture - we hand kids an eraser and a pencil, and let them fix it themselves.",
+      "adult": "It just gets quieter - in who we hire, who we date, who we expect to ‘settle down.’ But anything learned can be unlearned."
+    },
+    "psstDo": {
+      "kid": "doodle",
+      "adult": "scribble"
+    },
+    "ctaButtons": [
+      { "label": "Explore programs", "href": "/programs" },
+      { "label": "Our approach", "href": "/about" }
+    ]
+  },
+  "stats": {
+    "heading": "Why this matters",
+    "sub": {
+      "kid": "The numbers tell a powerful story about early childhood learning.",
+      "adult": "The bias we carry into adulthood quietly shapes the decisions that matter most."
+    },
+    "items": {
+      "kid": [
+        { "n": "70%", "cap": "of stereotypes absorbed before age 12" },
+        { "n": "85%", "cap": "of mixed classrooms improve empathy" },
+        { "n": "92%", "cap": "representation shapes aspiration" }
+      ],
+      "adult": [
+        { "n": "Fewer callbacks", "cap": "identical résumés get judged by the name on top" },
+        { "n": "Unpaid & unseen", "cap": "caregiving and the mental load still skew to women" },
+        { "n": "One kind of leader", "cap": "we still expect authority to look a certain way" }
+      ]
+    }
+  },
+  "bias": {
+    "heading": {
+      "kid": "How kids learn bias",
+      "adult": "How grown-ups absorb bias"
+    },
+    "sub": {
+      "kid": "Bias isn’t taught in lessons - it’s absorbed through everyday experiences. Tap each to explore.",
+      "adult": "It doesn’t stop at 18 - it just moves into work, dating, and family. Tap each to explore."
+    }
+  },
+  "loop": {
+    "eyebrow": "How we change it",
+    "heading": "Notice → Question → Reflect → Act",
+    "items": {
+      "kid": [
+        { "step": "Notice", "body": "Spot the patterns and assumptions hiding in everyday moments." },
+        { "step": "Question", "body": "Get curious about why things are the way they are." },
+        { "step": "Reflect", "body": "Think about fairness, impact, and other points of view." },
+        { "step": "Act", "body": "Make choices that challenge stereotypes - and mean it." }
+      ],
+      "adult": [
+        { "step": "Notice", "body": "Catch the assumptions running on autopilot." },
+        { "step": "Question", "body": "Ask where the ‘obvious’ actually came from." },
+        { "step": "Reflect", "body": "Sit with how it lands - and on whom." },
+        { "step": "Act", "body": "Make the fairer call, even when it’s the harder one." }
+      ]
+    }
+  },
+  "cta": {
+    "heading": {
+      "kid": "Bring The Equal Lens to your community",
+      "adult": "Bring The Equal Lens to your workplace or campus"
+    },
+    "sub": {
+      "kid": "Workshops, school programs, family sessions, and events - tailored to your group.",
+      "adult": "Workshops, talks, and team sessions for offices, universities, and communities."
+    },
+    "buttons": [
+      { "label": "Get in touch", "href": "/contact" },
+      { "label": "Join us", "href": "/join" }
+    ]
+  }
+}

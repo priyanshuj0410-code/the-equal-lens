@@ -1,0 +1,22 @@
+{
+  "hero": {
+    "eyebrow": "Join us",
+    "headline": {
+      "kid": "Be part of how kids learn fairness",
+      "adult": "Help more people unlearn bias"
+    },
+    "body": {
+      "kid": "Bring a workshop to life, or help behind the scenes. Every bit moves a child from noticing to acting.",
+      "adult": "Bring a session to your workplace or campus, or help behind the scenes. Every bit moves someone from noticing to acting."
+    }
+  },
+  "openRolesHeading": "Open roles",
+  "noOpenRolesFallback": "No open roles right now - but we’d still love volunteers. Fill in the form below.",
+  "jobCardLabels": {
+    "responsibilitiesLabel": "What you’ll do",
+    "requirementsLabel": "What we look for",
+    "applyCta": "Apply by email"
+  },
+  "volunteerHeading": "Volunteer with us",
+  "volunteerIntro": "Tell us a little about yourself and how you’d like to help."
+}

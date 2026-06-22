@@ -19,7 +19,22 @@ export async function POST(req: NextRequest) {
     const type = body?._type;
     const slug = body?.slug?.current;
 
-    if (type === "teamMember") {
+    // per-page copy singletons -> their route
+    const PAGE_ROUTES: Record<string, string> = {
+      homePage: "/",
+      aboutPage: "/about",
+      programsPage: "/programs",
+      gamesPage: "/games",
+      blogPage: "/blog",
+      contactPage: "/contact",
+      joinPage: "/join",
+    };
+
+    if (type && PAGE_ROUTES[type]) {
+      revalidatePath(PAGE_ROUTES[type]);
+    } else if (type === "program") {
+      revalidatePath("/programs");
+    } else if (type === "teamMember") {
       revalidatePath("/about");
     } else if (type === "job") {
       revalidatePath("/join");
