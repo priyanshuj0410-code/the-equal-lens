@@ -180,7 +180,6 @@ export default async function Home() {
         items={testimonials}
         eyebrow={c.testimonials.eyebrow}
         heading={c.testimonials.heading}
-        max={3}
       />
 
       {/* CTA */}
