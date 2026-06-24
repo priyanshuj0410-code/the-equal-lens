@@ -5,7 +5,12 @@ import type { Testimonial } from "@/lib/knowledge";
 
 const CAP = 10;
 const INTERVAL_MS = 5500;
+const MAX_QUOTE = 160;
 const TILTS = [-2, 1.5, -1, 2.5, -1.5, 1, -2, 1.5, -1, 2];
+
+// Shared easing — same curve on track + inner elements so everything
+// moves as one unit and the "push" reads correctly.
+const EASE = "550ms cubic-bezier(0.25, 0.46, 0.45, 0.94)";
 
 function initials(name: string) {
   return name
@@ -13,6 +18,11 @@ function initials(name: string) {
     .slice(0, 2)
     .map((w) => w[0]?.toUpperCase() ?? "")
     .join("");
+}
+
+function truncate(text: string, max: number) {
+  if (text.length <= max) return text;
+  return text.slice(0, max).trimEnd() + "…";
 }
 
 export default function Testimonials({
@@ -63,56 +73,74 @@ export default function Testimonials({
         onTouchCancel={() => setPaused(false)}
       >
         <div className="overflow-hidden">
+          {/* Track — same EASE as inner elements so the whole card moves as one unit */}
           <div
-            className="flex transition-transform duration-500 ease-out"
-            style={{ transform: `translateX(-${current * 100}%)` }}
+            className="flex"
+            style={{ transform: `translateX(-${current * 100}%)`, transition: `transform ${EASE}` }}
           >
             {shown.map((t, i) => {
               const dist = i - current;
               const tilt = TILTS[i % TILTS.length];
+              const quote = truncate(t.quote, MAX_QUOTE);
 
               return (
                 <div
                   key={t.id}
-                  // pt-40 gives 160px above the polaroid — enough for any quote length
-                  className="w-full shrink-0 px-4 pb-6 pt-40"
+                  // pt-48 = 192px — headroom for any 160-char quote at 14px text
+                  className="w-full shrink-0 px-4 pb-6 pt-48"
                   aria-hidden={i !== current}
                   role="group"
                   aria-roledescription="slide"
                   aria-label={`${i + 1} of ${count}`}
                 >
-                  {/* Centering wrapper — 40% larger than before (280→392px).
-                      The bubble at -right-8 extends 32px beyond the polaroid right
-                      edge so it floats over the corner, not the full top edge. */}
                   <div className="relative mx-auto max-w-[392px]">
 
-                    {/* Lensy-style bubble — narrow (44% of polaroid = ~172px) so it
-                        covers only the top-right corner. Moves faster for parallax. */}
+                    {/* ── MOBILE BUBBLE ───────────────────────────────────────────
+                        Full-width, no right overhang — stays within polaroid bounds.
+                        bottom: calc(100% - 18px) = mostly above polaroid, 18px overlap. */}
                     <div
-                      className="absolute -right-8 z-20 w-[44%] rounded-2xl rounded-bl-[0.25rem] bg-mist px-3 py-2.5"
+                      className="absolute right-2 left-2 z-20 block rounded-2xl rounded-bl-[0.25rem] bg-mist px-3 py-2.5 sm:hidden"
                       style={{
                         bottom: "calc(100% - 18px)",
-                        transform: `translateX(${dist * 14}px)`,
-                        transition: "transform 500ms ease-out",
+                        transform: `translateX(${dist * 5}px)`,
+                        transition: `transform ${EASE}`,
                       }}
                     >
-                      <p className="font-hand text-xs font-bold leading-snug text-ink">
-                        &ldquo;{t.quote}&rdquo;
+                      <p className="font-hand text-sm font-bold leading-snug text-ink">
+                        &ldquo;{quote}&rdquo;
                       </p>
                       {t.role && (
-                        <p className="mt-1 font-hand text-[10px] text-brandsoft">{t.role}</p>
+                        <p className="mt-1 font-hand text-xs text-brandsoft">{t.role}</p>
                       )}
                     </div>
 
-                    {/* Polaroid — moves slightly slower for parallax depth */}
+                    {/* ── DESKTOP BUBBLE ──────────────────────────────────────────
+                        Narrow corner-only width (44% ≈ 172px), -right-10 hangs
+                        40px beyond the polaroid right edge, 32px lower overlap. */}
+                    <div
+                      className="absolute -right-10 z-20 hidden w-[44%] rounded-2xl rounded-bl-[0.25rem] bg-mist px-3 py-2.5 sm:block"
+                      style={{
+                        bottom: "calc(100% - 32px)",
+                        transform: `translateX(${dist * 5}px)`,
+                        transition: `transform ${EASE}`,
+                      }}
+                    >
+                      <p className="font-hand text-sm font-bold leading-snug text-ink">
+                        &ldquo;{quote}&rdquo;
+                      </p>
+                      {t.role && (
+                        <p className="mt-1 font-hand text-xs text-brandsoft">{t.role}</p>
+                      )}
+                    </div>
+
+                    {/* Polaroid */}
                     <div
                       className="relative z-10 overflow-hidden rounded-sm border-2 border-ink bg-white shadow-[5px_5px_0_var(--color-ink)]"
                       style={{
-                        transform: `translateX(${dist * -12}px) rotate(${tilt}deg)`,
-                        transition: "transform 500ms ease-out",
+                        transform: `translateX(${dist * -4}px) rotate(${tilt}deg)`,
+                        transition: `transform ${EASE}`,
                       }}
                     >
-                      {/* Photo area */}
                       <div className="relative aspect-[4/3] overflow-hidden border-b-2 border-ink">
                         {t.photo ? (
                           /* eslint-disable-next-line @next/next/no-img-element */
@@ -130,7 +158,6 @@ export default function Testimonials({
                         )}
                       </div>
 
-                      {/* Polaroid strip — name left, handwritten tag right */}
                       <div className="flex items-baseline justify-between px-5 py-4">
                         <span className="font-hand text-sm font-bold text-ink">{t.name}</span>
                         {t.tag && (
