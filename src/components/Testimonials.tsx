@@ -118,7 +118,7 @@ export default function Testimonials({
                         Narrow corner-only width (44% ≈ 172px), -right-10 hangs
                         40px beyond the polaroid right edge, 32px lower overlap. */}
                     <div
-                      className="absolute -right-10 z-20 hidden w-[44%] rounded-2xl rounded-bl-[0.25rem] bg-mist px-3 py-2.5 sm:block"
+                      className="absolute -right-10 z-20 hidden w-[75%] rounded-2xl rounded-bl-[0.25rem] bg-mist px-3 py-2.5 sm:block"
                       style={{
                         bottom: "calc(100% - 32px)",
                         transform: `translateX(${dist * 5}px)`,
