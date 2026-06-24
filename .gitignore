@@ -20,3 +20,4 @@ dist/
 *.log
 .claude/
 .vercel
+.plane_current_issue
