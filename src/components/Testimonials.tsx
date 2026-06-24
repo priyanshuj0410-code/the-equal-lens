@@ -74,34 +74,37 @@ export default function Testimonials({
               return (
                 <div
                   key={t.id}
-                  className="w-full shrink-0 px-6 pb-6 pt-20"
+                  // pt-40 gives 160px above the polaroid — enough for any quote length
+                  className="w-full shrink-0 px-4 pb-6 pt-40"
                   aria-hidden={i !== current}
                   role="group"
                   aria-roledescription="slide"
                   aria-label={`${i + 1} of ${count}`}
                 >
-                  <div className="relative mx-auto max-w-[280px] sm:max-w-xs">
+                  {/* Centering wrapper — 40% larger than before (280→392px).
+                      The bubble at -right-8 extends 32px beyond the polaroid right
+                      edge so it floats over the corner, not the full top edge. */}
+                  <div className="relative mx-auto max-w-[392px]">
 
-                    {/* Lensy-style chat bubble — anchored so its bottom sits ~18px
-                        into the polaroid top (≈7% overlap), floats above otherwise.
-                        Moves faster than the polaroid for parallax depth. */}
+                    {/* Lensy-style bubble — narrow (44% of polaroid = ~172px) so it
+                        covers only the top-right corner. Moves faster for parallax. */}
                     <div
-                      className="absolute right-2 z-20 max-w-[65%] rounded-2xl rounded-bl-[0.25rem] bg-mist px-3 py-2.5"
+                      className="absolute -right-8 z-20 w-[44%] rounded-2xl rounded-bl-[0.25rem] bg-mist px-3 py-2.5"
                       style={{
                         bottom: "calc(100% - 18px)",
                         transform: `translateX(${dist * 14}px)`,
                         transition: "transform 500ms ease-out",
                       }}
                     >
-                      <p className="font-hand text-sm font-bold leading-snug text-ink">
+                      <p className="font-hand text-xs font-bold leading-snug text-ink">
                         &ldquo;{t.quote}&rdquo;
                       </p>
                       {t.role && (
-                        <p className="mt-1 font-hand text-xs text-brandsoft">{t.role}</p>
+                        <p className="mt-1 font-hand text-[10px] text-brandsoft">{t.role}</p>
                       )}
                     </div>
 
-                    {/* Polaroid — moves slightly slower than the bubble for parallax */}
+                    {/* Polaroid — moves slightly slower for parallax depth */}
                     <div
                       className="relative z-10 overflow-hidden rounded-sm border-2 border-ink bg-white shadow-[5px_5px_0_var(--color-ink)]"
                       style={{
@@ -120,15 +123,15 @@ export default function Testimonials({
                           />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center bg-violet-50">
-                            <span className="font-hand text-5xl font-extrabold text-brand/30">
+                            <span className="font-hand text-6xl font-extrabold text-brand/30">
                               {initials(t.name)}
                             </span>
                           </div>
                         )}
                       </div>
 
-                      {/* White polaroid strip — name + handwritten tag */}
-                      <div className="flex items-baseline justify-between px-4 py-3">
+                      {/* Polaroid strip — name left, handwritten tag right */}
+                      <div className="flex items-baseline justify-between px-5 py-4">
                         <span className="font-hand text-sm font-bold text-ink">{t.name}</span>
                         {t.tag && (
                           <span className="font-hand text-xs italic text-ink/40">{t.tag}</span>
