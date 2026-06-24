@@ -14,6 +14,7 @@ import {
   postsMetaQuery,
   programsQuery,
   teamQuery,
+  testimonialsQuery,
 } from "@/sanity/queries";
 
 const KB = path.join(process.cwd(), "knowledge");
@@ -94,6 +95,17 @@ export type Program = {
   audience?: string;
 };
 
+export type Testimonial = {
+  id: string;
+  quote: string;
+  name: string;
+  role?: string;
+  audience?: string;
+  photo?: string;
+  order?: number;
+  placeholder?: boolean;
+};
+
 export type PostMeta = {
   title: string;
   slug: string;
@@ -151,6 +163,28 @@ export async function getPrograms(
   }
   return readJsonDir<Program>("programs")
     .filter((p) => (p.audience ?? "kid") === audience)
+    .sort(byOrder);
+}
+
+export async function getTestimonials(
+  audience: "kid" | "adult" = "kid",
+): Promise<Testimonial[]> {
+  if (sanityEnabled) {
+    type Row = Omit<Testimonial, "photo"> & { photo?: SanityImageRef };
+    const rows = await client.fetch<Row[]>(
+      testimonialsQuery,
+      { audience },
+      fetchOpts("testimonials"),
+    );
+    return rows.map((t): Testimonial => ({
+      ...t,
+      photo: t.photo
+        ? urlFor(t.photo).width(120).height(120).fit("crop").auto("format").url()
+        : undefined,
+    }));
+  }
+  return readJsonDir<Testimonial>("testimonials")
+    .filter((t) => (t.audience ?? "kid") === audience)
     .sort(byOrder);
 }
 

@@ -13,6 +13,11 @@ export const programsQuery = groq`*[_type == "program" && coalesce(audience, "ki
   title, summary, items, icon, order, "audience": coalesce(audience, "kid")
 }`;
 
+export const testimonialsQuery = groq`*[_type == "testimonial" && coalesce(audience, "kid") == $audience] | order(order asc, name asc){
+  "id": coalesce(slug.current, _id),
+  quote, name, role, photo, order, "audience": coalesce(audience, "kid")
+}`;
+
 export const jobsQuery = groq`*[_type == "job" && status == "open"] | order(postedDate desc){
   "id": coalesce(slug.current, _id),
   title, type, location, remote, summary, responsibilities, requirements,

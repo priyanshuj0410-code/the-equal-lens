@@ -34,6 +34,9 @@ export async function POST(req: NextRequest) {
       revalidatePath(PAGE_ROUTES[type]);
     } else if (type === "program") {
       revalidatePath("/programs");
+    } else if (type === "testimonial") {
+      revalidatePath("/");
+      revalidatePath("/programs");
     } else if (type === "teamMember") {
       revalidatePath("/about");
     } else if (type === "job") {

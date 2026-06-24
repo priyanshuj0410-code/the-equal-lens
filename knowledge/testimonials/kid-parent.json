@@ -1,0 +1,9 @@
+{
+  "id": "kid-parent",
+  "audience": "kid",
+  "quote": "My daughter came home and gently corrected something I’d said for years. That’s the whole point, isn’t it?",
+  "name": "Sample Parent (replace me)",
+  "role": "Parent of two",
+  "order": 2,
+  "placeholder": true
+}

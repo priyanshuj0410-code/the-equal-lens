@@ -105,6 +105,16 @@ export const programsPage = defineType({
         defineField({ name: "button", title: "Button label", type: "string", description: "Shared button text." }),
       ],
     }),
+    defineField({
+      name: "testimonials",
+      title: "Testimonials section",
+      type: "object",
+      description: "Heading for the testimonials section. The quotes themselves are Testimonial documents.",
+      fields: [
+        defineField({ name: "eyebrow", title: "Eyebrow (shared)", type: "string" }),
+        defineField({ name: "heading", title: "Heading (shared)", type: "string" }),
+      ],
+    }),
   ],
   preview: { prepare: () => ({ title: "Programs page" }) },
 });

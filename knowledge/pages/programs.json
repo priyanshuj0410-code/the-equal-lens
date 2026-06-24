@@ -74,8 +74,18 @@
     }
   ],
   "proof": {
-    "kid": ["Age-appropriate", "Research-backed", "Fits your curriculum", "No prep for you"],
-    "adult": ["Judgment-free", "Research-backed", "Fits your org", "No prep for you"]
+    "kid": [
+      "Age-appropriate",
+      "Research-backed",
+      "Fits your curriculum",
+      "No prep for you"
+    ],
+    "adult": [
+      "Judgment-free",
+      "Research-backed",
+      "Fits your org",
+      "No prep for you"
+    ]
   },
   "cta": {
     "title": {
@@ -87,5 +97,9 @@
       "adult": "We’ll tailor a session to your workplace, campus, or community - and hand you everything you need."
     },
     "button": "Get in touch"
+  },
+  "testimonials": {
+    "eyebrow": "Proof it lands",
+    "heading": "What schools and teams tell us"
   }
 }

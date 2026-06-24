@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getPrograms, getPageContent } from "@/lib/knowledge";
+import { getPrograms, getPageContent, getTestimonials } from "@/lib/knowledge";
 import { scatterForPath } from "@/lib/pageMyths";
 import { getAudience } from "@/lib/audience";
 import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
 import Mascot from "@/components/Mascot";
+import Testimonials from "@/components/Testimonials";
 
 export const metadata: Metadata = {
   title: "Programs - The Equal Lens",
@@ -23,6 +24,7 @@ type Content = {
   features: { title: string; body: Aud }[];
   proof: Aud<string[]>;
   cta: { title: Aud; sub: Aud; button: string };
+  testimonials: { eyebrow: string; heading: string };
 };
 
 const FEATURE_STYLES = [
@@ -64,6 +66,7 @@ export default async function ProgramsPage() {
   const audience = await getAudience();
   const c = (await getPageContent("programs")) as Content;
   const programs = await getPrograms(audience);
+  const testimonials = await getTestimonials(audience);
 
   return (
     <div>
@@ -173,6 +176,12 @@ export default async function ProgramsPage() {
           ))}
         </div>
       </section>
+
+      <Testimonials
+        items={testimonials}
+        eyebrow={c.testimonials.eyebrow}
+        heading={c.testimonials.heading}
+      />
 
       <section className="relative overflow-hidden bg-band text-white">
         <Doodle name="sparkle" className="anim-wobble absolute left-10 top-10 w-9 text-sun" />

@@ -5,7 +5,8 @@ import MythScatter from "@/components/MythScatter";
 import BiasChannels from "@/components/BiasChannels";
 import { scatterForPath } from "@/lib/pageMyths";
 import { getAudience } from "@/lib/audience";
-import { getPageContent } from "@/lib/knowledge";
+import { getPageContent, getTestimonials } from "@/lib/knowledge";
+import Testimonials from "@/components/Testimonials";
 
 type Audience = "kid" | "adult";
 
@@ -43,6 +44,7 @@ type Content = {
     sub: ByAudience<string>;
     buttons: LinkItem[];
   };
+  testimonials: { eyebrow: string; heading: string };
 };
 
 const STAT_COLORS = ["text-grow", "text-sky", "text-insight"];
@@ -51,6 +53,7 @@ const LOOP_COLORS = ["bg-sun", "bg-insight", "bg-sky", "bg-grow"];
 export default async function Home() {
   const audience = (await getAudience()) as Audience;
   const c = (await getPageContent("home")) as Content;
+  const testimonials = await getTestimonials(audience);
 
   const headline = c.hero.headline[audience];
 
@@ -171,6 +174,14 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* TESTIMONIALS */}
+      <Testimonials
+        items={testimonials}
+        eyebrow={c.testimonials.eyebrow}
+        heading={c.testimonials.heading}
+        max={3}
+      />
 
       {/* CTA */}
       <section className="relative overflow-hidden bg-band text-white">

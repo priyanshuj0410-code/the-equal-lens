@@ -177,14 +177,27 @@ async function run() {
     });
   }
 
-  // Page singletons + programs are new content -> createOrReplace (backfill).
-  // Collections an editor may have changed in the Studio (team/jobs/posts) use
-  // createIfNotExists so re-running never clobbers their edits.
-  const tx = docs.reduce((t, d) => {
-    const type = String(d._type);
-    const replace = type === "program" || type.endsWith("Page");
-    return replace ? t.createOrReplace(d as never) : t.createIfNotExists(d as never);
-  }, client.transaction());
+  for (const t of readJson("testimonials")) {
+    const id = String(t.id);
+    docs.push({
+      _id: `testimonial-${id}`,
+      _type: "testimonial",
+      quote: t.quote,
+      name: t.name,
+      role: t.role,
+      audience: t.audience ?? "kid",
+      slug: { _type: "slug", current: id },
+      order: t.order,
+    });
+  }
+
+  // Backfill only: createIfNotExists so re-running NEVER overwrites content an
+  // editor has changed in the Studio. New docs are created; existing ones are
+  // left untouched (the JSON is just the initial seed + offline fallback).
+  const tx = docs.reduce(
+    (t, d) => t.createIfNotExists(d as never),
+    client.transaction(),
+  );
   await tx.commit();
   console.log(`Seeded ${docs.length} documents into Sanity.`);
 }

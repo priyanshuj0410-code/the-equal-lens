@@ -9,6 +9,7 @@ import { post } from "./post";
 import { program } from "./program";
 import { programsPage } from "./programsPage";
 import { teamMember } from "./teamMember";
+import { testimonial } from "./testimonial";
 
 // Per-page editable copy (singletons), then collections.
 export const pageTypes = [
@@ -21,4 +22,4 @@ export const pageTypes = [
   joinPage,
 ];
 
-export const schemaTypes = [...pageTypes, teamMember, job, post, program];
+export const schemaTypes = [...pageTypes, teamMember, job, post, program, testimonial];
