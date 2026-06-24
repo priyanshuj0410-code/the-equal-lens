@@ -61,7 +61,7 @@ export default function Testimonials({
       </div>
 
       <div
-        className="relative mt-12"
+        className="relative mt-4"
         aria-roledescription="carousel"
         aria-label={heading}
         onMouseEnter={() => setPaused(true)}
