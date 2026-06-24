@@ -48,6 +48,12 @@ export const testimonial = defineType({
       options: { source: "name", maxLength: 96 },
     }),
     defineField({
+      name: "tag",
+      title: "Polaroid tag",
+      type: "string",
+      description: "Handwritten caption on the polaroid strip, e.g. Workshop Day, '24.",
+    }),
+    defineField({
       name: "order",
       title: "Order",
       type: "number",

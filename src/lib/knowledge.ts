@@ -100,6 +100,7 @@ export type Testimonial = {
   quote: string;
   name: string;
   role?: string;
+  tag?: string;
   audience?: string;
   photo?: string;
   order?: number;
@@ -179,7 +180,7 @@ export async function getTestimonials(
     return rows.map((t): Testimonial => ({
       ...t,
       photo: t.photo
-        ? urlFor(t.photo).width(120).height(120).fit("crop").auto("format").url()
+        ? urlFor(t.photo).width(600).height(450).fit("crop").auto("format").url()
         : undefined,
     }));
   }

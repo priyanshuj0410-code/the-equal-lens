@@ -1,9 +1,10 @@
 {
   "id": "kid-teacher",
   "audience": "kid",
-  "quote": "The kids didn’t even realise they were learning - they were too busy arguing about whether something was fair. That’s the magic.",
+  "quote": "The kids didn't even realise they were learning - they were too busy arguing about whether something was fair. That's the magic.",
   "name": "Sample Teacher (replace me)",
   "role": "Year 5 Teacher",
+  "tag": "Workshop Day, '24",
   "order": 1,
   "placeholder": true
 }

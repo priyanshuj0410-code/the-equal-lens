@@ -5,6 +5,8 @@ import type { Testimonial } from "@/lib/knowledge";
 
 const CAP = 10;
 const INTERVAL_MS = 5500;
+// Alternating tilts so each polaroid has its own character
+const TILTS = [-2, 1.5, -1, 2.5, -1.5, 1, -2, 1.5, -1, 2];
 
 function initials(name: string) {
   return name
@@ -30,7 +32,6 @@ export default function Testimonials({
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  // auto-rotate, unless paused, single item, or reduced-motion
   useEffect(() => {
     if (paused || count <= 1) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -51,7 +52,7 @@ export default function Testimonials({
       </div>
 
       <div
-        className="relative mt-10"
+        className="relative mt-12"
         aria-roledescription="carousel"
         aria-label={heading}
         onMouseEnter={() => setPaused(true)}
@@ -67,43 +68,81 @@ export default function Testimonials({
             className="flex transition-transform duration-500 ease-out"
             style={{ transform: `translateX(-${current * 100}%)` }}
           >
-            {shown.map((t, i) => (
-              <div
-                key={t.id}
-                className="w-full shrink-0 px-2 pb-2"
-                aria-hidden={i !== current}
-                role="group"
-                aria-roledescription="slide"
-                aria-label={`${i + 1} of ${count}`}
-              >
-                <figure className="card mx-auto flex max-w-2xl flex-col text-center">
-                  <span aria-hidden="true" className="font-hand text-6xl leading-none text-brand/30">
-                    &ldquo;
-                  </span>
-                  <blockquote className="-mt-3 font-hand text-xl font-bold leading-snug text-ink sm:text-2xl">
-                    {t.quote}
-                  </blockquote>
-                  <figcaption className="mt-6 flex items-center justify-center gap-3">
-                    {t.photo ? (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img
-                        src={t.photo}
-                        alt=""
-                        className="h-11 w-11 rounded-full border-2 border-ink object-cover"
+            {shown.map((t, i) => {
+              const dist = i - current;
+              const tilt = TILTS[i % TILTS.length];
+
+              return (
+                <div
+                  key={t.id}
+                  className="w-full shrink-0 px-6 pb-6 pt-20"
+                  aria-hidden={i !== current}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`${i + 1} of ${count}`}
+                >
+                  {/* Centering wrapper — positions bubble + polaroid relative to each other */}
+                  <div className="relative mx-auto max-w-[280px] sm:max-w-xs">
+
+                    {/* Chat bubble — overlaps the top-right corner of the polaroid, moves faster (foreground) */}
+                    <div
+                      className="absolute -top-16 right-0 z-20 max-w-[80%] rounded-2xl border-2 border-ink bg-surface px-4 py-3 shadow-[3px_3px_0_var(--color-ink)] sm:-top-14 sm:right-2"
+                      style={{
+                        transform: `translateX(${dist * 14}px)`,
+                        transition: "transform 500ms ease-out",
+                      }}
+                    >
+                      <p className="font-hand text-sm font-bold leading-snug text-ink sm:text-base">
+                        &ldquo;{t.quote}&rdquo;
+                      </p>
+                      {t.role && (
+                        <p className="mt-1.5 font-hand text-xs text-brandsoft">{t.role}</p>
+                      )}
+                      {/* Bubble tail — rotated square that peeks below the bubble */}
+                      <span
+                        aria-hidden="true"
+                        className="absolute -bottom-[9px] right-5 h-4 w-4 rotate-45 border-b-2 border-r-2 border-ink bg-surface"
                       />
-                    ) : (
-                      <span className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-ink bg-violet-100 font-hand text-sm font-extrabold text-brand">
-                        {initials(t.name)}
-                      </span>
-                    )}
-                    <span className="text-left">
-                      <span className="block font-hand text-sm font-bold text-ink">{t.name}</span>
-                      {t.role && <span className="block text-xs text-brandsoft">{t.role}</span>}
-                    </span>
-                  </figcaption>
-                </figure>
-              </div>
-            ))}
+                    </div>
+
+                    {/* Polaroid — moves slightly slower (background) */}
+                    <div
+                      className="relative z-10 overflow-hidden rounded-sm border-2 border-ink bg-white shadow-[5px_5px_0_var(--color-ink)]"
+                      style={{
+                        transform: `translateX(${dist * -12}px) rotate(${tilt}deg)`,
+                        transition: "transform 500ms ease-out",
+                      }}
+                    >
+                      {/* Photo area */}
+                      <div className="relative aspect-[4/3] overflow-hidden border-b-2 border-ink">
+                        {t.photo ? (
+                          /* eslint-disable-next-line @next/next/no-img-element */
+                          <img
+                            src={t.photo}
+                            alt={`${t.name} at an Equal Lens workshop`}
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-violet-50">
+                            <span className="font-hand text-5xl font-extrabold text-brand/30">
+                              {initials(t.name)}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* White polaroid strip — name + handwritten tag */}
+                      <div className="flex items-baseline justify-between px-4 py-3">
+                        <span className="font-hand text-sm font-bold text-ink">{t.name}</span>
+                        {t.tag && (
+                          <span className="font-hand text-xs italic text-ink/40">{t.tag}</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
