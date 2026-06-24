@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins, Nunito_Sans, Baloo_2 } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import "@equal-lens/brand/components.css";
 import SiteHeader from "@/components/SiteHeader";
@@ -54,6 +56,8 @@ export default async function RootLayout({
         <SiteFooter />
         {!chosen && <WelcomeModal />}
         {chosen && <LensyPopup audience={audience} />}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
