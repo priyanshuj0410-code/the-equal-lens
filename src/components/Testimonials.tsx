@@ -5,7 +5,6 @@ import type { Testimonial } from "@/lib/knowledge";
 
 const CAP = 10;
 const INTERVAL_MS = 5500;
-// Alternating tilts so each polaroid has its own character
 const TILTS = [-2, 1.5, -1, 2.5, -1.5, 1, -2, 1.5, -1, 2];
 
 function initials(name: string) {
@@ -81,31 +80,28 @@ export default function Testimonials({
                   aria-roledescription="slide"
                   aria-label={`${i + 1} of ${count}`}
                 >
-                  {/* Centering wrapper — positions bubble + polaroid relative to each other */}
                   <div className="relative mx-auto max-w-[280px] sm:max-w-xs">
 
-                    {/* Chat bubble — overlaps the top-right corner of the polaroid, moves faster (foreground) */}
+                    {/* Lensy-style chat bubble — anchored so its bottom sits ~18px
+                        into the polaroid top (≈7% overlap), floats above otherwise.
+                        Moves faster than the polaroid for parallax depth. */}
                     <div
-                      className="absolute -top-16 right-0 z-20 max-w-[80%] rounded-2xl border-2 border-ink bg-surface px-4 py-3 shadow-[3px_3px_0_var(--color-ink)] sm:-top-14 sm:right-2"
+                      className="absolute right-2 z-20 max-w-[65%] rounded-2xl rounded-bl-[0.25rem] bg-mist px-3 py-2.5"
                       style={{
+                        bottom: "calc(100% - 18px)",
                         transform: `translateX(${dist * 14}px)`,
                         transition: "transform 500ms ease-out",
                       }}
                     >
-                      <p className="font-hand text-sm font-bold leading-snug text-ink sm:text-base">
+                      <p className="font-hand text-sm font-bold leading-snug text-ink">
                         &ldquo;{t.quote}&rdquo;
                       </p>
                       {t.role && (
-                        <p className="mt-1.5 font-hand text-xs text-brandsoft">{t.role}</p>
+                        <p className="mt-1 font-hand text-xs text-brandsoft">{t.role}</p>
                       )}
-                      {/* Bubble tail — rotated square that peeks below the bubble */}
-                      <span
-                        aria-hidden="true"
-                        className="absolute -bottom-[9px] right-5 h-4 w-4 rotate-45 border-b-2 border-r-2 border-ink bg-surface"
-                      />
                     </div>
 
-                    {/* Polaroid — moves slightly slower (background) */}
+                    {/* Polaroid — moves slightly slower than the bubble for parallax */}
                     <div
                       className="relative z-10 overflow-hidden rounded-sm border-2 border-ink bg-white shadow-[5px_5px_0_var(--color-ink)]"
                       style={{
@@ -123,7 +119,7 @@ export default function Testimonials({
                             className="h-full w-full object-cover"
                           />
                         ) : (
-                          <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-violet-50">
+                          <div className="flex h-full w-full items-center justify-center bg-violet-50">
                             <span className="font-hand text-5xl font-extrabold text-brand/30">
                               {initials(t.name)}
                             </span>
