@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Bubble } from "@equal-lens/brand";
 import type { Testimonial } from "@/lib/knowledge";
 
 const CAP = 10;
@@ -98,41 +99,41 @@ export default function Testimonials({
                     {/* ── MOBILE BUBBLE ───────────────────────────────────────────
                         Full-width, no right overhang — stays within polaroid bounds.
                         bottom: calc(100% - 18px) = mostly above polaroid, 18px overlap. */}
-                    <div
-                      className="absolute right-2 left-2 z-20 block rounded-2xl rounded-bl-[0.25rem] bg-mist px-3 py-2.5 sm:hidden"
+                    {/* Mobile */}
+                    <Bubble
+                      className="absolute right-2 left-2 z-20 block sm:hidden"
                       style={{
                         bottom: "calc(100% - 18px)",
                         transform: `translateX(${dist * 5}px)`,
                         transition: `transform ${EASE}`,
                       }}
                     >
-                      <p className="mb-1 font-hand text-xs font-bold text-brand">{t.name}</p>
-                      <p className="font-hand text-sm font-bold leading-snug text-ink">
+                      <p className="mb-1 font-hand text-sm font-bold text-brand">{t.name}</p>
+                      <p className="font-hand text-sm font-semibold leading-snug text-ink">
                         &ldquo;{quote}&rdquo;
                       </p>
                       {t.role && (
                         <p className="mt-1 font-hand text-xs text-brandsoft">{t.role}</p>
                       )}
-                    </div>
+                    </Bubble>
 
-                    {/* ── DESKTOP BUBBLE ──────────────────────────────────────────
-                        75% polaroid width, -right-10 hangs 40px beyond right edge. */}
-                    <div
-                      className="absolute -right-10 z-20 hidden w-[75%] rounded-2xl rounded-bl-[0.25rem] bg-mist px-3 py-2.5 sm:block"
+                    {/* Desktop — 75% polaroid width, -right-10 hangs 40px beyond right edge */}
+                    <Bubble
+                      className="absolute -right-10 z-20 hidden w-[75%] sm:block"
                       style={{
                         bottom: "calc(100% - 32px)",
                         transform: `translateX(${dist * 5}px)`,
                         transition: `transform ${EASE}`,
                       }}
                     >
-                      <p className="mb-1 font-hand text-xs font-bold text-brand">{t.name}</p>
-                      <p className="font-hand text-sm font-bold leading-snug text-ink">
+                      <p className="mb-1 font-hand text-sm font-bold text-brand">{t.name}</p>
+                      <p className="font-hand text-sm font-semibold leading-snug text-ink">
                         &ldquo;{quote}&rdquo;
                       </p>
                       {t.role && (
                         <p className="mt-1 font-hand text-xs text-brandsoft">{t.role}</p>
                       )}
-                    </div>
+                    </Bubble>
 
                     {/* Polaroid */}
                     <div
