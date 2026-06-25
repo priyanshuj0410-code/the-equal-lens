@@ -97,7 +97,7 @@ export default async function AboutPage() {
           </p>
           <h2 className="mt-2 font-hand text-4xl font-extrabold">{c.coreValues.sectionHeading}</h2>
         </div>
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {c.coreValues.items.map((v, i) => (
             <div key={v.tag} className="card hover-pop">
               <div className={`flex h-12 w-12 items-center justify-center rounded-2xl font-hand text-lg font-extrabold ${VALUE_COLORS[i % VALUE_COLORS.length]}`}>
