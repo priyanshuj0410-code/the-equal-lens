@@ -51,6 +51,11 @@ All interactive cards use the "sticker" treatment:
 - Parallax: bubble `translateX(dist * 5px)`, polaroid `translateX(dist * -4px) rotate(tilt)`
 - Animation: `550ms cubic-bezier(0.25, 0.46, 0.45, 0.94)` on track + inner elements
 
+## Canvas myth interaction
+
+- The `+ myth` toolbar button appends a sticky-note card. On desktop it floats at a free spot on the canvas; on mobile it flows into the "Bust these myths" section above the footer.
+- **Mobile feedback rule:** because the toolbar is fixed at the bottom and the myth section is usually off-screen, adding a myth on mobile smooth-scrolls the new card into view (`block: center`, respects `prefers-reduced-motion`). Without this the tap reads as a no-op. Guarded so route-change seeding never auto-scrolls.
+
 ## Button variants
 
 | Class | Usage |

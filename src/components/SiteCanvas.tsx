@@ -57,12 +57,27 @@ export default function SiteCanvas({
   const pageMythsRef = useRef<Myth[]>([]);
   const notesRef = useRef<Note[]>([]);
   const hideRef = useRef(false);
+  // mobile: ref to the most-recently-added card + a one-shot flag so we only
+  // scroll on a deliberate "+ myth" tap, never on the route-change seeding below
+  const newCardRef = useRef<HTMLButtonElement>(null);
+  const scrollToNewRef = useRef(false);
   const pathname = usePathname();
 
   useEffect(() => { toolRef.current = tool; }, [tool]);
   useEffect(() => { colorRef.current = color; }, [color]);
   useEffect(() => { notesRef.current = notes; }, [notes]);
   useEffect(() => { hideRef.current = hideNotes; }, [hideNotes]);
+
+  // mobile: after a deliberate "+ myth" tap, bring the new card into view so it's
+  // clear something happened (guarded by the flag so seeding never triggers it)
+  useEffect(() => {
+    if (!scrollToNewRef.current) return;
+    scrollToNewRef.current = false;
+    const card = newCardRef.current;
+    if (!card) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    card.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+  }, [notes]);
 
   const makeNote = useCallback(
     (m: Myth, i: number, x: number, y: number): Note => ({
@@ -367,6 +382,9 @@ export default function SiteCanvas({
           x: window.scrollX + 40,
           y: window.scrollY + 150,
         };
+    // on mobile the new card flows into the section above the footer, which is
+    // usually off-screen — flag it so the effect below scrolls it into view
+    if (mobile) scrollToNewRef.current = true;
     setNotes((p) => [
       ...p,
       { ...makeNote(m, seededMyth.current + 100, spot.x, spot.y), moved: mobile ? false : true },
@@ -441,6 +459,7 @@ export default function SiteCanvas({
             {notes.map((n, i) => (
               <button
                 key={n.id}
+                ref={i === notes.length - 1 ? newCardRef : null}
                 onClick={() => tapNote(n.id)}
                 style={{ background: n.color, transform: `rotate(${i % 2 ? 1.2 : -1.2}deg)` }}
                 className="flex min-h-[140px] w-full flex-col rounded-xl border-2 border-ink p-4 text-left shadow-[3px_3px_0_var(--color-ink)]"
