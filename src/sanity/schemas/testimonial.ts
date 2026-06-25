@@ -10,15 +10,14 @@ export const testimonial = defineType({
       title: "Quote",
       type: "text",
       rows: 4,
-      description: "Max 160 characters — longer quotes are truncated on the site.",
-      validation: (r) => r.required().max(160),
+      description: "Optional. Max 160 characters — longer quotes are truncated. Leave empty for a photo-only gallery item.",
+      validation: (r) => r.max(160),
     }),
     defineField({
       name: "name",
       title: "Name",
       type: "string",
-      description: "Full name of the person.",
-      validation: (r) => r.required(),
+      description: "Optional. Full name of the person. Leave empty for a photo-only gallery item.",
     }),
     defineField({
       name: "role",
@@ -71,5 +70,12 @@ export const testimonial = defineType({
   orderings: [
     { name: "order", title: "Display order", by: [{ field: "order", direction: "asc" }] },
   ],
-  preview: { select: { title: "name", subtitle: "role", media: "photo" } },
+  preview: {
+    select: { name: "name", role: "role", tag: "tag", media: "photo" },
+    prepare: ({ name, role, tag, media }) => ({
+      title: name || tag || "Photo-only item",
+      subtitle: role,
+      media,
+    }),
+  },
 });

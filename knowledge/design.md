@@ -42,11 +42,14 @@ All interactive cards use the "sticker" treatment:
 - `padding: 0.5rem 0.75rem; font-size: 0.75rem`
 - No border, no shadow — intentionally soft/lightweight vs card stickers
 
-## Testimonial carousel
+## Gallery (testimonial carousel)
+
+Section heading is **"Gallery"** (was "Testimonials"). Backed by Testimonial documents; the Sanity object/field key stays `testimonials`.
 
 - Polaroid card: `border-2 border-ink bg-white shadow-[5px_5px_0_var(--color-ink)]`, `aspect-[4/3]` photo, white strip at bottom
 - Chat bubble: Lensy `.bubble` style, overlaps top-right corner of polaroid (`bottom: calc(100% - 32px)`)
 - Bubble contains: sender name (top, `text-xs text-brand`), quote (`text-sm font-bold`), role (`text-xs text-brandsoft`)
+- **Name and quote are optional.** Each bubble line renders only if present; a photo-only item (no name/quote/role) renders **no bubble at all** — just the polaroid. Slide top-padding (`pt-48`) stays uniform so carousel height never jumps.
 - Polaroid strip: centered `tag` caption (`text-xs italic text-ink/40`)
 - Parallax: bubble `translateX(dist * 5px)`, polaroid `translateX(dist * -4px) rotate(tilt)`
 - Animation: `550ms cubic-bezier(0.25, 0.46, 0.45, 0.94)` on track + inner elements

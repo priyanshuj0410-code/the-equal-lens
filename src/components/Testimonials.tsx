@@ -13,8 +13,10 @@ const TILTS = [-2, 1.5, -1, 2.5, -1.5, 1, -2, 1.5, -1, 2];
 // moves as one unit and the "push" reads correctly.
 const EASE = "550ms cubic-bezier(0.25, 0.46, 0.45, 0.94)";
 
-function initials(name: string) {
+function initials(name?: string) {
+  if (!name) return "";
   return name
+    .trim()
     .split(/\s+/)
     .slice(0, 2)
     .map((w) => w[0]?.toUpperCase() ?? "")
@@ -82,7 +84,9 @@ export default function Testimonials({
             {shown.map((t, i) => {
               const dist = i - current;
               const tilt = TILTS[i % TILTS.length];
-              const quote = truncate(t.quote, MAX_QUOTE);
+              const quote = t.quote ? truncate(t.quote, MAX_QUOTE) : "";
+              // Photo-only gallery items skip the chat bubble entirely.
+              const hasBubble = Boolean(t.name || quote || t.role);
 
               return (
                 <div
@@ -99,41 +103,52 @@ export default function Testimonials({
                     {/* ── MOBILE BUBBLE ───────────────────────────────────────────
                         Full-width, no right overhang — stays within polaroid bounds.
                         bottom: calc(100% - 18px) = mostly above polaroid, 18px overlap. */}
-                    {/* Mobile */}
-                    <Bubble
-                      className="absolute right-2 left-2 z-20 block sm:hidden"
-                      style={{
-                        bottom: "calc(100% - 18px)",
-                        transform: `translateX(${dist * 5}px)`,
-                        transition: `transform ${EASE}`,
-                      }}
-                    >
-                      <p className="mb-1 font-hand text-sm font-bold text-brand">{t.name}</p>
-                      <p className="font-hand text-sm font-semibold leading-snug text-ink">
-                        &ldquo;{quote}&rdquo;
-                      </p>
-                      {t.role && (
-                        <p className="mt-1 font-hand text-xs text-brandsoft">{t.role}</p>
-                      )}
-                    </Bubble>
+                    {hasBubble && (
+                      <Bubble
+                        className="absolute right-2 left-2 z-20 block sm:hidden"
+                        style={{
+                          bottom: "calc(100% - 18px)",
+                          transform: `translateX(${dist * 5}px)`,
+                          transition: `transform ${EASE}`,
+                        }}
+                      >
+                        {t.name && (
+                          <p className="mb-1 font-hand text-sm font-bold text-brand">{t.name}</p>
+                        )}
+                        {quote && (
+                          <p className="font-hand text-sm font-semibold leading-snug text-ink">
+                            &ldquo;{quote}&rdquo;
+                          </p>
+                        )}
+                        {t.role && (
+                          <p className="mt-1 font-hand text-xs text-brandsoft">{t.role}</p>
+                        )}
+                      </Bubble>
+                    )}
 
                     {/* Desktop — 75% polaroid width, -right-10 hangs 40px beyond right edge */}
-                    <Bubble
-                      className="absolute -right-10 z-20 hidden w-[75%] sm:block"
-                      style={{
-                        bottom: "calc(100% - 32px)",
-                        transform: `translateX(${dist * 5}px)`,
-                        transition: `transform ${EASE}`,
-                      }}
-                    >
-                      <p className="mb-1 font-hand text-sm font-bold text-brand">{t.name}</p>
-                      <p className="font-hand text-sm font-semibold leading-snug text-ink">
-                        &ldquo;{quote}&rdquo;
-                      </p>
-                      {t.role && (
-                        <p className="mt-1 font-hand text-xs text-brandsoft">{t.role}</p>
-                      )}
-                    </Bubble>
+                    {hasBubble && (
+                      <Bubble
+                        className="absolute -right-10 z-20 hidden w-[75%] sm:block"
+                        style={{
+                          bottom: "calc(100% - 32px)",
+                          transform: `translateX(${dist * 5}px)`,
+                          transition: `transform ${EASE}`,
+                        }}
+                      >
+                        {t.name && (
+                          <p className="mb-1 font-hand text-sm font-bold text-brand">{t.name}</p>
+                        )}
+                        {quote && (
+                          <p className="font-hand text-sm font-semibold leading-snug text-ink">
+                            &ldquo;{quote}&rdquo;
+                          </p>
+                        )}
+                        {t.role && (
+                          <p className="mt-1 font-hand text-xs text-brandsoft">{t.role}</p>
+                        )}
+                      </Bubble>
+                    )}
 
                     {/* Polaroid */}
                     <div
@@ -148,13 +163,13 @@ export default function Testimonials({
                           /* eslint-disable-next-line @next/next/no-img-element */
                           <img
                             src={t.photo}
-                            alt={`${t.name} at an Equal Lens workshop`}
+                            alt={t.name ? `${t.name} at an Equal Lens workshop` : "An Equal Lens workshop moment"}
                             className="h-full w-full object-cover"
                           />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center bg-violet-50">
                             <span className="font-hand text-6xl font-extrabold text-brand/30">
-                              {initials(t.name)}
+                              {initials(t.name) || initials(t.tag) || "EL"}
                             </span>
                           </div>
                         )}

@@ -107,9 +107,9 @@ export const programsPage = defineType({
     }),
     defineField({
       name: "testimonials",
-      title: "Testimonials section",
+      title: "Gallery section",
       type: "object",
-      description: "Heading for the testimonials section. The quotes themselves are Testimonial documents.",
+      description: "Heading for the gallery section. The photos/quotes themselves are Testimonial documents.",
       fields: [
         defineField({ name: "eyebrow", title: "Eyebrow (shared)", type: "string" }),
         defineField({ name: "heading", title: "Heading (shared)", type: "string" }),

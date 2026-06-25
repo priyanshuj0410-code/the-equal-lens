@@ -97,8 +97,8 @@ export type Program = {
 
 export type Testimonial = {
   id: string;
-  quote: string;
-  name: string;
+  quote?: string;
+  name?: string;
   role?: string;
   tag?: string;
   audience?: string;

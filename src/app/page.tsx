@@ -175,7 +175,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
+      {/* GALLERY */}
       <Testimonials
         items={testimonials}
         eyebrow={c.testimonials.eyebrow}

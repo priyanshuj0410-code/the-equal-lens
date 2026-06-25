@@ -248,9 +248,9 @@ export const homePage = defineType({
     }),
     defineField({
       name: "testimonials",
-      title: "Testimonials section",
+      title: "Gallery section",
       type: "object",
-      description: "Heading for the testimonials strip. The quotes themselves are Testimonial documents.",
+      description: "Heading for the gallery strip. The photos/quotes themselves are Testimonial documents.",
       fields: [
         defineField({ name: "eyebrow", title: "Eyebrow (shared)", type: "string" }),
         defineField({ name: "heading", title: "Heading (shared)", type: "string" }),
