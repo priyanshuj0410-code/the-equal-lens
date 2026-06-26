@@ -265,6 +265,7 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
   function close() {
     setOpen(false);
     setView("q");
+    setThought("");
   }
 
   // tap the ship -> knock, knock -> Lensy comes out
@@ -281,6 +282,12 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
   function nextQuestion() {
     setQi((i) => (i + 1) % QUESTIONS.length);
     setView("q");
+    setThought("");
+  }
+
+  function sendThought() {
+    setView("thanks");
+    setThought("");
   }
 
   const btnPrimary =
@@ -434,7 +441,7 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
                   ← Back
                 </button>
                 <button
-                  onClick={() => setView("thanks")}
+                  onClick={sendThought}
                   disabled={!thought.trim()}
                   className={`${btnPrimary} ml-auto disabled:cursor-not-allowed disabled:opacity-40`}
                 >
