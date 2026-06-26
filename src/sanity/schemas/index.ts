@@ -5,6 +5,7 @@ import { gamesPage } from "./gamesPage";
 import { homePage } from "./homePage";
 import { job } from "./job";
 import { joinPage } from "./joinPage";
+import { lensyResponse } from "./lensyResponse";
 import { post } from "./post";
 import { program } from "./program";
 import { programsPage } from "./programsPage";
@@ -22,4 +23,4 @@ export const pageTypes = [
   joinPage,
 ];
 
-export const schemaTypes = [...pageTypes, teamMember, job, post, program, testimonial];
+export const schemaTypes = [...pageTypes, teamMember, job, post, program, testimonial, lensyResponse];

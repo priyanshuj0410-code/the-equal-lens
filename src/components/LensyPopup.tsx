@@ -286,8 +286,18 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
   }
 
   function sendThought() {
+    const answer = thought.trim();
     setView("thanks");
     setThought("");
+    if (!answer) return;
+    // Best-effort persistence — the reflective UX must not depend on the
+    // network, so failures are swallowed. No-ops server-side until a write
+    // token is configured.
+    void fetch("/api/lensy", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ audience, question: q.place, questionBody: q.body, answer }),
+    }).catch(() => {});
   }
 
   const btnPrimary =
