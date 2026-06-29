@@ -157,7 +157,7 @@ function Slide({
     <section className="px-4 sm:px-6">
       <div
         className={`relative mx-auto flex w-full max-w-6xl flex-col overflow-hidden rounded-[2rem] border-2 border-ink p-6 shadow-[6px_6px_0_var(--color-ink)] sm:p-8 lg:aspect-video lg:p-12 ${
-          band ? "bg-band text-white" : "bg-surface text-ink"
+          band ? "bg-band text-white" : "canvas-dots bg-surface text-ink"
         }`}
       >
         {note}
@@ -211,6 +211,7 @@ export default function DiscoveryPage() {
       <Slide
         n={1}
         kicker="Free Pilot · 2026"
+        tone="band"
         note={
           <StickyNote tone="note--yellow" rotate={-4} className="bottom-10 right-10">
             Made with love, in India
@@ -221,25 +222,25 @@ export default function DiscoveryPage() {
           <Doodle name="sparkle" className="anim-wobble absolute left-2 top-0 w-9 text-sun sm:left-12" />
           <Doodle name="star" className="anim-float absolute right-2 top-4 w-7 text-grow sm:right-16" />
 
-          <h1 className="mx-auto max-w-3xl font-hand text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl lg:text-7xl">
+          <h1 className="mx-auto max-w-3xl font-hand text-5xl font-extrabold leading-[1.05] text-white sm:text-6xl lg:text-7xl">
             Raising Kinder
             <br />
             Human Beings.
           </h1>
-          <p className="mx-auto mt-4 max-w-xl text-base text-ink/70 lg:text-lg">
+          <p className="mx-auto mt-4 max-w-xl text-base text-white/80 lg:text-lg">
             An 8 session life skills journey for children. Taught with play, stories, and real
             conversations.
           </p>
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-2 font-hand text-sm font-bold text-brand">
-            <span className="rounded-full bg-mist px-3 py-1">For NGOs</span>
-            <span className="rounded-full bg-mist px-3 py-1">For Schools</span>
-            <span className="rounded-full bg-mist px-3 py-1">For Child Care Homes</span>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2 font-hand text-sm font-bold text-white">
+            <span className="rounded-full bg-white/15 px-3 py-1">For NGOs</span>
+            <span className="rounded-full bg-white/15 px-3 py-1">For Schools</span>
+            <span className="rounded-full bg-white/15 px-3 py-1">For Child Care Homes</span>
           </div>
           <div className="mt-5 flex justify-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={LENSY_WAVE} alt="Lensy waving" className="anim-bob h-28 w-auto lg:h-36" />
           </div>
-          <p className="mt-2 font-hand text-lg font-extrabold tracking-wide text-brand lg:text-xl">
+          <p className="mt-2 font-hand text-lg font-extrabold tracking-wide text-sun lg:text-xl">
             Unlearn. Relearn. Grow.
           </p>
         </div>
@@ -329,18 +330,13 @@ export default function DiscoveryPage() {
           </h2>
           {/* Horizontal timeline of the 5 steps so all of them fit the 16:9 frame. */}
           <div className="mt-6 grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
-            {FLOW.map((f, i) => (
+            {FLOW.map((f) => (
               <div key={f.title} className="card flex flex-col gap-2 p-4">
-                <div className="flex items-center justify-between">
-                  <span className={`flex h-9 w-9 items-center justify-center rounded-full font-hand text-base font-extrabold ${TILE[i % TILE.length]}`}>
-                    {i + 1}
-                  </span>
-                  <span className="rounded-full bg-mist px-2 py-0.5 font-hand text-xs font-bold text-brand">
-                    {f.min}
-                  </span>
-                </div>
                 <h3 className="font-hand text-sm font-bold leading-tight text-ink">{f.title}</h3>
                 <p className="text-xs leading-snug text-ink/60">{f.desc}</p>
+                <span className="mt-auto self-start rounded-full bg-mist px-2.5 py-0.5 font-hand text-xs font-bold text-brand">
+                  {f.min}
+                </span>
               </div>
             ))}
           </div>
