@@ -187,6 +187,8 @@ body {
   .deck-slide .lg\:text-5xl { font-size: 3rem !important; line-height: 1 !important; }
   .deck-slide .lg\:text-7xl { font-size: 4.5rem !important; line-height: 1 !important; }
   .deck-slide .lg\:text-8xl { font-size: 6rem !important; line-height: 1 !important; }
+  .deck-slide .lg\:text-9xl { font-size: 8rem !important; line-height: 1 !important; }
+  .deck-slide .lg\:col-span-2 { grid-column: span 2 / span 2 !important; }
   .deck-slide .lg\:pr-20 { padding-right: 5rem !important; }
   .deck-slide .lg\:h-24 { height: 6rem !important; }
   .deck-slide .lg\:h-36 { height: 9rem !important; }

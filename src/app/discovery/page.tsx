@@ -39,7 +39,7 @@ const SESSIONS = [
 const FLOW = [
   { title: "Story Time", min: "10 min", desc: "A short story opens the session and brings in the theme for the week." },
   { title: "Big Question", min: "15 min", desc: "Children talk about a real life moment in small groups. Gentle, guided talk." },
-  { title: "Game or Activity", min: "20 min", desc: "A hands on game, role play, or card activity where children learn by doing." },
+  { title: "Game or Activity", min: "60 min", desc: "A hands on game, role play, or card activity where children learn by doing." },
   { title: "Reflect and Share", min: "10 min", desc: "Each child shares one thing they are taking home today." },
   { title: "Mission Card", min: "5 min", desc: "A small task to try at home with family or friends." },
 ];
@@ -255,8 +255,8 @@ export default function DiscoveryPage() {
           </StickyNote>
         }
       >
-        <div className="grid items-center gap-6 lg:grid-cols-2">
-          <div>
+        <div className="grid items-center gap-6 lg:grid-cols-3">
+          <div className="lg:col-span-2">
             <h1 className="font-display text-4xl font-extrabold leading-[1.05] text-white sm:text-5xl lg:text-7xl">
               Raising kinder
               <br />
@@ -396,7 +396,7 @@ export default function DiscoveryPage() {
           ))}
         </div>
         <p className="mt-4 font-display text-sm font-bold text-ink">
-          10 + 15 + 20 + 10 + 5 <span className="text-brandsoft">=</span> 60 minutes.
+          10 + 15 + 60 + 10 + 5 <span className="text-brandsoft">=</span> 100 minutes.
         </p>
         <p className="mt-1 text-xs text-ink/55">
           Your facilitator gets a full, step by step guide before every session.
@@ -543,7 +543,7 @@ export default function DiscoveryPage() {
       >
         <div className="relative">
           <Doodle name="sparkle" className="anim-wobble absolute right-10 top-0 hidden w-10 text-sun lg:block" />
-          <p className="font-hand text-6xl font-extrabold tracking-tight text-sun sm:text-7xl lg:text-8xl">FREE.</p>
+          <p className="font-hand text-7xl font-extrabold tracking-tight text-sun sm:text-8xl lg:text-9xl">FREE.</p>
           <p className="mt-3 max-w-2xl font-display text-xl font-bold text-white lg:text-2xl">
             Not because we have to. Because every child deserves this.
           </p>
@@ -608,7 +608,7 @@ export default function DiscoveryPage() {
       >
         <div>
           <p className="font-display text-xs font-bold uppercase tracking-widest text-brandsoft">Founding Team</p>
-          <div className="mt-4 grid max-w-4xl gap-6 sm:grid-cols-3">
+          <div className="mt-4 grid max-w-3xl gap-5 sm:grid-cols-3">
             {FOUNDING.map((m) => (
               <ProfileCard key={m.name} {...m} />
             ))}
@@ -629,7 +629,7 @@ export default function DiscoveryPage() {
       >
         <div>
           <p className="font-display text-xs font-bold uppercase tracking-widest text-brandsoft">Core Team</p>
-          <div className="mt-4 grid max-w-4xl gap-6 sm:grid-cols-3">
+          <div className="mt-4 grid max-w-3xl gap-5 sm:grid-cols-3">
             {CORE.map((m) => (
               <ProfileCard key={m.name} {...m} />
             ))}
@@ -648,8 +648,8 @@ export default function DiscoveryPage() {
           </StickyNote>
         }
       >
-        <div className="grid items-center gap-6 lg:grid-cols-2">
-          <div>
+        <div className="grid items-center gap-6 lg:grid-cols-3">
+          <div className="lg:col-span-2">
             <h2 className="font-display text-3xl font-extrabold leading-[1.1] text-white sm:text-4xl lg:text-5xl">
               You won&rsquo;t just run a programme. You&rsquo;ll help raise better humans.
             </h2>
