@@ -20,7 +20,7 @@ const TILE = ["bg-insight/15", "bg-grow/15", "bg-sky/15", "bg-sun/25"];
 
 const STATS = [
   { big: "8", label: "Weekly sessions" },
-  { big: "60", label: "Minutes each" },
+  { big: "100", label: "Minutes each" },
   { big: "5 to 16", label: "Age groups" },
   { big: "₹0", label: "Cost to you" },
 ];
@@ -112,7 +112,7 @@ const RECEIVES = [
 const NEED = [
   { k: "15 to 30", label: "children", note: "Any age group, or a few groups." },
   { k: "A room", label: "to meet weekly", note: "Any space where children can sit and move." },
-  { k: "8 weeks", label: "8 sessions", note: "One hour a week, at a time that suits you." },
+  { k: "8 weeks", label: "8 sessions", note: "Once a week, at a time that suits you." },
   { k: "Honest", label: "feedback", note: "Tell us what works and what does not." },
 ];
 
@@ -330,13 +330,13 @@ export default function DiscoveryPage() {
         title="A life skills programme children feel, not sit through."
         note={
           <StickyNote tone="note--mint" rotate={3} className="bottom-10 right-10">
-            Just one hour a week
+            Just once a week
           </StickyNote>
         }
       >
         <div className="grid items-center gap-8 lg:grid-cols-2">
           <p className="text-sm leading-relaxed text-ink/70">
-            An 8 session guided programme for children aged 5 to 16. One hour, once a week, for eight
+            An 8 session guided programme for children aged 5 to 16. 100 minutes, once a week, for eight
             weeks. Children build empathy, confidence, body safety, fairness, and how to understand
             their feelings. Not from lectures, but from play, stories, and real talk with Lensy,
             their friend and guide.
@@ -384,7 +384,7 @@ export default function DiscoveryPage() {
       <Slide
         n={5}
         kicker="Inside one session"
-        title="The same hour, every single week."
+        title="The same rhythm, every single week."
       >
         <div className="grid gap-2.5 sm:grid-cols-3 lg:grid-cols-5">
           {FLOW.map((f) => (
