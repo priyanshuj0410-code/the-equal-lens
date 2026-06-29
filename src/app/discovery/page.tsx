@@ -113,26 +113,54 @@ const CORE = [
   { photo: "/discovery/team/aniket-singh.jpg", name: "Aniket Singh", role: "Content Strategist" },
 ];
 
-// One presentation slide: a bounded, numbered frame so each break is obvious.
+// Brand sticky note. We borrow the .note--<tone> background classes (which also
+// flip in dark mode) but keep our own layout so we can size, rotate, and hide
+// it on small screens. Shown only on lg, where slides are true 16:9.
+function StickyNote({
+  tone,
+  className = "",
+  rotate = -3,
+  children,
+}: {
+  tone: string;
+  className?: string;
+  rotate?: number;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={`${tone} absolute z-20 hidden w-44 rounded-xl border-2 border-ink p-3 text-center font-hand text-sm font-bold leading-snug text-ink shadow-[3px_3px_0_var(--color-ink)] lg:block ${className}`}
+      style={{ transform: `rotate(${rotate}deg)` }}
+    >
+      {children}
+    </div>
+  );
+}
+
+// One presentation slide: a uniform 16:9 landscape frame on desktop (auto
+// height on mobile so the copy stays readable in portrait).
 function Slide({
   n,
   kicker,
   tone = "paper",
+  note,
   children,
 }: {
   n: number;
   kicker: string;
   tone?: "paper" | "band";
+  note?: React.ReactNode;
   children: React.ReactNode;
 }) {
   const band = tone === "band";
   return (
     <section className="px-4 sm:px-6">
       <div
-        className={`relative mx-auto flex min-h-[80vh] w-full max-w-5xl flex-col rounded-[2rem] border-2 border-ink p-7 shadow-[6px_6px_0_var(--color-ink)] sm:p-12 ${
+        className={`relative mx-auto flex w-full max-w-6xl flex-col overflow-hidden rounded-[2rem] border-2 border-ink p-6 shadow-[6px_6px_0_var(--color-ink)] sm:p-8 lg:aspect-video lg:p-12 ${
           band ? "bg-band text-white" : "bg-surface text-ink"
         }`}
       >
+        {note}
         <div className="flex items-center justify-between">
           <span
             className={`font-hand text-sm font-bold uppercase tracking-[0.1em] ${
@@ -146,10 +174,10 @@ function Slide({
           </span>
         </div>
 
-        <div className="flex flex-1 flex-col justify-center py-8">{children}</div>
+        <div className="flex flex-1 flex-col justify-center py-5">{children}</div>
 
         <div
-          className={`flex items-center justify-between border-t-2 pt-4 font-hand text-xs font-bold ${
+          className={`flex items-center justify-between border-t-2 pt-3 font-hand text-xs font-bold ${
             band ? "border-white/15 text-white/50" : "border-mist text-ink/40"
           }`}
         >
@@ -163,14 +191,14 @@ function Slide({
 
 function ProfileCard({ photo, name, role }: { photo: string; name: string; role: string }) {
   return (
-    <div className="sticker hover-pop overflow-hidden rounded-3xl bg-surface">
-      <div className="aspect-square w-full bg-mist">
+    <div className="sticker hover-pop overflow-hidden rounded-2xl bg-surface">
+      <div className="h-24 w-full bg-mist lg:h-28">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={photo} alt={name} className="h-full w-full object-cover" />
+        <img src={photo} alt={name} className="h-full w-full object-cover object-top" />
       </div>
-      <div className="p-5 text-center">
-        <h3 className="font-hand text-xl font-extrabold text-ink">{name}</h3>
-        <p className="mt-0.5 text-sm font-semibold text-brand">{role}</p>
+      <div className="p-3 text-center">
+        <h3 className="font-hand text-base font-extrabold leading-tight text-ink">{name}</h3>
+        <p className="text-xs font-semibold text-brand">{role}</p>
       </div>
     </div>
   );
@@ -178,60 +206,74 @@ function ProfileCard({ photo, name, role }: { photo: string; name: string; role:
 
 export default function DiscoveryPage() {
   return (
-    <div className="space-y-8 overflow-x-hidden py-10">
+    <div className="space-y-7 overflow-x-hidden py-10">
       {/* 01 - COVER */}
-      <Slide n={1} kicker="Free Pilot · 2026">
+      <Slide
+        n={1}
+        kicker="Free Pilot · 2026"
+        note={
+          <StickyNote tone="note--yellow" rotate={-4} className="bottom-10 right-10">
+            Made with love, in India
+          </StickyNote>
+        }
+      >
         <div className="relative text-center">
-          <Doodle name="sparkle" className="anim-wobble absolute left-2 top-0 w-9 text-sun sm:left-10" />
-          <Doodle name="star" className="anim-float absolute right-2 top-6 w-7 text-grow sm:right-12" />
+          <Doodle name="sparkle" className="anim-wobble absolute left-2 top-0 w-9 text-sun sm:left-12" />
+          <Doodle name="star" className="anim-float absolute right-2 top-4 w-7 text-grow sm:right-16" />
 
-          <h1 className="mx-auto max-w-3xl font-hand text-5xl font-extrabold leading-[1.05] text-ink sm:text-7xl">
+          <h1 className="mx-auto max-w-3xl font-hand text-5xl font-extrabold leading-[1.05] text-ink sm:text-6xl lg:text-7xl">
             Raising Kinder
             <br />
             Human Beings.
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-lg text-ink/70">
+          <p className="mx-auto mt-4 max-w-xl text-base text-ink/70 lg:text-lg">
             An 8 session life skills journey for children. Taught with play, stories, and real
             conversations.
           </p>
-
-          <div className="mt-7 flex flex-wrap items-center justify-center gap-2 font-hand text-sm font-bold text-brand">
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2 font-hand text-sm font-bold text-brand">
             <span className="rounded-full bg-mist px-3 py-1">For NGOs</span>
             <span className="rounded-full bg-mist px-3 py-1">For Schools</span>
             <span className="rounded-full bg-mist px-3 py-1">For Child Care Homes</span>
           </div>
-
-          <div className="mt-8 flex justify-center">
+          <div className="mt-5 flex justify-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={LENSY_WAVE} alt="Lensy waving" className="anim-bob h-36 w-auto sm:h-44" />
+            <img src={LENSY_WAVE} alt="Lensy waving" className="anim-bob h-28 w-auto lg:h-36" />
           </div>
-          <p className="mt-3 font-hand text-xl font-extrabold tracking-wide text-brand">
+          <p className="mt-2 font-hand text-lg font-extrabold tracking-wide text-brand lg:text-xl">
             Unlearn. Relearn. Grow.
           </p>
         </div>
       </Slide>
 
       {/* 02 - WHAT IS IT */}
-      <Slide n={2} kicker="What is The Equal Lens?">
-        <div className="grid items-center gap-10 lg:grid-cols-2">
+      <Slide
+        n={2}
+        kicker="What is The Equal Lens?"
+        note={
+          <StickyNote tone="note--mint" rotate={3} className="bottom-10 right-10">
+            Just one hour a week
+          </StickyNote>
+        }
+      >
+        <div className="grid items-center gap-8 lg:grid-cols-2">
           <div>
-            <h2 className="font-hand text-3xl font-extrabold leading-tight text-ink sm:text-4xl">
+            <h2 className="font-hand text-2xl font-extrabold leading-tight text-ink sm:text-3xl lg:text-4xl">
               A life skills programme children actually feel.
             </h2>
-            <p className="mt-4 text-ink/70">
+            <p className="mt-3 text-ink/70">
               The Equal Lens is an 8 session life skills programme for children aged 5 to 16. One
               hour, once a week, for eight weeks.
             </p>
-            <p className="mt-3 text-ink/70">
+            <p className="mt-2 text-ink/70">
               Children learn empathy, confidence, body safety, fairness, and how to understand their
               feelings. Not from lectures, but from play, stories, and real talk with Lensy, their
               friend and guide.
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3 pr-0 lg:pr-20">
             {STATS.map((s, i) => (
-              <div key={s.label} className="card flex flex-col items-center gap-2 p-5 text-center">
-                <span className={`flex h-16 w-16 items-center justify-center rounded-2xl font-hand text-xl font-extrabold ${TILE[i % TILE.length]}`}>
+              <div key={s.label} className="card flex flex-col items-center gap-1.5 p-4 text-center">
+                <span className={`flex h-14 w-14 items-center justify-center rounded-2xl font-hand text-xl font-extrabold ${TILE[i % TILE.length]}`}>
                   {s.big}
                 </span>
                 <span className="font-hand text-sm font-bold text-ink/70">{s.label}</span>
@@ -242,22 +284,28 @@ export default function DiscoveryPage() {
       </Slide>
 
       {/* 03 - THE 8 SESSION JOURNEY */}
-      <Slide n={3} kicker="The 8 session journey">
+      <Slide
+        n={3}
+        kicker="The 8 session journey"
+        note={
+          <StickyNote tone="note--peach" rotate={-3} className="-bottom-1 right-12">
+            A new theme every week
+          </StickyNote>
+        }
+      >
         <div>
-          <div className="text-center">
-            <h2 className="font-hand text-3xl font-extrabold text-ink sm:text-4xl">
-              One hour. One theme. A new chapter every week.
-            </h2>
-          </div>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <h2 className="text-center font-hand text-2xl font-extrabold text-ink sm:text-3xl">
+            One hour. One theme. A new chapter every week.
+          </h2>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {SESSIONS.map((s, i) => (
-              <div key={s.n} className="card flex flex-col gap-3 p-5">
-                <span className={`flex h-11 w-11 items-center justify-center rounded-xl font-hand text-lg font-extrabold ${TILE[i % TILE.length]}`}>
+              <div key={s.n} className="card flex flex-col gap-2 p-4">
+                <span className={`flex h-10 w-10 items-center justify-center rounded-xl font-hand text-base font-extrabold ${TILE[i % TILE.length]}`}>
                   {s.n}
                 </span>
                 <div>
-                  <h3 className="font-hand text-lg font-bold text-ink">{s.title}</h3>
-                  <p className="mt-1 text-sm text-ink/60">{s.sub}</p>
+                  <h3 className="font-hand text-base font-bold leading-tight text-ink">{s.title}</h3>
+                  <p className="mt-0.5 text-xs text-ink/60">{s.sub}</p>
                 </div>
               </div>
             ))}
@@ -266,46 +314,56 @@ export default function DiscoveryPage() {
       </Slide>
 
       {/* 04 - INSIDE ONE SESSION */}
-      <Slide n={4} kicker="Inside one session">
+      <Slide
+        n={4}
+        kicker="Inside one session"
+        note={
+          <StickyNote tone="note--violet" rotate={4} className="bottom-24 right-8">
+            Every child gets a turn
+          </StickyNote>
+        }
+      >
         <div>
-          <div className="text-center">
-            <h2 className="font-hand text-3xl font-extrabold text-ink sm:text-4xl">
-              60 minutes. No lectures. Every child joins in from the first minute.
-            </h2>
-          </div>
-          <ol className="mx-auto mt-8 max-w-3xl space-y-3">
+          <h2 className="text-center font-hand text-2xl font-extrabold text-ink sm:text-3xl">
+            60 minutes. No lectures. Every child joins in from the first minute.
+          </h2>
+          <ol className="mx-auto mt-5 max-w-3xl space-y-2">
             {FLOW.map((f, i) => (
-              <li key={f.title} className="card flex items-center gap-4 p-4">
-                <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-hand text-lg font-extrabold ${TILE[i % TILE.length]}`}>
+              <li key={f.title} className="card flex items-center gap-3 p-3">
+                <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-hand text-base font-extrabold ${TILE[i % TILE.length]}`}>
                   {i + 1}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <h3 className="font-hand text-base font-bold text-ink">{f.title}</h3>
-                  <p className="text-sm text-ink/60">{f.desc}</p>
+                  <h3 className="font-hand text-sm font-bold text-ink">{f.title}</h3>
+                  <p className="text-xs text-ink/60">{f.desc}</p>
                 </div>
-                <span className="shrink-0 rounded-full bg-mist px-3 py-1 font-hand text-xs font-bold text-brand">
+                <span className="shrink-0 rounded-full bg-mist px-2.5 py-1 font-hand text-xs font-bold text-brand">
                   {f.min}
                 </span>
               </li>
             ))}
           </ol>
-          <div className="mx-auto mt-6 flex max-w-3xl items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-brandsoft/50 px-5 py-3 text-center">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={LENSY_IDEA} alt="" className="h-9 w-auto" />
-            <p className="text-sm text-ink/70">
-              Your facilitator gets a full, step by step guide before every session.
-            </p>
-          </div>
+          <p className="mx-auto mt-4 max-w-3xl text-center text-xs text-ink/60">
+            Your facilitator gets a full, step by step guide before every session.
+          </p>
         </div>
       </Slide>
 
       {/* 05 - WHAT CHILDREN LEARN */}
-      <Slide n={5} kicker="What children learn">
+      <Slide
+        n={5}
+        kicker="What children learn"
+        note={
+          <StickyNote tone="note--yellow" rotate={4} className="bottom-12 right-10">
+            Skills for life, not exams
+          </StickyNote>
+        }
+      >
         <div className="text-center">
-          <h2 className="font-hand text-3xl font-extrabold text-ink sm:text-4xl">
+          <h2 className="font-hand text-2xl font-extrabold text-ink sm:text-3xl lg:text-4xl">
             Real skills. For life. Not a test score.
           </h2>
-          <div className="mx-auto mt-10 flex max-w-3xl flex-wrap justify-center gap-3">
+          <div className="mx-auto mt-8 flex max-w-3xl flex-wrap justify-center gap-3">
             {SKILLS.map((skill, i) => (
               <span
                 key={skill}
@@ -319,21 +377,27 @@ export default function DiscoveryPage() {
       </Slide>
 
       {/* 06 - EVERY AGE */}
-      <Slide n={6} kicker="One programme. Every age.">
+      <Slide
+        n={6}
+        kicker="One programme. Every age."
+        note={
+          <StickyNote tone="note--mint" rotate={-4} className="-bottom-1 right-10">
+            Lensy grows with them
+          </StickyNote>
+        }
+      >
         <div>
-          <div className="text-center">
-            <h2 className="font-hand text-3xl font-extrabold text-ink sm:text-4xl">
-              Same values. Same Lensy. Made for the way each age learns.
-            </h2>
-          </div>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <h2 className="text-center font-hand text-2xl font-extrabold text-ink sm:text-3xl">
+            Same values. Same Lensy. Made for the way each age learns.
+          </h2>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {AGES.map((a, i) => (
-              <div key={a.range} className="card flex flex-col p-5">
+              <div key={a.range} className="card flex flex-col p-4">
                 <span className={`self-start rounded-full px-3 py-1 font-hand text-xs font-bold ${TILE[i % TILE.length]}`}>
                   {a.range}
                 </span>
-                <h3 className="mt-3 font-hand text-xl font-extrabold text-ink">{a.name}</h3>
-                <ul className="mt-3 space-y-1.5 text-sm text-ink/70">
+                <h3 className="mt-2 font-hand text-lg font-extrabold text-ink">{a.name}</h3>
+                <ul className="mt-2 space-y-1 text-sm text-ink/70">
                   {a.points.map((p) => (
                     <li key={p} className="flex gap-2">
                       <span className="text-brand">•</span>
@@ -341,7 +405,7 @@ export default function DiscoveryPage() {
                     </li>
                   ))}
                 </ul>
-                <p className="mt-4 border-t-2 border-mist pt-3 text-xs text-ink/50">
+                <p className="mt-3 border-t-2 border-mist pt-2 text-xs text-ink/50">
                   <span className="font-bold text-brandsoft">How:</span> {a.how}
                 </p>
               </div>
@@ -351,40 +415,46 @@ export default function DiscoveryPage() {
       </Slide>
 
       {/* 07 - CERTIFICATE */}
-      <Slide n={7} kicker="Every child earns a certificate">
-        <div>
-          <div className="text-center">
-            <h2 className="font-hand text-3xl font-extrabold text-ink sm:text-4xl">
+      <Slide
+        n={7}
+        kicker="Every child earns a certificate"
+        note={
+          <StickyNote tone="note--peach" rotate={5} className="bottom-12 right-8">
+            Often their first ever
+          </StickyNote>
+        }
+      >
+        <div className="grid items-center gap-8 lg:grid-cols-2">
+          <div className="card relative -rotate-2 p-6 text-center">
+            <p className="font-hand text-xl tracking-widest text-sun">★ ★ ★ ★ ★</p>
+            <p className="mt-3 font-hand text-xl font-extrabold text-ink">Certificate of Completion</p>
+            <p className="mt-1 text-[0.65rem] font-bold uppercase tracking-widest text-brandsoft">
+              The Equal Lens · Life Skills Programme
+            </p>
+            <p className="mt-4 text-sm text-ink/50">This certifies that</p>
+            <p className="mx-auto mt-1 w-2/3 border-b-2 border-dashed border-ink/30 pb-1 font-hand text-base font-bold text-ink/40">
+              Child&rsquo;s Name
+            </p>
+            <p className="mt-2 text-sm text-ink/60">
+              has completed all 8 sessions of the Life Skills Journey.
+            </p>
+          </div>
+          <div>
+            <h2 className="font-hand text-2xl font-extrabold leading-tight text-ink sm:text-3xl">
               Not for being perfect. For showing up, staying curious, and growing.
             </h2>
-          </div>
-          <div className="mt-8 grid items-center gap-8 lg:grid-cols-2">
-            <div className="card relative -rotate-2 p-8 text-center">
-              <p className="font-hand text-2xl tracking-widest text-sun">★ ★ ★ ★ ★</p>
-              <p className="mt-4 font-hand text-2xl font-extrabold text-ink">Certificate of Completion</p>
-              <p className="mt-1 text-xs font-bold uppercase tracking-widest text-brandsoft">
-                The Equal Lens · Life Skills Programme
-              </p>
-              <p className="mt-6 text-sm text-ink/50">This certifies that</p>
-              <p className="mx-auto mt-2 w-2/3 border-b-2 border-dashed border-ink/30 pb-1 font-hand text-lg font-bold text-ink/40">
-                Child&rsquo;s Name
-              </p>
-              <p className="mt-3 text-sm text-ink/60">
-                has completed all 8 sessions of the Life Skills Journey.
-              </p>
-            </div>
-            <ol className="space-y-5">
+            <ol className="mt-4 space-y-3">
               {[
                 { t: "For the child", d: "For many children in a home, this is the first certificate they have ever held." },
                 { t: "For your organisation", d: "A real, structured programme you can show to donors and trustees." },
                 { t: "Partner recognition", d: "The Equal Lens names your organisation a TEL Certified Partner." },
               ].map((item, i) => (
-                <li key={item.t} className="flex gap-4">
-                  <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-hand text-sm font-extrabold ${TILE[i % TILE.length]}`}>
+                <li key={item.t} className="flex gap-3">
+                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-hand text-sm font-extrabold ${TILE[i % TILE.length]}`}>
                     {`0${i + 1}`}
                   </span>
                   <div>
-                    <h3 className="font-hand text-lg font-bold text-ink">{item.t}</h3>
+                    <h3 className="font-hand text-base font-bold text-ink">{item.t}</h3>
                     <p className="text-sm text-ink/60">{item.d}</p>
                   </div>
                 </li>
@@ -395,21 +465,27 @@ export default function DiscoveryPage() {
       </Slide>
 
       {/* 08 - WHAT YOU RECEIVE */}
-      <Slide n={8} kicker="What your organisation receives">
+      <Slide
+        n={8}
+        kicker="What your organisation receives"
+        note={
+          <StickyNote tone="note--violet" rotate={-3} className="-bottom-1 right-12">
+            We give you everything
+          </StickyNote>
+        }
+      >
         <div>
-          <div className="text-center">
-            <h2 className="font-hand text-3xl font-extrabold text-ink sm:text-4xl">
-              Everything you need to run it with confidence.
-            </h2>
-          </div>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <h2 className="text-center font-hand text-2xl font-extrabold text-ink sm:text-3xl">
+            Everything you need to run it with confidence.
+          </h2>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {RECEIVES.map((r, i) => (
-              <div key={r.title} className="card flex flex-col gap-2 p-5">
-                <span className={`flex h-10 w-10 items-center justify-center rounded-xl font-hand text-base font-extrabold ${TILE[i % TILE.length]}`}>
+              <div key={r.title} className="card flex flex-col gap-1.5 p-4">
+                <span className={`flex h-9 w-9 items-center justify-center rounded-xl font-hand text-base font-extrabold ${TILE[i % TILE.length]}`}>
                   ✓
                 </span>
-                <h3 className="mt-1 font-hand text-lg font-bold text-ink">{r.title}</h3>
-                <p className="text-sm text-ink/60">{r.desc}</p>
+                <h3 className="mt-0.5 font-hand text-base font-bold leading-tight text-ink">{r.title}</h3>
+                <p className="text-xs text-ink/60">{r.desc}</p>
               </div>
             ))}
           </div>
@@ -417,13 +493,24 @@ export default function DiscoveryPage() {
       </Slide>
 
       {/* 09 - FREE */}
-      <Slide n={9} kicker="It is free" tone="band">
+      <Slide
+        n={9}
+        kicker="It is free"
+        tone="band"
+        note={
+          <StickyNote tone="note--yellow" rotate={5} className="bottom-12 right-12">
+            Yes, fully free
+          </StickyNote>
+        }
+      >
         <div className="relative text-center">
-          <Doodle name="sparkle" className="anim-wobble absolute left-4 top-0 w-10 text-sun" />
-          <Doodle name="star" className="anim-float absolute right-4 bottom-0 w-8 text-grow" />
-          <p className="font-hand text-7xl font-extrabold tracking-tight text-sun sm:text-8xl">FREE.</p>
-          <p className="mt-4 font-hand text-2xl font-bold">Not because we have to.</p>
-          <p className="mx-auto mt-3 max-w-xl text-white/80">
+          <Doodle name="sparkle" className="anim-wobble absolute left-6 top-0 w-10 text-sun" />
+          <Doodle name="star" className="anim-float absolute right-6 bottom-0 w-8 text-grow" />
+          <p className="font-hand text-6xl font-extrabold tracking-tight text-sun sm:text-7xl lg:text-8xl">
+            FREE.
+          </p>
+          <p className="mt-3 font-hand text-xl font-bold lg:text-2xl">Not because we have to.</p>
+          <p className="mx-auto mt-2 max-w-xl text-white/80">
             Because every child deserves this. No matter their budget, their school, or where they
             come from.
           </p>
@@ -431,42 +518,50 @@ export default function DiscoveryPage() {
       </Slide>
 
       {/* 10 - JOIN THE PILOT */}
-      <Slide n={10} kicker="Join the pilot">
+      <Slide
+        n={10}
+        kicker="Join the pilot"
+        note={
+          <StickyNote tone="note--peach" rotate={-5} className="bottom-10 right-8">
+            Could this be your home?
+          </StickyNote>
+        }
+      >
         <div>
           <div className="text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-sun px-4 py-1.5 font-hand text-sm font-bold text-ink shadow-[2px_2px_0_var(--color-ink)]">
+            <span className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-sun px-4 py-1 font-hand text-sm font-bold text-ink shadow-[2px_2px_0_var(--color-ink)]">
               ★ Only 5 spots
             </span>
-            <h2 className="mt-4 font-hand text-3xl font-extrabold text-ink sm:text-4xl">
+            <h2 className="mt-3 font-hand text-2xl font-extrabold text-ink sm:text-3xl">
               We are choosing 3 to 5 organisations for the first group.
             </h2>
           </div>
-          <div className="mt-8 grid gap-6 lg:grid-cols-2">
-            <div className="card p-6">
+          <div className="mt-5 grid gap-4 lg:grid-cols-2">
+            <div className="card p-5">
               <p className="eyebrow">What we need from you</p>
-              <ul className="mt-4 space-y-4">
+              <ul className="mt-3 space-y-3">
                 {NEED.map((nd, i) => (
-                  <li key={nd.label} className="flex items-start gap-4">
-                    <span className={`flex h-12 w-20 shrink-0 items-center justify-center rounded-xl font-hand text-sm font-extrabold ${TILE[i % TILE.length]}`}>
+                  <li key={nd.label} className="flex items-start gap-3">
+                    <span className={`flex h-10 w-20 shrink-0 items-center justify-center rounded-xl font-hand text-sm font-extrabold ${TILE[i % TILE.length]}`}>
                       {nd.k}
                     </span>
                     <div>
-                      <p className="font-hand font-bold text-ink">{nd.label}</p>
-                      <p className="text-sm text-ink/60">{nd.note}</p>
+                      <p className="font-hand text-sm font-bold text-ink">{nd.label}</p>
+                      <p className="text-xs text-ink/60">{nd.note}</p>
                     </div>
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="card card--soft p-6">
+            <div className="card card--soft p-5">
               <p className="eyebrow">What your organisation gets</p>
-              <ul className="mt-4 space-y-3">
+              <ul className="mt-3 space-y-2">
                 {GETS.map((g) => (
                   <li key={g} className="flex items-start gap-3">
-                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-insight/20 font-hand text-sm font-bold text-[#0F6E56]">
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-insight/20 font-hand text-xs font-bold text-[#0F6E56]">
                       ✓
                     </span>
-                    <span className="text-ink/80">{g}</span>
+                    <span className="text-sm text-ink/80">{g}</span>
                   </li>
                 ))}
               </ul>
@@ -476,27 +571,33 @@ export default function DiscoveryPage() {
       </Slide>
 
       {/* 11 - THE PEOPLE */}
-      <Slide n={11} kicker="The people behind this">
+      <Slide
+        n={11}
+        kicker="The people behind this"
+        note={
+          <StickyNote tone="note--mint" rotate={4} className="bottom-6 right-6">
+            We care, a lot
+          </StickyNote>
+        }
+      >
         <div>
-          <div className="text-center">
-            <h2 className="mx-auto max-w-2xl font-hand text-3xl font-extrabold text-ink sm:text-4xl">
-              Educators, facilitators, child development practitioners, and people who care deeply.
-            </h2>
-          </div>
+          <h2 className="text-center font-hand text-xl font-extrabold text-ink sm:text-2xl">
+            Educators, facilitators, child development practitioners, and people who care deeply.
+          </h2>
 
-          <p className="mt-8 text-center font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
+          <p className="mt-4 text-center font-hand text-xs font-bold uppercase tracking-widest text-brandsoft">
             Founding Team
           </p>
-          <div className="mt-4 grid gap-5 sm:grid-cols-3">
+          <div className="mx-auto mt-3 grid max-w-3xl gap-4 sm:grid-cols-3">
             {FOUNDING.map((m) => (
               <ProfileCard key={m.name} {...m} />
             ))}
           </div>
 
-          <p className="mt-8 text-center font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
+          <p className="mt-4 text-center font-hand text-xs font-bold uppercase tracking-widest text-brandsoft">
             Core Team
           </p>
-          <div className="mt-4 grid gap-5 sm:grid-cols-3">
+          <div className="mx-auto mt-3 grid max-w-3xl gap-4 sm:grid-cols-3">
             {CORE.map((m) => (
               <ProfileCard key={m.name} {...m} />
             ))}
@@ -505,20 +606,28 @@ export default function DiscoveryPage() {
       </Slide>
 
       {/* 12 - PARTNER WITH US */}
-      <Slide n={12} kicker="Partner with us" tone="band">
+      <Slide
+        n={12}
+        kicker="Partner with us"
+        tone="band"
+        note={
+          <StickyNote tone="note--yellow" rotate={-5} className="bottom-12 right-10">
+            Let us begin together
+          </StickyNote>
+        }
+      >
         <div className="relative text-center">
           <Doodle name="squiggle" className="anim-float absolute left-2 top-0 w-14 text-insight" />
-          <Doodle name="heart" className="anim-wobble absolute right-2 top-4 w-9 text-grow" />
+          <Doodle name="heart" className="anim-wobble absolute right-2 top-2 w-9 text-grow" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={LENSY_STAND} alt="Lensy" className="anim-bob mx-auto h-24 w-auto" />
-          <h2 className="mt-5 font-hand text-4xl font-extrabold leading-tight sm:text-5xl">
+          <img src={LENSY_STAND} alt="Lensy" className="anim-bob mx-auto h-20 w-auto lg:h-24" />
+          <h2 className="mt-4 font-hand text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
             Partner with us.
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-lg text-white/80">
+          <p className="mx-auto mt-2 max-w-xl text-base text-white/80 lg:text-lg">
             Your organisation will not just run a programme. You will help raise better human beings.
           </p>
-
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <a href="https://theequallens.com" className="btn btn--sun" target="_blank" rel="noreferrer">
               theequallens.com
             </a>
@@ -529,11 +638,10 @@ export default function DiscoveryPage() {
               +91 76999 96104
             </a>
           </div>
-
-          <p className="mt-8 inline-flex items-center gap-2 rounded-full border-2 border-sun bg-sun/15 px-4 py-1.5 font-hand text-sm font-bold text-sun">
+          <p className="mt-6 inline-flex items-center gap-2 rounded-full border-2 border-sun bg-sun/15 px-4 py-1 font-hand text-sm font-bold text-sun">
             ★ Only 5 pilot spots available
           </p>
-          <p className="mt-6 font-hand text-xl font-extrabold tracking-wide text-sun">
+          <p className="mt-4 font-hand text-lg font-extrabold tracking-wide text-sun lg:text-xl">
             Unlearn. Relearn. Grow.
           </p>
         </div>
