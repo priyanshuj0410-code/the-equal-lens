@@ -13,7 +13,7 @@ const LENSY_WAVE = "/Lensy%20-%20Wave.svg";
 const LENSY_IDEA = "/Lensy%20-%20Idea.svg";
 const LENSY_STAND = "/Lensy%20-%20Stand.svg";
 
-const TOTAL = 12;
+const TOTAL = 13;
 
 // Faint fill + darkened text, matching the about-page accent tiles.
 const TILE = [
@@ -191,14 +191,14 @@ function Slide({
 
 function ProfileCard({ photo, name, role }: { photo: string; name: string; role: string }) {
   return (
-    <div className="sticker hover-pop overflow-hidden rounded-2xl bg-surface">
-      <div className="h-24 w-full bg-mist lg:h-28">
+    <div className="sticker hover-pop mx-auto w-full max-w-[15rem] overflow-hidden rounded-2xl bg-surface">
+      <div className="aspect-square w-full bg-mist">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={photo} alt={name} className="h-full w-full object-cover object-top" />
+        <img src={photo} alt={name} className="h-full w-full object-cover object-center" />
       </div>
-      <div className="p-3 text-center">
-        <h3 className="font-hand text-base font-extrabold leading-tight text-ink">{name}</h3>
-        <p className="text-xs font-semibold text-brand">{role}</p>
+      <div className="p-4 text-center">
+        <h3 className="font-hand text-lg font-extrabold leading-tight text-ink">{name}</h3>
+        <p className="text-sm font-semibold text-brand">{role}</p>
       </div>
     </div>
   );
@@ -273,7 +273,7 @@ export default function DiscoveryPage() {
           <div className="grid grid-cols-2 gap-3 pr-0 lg:pr-20">
             {STATS.map((s, i) => (
               <div key={s.label} className="card flex flex-col items-center gap-1.5 p-4 text-center">
-                <span className={`flex h-14 w-14 items-center justify-center rounded-2xl font-hand text-xl font-extrabold ${TILE[i % TILE.length]}`}>
+                <span className={`flex h-14 min-w-14 items-center justify-center whitespace-nowrap rounded-2xl px-3 font-hand text-lg font-extrabold ${TILE[i % TILE.length]}`}>
                   {s.big}
                 </span>
                 <span className="font-hand text-sm font-bold text-ink/70">{s.label}</span>
@@ -318,7 +318,7 @@ export default function DiscoveryPage() {
         n={4}
         kicker="Inside one session"
         note={
-          <StickyNote tone="note--violet" rotate={4} className="bottom-24 right-8">
+          <StickyNote tone="note--violet" rotate={4} className="bottom-10 right-8">
             Every child gets a turn
           </StickyNote>
         }
@@ -327,23 +327,24 @@ export default function DiscoveryPage() {
           <h2 className="text-center font-hand text-2xl font-extrabold text-ink sm:text-3xl">
             60 minutes. No lectures. Every child joins in from the first minute.
           </h2>
-          <ol className="mx-auto mt-5 max-w-3xl space-y-2">
+          {/* Horizontal timeline of the 5 steps so all of them fit the 16:9 frame. */}
+          <div className="mt-6 grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
             {FLOW.map((f, i) => (
-              <li key={f.title} className="card flex items-center gap-3 p-3">
-                <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-hand text-base font-extrabold ${TILE[i % TILE.length]}`}>
-                  {i + 1}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <h3 className="font-hand text-sm font-bold text-ink">{f.title}</h3>
-                  <p className="text-xs text-ink/60">{f.desc}</p>
+              <div key={f.title} className="card flex flex-col gap-2 p-4">
+                <div className="flex items-center justify-between">
+                  <span className={`flex h-9 w-9 items-center justify-center rounded-full font-hand text-base font-extrabold ${TILE[i % TILE.length]}`}>
+                    {i + 1}
+                  </span>
+                  <span className="rounded-full bg-mist px-2 py-0.5 font-hand text-xs font-bold text-brand">
+                    {f.min}
+                  </span>
                 </div>
-                <span className="shrink-0 rounded-full bg-mist px-2.5 py-1 font-hand text-xs font-bold text-brand">
-                  {f.min}
-                </span>
-              </li>
+                <h3 className="font-hand text-sm font-bold leading-tight text-ink">{f.title}</h3>
+                <p className="text-xs leading-snug text-ink/60">{f.desc}</p>
+              </div>
             ))}
-          </ol>
-          <p className="mx-auto mt-4 max-w-3xl text-center text-xs text-ink/60">
+          </div>
+          <p className="mt-5 text-center text-xs text-ink/60">
             Your facilitator gets a full, step by step guide before every session.
           </p>
         </div>
@@ -570,34 +571,49 @@ export default function DiscoveryPage() {
         </div>
       </Slide>
 
-      {/* 11 - THE PEOPLE */}
+      {/* 11 - FOUNDING TEAM */}
       <Slide
         n={11}
         kicker="The people behind this"
         note={
-          <StickyNote tone="note--mint" rotate={4} className="bottom-6 right-6">
+          <StickyNote tone="note--mint" rotate={4} className="bottom-10 right-8">
             We care, a lot
           </StickyNote>
         }
       >
         <div>
-          <h2 className="text-center font-hand text-xl font-extrabold text-ink sm:text-2xl">
-            Educators, facilitators, child development practitioners, and people who care deeply.
+          <h2 className="text-center font-hand text-2xl font-extrabold text-ink sm:text-3xl">
+            Educators, facilitators, and people who care deeply.
           </h2>
-
-          <p className="mt-4 text-center font-hand text-xs font-bold uppercase tracking-widest text-brandsoft">
+          <p className="mt-3 text-center font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
             Founding Team
           </p>
-          <div className="mx-auto mt-3 grid max-w-3xl gap-4 sm:grid-cols-3">
+          <div className="mx-auto mt-6 grid max-w-4xl gap-6 sm:grid-cols-3">
             {FOUNDING.map((m) => (
               <ProfileCard key={m.name} {...m} />
             ))}
           </div>
+        </div>
+      </Slide>
 
-          <p className="mt-4 text-center font-hand text-xs font-bold uppercase tracking-widest text-brandsoft">
+      {/* 12 - CORE TEAM */}
+      <Slide
+        n={12}
+        kicker="The people behind this"
+        note={
+          <StickyNote tone="note--peach" rotate={-4} className="bottom-10 right-8">
+            Real people behind it
+          </StickyNote>
+        }
+      >
+        <div>
+          <h2 className="text-center font-hand text-2xl font-extrabold text-ink sm:text-3xl">
+            The team who bring every session to life.
+          </h2>
+          <p className="mt-3 text-center font-hand text-sm font-bold uppercase tracking-widest text-brandsoft">
             Core Team
           </p>
-          <div className="mx-auto mt-3 grid max-w-3xl gap-4 sm:grid-cols-3">
+          <div className="mx-auto mt-6 grid max-w-4xl gap-6 sm:grid-cols-3">
             {CORE.map((m) => (
               <ProfileCard key={m.name} {...m} />
             ))}
@@ -605,9 +621,9 @@ export default function DiscoveryPage() {
         </div>
       </Slide>
 
-      {/* 12 - PARTNER WITH US */}
+      {/* 13 - PARTNER WITH US */}
       <Slide
-        n={12}
+        n={13}
         kicker="Partner with us"
         tone="band"
         note={
