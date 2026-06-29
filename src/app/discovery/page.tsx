@@ -157,7 +157,7 @@ function Slide({
     <section className="px-4 sm:px-6">
       <div
         className={`relative mx-auto flex w-full max-w-6xl flex-col overflow-hidden rounded-[2rem] border-2 border-ink p-6 shadow-[6px_6px_0_var(--color-ink)] sm:p-8 lg:aspect-video lg:p-12 ${
-          band ? "bg-band text-white" : "canvas-dots bg-surface text-ink"
+          band ? "bg-band text-white" : "canvas-dots bg-paper text-ink"
         }`}
       >
         {note}
