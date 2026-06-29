@@ -137,3 +137,61 @@ body {
 [data-audience="adult"] .team-photo .baby { opacity: 0; }
 [data-audience="adult"] .team-card:hover .team-photo .now { opacity: 0; }
 [data-audience="adult"] .team-card:hover .team-photo .baby { opacity: 1; }
+
+/* ─────────────  Discovery deck → PDF print  ─────────────
+   Scoped to pages that contain the deck (body:has(.deck-root)) so other
+   pages' print behaviour is untouched. Each slide becomes one 16:9 landscape
+   page; the on-screen card container (border/shadow/radius/centering) is
+   dropped because the pages are already separate. Screen view is unaffected. */
+@media print {
+  @page { size: 13.333in 7.5in; margin: 0; }
+
+  body:has(.deck-root) { background: #fff; }
+  /* Hide all site chrome (header, canvas, footer, Lensy, modal, analytics). */
+  body:has(.deck-root) > *:not(main) { display: none !important; }
+  body:has(.deck-root) main { margin: 0 !important; padding: 0 !important; flex: none !important; }
+
+  .deck-root { padding: 0 !important; }
+  .deck-root > section { margin: 0 !important; padding: 0 !important; }
+
+  .deck-slide {
+    width: 1280px !important;
+    height: 720px !important;
+    max-width: none !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    aspect-ratio: auto !important;
+    padding: 3.5rem !important;
+    overflow: hidden;
+    break-after: page;
+    page-break-after: always;
+  }
+  .deck-root > section:last-of-type .deck-slide {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  /* Print media never satisfies the lg breakpoint (min-width:1024px), so the
+     deck would fall back to its tablet layout. Re-apply the exact lg utilities
+     the deck uses so each PDF page matches the on-screen desktop slide. */
+  .deck-slide .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .deck-slide .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .deck-slide .lg\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+  .deck-slide .lg\:grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
+  .deck-slide .lg\:text-lg  { font-size: 1.125rem !important; line-height: 1.75rem !important; }
+  .deck-slide .lg\:text-xl  { font-size: 1.25rem !important; line-height: 1.75rem !important; }
+  .deck-slide .lg\:text-2xl { font-size: 1.5rem !important; line-height: 2rem !important; }
+  .deck-slide .lg\:text-4xl { font-size: 2.25rem !important; line-height: 2.5rem !important; }
+  .deck-slide .lg\:text-5xl { font-size: 3rem !important; line-height: 1 !important; }
+  .deck-slide .lg\:text-7xl { font-size: 4.5rem !important; line-height: 1 !important; }
+  .deck-slide .lg\:text-8xl { font-size: 6rem !important; line-height: 1 !important; }
+  .deck-slide .lg\:pr-20 { padding-right: 5rem !important; }
+  .deck-slide .lg\:h-24 { height: 6rem !important; }
+  .deck-slide .lg\:h-36 { height: 9rem !important; }
+  .deck-slide .lg\:block { display: block !important; }
+
+  /* Print backgrounds and colours exactly (paper, dots, dark band). */
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
