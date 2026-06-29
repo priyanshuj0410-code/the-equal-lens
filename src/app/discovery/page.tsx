@@ -289,7 +289,7 @@ export default function DiscoveryPage() {
         n={3}
         kicker="The 8 session journey"
         note={
-          <StickyNote tone="note--peach" rotate={-3} className="-bottom-1 right-12">
+          <StickyNote tone="note--peach" rotate={-3} className="bottom-12 right-12">
             A new theme every week
           </StickyNote>
         }
@@ -378,7 +378,7 @@ export default function DiscoveryPage() {
         n={6}
         kicker="One programme. Every age."
         note={
-          <StickyNote tone="note--mint" rotate={-4} className="-bottom-1 right-10">
+          <StickyNote tone="note--mint" rotate={-4} className="bottom-12 right-10">
             Lensy grows with them
           </StickyNote>
         }
@@ -466,7 +466,7 @@ export default function DiscoveryPage() {
         n={8}
         kicker="What your organisation receives"
         note={
-          <StickyNote tone="note--violet" rotate={-3} className="-bottom-1 right-12">
+          <StickyNote tone="note--violet" rotate={-3} className="bottom-12 right-12">
             We give you everything
           </StickyNote>
         }
