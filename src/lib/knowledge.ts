@@ -120,7 +120,9 @@ export type PostMeta = {
   placeholder?: boolean;
 };
 
-export type Post = PostMeta & { html: string };
+export type BlogSlide = { url: string; alt?: string; caption?: string };
+
+export type Post = PostMeta & { html: string; carousel?: BlogSlide[] };
 
 function readJsonDir<T>(dir: string): T[] {
   const full = path.join(KB, dir);
@@ -240,13 +242,27 @@ export async function getPostsMeta(
 
 export async function getPost(slug: string): Promise<Post | null> {
   if (sanityEnabled) {
-    type Row = Omit<PostMeta, "cover"> & { cover?: SanityImageRef; body?: unknown[] };
+    type CarouselImage = SanityImageRef & { alt?: string; caption?: string };
+    type Row = Omit<PostMeta, "cover"> & {
+      cover?: SanityImageRef;
+      body?: unknown[];
+      carousel?: CarouselImage[];
+    };
     const p = await client.fetch<Row | null>(postQuery, { slug }, fetchOpts("posts"));
     if (!p) return null;
-    const { body, cover, ...meta } = p;
+    const { body, cover, carousel, ...meta } = p;
     return {
       ...meta,
       cover: cover ? urlFor(cover).width(1000).auto("format").url() : undefined,
+      carousel: Array.isArray(carousel)
+        ? carousel
+            .filter((img) => img?.asset)
+            .map((img) => ({
+              url: urlFor(img).width(1200).fit("max").auto("format").url(),
+              alt: img.alt,
+              caption: img.caption,
+            }))
+        : undefined,
       html: Array.isArray(body)
         ? toHTML(body as Parameters<typeof toHTML>[0], { components: ptComponents })
         : "",
@@ -258,7 +274,8 @@ export async function getPost(slug: string): Promise<Post | null> {
     const { data, content } = matter(fs.readFileSync(path.join(dir, f), "utf8"));
     const meta = data as PostMeta;
     if (meta.slug === slug) {
-      return { ...meta, html: marked.parse(content) as string };
+      const carousel = (data as { carousel?: BlogSlide[] }).carousel;
+      return { ...meta, carousel, html: marked.parse(content) as string };
     }
   }
   return null;

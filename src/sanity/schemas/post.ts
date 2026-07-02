@@ -37,6 +37,23 @@ export const post = defineType({
       type: "image",
       options: { hotspot: true },
     }),
+    defineField({
+      name: "carousel",
+      title: "Carousel",
+      description: "Optional image carousel shown at the top of the post, right after the heading and before the body.",
+      type: "array",
+      of: [
+        {
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            defineField({ name: "alt", title: "Alt text", type: "string", description: "Describes the image for screen readers." }),
+            defineField({ name: "caption", title: "Caption", type: "string", description: "Optional caption shown under the image." }),
+          ],
+        },
+      ],
+      options: { layout: "grid" },
+    }),
     defineField({ name: "tags", title: "Tags", type: "array", of: [{ type: "string" }], options: { layout: "tags" } }),
     defineField({
       name: "body",

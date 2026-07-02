@@ -69,6 +69,15 @@ Section heading is **"Gallery"** (was "Testimonials"). Backed by Testimonial doc
 | `.btn--band` | Ghost on dark background |
 | `.btn--solid` | Flat, no shadow |
 
+## Blog carousel
+
+Optional image carousel on a blog post, rendered between the `<h1>` heading and the body (`src/components/BlogCarousel.tsx`).
+- Framed sticker container: `rounded-2xl border-2 border-ink bg-mist shadow-[4px_4px_0_var(--color-ink)]`, `aspect-[3/2]` image.
+- Crossfade between slides (stacked, opacity), round ink nav arrows (`border-2 border-ink bg-surface shadow-[2px_2px_0]`), pill dots (active = `w-6 bg-brand`).
+- Autoplays every 6s, pauses on hover/focus, respects `prefers-reduced-motion`.
+- Optional per-image `caption` shown centered below; optional `alt`.
+- Data: Sanity `post.carousel` (image array with `alt`/`caption`) → resolved to `BlogSlide[]` (`{ url, alt?, caption? }`) in `getPost`.
+
 ## Component library
 
 `@equal-lens/brand` package at `brand/design-system/`. Exports: `Button`, `Card`, `Note`, `Segmented`, `NavLink`, `Tabs`, `Toolbar`, `ShipDock`, `Popover`, `Bubble`.

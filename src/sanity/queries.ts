@@ -30,7 +30,7 @@ export const postsMetaQuery = groq`*[_type == "post" && status == "published" &&
 }`;
 
 export const postQuery = groq`*[_type == "post" && slug.current == $slug][0]{
-  title, "slug": slug.current, "date": date, author, excerpt, tags, cover,
+  title, "slug": slug.current, "date": date, author, excerpt, tags, cover, carousel,
   status, "audience": coalesce(audience, "kid"), body
 }`;
 
