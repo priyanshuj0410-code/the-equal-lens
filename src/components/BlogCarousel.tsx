@@ -14,6 +14,9 @@ export default function BlogCarousel({
 }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  // Natural aspect ratio (w/h) per image, filled in on load, so the frame can
+  // hug each image instead of cropping it to a fixed box.
+  const [ratios, setRatios] = useState<number[]>([]);
   const count = images.length;
 
   useEffect(() => {
@@ -37,15 +40,29 @@ export default function BlogCarousel({
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
     >
-      <div className="relative overflow-hidden rounded-2xl border-2 border-ink bg-mist shadow-[4px_4px_0_var(--color-ink)]">
-        <div className="relative aspect-[3/2] w-full">
+      <div className="relative overflow-hidden rounded-2xl border-2 border-ink bg-surface shadow-[4px_4px_0_var(--color-ink)]">
+        <div
+          className="relative w-full transition-[aspect-ratio] duration-500"
+          style={{ aspectRatio: String(ratios[current] ?? 3 / 2), maxHeight: "78vh" }}
+        >
           {images.map((img, i) => (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
               key={i}
               src={img.url}
               alt={img.alt ?? ""}
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+              onLoad={(e) => {
+                const el = e.currentTarget;
+                if (!el.naturalHeight) return;
+                const r = el.naturalWidth / el.naturalHeight;
+                setRatios((prev) => {
+                  if (prev[i] === r) return prev;
+                  const next = [...prev];
+                  next[i] = r;
+                  return next;
+                });
+              }}
+              className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${
                 i === current ? "opacity-100" : "opacity-0"
               }`}
               aria-hidden={i !== current}
