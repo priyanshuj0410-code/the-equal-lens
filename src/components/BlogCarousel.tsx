@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { BlogSlide } from "@/lib/knowledge";
 
 const INTERVAL_MS = 6000;
@@ -14,6 +14,10 @@ export default function BlogCarousel({
 }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  // The invisible sizer's rendered height drives the frame; we read it into
+  // state so the frame height can transition (CSS can't animate height:auto).
+  const sizerRef = useRef<HTMLImageElement>(null);
+  const [frameHeight, setFrameHeight] = useState<number>();
   const count = images.length;
 
   useEffect(() => {
@@ -23,6 +27,16 @@ export default function BlogCarousel({
     return () => window.clearInterval(id);
   }, [paused, count]);
 
+  useEffect(() => {
+    const el = sizerRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(() => {
+      if (el.offsetHeight) setFrameHeight(el.offsetHeight);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   if (count === 0) return null;
 
   const current = Math.min(index, count - 1);
@@ -30,7 +44,7 @@ export default function BlogCarousel({
 
   return (
     <figure
-      className={`not-prose ${className}`}
+      className={`group not-prose ${className}`}
       aria-roledescription="carousel"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -38,13 +52,17 @@ export default function BlogCarousel({
       onBlurCapture={() => setPaused(false)}
     >
       <div className="relative overflow-hidden rounded-2xl border-2 border-ink bg-surface shadow-[4px_4px_0_var(--color-ink)]">
-        {/* The frame hugs each image with no crop and no letterbox bars. An
-            invisible in-flow copy of the current image drives the height (pure
-            CSS — no JS measuring, so it never misses cache-loaded images), and
-            the stacked copies crossfade on top. */}
-        <div className="relative w-full">
+        {/* The frame hugs each image with no crop and no letterbox bars. The
+            invisible in-flow copy of the current image is measured to drive the
+            frame height, which transitions smoothly between differently shaped
+            images; the stacked copies crossfade on top. */}
+        <div
+          className="relative w-full transition-[height] duration-500 ease-out"
+          style={frameHeight ? { height: frameHeight } : undefined}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
+            ref={sizerRef}
             src={images[current].url}
             alt=""
             aria-hidden
@@ -70,7 +88,7 @@ export default function BlogCarousel({
               type="button"
               onClick={() => go(current - 1)}
               aria-label="Previous image"
-              className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border-2 border-ink bg-surface text-ink shadow-[2px_2px_0_var(--color-ink)] transition-transform hover:scale-110"
+              className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border-2 border-ink bg-surface text-ink shadow-[2px_2px_0_var(--color-ink)] opacity-0 transition-[transform,opacity] duration-200 hover:scale-110 focus-visible:opacity-100 group-hover:opacity-100 group-focus-within:opacity-100 [@media(hover:none)]:opacity-100"
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="m15 18-6-6 6-6" />
@@ -80,7 +98,7 @@ export default function BlogCarousel({
               type="button"
               onClick={() => go(current + 1)}
               aria-label="Next image"
-              className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border-2 border-ink bg-surface text-ink shadow-[2px_2px_0_var(--color-ink)] transition-transform hover:scale-110"
+              className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border-2 border-ink bg-surface text-ink shadow-[2px_2px_0_var(--color-ink)] opacity-0 transition-[transform,opacity] duration-200 hover:scale-110 focus-visible:opacity-100 group-hover:opacity-100 group-focus-within:opacity-100 [@media(hover:none)]:opacity-100"
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="m9 6 6 6-6 6" />
