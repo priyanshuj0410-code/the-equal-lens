@@ -57,7 +57,7 @@ export default async function PostPage({
         <BlogCarousel images={post.carousel} className="mt-8" />
       )}
       <div
-        className="mt-8 leading-relaxed text-ink/80 [&_a]:text-brand [&_a]:underline [&_blockquote]:my-5 [&_blockquote]:border-l-4 [&_blockquote]:border-violet-200 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-ink/60 [&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:text-violet-700 [&_li]:my-1 [&_p]:my-4 [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6"
+        className="blog-body mt-8 leading-relaxed text-ink/80"
         dangerouslySetInnerHTML={{ __html: post.html }}
       />
       <EmbedResizer />

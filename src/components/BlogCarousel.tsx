@@ -14,10 +14,9 @@ export default function BlogCarousel({
 }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  // The invisible sizer's rendered height drives the frame; we read it into
-  // state so the frame height can transition (CSS can't animate height:auto).
-  const sizerRef = useRef<HTMLImageElement>(null);
-  const [frameHeight, setFrameHeight] = useState<number>();
+  const frameRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
+  const [ratios, setRatios] = useState<Record<number, number>>({});
   const count = images.length;
 
   useEffect(() => {
@@ -27,12 +26,15 @@ export default function BlogCarousel({
     return () => window.clearInterval(id);
   }, [paused, count]);
 
+  // Track the frame's width so the height can be derived from the current
+  // image's aspect ratio (deterministic — the height changes the instant the
+  // slide changes, so the CSS transition fires reliably instead of snapping).
   useEffect(() => {
-    const el = sizerRef.current;
-    if (!el || typeof ResizeObserver === "undefined") return;
-    const ro = new ResizeObserver(() => {
-      if (el.offsetHeight) setFrameHeight(el.offsetHeight);
-    });
+    const el = frameRef.current;
+    if (!el) return;
+    setWidth(el.clientWidth);
+    if (typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(() => setWidth(el.clientWidth));
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
@@ -41,6 +43,21 @@ export default function BlogCarousel({
 
   const current = Math.min(index, count - 1);
   const go = (i: number) => setIndex((i + count) % count);
+
+  // Record each image's ratio when it loads — checking `complete` first so
+  // cache-loaded images (which fire `load` before React attaches) still count.
+  const recordRatio = (i: number) => (img: HTMLImageElement | null) => {
+    if (!img) return;
+    const set = () => {
+      const { naturalWidth: w, naturalHeight: h } = img;
+      if (w && h) setRatios((prev) => (prev[i] === w / h ? prev : { ...prev, [i]: w / h }));
+    };
+    if (img.complete) set();
+    else img.addEventListener("load", set, { once: true });
+  };
+
+  const ratio = ratios[current];
+  const frameHeight = width > 0 && ratio ? Math.round(width / ratio) : undefined;
 
   return (
     <figure
@@ -52,26 +69,22 @@ export default function BlogCarousel({
       onBlurCapture={() => setPaused(false)}
     >
       <div className="relative overflow-hidden rounded-2xl border-2 border-ink bg-surface shadow-[4px_4px_0_var(--color-ink)]">
-        {/* The frame hugs each image with no crop and no letterbox bars. The
-            invisible in-flow copy of the current image is measured to drive the
-            frame height, which transitions smoothly between differently shaped
-            images; the stacked copies crossfade on top. */}
+        {/* Frame hugs the current image (no crop, no letterbox) and animates its
+            height smoothly between differently shaped slides. */}
         <div
-          className="relative w-full transition-[height] duration-500 ease-out"
-          style={frameHeight ? { height: frameHeight } : undefined}
+          ref={frameRef}
+          className="relative w-full"
+          style={{
+            height: frameHeight,
+            aspectRatio: frameHeight ? undefined : "3 / 2",
+            transition: "height 0.45s cubic-bezier(0.4, 0, 0.2, 1)",
+          }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            ref={sizerRef}
-            src={images[current].url}
-            alt=""
-            aria-hidden
-            className="pointer-events-none block w-full opacity-0"
-          />
           {images.map((img, i) => (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
               key={i}
+              ref={recordRatio(i)}
               src={img.url}
               alt={img.alt ?? ""}
               className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${
