@@ -59,7 +59,40 @@ export const post = defineType({
       name: "body",
       title: "Body",
       type: "array",
-      of: [{ type: "block" }, { type: "image", options: { hotspot: true } }],
+      of: [
+        { type: "block" },
+        { type: "image", options: { hotspot: true } },
+        {
+          type: "object",
+          name: "htmlEmbed",
+          title: "Interactive embed",
+          fields: [
+            defineField({
+              name: "code",
+              title: "HTML / code",
+              type: "text",
+              rows: 14,
+              description:
+                "Self-contained interactive HTML (may include <style> and <script>). It runs sandboxed in an isolated frame, so keep everything inline and self-contained.",
+              validation: (r) => r.required(),
+            }),
+            defineField({ name: "caption", title: "Caption", type: "string", description: "Optional caption shown under the embed." }),
+            defineField({
+              name: "height",
+              title: "Initial height (px)",
+              type: "number",
+              description: "Fallback height until the embed reports its own size. Defaults to 480.",
+            }),
+          ],
+          preview: {
+            select: { caption: "caption" },
+            prepare: ({ caption }: { caption?: string }) => ({
+              title: caption || "Interactive embed",
+              subtitle: "Interactive HTML embed",
+            }),
+          },
+        },
+      ],
     }),
     defineField({
       name: "status",

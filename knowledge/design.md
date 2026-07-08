@@ -78,6 +78,14 @@ Optional image carousel on a blog post, rendered between the `<h1>` heading and 
 - Optional per-image `caption` shown centered below; optional `alt`.
 - Data: Sanity `post.carousel` (image array with `alt`/`caption`) → resolved to `BlogSlide[]` (`{ url, alt?, caption? }`) in `getPost`.
 
+## Blog interactive embed
+
+Authors can drop a self-contained interactive HTML data-viz into a post body (Sanity `post.body` gets an `htmlEmbed` block: `code` + optional `caption`/`height`).
+- Rendered by the `htmlEmbed` serializer (`src/sanity/portableText.ts`) into an `<iframe srcdoc>` with `sandbox="allow-scripts allow-popups"` — the embed's JS runs but is isolated from the page (no same-origin), safe for arbitrary HTML.
+- Frame styling: `border-2 border-ink`, `rounded-2xl` (1rem), white background, full width.
+- A height-reporter script is injected into each embed; `EmbedResizer` (client, mounted on the post page) listens for its `postMessage` and sizes the iframe to fit — no cropping/scroll.
+- Embeds must be self-contained (inline `<style>`/`<script>`); the sandbox has no page access.
+
 ## Component library
 
 `@equal-lens/brand` package at `brand/design-system/`. Exports: `Button`, `Card`, `Note`, `Segmented`, `NavLink`, `Tabs`, `Toolbar`, `ShipDock`, `Popover`, `Bubble`.
