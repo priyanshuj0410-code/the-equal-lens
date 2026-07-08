@@ -77,7 +77,7 @@ export default function BlogCarousel({
           style={{
             height: frameHeight,
             aspectRatio: frameHeight ? undefined : "3 / 2",
-            transition: "height 0.45s cubic-bezier(0.4, 0, 0.2, 1)",
+            transition: "height 0.28s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         >
           {images.map((img, i) => (
@@ -87,7 +87,7 @@ export default function BlogCarousel({
               ref={recordRatio(i)}
               src={img.url}
               alt={img.alt ?? ""}
-              className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${
+              className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-300 ${
                 i === current ? "opacity-100" : "opacity-0"
               }`}
               aria-hidden={i !== current}
