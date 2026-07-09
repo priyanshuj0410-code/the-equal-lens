@@ -75,11 +75,18 @@ export default function SiteHeader({ audience }: { audience: "kid" | "adult" }) 
           <span className="ml-3">
             <AudienceToggle value={audience} onChange={setAudience} />
           </span>
+          <Link
+            href="/donate"
+            className="btn btn--sun btn--sm ml-3"
+            style={{ boxShadow: "none" }}
+          >
+            Donate
+          </Link>
           <a
             href={SWIPEED_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn--primary btn--sm ml-3"
+            className="btn btn--primary btn--sm ml-2"
             style={{ boxShadow: "none" }}
           >
             Play SwipeEd
@@ -126,6 +133,14 @@ export default function SiteHeader({ audience }: { audience: "kid" | "adult" }) 
               {l.label}
             </Link>
           ))}
+          <Link
+            href="/donate"
+            onClick={() => setOpen(false)}
+            className="btn btn--sun mt-3 w-full justify-center"
+            style={{ boxShadow: "none" }}
+          >
+            Donate
+          </Link>
           <a
             href={SWIPEED_URL}
             target="_blank"

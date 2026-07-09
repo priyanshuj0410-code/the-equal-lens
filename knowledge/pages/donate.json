@@ -1,0 +1,26 @@
+{
+  "hero": {
+    "eyebrow": "Support our work",
+    "headline": "Help raise kinder humans",
+    "body": {
+      "kid": "Your gift helps more kids learn empathy, fairness and confidence — through play, not lectures.",
+      "adult": "Your gift funds gender-equality education for children who need it most — delivered through play, stories and real conversation."
+    }
+  },
+  "whyGiveHeading": "Why give",
+  "whyGive": [
+    { "title": "Reaches real classrooms", "body": "Every rupee helps us run more free workshops in schools and children's homes." },
+    { "title": "Built for impact", "body": "A structured 8-session life-skills journey, not a one-off talk." },
+    { "title": "Free for every child", "body": "We keep the programme free, so no child is left out." }
+  ],
+  "formHeading": "Make a donation",
+  "presetAmounts": [500, 1000, 2500],
+  "formLabels": {
+    "amount": "Choose an amount",
+    "custom": "Other amount (₹)",
+    "name": "Name",
+    "email": "Email"
+  },
+  "comingSoonNote": "Online giving is launching shortly. Thank you for your patience — check back soon.",
+  "secureNote": "Payments will be handled securely."
+}

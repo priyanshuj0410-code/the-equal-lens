@@ -21,6 +21,7 @@ export default function SiteFooter() {
             <li><Link href="/blog" className="hover:text-white">Blogs</Link></li>
             <li><Link href="/about" className="hover:text-white">About</Link></li>
             <li><Link href="/join" className="hover:text-white">Join us</Link></li>
+            <li><Link href="/donate" className="hover:text-white">Donate</Link></li>
             <li>
               <a href={SWIPEED_URL} target="_blank" rel="noreferrer" className="hover:text-white">
                 Play SwipeEd
