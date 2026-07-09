@@ -59,7 +59,7 @@ export default function DonateForm({
         )}
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="space-y-4">
         <div>
           <label className={label}>{labels.name}</label>
           <input name="name" className={field} />
