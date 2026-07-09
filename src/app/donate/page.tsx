@@ -21,8 +21,7 @@ type Content = {
   whyGiveHeading: string;
   whyGive: { title: string; body: string }[];
   formHeading: string;
-  presetAmounts: number[];
-  formLabels: { amount: string; custom: string; name: string; email: string };
+  formLabels: { amount: string; name: string; email: string };
   comingSoonNote: string;
   secureNote: string;
 };
@@ -59,7 +58,6 @@ export default async function DonatePage() {
           <h2 className="font-hand text-2xl font-bold">{c.formHeading}</h2>
           <div className="mt-4">
             <DonateForm
-              presetAmounts={c.presetAmounts}
               labels={c.formLabels}
               comingSoon={c.comingSoonNote}
               secureNote={c.secureNote}

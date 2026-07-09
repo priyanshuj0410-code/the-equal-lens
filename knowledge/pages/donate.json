@@ -14,10 +14,8 @@
     { "title": "Free for every child", "body": "We keep the programme free, so no child is left out." }
   ],
   "formHeading": "Make a donation",
-  "presetAmounts": [500, 1000, 2500],
   "formLabels": {
-    "amount": "Choose an amount",
-    "custom": "Other amount (₹)",
+    "amount": "Amount",
     "name": "Name",
     "email": "Email"
   },

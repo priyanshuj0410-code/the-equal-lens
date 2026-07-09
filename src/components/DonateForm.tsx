@@ -1,62 +1,36 @@
 "use client";
 
-import { useState } from "react";
-
 const field =
   "w-full rounded-lg border border-mist bg-surface px-3 py-2 text-ink focus:border-violet-400 focus:outline-none";
 const label = "mb-1 block text-sm font-medium text-ink/80";
 
-// Coming-soon donation form. The full UI (amount chips + custom + name/email) is
-// present so the design is complete, but the action is disabled until the
-// Razorpay checkout is wired up.
+// Coming-soon donation form. The full UI (amount + name/email) is present so the
+// design is complete, but the action is disabled until Razorpay is wired up.
 export default function DonateForm({
-  presetAmounts,
   labels,
   comingSoon,
   secureNote,
 }: {
-  presetAmounts: number[];
-  labels: { amount: string; custom: string; name: string; email: string };
+  labels: { amount: string; name: string; email: string };
   comingSoon: string;
   secureNote: string;
 }) {
-  const [amount, setAmount] = useState<number | "custom" | null>(presetAmounts[0] ?? "custom");
-
   return (
     <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
       <div>
         <label className={label}>{labels.amount}</label>
-        <div className="flex flex-wrap gap-2">
-          {presetAmounts.map((a) => (
-            <button
-              key={a}
-              type="button"
-              onClick={() => setAmount(a)}
-              aria-pressed={amount === a}
-              className={`btn btn--sm ${amount === a ? "btn--primary" : "btn--outline"}`}
-            >
-              ₹{a.toLocaleString("en-IN")}
-            </button>
-          ))}
-          <button
-            type="button"
-            onClick={() => setAmount("custom")}
-            aria-pressed={amount === "custom"}
-            className={`btn btn--sm ${amount === "custom" ? "btn--primary" : "btn--outline"}`}
-          >
-            Custom
-          </button>
-        </div>
-        {amount === "custom" && (
+        <div className="relative">
+          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink/60">₹</span>
           <input
+            name="amount"
             type="number"
             min={1}
             inputMode="numeric"
-            placeholder={labels.custom}
-            aria-label={labels.custom}
-            className={`${field} mt-3`}
+            placeholder="Enter an amount"
+            aria-label={labels.amount}
+            className={`${field} pl-7`}
           />
-        )}
+        </div>
       </div>
 
       <div className="space-y-4">
