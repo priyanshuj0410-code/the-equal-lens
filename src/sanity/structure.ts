@@ -11,7 +11,7 @@ const SINGLETONS: { type: string; title: string }[] = [
   { type: "joinPage", title: "Join" },
 ];
 
-const COLLECTIONS = ["teamMember", "job", "post", "program", "testimonial", "lensyResponse"];
+const COLLECTIONS = ["teamMember", "job", "post", "program", "testimonial", "lensyResponse", "voucherRecipient"];
 
 export const structure: StructureResolver = (S) =>
   S.list()

@@ -11,6 +11,7 @@ import { program } from "./program";
 import { programsPage } from "./programsPage";
 import { teamMember } from "./teamMember";
 import { testimonial } from "./testimonial";
+import { voucherRecipient } from "./voucherRecipient";
 
 // Per-page editable copy (singletons), then collections.
 export const pageTypes = [
@@ -23,4 +24,4 @@ export const pageTypes = [
   joinPage,
 ];
 
-export const schemaTypes = [...pageTypes, teamMember, job, post, program, testimonial, lensyResponse];
+export const schemaTypes = [...pageTypes, teamMember, job, post, program, testimonial, lensyResponse, voucherRecipient];
