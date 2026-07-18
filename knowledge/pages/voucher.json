@@ -1,12 +1,12 @@
 {
-  "heading": "Your thank-you voucher",
-  "subheading": "Thanks for joining us! Enter the email you registered with to reveal your gift.",
+  "heading": "Your welcome voucher",
+  "subheading": "We can't wait to meet you! Enter the email you registered with to reveal a little something for the event.",
   "gateLabel": "Registered email",
-  "gateButton": "View my voucher",
+  "gateButton": "Reveal my voucher",
   "notFound": "We couldn't find a voucher for that email. Please use the exact email you registered with.",
   "amount": 800,
   "voucherLabel": "The Equal Lens voucher",
   "scratchLabel": "Scratch to reveal",
-  "revealedTitle": "Here's a little thank-you — scratch the card to reveal it.",
-  "instructions": "Show this voucher to one of our volunteers to avail it."
+  "revealedTitle": "A little something to use at the event — scratch the card to reveal it.",
+  "instructions": "Show this voucher to one of our volunteers at the event to avail it."
 }
