@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import VolunteerForm from "@/components/VolunteerForm";
+import FacilitatorForm from "@/components/FacilitatorForm";
 import { getJobs, getPageContent } from "@/lib/knowledge";
 import { scatterForPath } from "@/lib/pageMyths";
 import { getAudience } from "@/lib/audience";
@@ -25,14 +25,32 @@ type Content = {
     requirementsLabel: string;
     applyCta: string;
   };
-  volunteerHeading: string;
-  volunteerIntro: string;
+  facilitator: {
+    eyebrow: string;
+    heading: string;
+    intro: string;
+    whatYouDoLabel: string;
+    whatYouDo: string[];
+    whatWeLookLabel: string;
+    whatWeLook: string[];
+    detailsLabel: string;
+    details: string[];
+    processLabel: string;
+    process: string[];
+    formHeading: string;
+    formIntro: string;
+  };
 };
 
 export default async function JoinPage() {
   const audience = await getAudience();
-  const jobs = await getJobs();
+  // The workshop facilitator has its own dedicated section + registration form
+  // below, so drop it from the generic roles list (it may still exist in Sanity).
+  const jobs = (await getJobs()).filter(
+    (j) => j.id !== "workshop-facilitator" && !/facilitator/i.test(j.title),
+  );
   const c = (await getPageContent("join")) as Content;
+  const f = c.facilitator;
 
   return (
     <div>
@@ -105,14 +123,59 @@ export default async function JoinPage() {
         )}
       </section>
 
-      <section className="mx-auto max-w-2xl px-5 py-12">
+      <section className="mx-auto max-w-3xl px-5 py-12">
         <div className="card">
-          <h2 className="font-hand text-3xl font-extrabold">{c.volunteerHeading}</h2>
-          <p className="mt-2 text-ink/70">
-            {c.volunteerIntro}
-          </p>
-          <div className="mt-6">
-            <VolunteerForm />
+          <p className="eyebrow">{f.eyebrow}</p>
+          <h2 className="mt-2 font-hand text-3xl font-extrabold text-ink">{f.heading}</h2>
+          <p className="mt-3 text-ink/70">{f.intro}</p>
+
+          <div className="mt-6 grid gap-6 sm:grid-cols-2">
+            <div>
+              <p className="font-hand text-sm font-bold text-ink/80">{f.whatYouDoLabel}</p>
+              <ul className="mt-2 space-y-1 text-sm text-ink/70">
+                {f.whatYouDo.map((r) => (
+                  <li key={r} className="flex gap-2"><span className="text-insight">✓</span><span>{r}</span></li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="font-hand text-sm font-bold text-ink/80">{f.whatWeLookLabel}</p>
+              <ul className="mt-2 space-y-1 text-sm text-ink/70">
+                {f.whatWeLook.map((r) => (
+                  <li key={r} className="flex gap-2"><span className="text-grow">•</span><span>{r}</span></li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-6 flex flex-wrap gap-2">
+            {f.details.map((d) => (
+              <span key={d} className="rounded-full border border-mist bg-surface px-3 py-1 text-xs font-medium text-ink/70">
+                {d}
+              </span>
+            ))}
+          </div>
+
+          <div className="mt-6 rounded-2xl bg-mist/40 p-5">
+            <p className="font-hand text-sm font-bold text-ink/80">{f.processLabel}</p>
+            <ol className="mt-2 space-y-1.5 text-sm text-ink/70">
+              {f.process.map((p, i) => (
+                <li key={p} className="flex items-start gap-2.5">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand text-[11px] font-bold text-surface">
+                    {i + 1}
+                  </span>
+                  <span>{p}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <div className="mt-8 border-t border-mist pt-6">
+            <h3 className="font-hand text-2xl font-bold text-ink">{f.formHeading}</h3>
+            <p className="mt-1 text-ink/70">{f.formIntro}</p>
+            <div className="mt-5">
+              <FacilitatorForm />
+            </div>
           </div>
         </div>
       </section>

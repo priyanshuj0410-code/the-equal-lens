@@ -1,6 +1,7 @@
 import { aboutPage } from "./aboutPage";
 import { blogPage } from "./blogPage";
 import { contactPage } from "./contactPage";
+import { facilitatorApplication } from "./facilitatorApplication";
 import { gamesPage } from "./gamesPage";
 import { homePage } from "./homePage";
 import { job } from "./job";
@@ -24,4 +25,4 @@ export const pageTypes = [
   joinPage,
 ];
 
-export const schemaTypes = [...pageTypes, teamMember, job, post, program, testimonial, lensyResponse, voucherRecipient];
+export const schemaTypes = [...pageTypes, teamMember, job, post, program, testimonial, lensyResponse, voucherRecipient, facilitatorApplication];
