@@ -123,7 +123,7 @@ export default async function JoinPage() {
         )}
       </section>
 
-      <section className="mx-auto max-w-3xl px-5 py-12">
+      <section className="mx-auto max-w-4xl px-5 py-12">
         <div className="card">
           <p className="eyebrow">{f.eyebrow}</p>
           <h2 className="mt-2 font-hand text-3xl font-extrabold text-ink">{f.heading}</h2>

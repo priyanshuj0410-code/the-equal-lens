@@ -1,16 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import BrandSelect from "./BrandSelect";
 import {
   FACILITATOR_MONTHS,
   FACILITATOR_SLOTS,
   SEX_OPTIONS,
   slotById,
 } from "@/lib/facilitatorSlots";
+import { validateFacilitator } from "@/lib/facilitatorValidation";
 
 const field =
   "w-full rounded-lg border border-mist bg-surface px-3 py-2 text-ink focus:border-violet-400 focus:outline-none";
+const fieldErr = "border-grow";
 const label = "mb-1 block text-sm font-medium text-ink/80";
+const errText = "mt-1 text-xs font-medium text-grow";
 const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
 const SLOT_IDS = new Set(FACILITATOR_SLOTS.map((s) => s.id));
 
@@ -29,9 +33,26 @@ async function fetchAvail(): Promise<Record<string, Avail>> {
   }
 }
 
+function Chevron({ dir }: { dir: "left" | "right" }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path
+        d={dir === "left" ? "M12.5 5 7.5 10 12.5 15" : "M7.5 5 12.5 10 7.5 15"}
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function FacilitatorForm() {
   const [avail, setAvail] = useState<Record<string, Avail> | null>(null);
+  const [monthIdx, setMonthIdx] = useState(0);
   const [slotId, setSlotId] = useState("");
+  const [sex, setSex] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>("idle");
   const [errMsg, setErrMsg] = useState("");
 
@@ -45,31 +66,39 @@ export default function FacilitatorForm() {
     };
   }, []);
 
+  function clearError(key: string) {
+    setErrors((prev) => (prev[key] ? { ...prev, [key]: "" } : prev));
+  }
+
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!slotId) {
-      setErrMsg("Please pick a preferred day on the calendar.");
-      setStatus("error");
+    const f = new FormData(e.currentTarget);
+    const get = (k: string) => String(f.get(k) || "").trim();
+    const input = {
+      name: get("name"),
+      age: get("age"),
+      sexAssignedAtBirth: sex,
+      email: get("email"),
+      phone: get("phone"),
+      linkedin: get("linkedin"),
+      why: get("why"),
+      slotId,
+      company: get("company"),
+    };
+    const errs = validateFacilitator(input);
+    setErrors(errs);
+    if (Object.keys(errs).length) {
+      setStatus("idle");
       return;
     }
-    const f = new FormData(e.currentTarget);
-    const payload = {
-      name: f.get("name"),
-      age: f.get("age"),
-      sexAssignedAtBirth: f.get("sexAssignedAtBirth"),
-      email: f.get("email"),
-      phone: f.get("phone"),
-      linkedin: f.get("linkedin"),
-      why: f.get("why"),
-      slotId,
-    };
+
     setStatus("sending");
     setErrMsg("");
     try {
       const res = await fetch("/api/facilitator", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(input),
       });
       const data = await res.json();
       if (data.ok) {
@@ -80,6 +109,16 @@ export default function FacilitatorForm() {
         setSlotId("");
         fetchAvail().then(setAvail);
         setStatus("full");
+        return;
+      }
+      if (data.error === "invalid" && data.fields) {
+        setErrors(data.fields);
+        setStatus("idle");
+        return;
+      }
+      if (data.error === "duplicate") {
+        setErrMsg("Looks like you've already registered with this email — we'll be in touch. To change anything, email support@theequallens.com.");
+        setStatus("error");
         return;
       }
       if (data.error === "disabled") {
@@ -99,56 +138,69 @@ export default function FacilitatorForm() {
       <div className="rounded-2xl border-2 border-dashed border-brandsoft/40 bg-surface p-6 text-center">
         <p className="font-hand text-xl font-bold text-brand">Thank you! 🎉</p>
         <p className="mx-auto mt-2 max-w-md text-ink/70">
-          We&rsquo;ve got your details. The next step is a conversation with our founders —
-          we&rsquo;ll be in touch about your chosen day.
+          We&rsquo;ve got your details and sent a confirmation to your email. The next step is a
+          conversation with our founders — we&rsquo;ll be in touch about your chosen day.
         </p>
       </div>
     );
   }
 
   const selected = slotById(slotId);
+  const month = FACILITATOR_MONTHS[monthIdx];
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5">
+    <form onSubmit={onSubmit} noValidate className="space-y-5">
+      <div aria-hidden="true" className="absolute left-[-9999px] top-0 h-0 w-0 overflow-hidden">
+        <label>
+          Company
+          <input name="company" tabIndex={-1} autoComplete="off" />
+        </label>
+      </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label className={label}>Full name *</label>
-          <input name="name" required className={field} />
+          <input name="name" onChange={() => clearError("name")} className={`${field} ${errors.name ? fieldErr : ""}`} />
+          {errors.name && <p className={errText}>{errors.name}</p>}
         </div>
         <div>
           <label className={label}>Age *</label>
-          <input name="age" type="number" min={16} max={100} required className={field} />
+          <input name="age" type="number" min={16} max={100} onChange={() => clearError("age")} className={`${field} ${errors.age ? fieldErr : ""}`} />
+          {errors.age && <p className={errText}>{errors.age}</p>}
         </div>
         <div>
           <label className={label}>Sex assigned at birth *</label>
-          <select name="sexAssignedAtBirth" required defaultValue="" className={field}>
-            <option value="" disabled>
-              Select…
-            </option>
-            {SEX_OPTIONS.map((o) => (
-              <option key={o} value={o}>
-                {o}
-              </option>
-            ))}
-          </select>
+          <BrandSelect
+            options={SEX_OPTIONS}
+            value={sex}
+            invalid={Boolean(errors.sexAssignedAtBirth)}
+            onChange={(v) => {
+              setSex(v);
+              clearError("sexAssignedAtBirth");
+            }}
+          />
+          {errors.sexAssignedAtBirth && <p className={errText}>{errors.sexAssignedAtBirth}</p>}
         </div>
         <div>
           <label className={label}>Email *</label>
-          <input name="email" type="email" required autoComplete="email" className={field} />
+          <input name="email" type="email" autoComplete="email" onChange={() => clearError("email")} className={`${field} ${errors.email ? fieldErr : ""}`} />
+          {errors.email && <p className={errText}>{errors.email}</p>}
         </div>
         <div>
           <label className={label}>Phone *</label>
-          <input name="phone" type="tel" required autoComplete="tel" className={field} />
+          <input name="phone" type="tel" autoComplete="tel" onChange={() => clearError("phone")} className={`${field} ${errors.phone ? fieldErr : ""}`} />
+          {errors.phone && <p className={errText}>{errors.phone}</p>}
         </div>
         <div>
           <label className={label}>LinkedIn</label>
-          <input name="linkedin" placeholder="linkedin.com/in/…" className={field} />
+          <input name="linkedin" placeholder="linkedin.com/in/…" onChange={() => clearError("linkedin")} className={`${field} ${errors.linkedin ? fieldErr : ""}`} />
+          {errors.linkedin && <p className={errText}>{errors.linkedin}</p>}
         </div>
       </div>
 
       <div>
         <label className={label}>Why do you want to volunteer? *</label>
-        <textarea name="why" required rows={4} className={field} />
+        <textarea name="why" rows={4} onChange={() => clearError("why")} className={`${field} ${errors.why ? fieldErr : ""}`} />
+        {errors.why && <p className={errText}>{errors.why}</p>}
       </div>
 
       <div>
@@ -156,65 +208,85 @@ export default function FacilitatorForm() {
         <p className="mb-3 text-xs text-ink/50">
           Weekend mornings in Mumbai, 22 Aug – 11 Oct 2026. Each day takes up to four facilitators.
         </p>
-        <div className="grid gap-4 sm:grid-cols-3">
-          {FACILITATOR_MONTHS.map((m) => (
-            <div key={m.key} className="rounded-2xl border border-mist bg-surface p-3">
-              <p className="mb-2 text-center font-hand text-sm font-bold text-ink">{m.label}</p>
-              <div className="grid grid-cols-7 gap-1 text-center">
-                {WEEKDAYS.map((d, i) => (
-                  <span key={i} className="pb-1 text-[10px] font-bold text-ink/40">
-                    {d}
+        <div className="mx-auto max-w-sm rounded-2xl border border-mist bg-surface p-3">
+          <div className="mb-2 flex items-center justify-between">
+            <button
+              type="button"
+              onClick={() => setMonthIdx((i) => Math.max(0, i - 1))}
+              disabled={monthIdx === 0}
+              aria-label="Previous month"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-mist bg-surface text-ink transition hover:bg-mist disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <Chevron dir="left" />
+            </button>
+            <p className="font-hand text-sm font-bold text-ink">{month.label}</p>
+            <button
+              type="button"
+              onClick={() => setMonthIdx((i) => Math.min(FACILITATOR_MONTHS.length - 1, i + 1))}
+              disabled={monthIdx === FACILITATOR_MONTHS.length - 1}
+              aria-label="Next month"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-mist bg-surface text-ink transition hover:bg-mist disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <Chevron dir="right" />
+            </button>
+          </div>
+          <div className="grid grid-cols-7 gap-1 text-center">
+            {WEEKDAYS.map((d, i) => (
+              <span key={i} className="pb-1 text-[10px] font-bold text-ink/40">
+                {d}
+              </span>
+            ))}
+            {Array.from({ length: month.firstWeekday }).map((_, i) => (
+              <span key={`blank-${i}`} />
+            ))}
+            {Array.from({ length: month.days }).map((_, i) => {
+              const day = i + 1;
+              const id = `${month.key}-${String(day).padStart(2, "0")}`;
+              if (!SLOT_IDS.has(id)) {
+                return (
+                  <span key={id} className="py-1.5 text-xs text-ink/25">
+                    {day}
                   </span>
-                ))}
-                {Array.from({ length: m.firstWeekday }).map((_, i) => (
-                  <span key={`blank-${i}`} />
-                ))}
-                {Array.from({ length: m.days }).map((_, i) => {
-                  const day = i + 1;
-                  const id = `${m.key}-${String(day).padStart(2, "0")}`;
-                  if (!SLOT_IDS.has(id)) {
-                    return (
-                      <span key={id} className="py-1 text-xs text-ink/25">
-                        {day}
-                      </span>
-                    );
-                  }
-                  const a = avail?.[id];
-                  const loaded = Boolean(avail);
-                  const full = a?.full ?? false;
-                  const isSelected = slotId === id;
-                  return (
-                    <button
-                      key={id}
-                      type="button"
-                      disabled={!loaded || full}
-                      aria-pressed={isSelected}
-                      onClick={() => setSlotId(id)}
-                      className={[
-                        "flex flex-col items-center justify-center rounded-lg py-1 text-xs font-bold transition",
-                        isSelected
-                          ? "bg-brand text-surface"
-                          : full
-                            ? "cursor-not-allowed bg-mist/40 text-ink/30"
-                            : "bg-mist/60 text-ink hover:bg-brand/15",
-                      ].join(" ")}
-                    >
-                      <span className={full && !isSelected ? "line-through" : ""}>{day}</span>
-                      <span className="text-[9px] font-semibold leading-tight">
-                        {!loaded ? "…" : full ? "Full" : `${a?.remaining} left`}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+                );
+              }
+              const a = avail?.[id];
+              const loaded = Boolean(avail);
+              const full = a?.full ?? false;
+              const isSelected = slotId === id;
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  disabled={!loaded || full}
+                  aria-pressed={isSelected}
+                  onClick={() => {
+                    setSlotId(id);
+                    clearError("slot");
+                  }}
+                  className={[
+                    "flex flex-col items-center justify-center rounded-lg py-1 text-xs font-bold transition",
+                    isSelected
+                      ? "bg-brand text-surface"
+                      : full
+                        ? "cursor-not-allowed bg-mist/40 text-ink/60"
+                        : "bg-mist/60 text-ink hover:bg-brand/15",
+                  ].join(" ")}
+                >
+                  <span className={full && !isSelected ? "line-through" : ""}>{day}</span>
+                  <span className="text-[9px] font-semibold leading-tight">
+                    {!loaded ? "…" : full ? "Full" : a ? `${a.remaining} left` : ""}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
         {selected && (
-          <p className="mt-3 text-sm text-ink/70">
+          <p className="mt-3 text-center text-sm text-ink/70">
             Selected: <strong>{selected.label}</strong> morning
           </p>
         )}
+        {errors.slot && <p className={`${errText} text-center`}>{errors.slot}</p>}
       </div>
 
       <button type="submit" disabled={status === "sending"} className="btn btn--primary">
@@ -226,9 +298,7 @@ export default function FacilitatorForm() {
           That day just filled up — please choose another on the calendar.
         </p>
       )}
-      {status === "error" && errMsg && (
-        <p className="text-sm font-medium text-grow">{errMsg}</p>
-      )}
+      {status === "error" && errMsg && <p className="text-sm font-medium text-grow">{errMsg}</p>}
     </form>
   );
 }
