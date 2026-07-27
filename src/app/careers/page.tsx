@@ -7,9 +7,9 @@ import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
 
 export const metadata: Metadata = {
-  title: "Join us - The Equal Lens",
+  title: "Careers - The Equal Lens",
   description:
-    "Volunteer or join the team - help bring fairness education to more children.",
+    "Open roles and volunteer opportunities - help bring fairness education to more children.",
 };
 
 type Content = {
@@ -42,7 +42,7 @@ type Content = {
   };
 };
 
-export default async function JoinPage() {
+export default async function CareersPage() {
   const audience = await getAudience();
   // The workshop facilitator has its own dedicated section + registration form
   // below, so drop it from the generic roles list (it may still exist in Sanity).
@@ -57,11 +57,9 @@ export default async function JoinPage() {
       <section className="relative overflow-hidden">
         <Doodle name="star" className="anim-wobble absolute left-12 top-14 w-9 text-sun" />
         <Doodle name="arrow" className="anim-float absolute right-16 top-16 w-12 text-brandsoft" />
-        <MythScatter items={scatterForPath("/join", audience)} />
+        <MythScatter items={scatterForPath("/careers", audience)} />
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
-          <p className="eyebrow">
-            {c.hero.eyebrow}
-          </p>
+          <p className="eyebrow">Careers</p>
           <h1 className="mt-3 font-hand text-4xl font-extrabold text-ink sm:text-5xl">
             {c.hero.headline[audience]}
           </h1>
@@ -123,10 +121,14 @@ export default async function JoinPage() {
         )}
       </section>
 
-      <section className="mx-auto max-w-4xl px-5 py-12">
-        <div className="card">
+      <section className="mx-auto max-w-4xl px-5 py-8">
+        <h2 className="font-hand text-3xl font-extrabold">Volunteer</h2>
+        <p className="mt-2 max-w-2xl text-ink/70">
+          Prefer to help on the ground? Join a cohort as a workshop facilitator in Mumbai.
+        </p>
+        <div className="card mt-6">
           <p className="eyebrow">{f.eyebrow}</p>
-          <h2 className="mt-2 font-hand text-3xl font-extrabold text-ink">{f.heading}</h2>
+          <h3 className="mt-2 font-hand text-2xl font-extrabold text-ink">{f.heading}</h3>
           <p className="mt-3 text-ink/70">{f.intro}</p>
 
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
@@ -171,7 +173,7 @@ export default async function JoinPage() {
           </div>
 
           <div className="mt-8 border-t border-mist pt-6">
-            <h3 className="font-hand text-2xl font-bold text-ink">{f.formHeading}</h3>
+            <h4 className="font-hand text-xl font-bold text-ink">{f.formHeading}</h4>
             <p className="mt-1 text-ink/70">{f.formIntro}</p>
             <div className="mt-5">
               <FacilitatorForm />

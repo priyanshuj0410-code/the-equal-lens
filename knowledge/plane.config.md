@@ -1,7 +1,7 @@
 ---
 type: reference
 title: Plane project config
-description: Plane workspace and project IDs for The Equal Lens — used for issue tracking and commit linking.
+description: Plane workspace and project IDs for The Equal Lens - used for issue tracking and commit linking.
 ---
 
 | Field | Value |

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 // A scratch-off card: the children (the reward) sit underneath a canvas cover
-// the user erases by dragging — the same erase mechanic as the myth cards.
+// the user erases by dragging - the same erase mechanic as the myth cards.
 export default function ScratchCard({
   children,
   coverLabel = "Scratch to reveal",

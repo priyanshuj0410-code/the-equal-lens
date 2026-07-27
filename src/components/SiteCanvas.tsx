@@ -383,7 +383,7 @@ export default function SiteCanvas({
           y: window.scrollY + 150,
         };
     // on mobile the new card flows into the section above the footer, which is
-    // usually off-screen — flag it so the effect below scrolls it into view
+    // usually off-screen - flag it so the effect below scrolls it into view
     if (mobile) scrollToNewRef.current = true;
     setNotes((p) => [
       ...p,

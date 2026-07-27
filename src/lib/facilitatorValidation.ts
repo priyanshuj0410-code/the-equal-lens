@@ -1,7 +1,7 @@
 import { SEX_OPTIONS, slotById } from "./facilitatorSlots";
 
 // Shared by the registration form (client) and the /api/facilitator route
-// (server) so both enforce the same rules — the server is the authority.
+// (server) so both enforce the same rules - the server is the authority.
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const LINKEDIN_RE = /^(https?:\/\/)?([\w-]+\.)?linkedin\.com\/.+$/i;
 

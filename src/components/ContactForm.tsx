@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const field =
   "w-full rounded-lg border border-mist bg-surface px-3 py-2 text-ink focus:border-violet-400 focus:outline-none";
@@ -8,6 +8,13 @@ const label = "mb-1 block text-sm font-medium text-ink/80";
 
 export default function ContactForm() {
   const [sent, setSent] = useState(false);
+  const sentRef = useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => {
+    if (sent) {
+      sentRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [sent]);
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -40,7 +47,7 @@ export default function ContactForm() {
         Send message
       </button>
       {sent && (
-        <p className="text-sm text-ink/60">
+        <p ref={sentRef} className="text-sm text-ink/60">
           Thanks! Your email app should have opened - hit send and we&rsquo;ll be
           in touch.
         </p>

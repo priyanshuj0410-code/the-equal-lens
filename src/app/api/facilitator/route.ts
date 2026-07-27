@@ -17,7 +17,7 @@ const NOTIFY_EMAIL = process.env.FACILITATOR_NOTIFY_EMAIL || "rashi.khandelwal@t
 
 // Non-CDN read so capacity counts are as fresh as possible (public dataset
 // reads need no token). A rare race can let a slot reach 4 concurrent submits
-// and over-book by one — acceptable for a 4-person volunteer slot.
+// and over-book by one - acceptable for a 4-person volunteer slot.
 const fresh = client.withConfig({ useCdn: false });
 
 const allOpen = () =>
@@ -44,7 +44,7 @@ export async function GET() {
     });
     return NextResponse.json({ slots });
   } catch {
-    // Never block the form on a read error — POST re-checks capacity anyway.
+    // Never block the form on a read error - POST re-checks capacity anyway.
     return NextResponse.json({ slots: allOpen() });
   }
 }
@@ -126,7 +126,7 @@ export async function POST(req: NextRequest) {
       createdAt: new Date().toISOString(),
     });
 
-    // Best-effort — a mail failure must not fail the registration.
+    // Best-effort - a mail failure must not fail the registration.
     const applicant = applicantConfirmationEmail({ name: input.name, slotLabel: slot.label });
     const team = teamNotificationEmail({
       name: input.name,

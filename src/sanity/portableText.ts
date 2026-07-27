@@ -29,7 +29,7 @@ export const ptComponents: Partial<PortableTextHtmlComponents> = {
     },
     // Author-provided interactive HTML, rendered in a sandboxed iframe. The
     // sandbox has allow-scripts only (no allow-same-origin), so the embed's JS
-    // runs but is fully isolated from the page — safe for arbitrary HTML.
+    // runs but is fully isolated from the page - safe for arbitrary HTML.
     htmlEmbed: ({ value }) => {
       const v = value as { code?: string; caption?: string; height?: number };
       if (!v.code) return "";

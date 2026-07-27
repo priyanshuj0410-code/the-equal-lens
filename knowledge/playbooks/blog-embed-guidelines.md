@@ -1,12 +1,12 @@
 ---
 type: playbook
-title: Blog interactive HTML embed — authoring guidelines
+title: Blog interactive HTML embed - authoring guidelines
 description: How to author self-contained interactive HTML data visualisations for the blog embed block (sandbox rules, responsive/self-contained constraints, brand palette, starter template, checklist).
 plane_issues:
   - https://app.plane.so/the-equal-lens/  # THEEQ-34
 ---
 
-# Blog interactive HTML embed — authoring guidelines
+# Blog interactive HTML embed - authoring guidelines
 
 How to build an interactive data visualisation for a blog post using the
 **Body → Interactive embed** block in Sanity.
@@ -17,7 +17,7 @@ How to build an interactive data visualisation for a blog post using the
   **Caption** (optional), **Initial height** (optional, px, default 480).
 - Your code runs inside a **sandboxed `<iframe srcdoc>`** with
   `sandbox="allow-scripts allow-popups"`. It is a separate, isolated document.
-- The frame **auto-resizes** to your content's height — a height reporter is injected
+- The frame **auto-resizes** to your content's height - a height reporter is injected
   automatically, so you do not add one.
 - The frame is **full width**, white background, ink border, rounded corners.
 
@@ -29,7 +29,7 @@ How to build an interactive data visualisation for a blog post using the
    throw inside the sandbox. Keep all state in JS variables (in memory).
 3. **No access to the page.** The embed cannot read or change the blog page, its
    cookies, or scroll/navigate the top window. This isolation is the security
-   guarantee — design as if the embed is a standalone mini-page.
+   guarantee - design as if the embed is a standalone mini-page.
 4. **Responsive, mobile-first.** The frame is 100% wide and can be as narrow as
    ~320px on phones. Use `%`/`rem`/`vw` and `max-width:100%`; never a fixed pixel
    width wider than the frame. Test at 320px and at desktop.
@@ -42,7 +42,7 @@ How to build an interactive data visualisation for a blog post using the
 - **Hardcode brand colours.** The site's CSS variables and fonts are **not** available
   inside the frame. Use the hex values below and a system font stack (or load your own
   web font inside the embed).
-- **Embed data inline** (a JSON object in your script) rather than fetching it — it
+- **Embed data inline** (a JSON object in your script) rather than fetching it - it
   always works, with no network or CORS risk.
 - **External libraries** (D3, Chart.js from a CDN) do load over the network, but pin a
   version and know they can be slow or blocked. Prefer plain SVG/canvas for simple charts.
@@ -87,7 +87,7 @@ only renders if you load it inside the embed; otherwise it falls back to system-
   @media (prefers-reduced-motion: reduce) { .bar { transition:none; } }
 </style>
 <h3>Example chart</h3>
-<p class="sub">Illustrative — hover a bar</p>
+<p class="sub">Illustrative - hover a bar</p>
 <div id="chart" role="img" aria-label="Example bar chart"></div>
 <script>
   var data = [{k:'2019',v:70},{k:'2020',v:82},{k:'2021',v:88},{k:'2022',v:95}];
@@ -107,7 +107,7 @@ only renders if you load it inside the embed; otherwise it falls back to system-
 </script>
 ```
 
-## Before publishing — checklist
+## Before publishing - checklist
 
 - [ ] Renders at 320px wide **and** on desktop
 - [ ] No console errors (no `localStorage`/`sessionStorage`/`cookie` use)

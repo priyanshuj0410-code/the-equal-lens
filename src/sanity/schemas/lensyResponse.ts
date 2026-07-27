@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 
 // Visitor answers collected from the Lensy popover. Created by the /api/lensy
 // route (never edited by hand), so the type is read-only in Studio. Kept
-// data-minimised: no name, email, IP, or any identifier — only which audience
+// data-minimised: no name, email, IP, or any identifier - only which audience
 // and question were shown plus the answer text.
 export const lensyResponse = defineType({
   name: "lensyResponse",

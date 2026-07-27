@@ -1,6 +1,6 @@
 {
   "hero": {
-    "eyebrow": "Join us",
+    "eyebrow": "Careers",
     "headline": {
       "kid": "Be part of how kids learn fairness",
       "adult": "Help more people unlearn bias"
@@ -11,21 +11,23 @@
     }
   },
   "openRolesHeading": "Open roles",
-  "noOpenRolesFallback": "No open roles right now - but we’d still love volunteers. Fill in the form below.",
+  "noOpenRolesFallback": "No open roles right now, but we’d still love volunteers. See below.",
+  "volunteerHeading": "Volunteer",
+  "volunteerIntro": "Prefer to help on the ground? Join a cohort as a workshop facilitator in Mumbai.",
   "jobCardLabels": {
     "responsibilitiesLabel": "What you’ll do",
     "requirementsLabel": "What we look for",
     "applyCta": "Apply by email"
   },
   "facilitator": {
-    "eyebrow": "Volunteer · Mumbai",
+    "eyebrow": "Mumbai · in person",
     "heading": "Become a workshop facilitator",
-    "intro": "Help bring The Discovery Program to life for children in Mumbai — through play, stories and real conversation, never lectures.",
+    "intro": "Help bring The Discovery Program to life for children in Mumbai - through play, stories and real conversation, never lectures.",
     "whatYouDoLabel": "What you’ll do",
     "whatYouDo": [
       "Run our board-game-led sessions (about 1 hour 40 minutes) with children aged 5–16",
       "Bring our games, stories and scenarios to life and keep a room of kids engaged",
-      "Hold warm, safe space for honest conversations about feelings, fairness and body safety — kind, never preachy",
+      "Hold warm, safe space for honest conversations about feelings, fairness and body safety - kind, never preachy",
       "Work within our trauma-informed, safeguarding-first approach at all times (a home or school staff member is present in every session)"
     ],
     "whatWeLookLabel": "What we look for",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BrandSelect from "./BrandSelect";
 import {
   FACILITATOR_MONTHS,
@@ -55,6 +55,7 @@ export default function FacilitatorForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>("idle");
   const [errMsg, setErrMsg] = useState("");
+  const doneRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let active = true;
@@ -65,6 +66,12 @@ export default function FacilitatorForm() {
       active = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (status === "done") {
+      doneRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [status]);
 
   function clearError(key: string) {
     setErrors((prev) => (prev[key] ? { ...prev, [key]: "" } : prev));
@@ -117,12 +124,12 @@ export default function FacilitatorForm() {
         return;
       }
       if (data.error === "duplicate") {
-        setErrMsg("Looks like you've already registered with this email — we'll be in touch. To change anything, email support@theequallens.com.");
+        setErrMsg("Looks like you've already registered with this email - we'll be in touch. To change anything, email support@theequallens.com.");
         setStatus("error");
         return;
       }
       if (data.error === "disabled") {
-        setErrMsg("Registrations aren't open just yet — please try again shortly.");
+        setErrMsg("Registrations aren't open just yet - please try again shortly.");
       } else {
         setErrMsg("Please check your details and try again.");
       }
@@ -135,11 +142,14 @@ export default function FacilitatorForm() {
 
   if (status === "done") {
     return (
-      <div className="rounded-2xl border-2 border-dashed border-brandsoft/40 bg-surface p-6 text-center">
+      <div
+        ref={doneRef}
+        className="rounded-2xl border-2 border-dashed border-brandsoft/40 bg-surface p-6 text-center"
+      >
         <p className="font-hand text-xl font-bold text-brand">Thank you! 🎉</p>
         <p className="mx-auto mt-2 max-w-md text-ink/70">
           We&rsquo;ve got your details and sent a confirmation to your email. The next step is a
-          conversation with our founders — we&rsquo;ll be in touch about your chosen day.
+          conversation with our founders - we&rsquo;ll be in touch about your chosen day.
         </p>
       </div>
     );
@@ -295,7 +305,7 @@ export default function FacilitatorForm() {
 
       {status === "full" && (
         <p className="text-sm font-medium text-grow">
-          That day just filled up — please choose another on the calendar.
+          That day just filled up - please choose another on the calendar.
         </p>
       )}
       {status === "error" && errMsg && <p className="text-sm font-medium text-grow">{errMsg}</p>}

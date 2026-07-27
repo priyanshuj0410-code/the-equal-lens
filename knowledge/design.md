@@ -21,10 +21,10 @@ description: Visual language, component patterns, and token usage for The Equal 
 
 ## Typography
 
-- **Font hand** (`font-hand`): Fredoka One / handwritten — all headings, labels, UI copy
-- **Font body**: system sans — body paragraphs, descriptions
+- **Font hand** (`font-hand`): Fredoka One / handwritten - all headings, labels, UI copy
+- **Font body**: system sans - body paragraphs, descriptions
 - Heading scale: `text-4xl` (h2 sections), `text-5xl–6xl` (hero h1)
-- Eyebrow: `.eyebrow` utility — small caps, `text-brand`, letter-spaced
+- Eyebrow: `.eyebrow` utility - small caps, `text-brand`, letter-spaced
 
 ## Sticker / card pattern
 
@@ -37,10 +37,10 @@ All interactive cards use the "sticker" treatment:
 ## Lensy bubble
 
 `.bubble` class (from `brand/design-system/components.css`):
-- `border-radius: 1rem; border-bottom-left-radius: 0.25rem` — flat bottom-left corner = chat tail
+- `border-radius: 1rem; border-bottom-left-radius: 0.25rem` - flat bottom-left corner = chat tail
 - `background: var(--color-mist)`
 - `padding: 0.5rem 0.75rem; font-size: 0.75rem`
-- No border, no shadow — intentionally soft/lightweight vs card stickers
+- No border, no shadow - intentionally soft/lightweight vs card stickers
 
 ## Gallery (testimonial carousel)
 
@@ -49,7 +49,7 @@ Section heading is **"Gallery"** (was "Testimonials"). Backed by Testimonial doc
 - Polaroid card: `border-2 border-ink bg-white shadow-[5px_5px_0_var(--color-ink)]`, `aspect-[4/3]` photo, white strip at bottom
 - Chat bubble: Lensy `.bubble` style, overlaps top-right corner of polaroid (`bottom: calc(100% - 32px)`)
 - Bubble contains: sender name (top, `text-xs text-brand`), quote (`text-sm font-bold`), role (`text-xs text-brandsoft`)
-- **Name and quote are optional.** Each bubble line renders only if present; a photo-only item (no name/quote/role) renders **no bubble at all** — just the polaroid. Slide top-padding (`pt-48`) stays uniform so carousel height never jumps.
+- **Name and quote are optional.** Each bubble line renders only if present; a photo-only item (no name/quote/role) renders **no bubble at all** - just the polaroid. Slide top-padding (`pt-48`) stays uniform so carousel height never jumps.
 - Polaroid strip: centered `tag` caption (`text-xs italic text-ink/40`)
 - Parallax: bubble `translateX(dist * 5px)`, polaroid `translateX(dist * -4px) rotate(tilt)`
 - Animation: `550ms cubic-bezier(0.25, 0.46, 0.45, 0.94)` on track + inner elements
@@ -63,9 +63,9 @@ Section heading is **"Gallery"** (was "Testimonials"). Backed by Testimonial doc
 
 | Class | Usage |
 |---|---|
-| `.btn--primary` | Main CTAs — brand fill, ink shadow |
-| `.btn--sun` | CTAs on dark band — yellow |
-| `.btn--outline` | Secondary CTAs — transparent + border |
+| `.btn--primary` | Main CTAs - brand fill, ink shadow |
+| `.btn--sun` | CTAs on dark band - yellow |
+| `.btn--outline` | Secondary CTAs - transparent + border |
 | `.btn--band` | Ghost on dark background |
 | `.btn--solid` | Flat, no shadow |
 
@@ -81,9 +81,9 @@ Optional image carousel on a blog post, rendered between the `<h1>` heading and 
 ## Blog interactive embed
 
 Authors can drop a self-contained interactive HTML data-viz into a post body (Sanity `post.body` gets an `htmlEmbed` block: `code` + optional `caption`/`height`).
-- Rendered by the `htmlEmbed` serializer (`src/sanity/portableText.ts`) into an `<iframe srcdoc>` with `sandbox="allow-scripts allow-popups"` — the embed's JS runs but is isolated from the page (no same-origin), safe for arbitrary HTML.
+- Rendered by the `htmlEmbed` serializer (`src/sanity/portableText.ts`) into an `<iframe srcdoc>` with `sandbox="allow-scripts allow-popups"` - the embed's JS runs but is isolated from the page (no same-origin), safe for arbitrary HTML.
 - Frame styling: `border-2 border-ink`, `rounded-2xl` (1rem), white background, full width.
-- A height-reporter script is injected into each embed; `EmbedResizer` (client, mounted on the post page) listens for its `postMessage` and sizes the iframe to fit — no cropping/scroll.
+- A height-reporter script is injected into each embed; `EmbedResizer` (client, mounted on the post page) listens for its `postMessage` and sizes the iframe to fit - no cropping/scroll.
 - Embeds must be self-contained (inline `<style>`/`<script>`); the sandbox has no page access.
 
 ## Component library

@@ -10,7 +10,7 @@ export const testimonial = defineType({
       title: "Quote",
       type: "text",
       rows: 4,
-      description: "Optional. Max 160 characters — longer quotes are truncated. Leave empty for a photo-only gallery item.",
+      description: "Optional. Max 160 characters - longer quotes are truncated. Leave empty for a photo-only gallery item.",
       validation: (r) => r.max(160),
     }),
     defineField({
@@ -44,7 +44,7 @@ export const testimonial = defineType({
       name: "photo",
       title: "Workshop photo",
       type: "image",
-      description: "Photo from the workshop session — shown as the polaroid image.",
+      description: "Photo from the workshop session - shown as the polaroid image.",
       options: { hotspot: true },
     }),
     defineField({
@@ -57,7 +57,7 @@ export const testimonial = defineType({
       name: "slug",
       title: "Slug",
       type: "slug",
-      description: "Stable ID — generate from the name.",
+      description: "Stable ID - generate from the name.",
       options: { source: "name", maxLength: 96 },
     }),
     defineField({

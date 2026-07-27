@@ -53,7 +53,7 @@ const ADULT_QUESTIONS = [
     body: "As if she were unfinished. Nobody asked the man beside her. Is one of them more finished than the other?",
   },
   {
-    place: "A grown man teared up at a film — then apologised for it.",
+    place: "A grown man teared up at a film - then apologised for it.",
     body: "Apologised! For having a feeling. Are feelings handed out in different amounts depending on who you are?",
   },
 ];
@@ -66,7 +66,7 @@ const BIO: [string, string][] = [
   ["Current status", "Confused, but learning 🚀"],
 ];
 
-const OPEN_KEY = "lensy-opened";
+const VISITED_KEY = "lensy-visited";
 type View = "q" | "tell" | "meet" | "thanks";
 
 function isMobileVp() {
@@ -140,28 +140,29 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
     return () => cancelAnimationFrame(id);
   }, []);
 
-  // the ship flies in on every full page load (so a hard refresh always replays it);
-  // Lensy then auto-opens once per session on desktop.
+  // The ship flies in and Lensy auto-opens only on a visitor's first visit
+  // (persisted in localStorage), so refreshes and return visits leave the ship
+  // parked and quiet - the visitor can still tap it to open Lensy.
   useIsoLayoutEffect(() => {
     setQi(Math.floor(Math.random() * QUESTIONS.length));
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let openedBefore = false;
+    let visitedBefore = false;
     try {
-      openedBefore = !!sessionStorage.getItem(OPEN_KEY);
+      visitedBefore = !!localStorage.getItem(VISITED_KEY);
     } catch {}
-    const willOpen = !openedBefore && !isMobileVp();
+    if (visitedBefore) return;
+    try {
+      localStorage.setItem(VISITED_KEY, "1");
+    } catch {}
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const willOpen = !isMobileVp();
     openOnceRef.current = willOpen;
-    if (willOpen) {
-      try {
-        sessionStorage.setItem(OPEN_KEY, "1");
-      } catch {}
-    }
     if (!reduce) {
       setLanded(false);
       setFlying(true);
     } else if (willOpen) {
       openTimer.current = setTimeout(() => setOpen(true), 2500);
-    }  }, []);
+    }
+  }, []);
 
   // once flying, find the (visible) bubble and aim the ship at it
   useEffect(() => {
@@ -290,7 +291,7 @@ export default function LensyPopup({ audience }: { audience: "kid" | "adult" }) 
     setView("thanks");
     setThought("");
     if (!answer) return;
-    // Best-effort persistence — the reflective UX must not depend on the
+    // Best-effort persistence - the reflective UX must not depend on the
     // network, so failures are swallowed. No-ops server-side until a write
     // token is configured.
     void fetch("/api/lensy", {

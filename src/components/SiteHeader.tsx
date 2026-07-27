@@ -6,13 +6,13 @@ import { useState } from "react";
 import { Segmented, navLinkClass } from "@equal-lens/brand";
 import { SWIPEED_URL } from "@/lib/links";
 
-// Home isn't a tab — the logo + wordmark link home. Games is hidden for now.
+// Home isn't a tab - the logo + wordmark link home. Games is hidden for now.
 const links = [
   { href: "/programs", label: "Programs" },
   { href: "/blog", label: "Blogs" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
-  { href: "/join", label: "Join us" },
+  { href: "/careers", label: "Careers" },
 ];
 
 const AUDIENCE_OPTIONS: { value: "kid" | "adult"; label: string }[] = [

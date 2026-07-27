@@ -110,7 +110,7 @@ export const aboutPage = defineType({
       name: "team",
       title: "Team section",
       type: "object",
-      description: "Section copy only — team cards come from Team member documents.",
+      description: "Section copy only - team cards come from Team member documents.",
       fields: [
         defineField({ name: "sectionEyebrow", title: "Section eyebrow", type: "string", description: "Section label (shared)." }),
         defineField({ name: "sectionHeading", title: "Section heading", type: "string", description: "Section heading (shared)." }),

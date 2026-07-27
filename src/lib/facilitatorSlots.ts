@@ -1,6 +1,6 @@
 // The Discovery Program runs on weekend mornings in Mumbai for 8 weeks,
 // starting Sat 22 Aug 2026. Each weekend DAY is its own slot, capped at 4
-// facilitators — 16 slots total (8 Saturdays + 8 Sundays). Shared by the
+// facilitators - 16 slots total (8 Saturdays + 8 Sundays). Shared by the
 // registration form (client) and the /api/facilitator route (server); no
 // server-only imports, so it is safe to import from either side.
 
@@ -9,7 +9,7 @@ export const FACILITATOR_SLOT_CAPACITY = 4;
 export const SEX_OPTIONS = ["Female", "Male", "Intersex", "Prefer not to say"] as const;
 
 export type FacilitatorSlot = {
-  id: string; // ISO date, e.g. "2026-08-22" — the stable id stored on each application
+  id: string; // ISO date, e.g. "2026-08-22" - the stable id stored on each application
   day: number;
   monthKey: string; // "2026-08"
   weekday: "Sat" | "Sun";

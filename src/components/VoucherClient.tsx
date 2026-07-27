@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ScratchCard from "./ScratchCard";
 
 type Content = {
@@ -17,6 +17,13 @@ type Content = {
 export default function VoucherClient({ content }: { content: Content }) {
   const [status, setStatus] = useState<"idle" | "loading" | "valid" | "invalid" | "error">("idle");
   const [name, setName] = useState("");
+  const revealRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (status === "valid") {
+      revealRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [status]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -44,7 +51,7 @@ export default function VoucherClient({ content }: { content: Content }) {
 
   if (status === "valid") {
     return (
-      <div className="text-center">
+      <div ref={revealRef} className="text-center">
         <p className="font-hand text-lg font-bold text-brand">
           {name ? `Hi ${name}! 🎉` : "You're on the list! 🎉"}
         </p>

@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       gamesPage: "/games",
       blogPage: "/blog",
       contactPage: "/contact",
-      joinPage: "/join",
+      joinPage: "/careers",
     };
 
     if (type && PAGE_ROUTES[type]) {
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
     } else if (type === "teamMember") {
       revalidatePath("/about");
     } else if (type === "job") {
-      revalidatePath("/join");
+      revalidatePath("/careers");
     } else if (type === "post") {
       revalidatePath("/blog");
       if (slug) revalidatePath(`/blog/${slug}`);

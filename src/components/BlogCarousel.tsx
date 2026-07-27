@@ -27,7 +27,7 @@ export default function BlogCarousel({
   }, [paused, count]);
 
   // Track the frame's width so the height can be derived from the current
-  // image's aspect ratio (deterministic — the height changes the instant the
+  // image's aspect ratio (deterministic - the height changes the instant the
   // slide changes, so the CSS transition fires reliably instead of snapping).
   useEffect(() => {
     const el = frameRef.current;
@@ -44,7 +44,7 @@ export default function BlogCarousel({
   const current = Math.min(index, count - 1);
   const go = (i: number) => setIndex((i + count) % count);
 
-  // Record each image's ratio when it loads — checking `complete` first so
+  // Record each image's ratio when it loads - checking `complete` first so
   // cache-loaded images (which fire `load` before React attaches) still count.
   const recordRatio = (i: number) => (img: HTMLImageElement | null) => {
     if (!img) return;

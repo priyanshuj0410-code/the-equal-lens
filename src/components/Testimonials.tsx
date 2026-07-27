@@ -9,7 +9,7 @@ const INTERVAL_MS = 5500;
 const MAX_QUOTE = 160;
 const TILTS = [-2, 1.5, -1, 2.5, -1.5, 1, -2, 1.5, -1, 2];
 
-// Shared easing — same curve on track + inner elements so everything
+// Shared easing - same curve on track + inner elements so everything
 // moves as one unit and the "push" reads correctly.
 const EASE = "550ms cubic-bezier(0.25, 0.46, 0.45, 0.94)";
 
@@ -76,7 +76,7 @@ export default function Testimonials({
         onTouchCancel={() => setPaused(false)}
       >
         <div className="overflow-hidden">
-          {/* Track — same EASE as inner elements so the whole card moves as one unit */}
+          {/* Track - same EASE as inner elements so the whole card moves as one unit */}
           <div
             className="flex"
             style={{ transform: `translateX(-${current * 100}%)`, transition: `transform ${EASE}` }}
@@ -91,7 +91,7 @@ export default function Testimonials({
               return (
                 <div
                   key={t.id}
-                  // pt-48 = 192px — headroom for any 160-char quote at 14px text
+                  // pt-48 = 192px - headroom for any 160-char quote at 14px text
                   className="w-full shrink-0 px-4 pb-6 pt-48"
                   aria-hidden={i !== current}
                   role="group"
@@ -101,7 +101,7 @@ export default function Testimonials({
                   <div className="relative mx-auto max-w-[392px]">
 
                     {/* ── MOBILE BUBBLE ───────────────────────────────────────────
-                        Full-width, no right overhang — stays within polaroid bounds.
+                        Full-width, no right overhang - stays within polaroid bounds.
                         bottom: calc(100% - 18px) = mostly above polaroid, 18px overlap. */}
                     {hasBubble && (
                       <Bubble
@@ -126,7 +126,7 @@ export default function Testimonials({
                       </Bubble>
                     )}
 
-                    {/* Desktop — 75% polaroid width, -right-10 hangs 40px beyond right edge */}
+                    {/* Desktop - 75% polaroid width, -right-10 hangs 40px beyond right edge */}
                     {hasBubble && (
                       <Bubble
                         className="absolute -right-10 z-20 hidden w-[75%] sm:block"

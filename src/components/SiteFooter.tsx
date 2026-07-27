@@ -20,7 +20,7 @@ export default function SiteFooter() {
             <li><Link href="/programs" className="hover:text-white">Programs</Link></li>
             <li><Link href="/blog" className="hover:text-white">Blogs</Link></li>
             <li><Link href="/about" className="hover:text-white">About</Link></li>
-            <li><Link href="/join" className="hover:text-white">Join us</Link></li>
+            <li><Link href="/careers" className="hover:text-white">Careers</Link></li>
             <li><Link href="/donate" className="hover:text-white">Donate</Link></li>
             <li>
               <a href={SWIPEED_URL} target="_blank" rel="noreferrer" className="hover:text-white">

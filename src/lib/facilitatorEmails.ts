@@ -34,7 +34,7 @@ export function applicantConfirmationEmail(args: { name: string; slotLabel: stri
   const inner = `
 <tr><td style="padding:32px 32px 6px;"><div style="font-size:15px;line-height:1.65;color:#4b4160;">
 Hi <strong>${name}</strong>,<br><br>
-Thank you for registering to become a <strong>workshop facilitator</strong> for The Discovery Program in Mumbai — we&rsquo;re so glad you want to help.
+Thank you for registering to become a <strong>workshop facilitator</strong> for The Discovery Program in Mumbai - we&rsquo;re so glad you want to help.
 </div></td></tr>
 <tr><td style="padding:16px 32px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#E7E0F1;border:2px dashed #553286;border-radius:14px;"><tr>
@@ -44,13 +44,13 @@ Thank you for registering to become a <strong>workshop facilitator</strong> for 
 </td></tr></table></td></tr>
 <tr><td style="padding:6px 32px 8px;"><div style="font-size:15px;line-height:1.7;color:#4b4160;">
 <strong>What happens next</strong><br>
-The next step is a short <strong>conversation with our founders</strong>. We&rsquo;ll be in touch to arrange it. Sessions run on weekend mornings and last about 1 hour 40 minutes, using a trauma-informed, safeguarding-first approach — we&rsquo;ll walk you through everything.
+The next step is a short <strong>conversation with our founders</strong>. We&rsquo;ll be in touch to arrange it. Sessions run on weekend mornings and last about 1 hour 40 minutes, using a trauma-informed, safeguarding-first approach - we&rsquo;ll walk you through everything.
 </div></td></tr>
 <tr><td style="padding:16px 32px 30px;"><div style="font-size:15px;line-height:1.6;color:#4b4160;">
 Warmly,<br><strong>The Equal Lens team</strong>
 </div></td></tr>`;
   return {
-    subject: "You're registered — The Equal Lens facilitator program",
+    subject: "You're registered - The Equal Lens facilitator program",
     html: shell(inner),
   };
 }
@@ -71,7 +71,7 @@ export function teamNotificationEmail(args: {
 <td style="padding:8px 0;font-size:14px;color:#221436;">${value}</td></tr>`;
   const linkedin = args.linkedin
     ? `<a href="${esc(args.linkedin)}" style="color:#553286;">${esc(args.linkedin)}</a>`
-    : "&mdash;";
+    : "-";
   const inner = `
 <tr><td style="padding:30px 32px 4px;"><div style="font-size:17px;font-weight:bold;color:#221436;">
 New facilitator application</div>
@@ -88,7 +88,7 @@ ${row("Preferred day", `${esc(args.slotLabel)} morning`)}
 ${row("Why volunteer", esc(args.why).replace(/\n/g, "<br>"))}
 </table></td></tr>`;
   return {
-    subject: `New facilitator application — ${args.name} (${args.slotLabel})`,
+    subject: `New facilitator application - ${args.name} (${args.slotLabel})`,
     html: shell(inner),
   };
 }

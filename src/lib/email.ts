@@ -2,7 +2,7 @@ import "server-only";
 
 // Transactional email via the Resend REST API (no SDK dependency). Sending
 // stays disabled until RESEND_API_KEY is set, so features that email never
-// break before it is configured — they just skip the send.
+// break before it is configured - they just skip the send.
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
 
 export const emailEnabled = Boolean(RESEND_API_KEY);

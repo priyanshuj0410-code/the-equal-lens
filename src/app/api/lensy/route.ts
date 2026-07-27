@@ -5,7 +5,7 @@ const MAX_ANSWER = 2000;
 const MAX_META = 300;
 
 // Stores a visitor's Lensy popover answer. Deliberately data-minimised: only the
-// audience, which question was shown, and the answer text — no name, email, IP,
+// audience, which question was shown, and the answer text - no name, email, IP,
 // user-agent, or any identifier, and nothing is logged. Returns { stored: false }
 // (not an error) when no write token is configured, so the popover UX never
 // depends on this succeeding.

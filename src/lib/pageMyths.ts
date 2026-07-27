@@ -8,7 +8,7 @@ const ROUTE_MYTHS_KID: Record<string, string[]> = {
   "/about": ["m-boys-dont-cry", "m-scared-is-weak", "m-all-feelings-ok"],
   "/programs": ["m-girls-bad-at-maths", "m-some-kids-cant-learn", "m-mistakes-are-good"],
   "/blog": ["m-heroes-are-boys", "m-girls-care-about-looks", "m-looks-dont-equal-bad"],
-  "/join": ["m-nursing-is-for-women", "m-girls-cant-be-engineers", "m-dads-can-care"],
+  "/careers": ["m-nursing-is-for-women", "m-girls-cant-be-engineers", "m-dads-can-care"],
   "/contact": ["m-body-belongs-to-you", "m-asking-before-hug", "m-teasing-not-joke"],
   "/games": ["m-toys-have-no-gender", "m-everyone-can-play", "m-games-for-everyone"],
 };
@@ -18,14 +18,14 @@ const ROUTE_MYTHS_ADULT: Record<string, string[]> = {
   "/about": ["a-men-feelings", "a-therapy", "a-childfree"],
   "/programs": ["a-bossy", "a-credit", "a-breadwinner"],
   "/blog": ["a-body-standards", "a-men-body", "a-ageing-women"],
-  "/join": ["a-paternity", "a-mental-load", "a-single-dad-adopt"],
+  "/careers": ["a-paternity", "a-mental-load", "a-single-dad-adopt"],
   "/contact": ["a-unmarried-woman", "a-ageing-women", "a-childfree"],
   "/games": ["a-single-dad-adopt", "a-childfree", "a-breadwinner"],
 };
 
 export const ROUTE_MYTHS = ROUTE_MYTHS_KID;
 
-const ROUTE_ORDER = ["/", "/about", "/programs", "/blog", "/join", "/contact", "/games"];
+const ROUTE_ORDER = ["/", "/about", "/programs", "/blog", "/careers", "/contact", "/games"];
 
 function routeIndex(path: string): number {
   const i = ROUTE_ORDER.findIndex(
