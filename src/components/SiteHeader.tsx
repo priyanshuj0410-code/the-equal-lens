@@ -12,7 +12,7 @@ const links = [
   { href: "/blog", label: "Blogs" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
-  { href: "/careers", label: "Careers" },
+  { href: "/careers", label: "Get Involved" },
 ];
 
 const AUDIENCE_OPTIONS: { value: "kid" | "adult"; label: string }[] = [

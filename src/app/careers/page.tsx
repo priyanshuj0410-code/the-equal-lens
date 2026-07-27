@@ -7,7 +7,7 @@ import { Doodle } from "@/components/Doodles";
 import MythScatter from "@/components/MythScatter";
 
 export const metadata: Metadata = {
-  title: "Careers - The Equal Lens",
+  title: "Get Involved - The Equal Lens",
   description:
     "Open roles and volunteer opportunities - help bring fairness education to more children.",
 };
@@ -44,8 +44,8 @@ type Content = {
 
 export default async function CareersPage() {
   const audience = await getAudience();
-  // The workshop facilitator has its own dedicated section + registration form
-  // below, so drop it from the generic roles list (it may still exist in Sanity).
+  // The workshop facilitator has its own Volunteer section + registration form,
+  // so drop it from the generic roles list (it may still exist in Sanity).
   const jobs = (await getJobs()).filter(
     (j) => j.id !== "workshop-facilitator" && !/facilitator/i.test(j.title),
   );
@@ -59,7 +59,7 @@ export default async function CareersPage() {
         <Doodle name="arrow" className="anim-float absolute right-16 top-16 w-12 text-brandsoft" />
         <MythScatter items={scatterForPath("/careers", audience)} />
         <div className="relative mx-auto max-w-3xl px-5 py-20 text-center">
-          <p className="eyebrow">Careers</p>
+          <p className="eyebrow">Get Involved</p>
           <h1 className="mt-3 font-hand text-4xl font-extrabold text-ink sm:text-5xl">
             {c.hero.headline[audience]}
           </h1>
@@ -67,58 +67,6 @@ export default async function CareersPage() {
             {c.hero.body[audience]}
           </p>
         </div>
-      </section>
-
-      <section className="mx-auto max-w-4xl px-5 py-8">
-        <h2 className="font-hand text-3xl font-extrabold">{c.openRolesHeading}</h2>
-        {jobs.length === 0 ? (
-          <p className="mt-4 text-ink/60">
-            {c.noOpenRolesFallback}
-          </p>
-        ) : (
-          <div className="mt-6 space-y-5">
-            {jobs.map((j) => (
-              <div key={j.id} className="sticker rounded-3xl bg-surface p-7">
-                <div className="flex flex-wrap items-center gap-3">
-                  <h3 className="font-hand text-2xl font-bold">{j.title}</h3>
-                  <span className="rounded-full border-2 border-ink bg-sun px-3 py-0.5 font-hand text-xs font-bold text-[#221436]">
-                    {j.type}
-                  </span>
-                  {j.location && <span className="text-xs text-ink/50">{j.location}</span>}
-                </div>
-                <p className="mt-2 text-ink/70">{j.summary}</p>
-                <div className="mt-4 grid gap-6 sm:grid-cols-2">
-                  {j.responsibilities && (
-                    <div>
-                      <p className="font-hand text-sm font-bold text-ink/80">{c.jobCardLabels.responsibilitiesLabel}</p>
-                      <ul className="mt-2 space-y-1 text-sm text-ink/70">
-                        {j.responsibilities.map((r) => (
-                          <li key={r} className="flex gap-2"><span className="text-insight">✓</span><span>{r}</span></li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  {j.requirements && (
-                    <div>
-                      <p className="font-hand text-sm font-bold text-ink/80">{c.jobCardLabels.requirementsLabel}</p>
-                      <ul className="mt-2 space-y-1 text-sm text-ink/70">
-                        {j.requirements.map((r) => (
-                          <li key={r} className="flex gap-2"><span className="text-grow">•</span><span>{r}</span></li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-                <a
-                  href={`mailto:${j.applyEmail || "support@theequallens.com"}?subject=${encodeURIComponent(`Application: ${j.title}`)}`}
-                  className="mt-5 btn btn--primary btn--sm"
-                >
-                  {c.jobCardLabels.applyCta}
-                </a>
-              </div>
-            ))}
-          </div>
-        )}
       </section>
 
       <section className="mx-auto max-w-4xl px-5 py-8">
@@ -180,6 +128,58 @@ export default async function CareersPage() {
             </div>
           </div>
         </div>
+      </section>
+
+      <section className="mx-auto max-w-4xl px-5 py-8">
+        <h2 className="font-hand text-3xl font-extrabold">{c.openRolesHeading}</h2>
+        {jobs.length === 0 ? (
+          <p className="mt-4 text-ink/60">
+            {c.noOpenRolesFallback}
+          </p>
+        ) : (
+          <div className="mt-6 space-y-5">
+            {jobs.map((j) => (
+              <div key={j.id} className="sticker rounded-3xl bg-surface p-7">
+                <div className="flex flex-wrap items-center gap-3">
+                  <h3 className="font-hand text-2xl font-bold">{j.title}</h3>
+                  <span className="rounded-full border-2 border-ink bg-sun px-3 py-0.5 font-hand text-xs font-bold text-[#221436]">
+                    {j.type}
+                  </span>
+                  {j.location && <span className="text-xs text-ink/50">{j.location}</span>}
+                </div>
+                <p className="mt-2 text-ink/70">{j.summary}</p>
+                <div className="mt-4 grid gap-6 sm:grid-cols-2">
+                  {j.responsibilities && (
+                    <div>
+                      <p className="font-hand text-sm font-bold text-ink/80">{c.jobCardLabels.responsibilitiesLabel}</p>
+                      <ul className="mt-2 space-y-1 text-sm text-ink/70">
+                        {j.responsibilities.map((r) => (
+                          <li key={r} className="flex gap-2"><span className="text-insight">✓</span><span>{r}</span></li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {j.requirements && (
+                    <div>
+                      <p className="font-hand text-sm font-bold text-ink/80">{c.jobCardLabels.requirementsLabel}</p>
+                      <ul className="mt-2 space-y-1 text-sm text-ink/70">
+                        {j.requirements.map((r) => (
+                          <li key={r} className="flex gap-2"><span className="text-grow">•</span><span>{r}</span></li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+                <a
+                  href={`mailto:${j.applyEmail || "support@theequallens.com"}?subject=${encodeURIComponent(`Application: ${j.title}`)}`}
+                  className="mt-5 btn btn--primary btn--sm"
+                >
+                  {c.jobCardLabels.applyCta}
+                </a>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );
