@@ -101,7 +101,8 @@ export class MythRound {
         break;
 
       case "celebrating":
-        this.headline = this.smiled ? "myth busted!" : "myth busted anyway!";
+        // Copy never branches on smiled: "anyway" would grade the face that was pulled.
+        this.headline = "myth busted!";
         this.subline = `${this.mythsBusted} down`;
         if (this.beatTime >= CELEBRATE_SECONDS) this.nextMyth();
         break;

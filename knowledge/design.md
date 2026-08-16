@@ -4,6 +4,7 @@ title: Design system reference
 description: Visual language, component patterns, and token usage for The Equal Lens website.
 plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/fad4697c-b7e8-44f4-9976-1feb67c1a7b9
+  - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/8556ff32-8b15-4eaa-bcd7-0a7bdb147c59
 ---
 
 > **Source of truth:** the installable package `@equal-lens/brand` at
@@ -119,6 +120,39 @@ Authors can drop a self-contained interactive HTML data-viz into a post body (Sa
 - Frame styling: `border-2 border-ink`, `rounded-2xl` (1rem), white background, full width.
 - A height-reporter script is injected into each embed; `EmbedResizer` (client, mounted on the post page) listens for its `postMessage` and sizes the iframe to fit - no cropping/scroll.
 - Embeds must be self-contained (inline `<style>`/`<script>`); the sandbox has no page access.
+
+## Surface Quest capture surface (/play)
+
+The browser game's shooting UI (THEEQ-42). Three views in `src/app/play/PlayClient.tsx`;
+the in-recording graphics live in `src/lib/play/draw.ts`.
+
+- **Stage**: fixed fullscreen overlay `z-[70]` on `bg-ink` (site toolbar and Lensy launcher
+  are `z-50`; anything on the capture stage must sit above them). Reel modal is `z-[80]`.
+  `requestFullscreen` is progressive - declined/unsupported still gets the fixed overlay.
+- **Card**: the 9:16 composite canvas as a floating `rounded-[28px]` card, Instagram idiom.
+  Chrome rides its edges: close (`h-11 w-11` black/40 disc, top-left), counter pill
+  ("n of m", black/40, top-right), timer pill (`#FA383E`, `font-mono`, canvas-bottom-16),
+  shutter (72px white disc riding the bottom edge via `translate-y-1/2`; recording state
+  is a 28px `#FA383E` rounded square), last-reel thumbnail (56px, `rounded-xl`,
+  `border-white/60`, bottom-left on the shutter's line, opens reels).
+- **Game switcher**: label strip below the card (`tracking-[0.2em]`, active white,
+  inactive white/45), locked while recording. Scales to future games.
+- **In-canvas note card** (recorded into the reel): the `.note`/`.sticker` recipe drawn in
+  canvas at 1080x1920 - tone fill (`#FFF3C2` myth / `#D7F5EC` mint truth), 7px ink border
+  (2.5px at CSS scale), hard 9px offset ink shadow, -2 degree tilt, white chip pill with
+  `#993C1D` myth / `#0F6E56` truth text, body in Baloo 2 (family resolved from a `.font-hand`
+  probe so canvas text uses the real next/font face).
+- **Prompt capsules**: black/45 pills, white Baloo text, centred; the band starts at canvas
+  y=265 so it clears the on-card chrome row. Idle hint: "press the round button to play!".
+- **Reels library**: IndexedDB (`equal-lens-reels`), tiles are `.sticker rounded-xl` cards
+  in the four `note--*` tones (never `.note` itself - it pins `width: 14rem` and column
+  layout; `.sticker` + a tone class composes with utilities and keeps the adult flip) with
+  9:16 posters and alternating `rotate-1`/`-rotate-1`. Modal player on `#221436`/95 with
+  published button variants: Save `btn--sun`, Share `btn--primary`, Delete and Close
+  `btn--band`, plus an inline `.sticker note--peach` "Really delete?" confirm.
+- **Dark pinning**: the stage and modal backdrops use the literal `#221436`, never `bg-ink`
+  - ink flips light in adult mode and a camera surface stays dark in both. Same rule for
+  on-stage text (white, not `text-paper`).
 
 ## Component library
 

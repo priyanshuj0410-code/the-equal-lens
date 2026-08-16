@@ -3,9 +3,9 @@ import { getMyths } from "@/lib/knowledge";
 import PlayClient from "./PlayClient";
 
 export const metadata: Metadata = {
-  title: "Myth Buster - Surface Quest",
+  title: "Surface Quest",
   description:
-    "Pull a face. Bust a myth. Keep the clip. The Equal Lens face game, right in your browser.",
+    "Pull a face. Bust a myth. Keep the clip. The Equal Lens face games, right in your browser.",
 };
 
 export default function PlayPage() {
