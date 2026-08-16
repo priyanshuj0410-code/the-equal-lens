@@ -49,7 +49,7 @@ export default async function RootLayout({
       data-audience={audience}
       className={`${poppins.variable} ${nunito.variable} ${baloo.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-paper text-ink">
+      <body className="canvas-dots min-h-full flex flex-col bg-paper text-ink">
         <SiteHeader audience={audience} />
         <main className="flex-1">{children}</main>
         <SiteCanvas seedMyths={getMyths()} audience={audience} />

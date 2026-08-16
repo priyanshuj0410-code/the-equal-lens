@@ -349,7 +349,8 @@ export default function PlayClient({ myths }: { myths: Myth[] }) {
   const latest = reels[0];
 
   return (
-    <main className="min-h-screen bg-paper text-ink">
+    // Transparent main: the body's dotted paper texture is the page background.
+    <main className="min-h-screen text-ink">
       {view === "landing" && (
         <Landing onPlay={enterCapture} onReels={() => setView("reels")} reelCount={reels.length} />
       )}

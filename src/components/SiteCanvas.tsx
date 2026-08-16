@@ -20,6 +20,8 @@ type Note = {
   reveal: number;
   phase: Phase;
   moved: boolean;
+  /** No free spot for it right now: parked invisibly instead of layering over content. */
+  hidden?: boolean;
 };
 
 const NOTE_COLORS = ["#FFF3C2", "#D7F5EC", "#FAD9CE", "#E4DAF7"];
@@ -97,7 +99,10 @@ export default function SiteCanvas({
   );
 
   // find empty spots so desktop notes don't cover content / scatter / footer
-  const findSpots = useCallback((count: number): { x: number; y: number }[] => {
+  const findSpots = useCallback((
+    count: number,
+    extra: { l: number; t: number; r: number; b: number }[] = [],
+  ): { x: number; y: number }[] => {
     const W = document.documentElement.clientWidth;
     const docH = Math.max(document.body.scrollHeight, window.innerHeight);
     const tags = ["h1", "h2", "h3", "p", "li", "a", "button", "img", "input", "textarea"];
@@ -113,7 +118,8 @@ export default function SiteCanvas({
           b: r.bottom + window.scrollY,
         };
       })
-      .filter((o) => o.r > o.l && o.b > o.t && o.b - o.t < 600);
+      .filter((o) => o.r > o.l && o.b > o.t && o.b - o.t < 600)
+      .concat(extra);
     const pad = 16;
     const free = (x: number, y: number) =>
       x >= 10 &&
@@ -134,11 +140,8 @@ export default function SiteCanvas({
         }
       }
     }
-    let fy = 150;
-    while (chosen.length < count) {
-      chosen.push({ x: Math.max(12, W - NOTE_W - 14), y: fy });
-      fy += NOTE_H + 24;
-    }
+    // No fallback stack: when the page is full, content wins and the caller hides the
+    // notes that did not fit instead of layering them over anything.
     return chosen;
   }, []);
 
@@ -167,9 +170,11 @@ export default function SiteCanvas({
         const isM = window.innerWidth < MOBILE;
         const spots = isM ? [] : findSpots(chosen.length);
         setNotes(
-          chosen.map((m, i) =>
-            makeNote(m, i, isM ? 0 : spots[i].x, isM ? 0 : spots[i].y),
-          ),
+          chosen.map((m, i) => {
+            if (isM) return makeNote(m, i, 0, 0);
+            if (i < spots.length) return makeNote(m, i, spots[i].x, spots[i].y);
+            return { ...makeNote(m, i, 0, 0), hidden: true };
+          }),
         );
       }),
     );
@@ -213,7 +218,11 @@ export default function SiteCanvas({
     };
   }, [resize]);
 
-  // track viewport width + re-place un-dragged desktop notes when it changes
+  // track viewport width + re-place un-dragged desktop notes when the viewport OR the
+  // page content changes (async loads like the reels grid, view switches on one route).
+  // Dragged notes stay where the visitor put them and count as obstacles, so re-placement
+  // never layers a card over another card or over content; cards that no longer fit hide
+  // until room opens up again.
   useEffect(() => {
     const apply = () => {
       const isM = window.innerWidth < MOBILE;
@@ -224,22 +233,40 @@ export default function SiteCanvas({
           setNotes((prev) => {
             const movable = prev.filter((n) => !n.moved);
             if (!movable.length) return prev;
-            const spots = findSpots(movable.length);
+            const anchored = prev
+              .filter((n) => n.moved)
+              .map((n) => ({ l: n.x, t: n.y, r: n.x + NOTE_W, b: n.y + NOTE_H }));
+            const spots = findSpots(movable.length, anchored);
             let si = 0;
-            return prev.map((n) => (n.moved ? n : { ...n, x: spots[si].x, y: spots[si++].y }));
+            return prev.map((n) => {
+              if (n.moved) return n;
+              if (si < spots.length) {
+                const s = spots[si++];
+                return { ...n, x: s.x, y: s.y, hidden: false };
+              }
+              return { ...n, hidden: true };
+            });
           });
         }),
       );
     };
     apply();
     let t = 0;
-    const onResize = () => {
+    const schedule = () => {
       window.clearTimeout(t);
       t = window.setTimeout(apply, 180);
     };
-    window.addEventListener("resize", onResize);
+    window.addEventListener("resize", schedule);
+    // Notes live outside <main>, so re-placement can never re-trigger these observers.
+    const main = document.querySelector("main");
+    const mo = new MutationObserver(schedule);
+    if (main) mo.observe(main, { childList: true, subtree: true });
+    const ro = new ResizeObserver(schedule);
+    if (main) ro.observe(main);
     return () => {
-      window.removeEventListener("resize", onResize);
+      window.removeEventListener("resize", schedule);
+      mo.disconnect();
+      ro.disconnect();
       window.clearTimeout(t);
     };
   }, [findSpots]);
@@ -423,7 +450,7 @@ export default function SiteCanvas({
           style={{ display: hideNotes ? "none" : undefined }}
           aria-hidden="true"
         >
-          {notes.map((n) => (
+          {notes.filter((n) => !n.hidden).map((n) => (
             <div
               key={n.id}
               onPointerDown={(e) => noteDown(e, n)}
