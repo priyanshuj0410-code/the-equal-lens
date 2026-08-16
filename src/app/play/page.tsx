@@ -9,7 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function PlayPage() {
-  // Kid myths only, same content the Android app draws from.
-  const myths = getMyths().filter((m) => (m.audience ?? "kid") === "kid" && m.id.startsWith("m-"));
+  // Kid myths only, same content the Android app draws from. The id prefix is the
+  // discriminator: the audience field says "kids" here and "kid" elsewhere in the codebase,
+  // and a filter on it silently emptied the whole deck.
+  const myths = getMyths().filter((m) => m.id.startsWith("m-"));
   return <PlayClient myths={myths} />;
 }
