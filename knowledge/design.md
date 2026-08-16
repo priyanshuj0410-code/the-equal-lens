@@ -1,30 +1,61 @@
 ---
-type: reference
+type: design-system
 title: Design system reference
 description: Visual language, component patterns, and token usage for The Equal Lens website.
+plane_issues:
+  - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/fad4697c-b7e8-44f4-9976-1feb67c1a7b9
 ---
 
-## Brand tokens
+> **Source of truth:** the installable package `@equal-lens/brand` at
+> [`brand/design-system/`](../brand/design-system/) (`tokens.css`, `components.css`,
+> React components). This doc summarises it - when they disagree, the package wins.
+> Update this doc whenever the package changes.
+
+## Brand palette
+
+**Equal Violet `#553286`** leads; neutrals carry; accents appear in small doses.
+Surface/text tokens flip in dark ("adult") mode; the violet ramp and accents do not.
+
+| Token | Light | Dark | Usage |
+|---|---|---|---|
+| `--color-brand` | `#553286` | `#C9B8E6` | Primary violet - accents, active states |
+| `--color-brandsoft` | `#7F65A4` | `#B3A4D6` | Muted violet - secondary text, labels |
+| `--color-paper` | `#FBF9FF` | `#15101F` | Page background |
+| `--color-surface` | `#FFFFFF` | `#221A30` | Cards / notes |
+| `--color-mist` | `#E7E0F1` | `#3A2E4D` | Hairlines, hover fills, Lensy bubbles |
+| `--color-ink` | `#221436` | `#F1ECFA` | Text, borders, sticker shadows |
+| `--color-band` | `#553286` | `#241B38` | Dark CTA / footer band |
+| `--dot` | `#ECE6F6` | `#2A2140` | Dotted-paper texture |
+
+**Accents** (shared by both themes, used sparingly):
 
 | Token | Value | Usage |
 |---|---|---|
-| `--color-ink` | `#221436` | Primary text, borders, shadows |
-| `--color-surface` | `#F4F1FA` | Page background, card fills |
-| `--color-mist` | `#E7E0F1` | Lensy chat bubbles, subtle fills |
-| `--color-brand` | `#7C3AED` | Accent, highlights, active states |
-| `--color-brandsoft` | `#A78BCC` | Secondary text, muted labels |
-| `--color-sun` | `#F59E0B` | CTA buttons on dark bands |
-| `--color-band` | `#4C1D95` | Dark CTA section background |
-| `--color-grow` | `#10B981` | Stats, positive indicators |
-| `--color-sky` | `#3B82F6` | Stats, informational |
-| `--color-insight` | `#8B5CF6` | Doodles, decorative accents |
+| `--color-insight` | `#2DD4BF` | Teal - "unlearn" |
+| `--color-grow` | `#FF7A5C` | Coral - "relearn" / CTA |
+| `--color-sun` | `#FFC94D` | Yellow - CTA on dark bands (always with `ink` text) |
+| `--color-sky` | `#4FB0E8` | Blue - support / info |
+
+**Violet ramp:** `--color-violet-50 #F3F0F6 · 100 #E5E0ED · 200 #C5B6DE · 400 #7F65A4 · 600 #553286 (brand) · 700 #44288B · 800 #331E50 · 900 #221436 (Deep Indigo)`.
+
+**Dark theme:** put `data-audience="adult"` on a parent (usually `<html>`); default is light ("kid"). Only `paper, surface, mist, ink, brand, brandsoft, band, dot` flip.
 
 ## Typography
 
-- **Font hand** (`font-hand`): Fredoka One / handwritten - all headings, labels, UI copy
-- **Font body**: system sans - body paragraphs, descriptions
-- Heading scale: `text-4xl` (h2 sections), `text-5xl–6xl` (hero h1)
+Three families (loaded via the package `fonts.css`):
+- `--font-display` **Poppins** - wordmark, UI labels
+- `--font-body` **Nunito Sans** - body paragraphs, descriptions
+- `--font-hand` **Baloo 2** - headlines + playful / mascot voice
+- Heading scale: `text-4xl` (h2 sections), `text-5xl-6xl` (hero h1)
 - Eyebrow: `.eyebrow` utility - small caps, `text-brand`, letter-spaced
+
+## Voice
+
+Curious, warm, brave; playful, not preachy. Sentence case.
+
+- **Hyphens, not em dashes** (and not en dashes). This applies to all product copy, UI
+  strings, and these docs. Reword, or use a comma / period / colon, instead of a dash.
+- One line summary lives in the package: `@equal-lens/brand` README "Voice".
 
 ## Sticker / card pattern
 
@@ -64,10 +95,13 @@ Section heading is **"Gallery"** (was "Testimonials"). Backed by Testimonial doc
 | Class | Usage |
 |---|---|
 | `.btn--primary` | Main CTAs - brand fill, ink shadow |
-| `.btn--sun` | CTAs on dark band - yellow |
-| `.btn--outline` | Secondary CTAs - transparent + border |
-| `.btn--band` | Ghost on dark background |
-| `.btn--solid` | Flat, no shadow |
+| `.btn--sun` | CTAs on dark band - yellow (ink text) |
+| `.btn--outline` | Secondary CTAs - violet sticker outline |
+| `.btn--band` | On dark bands - white outline |
+| `.btn--solid` | Flat fill, no shadow (forms) |
+| `.btn--ghost` | Text only, no box |
+
+Add `.btn--sm` for the compact size. In React: `<Button variant size href>`.
 
 ## Blog carousel
 

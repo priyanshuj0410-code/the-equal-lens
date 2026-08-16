@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" data-audience="kid">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Equal Lens — dotted paper texture</title>
+  <style>
+    /* ── Tokens (lifted verbatim from src/app/globals.css) ───────────────── */
+    :root {
+      --color-paper: #FBF9FF;
+      --color-ink:   #221436;
+      --dot:         #ECE6F6;
+    }
+    /* adult mode = dark theme: flip paper + dot (and text) */
+    [data-audience="adult"] {
+      color-scheme: dark;
+      --color-paper: #15101F;
+      --color-ink:   #F1ECFA;
+      --dot:         #2A2140;
+    }
+
+    * { box-sizing: border-box; }
+
+    /* ── THE TEXTURE ─────────────────────────────────────────────────────── */
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--color-ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+      background-color: var(--color-paper);
+      background-image: radial-gradient(var(--dot) 1.1px, transparent 1.1px);
+      background-size: 28px 28px;
+      transition: background-color 320ms ease, color 320ms ease;
+    }
+
+    /* The exact reusable class the site uses (.canvas-dots) — drop it on any
+       element to give it the same dotted paper fill. Needs a paper background
+       under it; here we just show it as a standalone panel. */
+    .canvas-dots {
+      background-image: radial-gradient(var(--dot) 1.1px, transparent 1.1px);
+      background-size: 28px 28px;
+    }
+
+    /* ── Demo chrome (not part of the texture) ───────────────────────────── */
+    .bar {
+      position: fixed; top: 16px; right: 16px;
+      display: flex; gap: 8px; align-items: center;
+    }
+    .toggle {
+      font: 600 14px/1 ui-sans-serif, system-ui, sans-serif;
+      padding: 9px 14px; border-radius: 999px; cursor: pointer;
+      color: var(--color-ink);
+      background: color-mix(in srgb, var(--color-paper) 80%, transparent);
+      border: 2px solid var(--color-ink);
+      box-shadow: 3px 3px 0 var(--color-ink);
+      transition: transform 120ms ease;
+    }
+    .toggle:hover { transform: translateY(-1px); }
+    .panel {
+      max-width: 560px; margin: 14vh auto 0; padding: 40px 36px;
+      text-align: center;
+    }
+    h1 { font-size: 28px; margin: 0 0 6px; }
+    p  { margin: 0; opacity: 0.6; font-size: 15px; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 13px;
+      background: color-mix(in srgb, var(--color-ink) 8%, transparent);
+      padding: 2px 6px; border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <button class="toggle" id="toggle" type="button">Switch to adult (dark)</button>
+  </div>
+
+  <div class="panel">
+    <h1>Dotted paper texture</h1>
+    <p>
+      <code>radial-gradient(var(--dot) 1.1px, transparent 1.1px)</code><br />
+      over <code>--color-paper</code> at <code>background-size: 28px 28px</code>.
+    </p>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const btn = document.getElementById("toggle");
+    btn.addEventListener("click", () => {
+      const adult = root.getAttribute("data-audience") === "adult";
+      root.setAttribute("data-audience", adult ? "kid" : "adult");
+      btn.textContent = adult ? "Switch to adult (dark)" : "Switch to kid (light)";
+    });
+  </script>
+</body>
+</html>

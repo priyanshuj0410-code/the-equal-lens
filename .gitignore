@@ -21,3 +21,4 @@ dist/
 .claude/
 .vercel
 .plane_current_issue
+public/play/wasm/

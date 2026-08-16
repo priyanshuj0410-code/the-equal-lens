@@ -11,6 +11,9 @@ importers:
       '@equal-lens/brand':
         specifier: workspace:*
         version: link:brand/design-system
+      '@mediapipe/tasks-vision':
+        specifier: ^1.0.1
+        version: 1.0.1
       '@portabletext/to-html':
         specifier: ^5.0.2
         version: 5.0.2
@@ -1759,6 +1762,9 @@ packages:
     peerDependenciesMeta:
       markdown-it:
         optional: true
+
+  '@mediapipe/tasks-vision@1.0.1':
+    resolution: {integrity: sha512-rvRE2FmAZ6ZxKSw7wq+e+jQDpN3t1B/tD2mJz9SmAzb1msoDkd4dMoE4wAh8Z30Um0PQwLiHr9QtomhmXk3aUQ==}
 
   '@mux/mux-data-google-ima@0.3.17':
     resolution: {integrity: sha512-4wpH6dYybyZhqLn9qGn/+67Z8MZnQRAdqTFEEZw2bx61M9q01uPYYHxd8qwOnYtUGEeafsdTwVHVxKHGD3oc1A==}
@@ -8126,6 +8132,8 @@ snapshots:
       '@types/markdown-it': 14.1.2
     optionalDependencies:
       markdown-it: 14.2.0
+
+  '@mediapipe/tasks-vision@1.0.1': {}
 
   '@mux/mux-data-google-ima@0.3.17':
     dependencies:
