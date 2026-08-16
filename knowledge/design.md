@@ -5,6 +5,7 @@ description: Visual language, component patterns, and token usage for The Equal 
 plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/fad4697c-b7e8-44f4-9976-1feb67c1a7b9
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/8556ff32-8b15-4eaa-bcd7-0a7bdb147c59
+  - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/1cd87d2c-bfd2-4f5e-b34b-e7afa1247107
 ---
 
 > **Source of truth:** the installable package `@equal-lens/brand` at
@@ -90,6 +91,8 @@ Section heading is **"Gallery"** (was "Testimonials"). Backed by Testimonial doc
 
 - The `+ myth` toolbar button appends a sticky-note card. On desktop it floats at a free spot on the canvas; on mobile it flows into the "Bust these myths" section above the footer.
 - **Mobile feedback rule:** because the toolbar is fixed at the bottom and the myth section is usually off-screen, adding a myth on mobile smooth-scrolls the new card into view (`block: center`, respects `prefers-reduced-motion`). Without this the tap reads as a no-op. Guarded so route-change seeding never auto-scrolls.
+- **Content-aware placement (THEEQ-43):** desktop cards re-place whenever `main` mutates or resizes (async loads, same-route view switches), not just on route change. Dragged cards stay put and count as obstacles. Cards never layer over content or each other; when the page has no free spot, the extras hide (`hidden` flag) until room opens. There is no overflow stack fallback.
+- **Dotted paper:** the body carries `.canvas-dots` (radial `--dot` grid, 28px, over `bg-paper`), so the texture is the site-wide ground in both audiences. Page sections that want plain paper must paint their own background; /play deliberately stays transparent.
 
 ## Button variants
 
