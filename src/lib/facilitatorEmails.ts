@@ -44,7 +44,7 @@ Thank you for registering to become a <strong>workshop facilitator</strong> for 
 </td></tr></table></td></tr>
 <tr><td style="padding:6px 32px 8px;"><div style="font-size:15px;line-height:1.7;color:#4b4160;">
 <strong>What happens next</strong><br>
-The next step is a short <strong>conversation with our founders</strong>. We&rsquo;ll be in touch to arrange it. Sessions run on weekend mornings and last about 1 hour 40 minutes, using a trauma-informed, safeguarding-first approach - we&rsquo;ll walk you through everything.
+The next step is a short <strong>conversation with our founders</strong>. We&rsquo;ll be in touch to arrange it. Sessions run on Saturday mornings and last about 1 hour 40 minutes, using a trauma-informed, safeguarding-first approach - we&rsquo;ll walk you through everything.
 </div></td></tr>
 <tr><td style="padding:16px 32px 30px;"><div style="font-size:15px;line-height:1.6;color:#4b4160;">
 Warmly,<br><strong>The Equal Lens team</strong>

@@ -216,7 +216,7 @@ export default function FacilitatorForm() {
       <div>
         <p className={label}>Pick your preferred day *</p>
         <p className="mb-3 text-xs text-ink/50">
-          Weekend mornings in Mumbai, 22 Aug – 11 Oct 2026. Each day takes up to four facilitators.
+          Saturday mornings in Mumbai, 22 Aug – 10 Oct 2026. Each Saturday takes up to two facilitators.
         </p>
         <div className="mx-auto max-w-sm rounded-2xl border border-mist bg-surface p-3">
           <div className="mb-2 flex items-center justify-between">
