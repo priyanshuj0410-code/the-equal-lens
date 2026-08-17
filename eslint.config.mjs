@@ -17,6 +17,9 @@ const eslintConfig = defineConfig([
     "**/dist/**",
     // The brand package is a separate workspace with its own toolchain.
     "brand/design-system/**",
+    // Static assets are never app code; public/play/wasm/** in particular is MediaPipe
+    // glue auto-copied from node_modules by scripts/copy-mediapipe.mjs on predev/prebuild.
+    "public/**",
   ]),
 ]);
 

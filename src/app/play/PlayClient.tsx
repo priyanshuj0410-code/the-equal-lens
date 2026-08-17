@@ -89,7 +89,9 @@ export default function PlayClient({ myths }: { myths: Myth[] }) {
     listReels().then(setReels).catch(() => {});
   }, []);
 
-  const loop = useCallback(() => {
+  // Named function expression: the frame callback re-schedules itself via its own name,
+  // which is in scope inside the function (self-reference through `loop` is a lint error).
+  const loop = useCallback(function tick() {
     const st = s.current;
     const video = videoRef.current;
     const canvas = canvasRef.current;
@@ -132,7 +134,7 @@ export default function PlayClient({ myths }: { myths: Myth[] }) {
       setScore((p) => (p.done === done && p.total === total ? p : { done, total }));
     }
 
-    st.raf = requestAnimationFrame(loop);
+    st.raf = requestAnimationFrame(tick);
   }, []);
 
   const enterCapture = useCallback(async () => {
