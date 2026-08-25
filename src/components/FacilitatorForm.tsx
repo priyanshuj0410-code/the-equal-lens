@@ -18,20 +18,7 @@ const errText = "mt-1 text-xs font-medium text-grow";
 const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
 const SLOT_IDS = new Set(FACILITATOR_SLOTS.map((s) => s.id));
 
-type Avail = { id: string; remaining: number; full: boolean };
-type Status = "idle" | "sending" | "done" | "error" | "full";
-
-async function fetchAvail(): Promise<Record<string, Avail>> {
-  try {
-    const res = await fetch("/api/facilitator", { cache: "no-store" });
-    const data = await res.json();
-    const map: Record<string, Avail> = {};
-    for (const s of data.slots || []) map[s.id] = s;
-    return map;
-  } catch {
-    return {};
-  }
-}
+type Status = "idle" | "sending" | "done" | "error";
 
 function Chevron({ dir }: { dir: "left" | "right" }) {
   return (
@@ -48,7 +35,6 @@ function Chevron({ dir }: { dir: "left" | "right" }) {
 }
 
 export default function FacilitatorForm() {
-  const [avail, setAvail] = useState<Record<string, Avail> | null>(null);
   const [monthIdx, setMonthIdx] = useState(0);
   const [slotId, setSlotId] = useState("");
   const [sex, setSex] = useState("");
@@ -56,16 +42,6 @@ export default function FacilitatorForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errMsg, setErrMsg] = useState("");
   const doneRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let active = true;
-    fetchAvail().then((map) => {
-      if (active) setAvail(map);
-    });
-    return () => {
-      active = false;
-    };
-  }, []);
 
   useEffect(() => {
     if (status === "done") {
@@ -110,12 +86,6 @@ export default function FacilitatorForm() {
       const data = await res.json();
       if (data.ok) {
         setStatus("done");
-        return;
-      }
-      if (data.error === "full") {
-        setSlotId("");
-        fetchAvail().then(setAvail);
-        setStatus("full");
         return;
       }
       if (data.error === "invalid" && data.fields) {
@@ -216,7 +186,7 @@ export default function FacilitatorForm() {
       <div>
         <p className={label}>Pick your preferred day *</p>
         <p className="mb-3 text-xs text-ink/50">
-          Saturday mornings in Mumbai, 22 Aug – 10 Oct 2026. Each Saturday takes up to two facilitators.
+          Weekend mornings in Mumbai, 22 Aug – 29 Nov 2026. Pick any morning you can help.
         </p>
         <div className="mx-auto max-w-sm rounded-2xl border border-mist bg-surface p-3">
           <div className="mb-2 flex items-center justify-between">
@@ -254,38 +224,27 @@ export default function FacilitatorForm() {
               const id = `${month.key}-${String(day).padStart(2, "0")}`;
               if (!SLOT_IDS.has(id)) {
                 return (
-                  <span key={id} className="py-1.5 text-xs text-ink/25">
+                  <span key={id} className="py-2 text-xs text-ink/25">
                     {day}
                   </span>
                 );
               }
-              const a = avail?.[id];
-              const loaded = Boolean(avail);
-              const full = a?.full ?? false;
               const isSelected = slotId === id;
               return (
                 <button
                   key={id}
                   type="button"
-                  disabled={!loaded || full}
                   aria-pressed={isSelected}
                   onClick={() => {
                     setSlotId(id);
                     clearError("slot");
                   }}
                   className={[
-                    "flex flex-col items-center justify-center rounded-lg py-1 text-xs font-bold transition",
-                    isSelected
-                      ? "bg-brand text-surface"
-                      : full
-                        ? "cursor-not-allowed bg-mist/40 text-ink/60"
-                        : "bg-mist/60 text-ink hover:bg-brand/15",
+                    "flex items-center justify-center rounded-lg py-2 text-xs font-bold transition",
+                    isSelected ? "bg-brand text-surface" : "bg-mist/60 text-ink hover:bg-brand/15",
                   ].join(" ")}
                 >
-                  <span className={full && !isSelected ? "line-through" : ""}>{day}</span>
-                  <span className="text-[9px] font-semibold leading-tight">
-                    {!loaded ? "…" : full ? "Full" : a ? `${a.remaining} left` : ""}
-                  </span>
+                  {day}
                 </button>
               );
             })}
@@ -303,11 +262,6 @@ export default function FacilitatorForm() {
         {status === "sending" ? "Submitting…" : "Submit registration"}
       </button>
 
-      {status === "full" && (
-        <p className="text-sm font-medium text-grow">
-          That day just filled up - please choose another on the calendar.
-        </p>
-      )}
       {status === "error" && errMsg && <p className="text-sm font-medium text-grow">{errMsg}</p>}
     </form>
   );

@@ -1,12 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { client } from "@/sanity/client";
-import { sanityEnabled } from "@/sanity/env";
 import { sanityWriteEnabled, writeClient } from "@/sanity/writeClient";
-import {
-  FACILITATOR_SLOTS,
-  FACILITATOR_SLOT_CAPACITY,
-  slotById,
-} from "@/lib/facilitatorSlots";
+import { FACILITATOR_SLOTS, slotById } from "@/lib/facilitatorSlots";
 import { validateFacilitator } from "@/lib/facilitatorValidation";
 import { sendEmail } from "@/lib/email";
 import { applicantConfirmationEmail, teamNotificationEmail } from "@/lib/facilitatorEmails";
@@ -15,38 +10,13 @@ export const dynamic = "force-dynamic";
 
 const NOTIFY_EMAIL = process.env.FACILITATOR_NOTIFY_EMAIL || "rashi.khandelwal@theequallens.com";
 
-// Non-CDN read so capacity counts are as fresh as possible (public dataset
-// reads need no token). A rare race can let a slot reach 4 concurrent submits
-// and over-book by one - acceptable for a 4-person volunteer slot.
+// Non-CDN read so the per-email dedup check is as fresh as possible (public
+// dataset reads need no token).
 const fresh = client.withConfig({ useCdn: false });
 
-const allOpen = () =>
-  FACILITATOR_SLOTS.map((s) => ({ id: s.id, remaining: FACILITATOR_SLOT_CAPACITY, full: false }));
-
-async function slotCounts(): Promise<Record<string, number>> {
-  const ids = await fresh.fetch<string[]>(
-    '*[_type == "facilitatorApplication"].slotId',
-    {},
-    { cache: "no-store" },
-  );
-  const counts: Record<string, number> = {};
-  for (const id of ids || []) counts[id] = (counts[id] || 0) + 1;
-  return counts;
-}
-
+// Slots are uncapped, so this just lists the selectable weekend days.
 export async function GET() {
-  if (!sanityEnabled) return NextResponse.json({ slots: allOpen() });
-  try {
-    const counts = await slotCounts();
-    const slots = FACILITATOR_SLOTS.map((s) => {
-      const remaining = Math.max(0, FACILITATOR_SLOT_CAPACITY - (counts[s.id] || 0));
-      return { id: s.id, remaining, full: remaining === 0 };
-    });
-    return NextResponse.json({ slots });
-  } catch {
-    // Never block the form on a read error - POST re-checks capacity anyway.
-    return NextResponse.json({ slots: allOpen() });
-  }
+  return NextResponse.json({ slots: FACILITATOR_SLOTS.map((s) => ({ id: s.id })) });
 }
 
 export async function POST(req: NextRequest) {
@@ -58,7 +28,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Honeypot: a hidden field no human fills. Silently accept without storing
-  // or emailing, so naive bots don't consume a slot or trigger mail.
+  // or emailing, so naive bots don't create a record or trigger mail.
   if (String(body.company ?? "").trim()) {
     return NextResponse.json({ ok: true });
   }
@@ -101,15 +71,6 @@ export async function POST(req: NextRequest) {
     );
     if ((existing || 0) > 0) {
       return NextResponse.json({ ok: false, error: "duplicate" }, { status: 409 });
-    }
-
-    const taken = await fresh.fetch<number>(
-      'count(*[_type == "facilitatorApplication" && slotId == $slotId])',
-      { slotId: input.slotId },
-      { cache: "no-store" },
-    );
-    if ((taken || 0) >= FACILITATOR_SLOT_CAPACITY) {
-      return NextResponse.json({ ok: false, error: "full" }, { status: 409 });
     }
 
     await writeClient.create({
