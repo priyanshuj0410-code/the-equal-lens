@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { client } from "@/sanity/client";
 import { sanityWriteEnabled, writeClient } from "@/sanity/writeClient";
-import { FACILITATOR_SLOTS, slotById } from "@/lib/facilitatorSlots";
+import { FACILITATOR_SLOTS, isSlotBookable, slotById } from "@/lib/facilitatorSlots";
 import { validateFacilitator } from "@/lib/facilitatorValidation";
 import { sendEmail } from "@/lib/email";
 import { applicantConfirmationEmail, teamNotificationEmail } from "@/lib/facilitatorEmails";
@@ -52,6 +52,11 @@ export async function POST(req: NextRequest) {
 
   const slot = slotById(input.slotId)!;
   const age = Number.parseInt(input.age, 10);
+
+  // Enforce the lead-time cutoff (defence in depth; the form also greys these out).
+  if (!isSlotBookable(input.slotId, new Date())) {
+    return NextResponse.json({ ok: false, error: "closed" }, { status: 409 });
+  }
 
   if (!sanityWriteEnabled) {
     return NextResponse.json({ ok: false, error: "disabled" }, { status: 503 });

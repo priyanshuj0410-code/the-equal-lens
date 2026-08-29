@@ -5,6 +5,7 @@ import BrandSelect from "./BrandSelect";
 import {
   FACILITATOR_MONTHS,
   FACILITATOR_SLOTS,
+  isSlotBookable,
   SEX_OPTIONS,
   slotById,
 } from "@/lib/facilitatorSlots";
@@ -41,7 +42,22 @@ export default function FacilitatorForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>("idle");
   const [errMsg, setErrMsg] = useState("");
+  const [now, setNow] = useState<Date | null>(null);
   const doneRef = useRef<HTMLDivElement>(null);
+
+  // Resolve "today" on the client (avoids an SSR/hydration mismatch), then open
+  // the picker on the first month that still has a bookable day.
+  useEffect(() => {
+    const d = new Date();
+    const firstIdx = FACILITATOR_MONTHS.findIndex((m) =>
+      FACILITATOR_SLOTS.some((s) => s.monthKey === m.key && isSlotBookable(s.id, d)),
+    );
+    const raf = requestAnimationFrame(() => {
+      setNow(d);
+      if (firstIdx > 0) setMonthIdx(firstIdx);
+    });
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   useEffect(() => {
     if (status === "done") {
@@ -95,6 +111,12 @@ export default function FacilitatorForm() {
       }
       if (data.error === "duplicate") {
         setErrMsg("Looks like you've already registered with this email - we'll be in touch. To change anything, email support@theequallens.com.");
+        setStatus("error");
+        return;
+      }
+      if (data.error === "closed") {
+        setSlotId("");
+        setErrMsg("That day is closed for sign-ups now - we need at least a couple of days' notice. Please pick another day.");
         setStatus("error");
         return;
       }
@@ -225,6 +247,21 @@ export default function FacilitatorForm() {
               if (!SLOT_IDS.has(id)) {
                 return (
                   <span key={id} className="py-2 text-xs text-ink/25">
+                    {day}
+                  </span>
+                );
+              }
+              // A slot day is interactive only once "today" is resolved (client)
+              // and the date is still open. Until then, or when closed, render a
+              // non-clickable muted day (closed days get a strike-through) so a
+              // closed day is never briefly shown as selectable.
+              if (!now || !isSlotBookable(id, now)) {
+                return (
+                  <span
+                    key={id}
+                    aria-disabled="true"
+                    className={`flex items-center justify-center rounded-lg py-2 text-xs font-bold text-ink/25${now ? " line-through" : ""}`}
+                  >
                     {day}
                   </span>
                 );

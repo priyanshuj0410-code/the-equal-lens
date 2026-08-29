@@ -70,3 +70,25 @@ const BY_ID = new Map(FACILITATOR_SLOTS.map((s) => [s.id, s]));
 export function slotById(id: string): FacilitatorSlot | undefined {
   return BY_ID.get(id);
 }
+
+// Sign-ups need at least this many days' lead time; slots closer than that are
+// closed. "Today" is evaluated in IST, since the workshops are in Mumbai, so
+// the cutoff is the same whatever timezone the visitor's browser is in.
+export const BOOKING_LEAD_DAYS = 2;
+
+function istDateString(now: Date): string {
+  return new Date(now.getTime() + 5.5 * 60 * 60 * 1000).toISOString().slice(0, 10);
+}
+
+// Earliest slot date (YYYY-MM-DD) still open given `now` = today(IST) + lead days.
+export function bookingCutoff(now: Date): string {
+  const d = new Date(`${istDateString(now)}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + BOOKING_LEAD_DAYS);
+  return d.toISOString().slice(0, 10);
+}
+
+// A slot is bookable if it exists and its date is on/after the cutoff. Slot ids
+// are "YYYY-MM-DD", so a lexicographic compare is a correct date compare.
+export function isSlotBookable(id: string, now: Date): boolean {
+  return BY_ID.has(id) && id >= bookingCutoff(now);
+}
