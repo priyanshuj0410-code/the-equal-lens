@@ -6,6 +6,7 @@ plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/fad4697c-b7e8-44f4-9976-1feb67c1a7b9
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/8556ff32-8b15-4eaa-bcd7-0a7bdb147c59
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/1cd87d2c-bfd2-4f5e-b34b-e7afa1247107
+  - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/0bc71a77-fc5d-4725-ba22-cf1333f84670
 ---
 
 > **Source of truth:** the installable package `@equal-lens/brand` at
@@ -139,7 +140,17 @@ the in-recording graphics live in `src/lib/play/draw.ts`.
   is a 28px `#FA383E` rounded square), last-reel thumbnail (56px, `rounded-xl`,
   `border-white/60`, bottom-left on the shutter's line, opens reels).
 - **Game switcher**: label strip below the card (`tracking-[0.2em]`, active white,
-  inactive white/45), locked while recording. Scales to future games.
+  inactive white/45), locked while recording. Scales to future games. Entries: MYTH
+  BUSTER, SHAKE IT OFF, WALK A MILE.
+- **Walk a Mile (THEEQ-48)**: side-scrolling track band (white with ink top edge) at
+  canvas y=0.84H; the runner is Party Lensy riding the player's head bob (rolling
+  baseline, lift-only, tips -12 degrees airborne). Hurdles are standing mini sticker
+  cards: everyday ones in mint with note text, stereotype ones larger in peach
+  (`#FAD9CE`) with myth-chip rust text. Hitting one is never a fail - it topples and
+  fades, the flash celebrates, and the counter advances either way. Structure carries
+  the message: your run (3 everyday hurdles), then Sam's run = the same track with
+  stereotype hurdles added, finish copy "same track. double the hurdles." The corner
+  reaction Lensy is suppressed in this game - the runner is the Lensy.
 - **In-canvas note card** (recorded into the reel): the `.note`/`.sticker` recipe drawn in
   canvas at 1080x1920 - tone fill (`#FFF3C2` myth / `#D7F5EC` mint truth), 7px ink border
   (2.5px at CSS scale), hard 9px offset ink shadow, -2 degree tilt, white chip pill with

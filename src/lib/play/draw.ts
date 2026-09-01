@@ -6,9 +6,10 @@
 import type { MythRound } from "./round";
 import type { ShakeRound } from "./shake";
 import type { Emotion } from "./analyzer";
+import { GROUND_Y, RUNNER_X, RUNNER_SIZE, type WalkRound, type Hurdle } from "./walk";
+import { W, H } from "./frame";
 
-export const W = 1080;
-export const H = 1920;
+export { W, H };
 
 // next/font registers Baloo 2 under a hashed family name; the client resolves it from a
 // probe element and hands it to us so canvas text really is the site's hand font.
@@ -26,9 +27,10 @@ const CHIP_MYTH = "#993C1D";
 const CHIP_TRUTH = "#0F6E56";
 
 export type PaintState = {
-  game: "myth" | "shake";
+  game: "myth" | "shake" | "walk";
   mythRound: MythRound;
   shakeRound: ShakeRound;
+  walkRound: WalkRound;
   emotion: Emotion;
   emotionAlpha: number;
   forehead: { x: number; y: number } | null;
@@ -57,20 +59,27 @@ export function paint(
   ctx.drawImage(video, (W - dw) / 2, (H - dh) / 2, dw, dh);
   ctx.restore();
 
-  const headline = s.game === "myth" ? s.mythRound.headline : s.shakeRound.headline;
-  const subline = s.game === "myth" ? s.mythRound.subline : s.shakeRound.subline;
-  const idle = s.game === "myth" ? s.mythRound.beat === "idle" : !s.shakeRound.playing;
+  const round =
+    s.game === "myth" ? s.mythRound : s.game === "shake" ? s.shakeRound : s.walkRound;
+  const idle =
+    s.game === "myth"
+      ? s.mythRound.beat === "idle"
+      : s.game === "shake"
+        ? !s.shakeRound.playing
+        : !s.walkRound.playing;
   // The capsule band starts below the on-card chrome row (close and counter live in the
   // top ~200 canvas px of the live view).
-  if (headline) capsule(ctx, headline, W / 2, 265, 54);
+  if (round.headline) capsule(ctx, round.headline, W / 2, 265, 54);
   else if (idle) capsule(ctx, "press the round button to play!", W / 2, 265, 54);
-  if (subline) capsule(ctx, subline, W / 2, 372, 42);
+  if (round.subline) capsule(ctx, round.subline, W / 2, 372, 42);
 
   if (s.game === "myth") paintMyth(ctx, s);
-  else paintShake(ctx, s, dt);
+  else if (s.game === "shake") paintShake(ctx, s, dt);
+  else paintWalk(ctx, s, dt);
 
-  // Lensy reacts in the corner, in both games' recordings.
-  paintReaction(ctx, s, dt);
+  // Lensy reacts in the corner - except on the track, where the runner IS the Lensy and
+  // a second one would read as a bug.
+  if (s.game !== "walk") paintReaction(ctx, s, dt);
 }
 
 function paintMyth(ctx: CanvasRenderingContext2D, s: PaintState) {
@@ -131,6 +140,74 @@ function paintShake(ctx: CanvasRenderingContext2D, s: PaintState, dt: number) {
       ctx.drawImage(halo, propX - hw / 2, headY - size * 0.95, hw, hh);
     }
   }
+}
+
+function paintWalk(ctx: CanvasRenderingContext2D, s: PaintState, dt: number) {
+  const round = s.walkRound;
+  if (!round.playing) return;
+
+  round.step(s.forehead ? s.forehead.y : null, dt);
+
+  // The track: a paper band with an ink top edge.
+  ctx.fillStyle = "rgba(255,255,255,0.92)";
+  ctx.fillRect(0, GROUND_Y, W, 16);
+  ctx.fillStyle = INK;
+  ctx.fillRect(0, GROUND_Y, W, 5);
+
+  for (const h of round.hurdles) hurdleCard(ctx, h);
+
+  // The runner: Lensy riding the player's head bob, tipped forward mid-hop.
+  const runner = s.art.get("runner");
+  if (runner?.complete && runner.naturalWidth > 0) {
+    const rw = RUNNER_SIZE;
+    const rh = (runner.naturalHeight / runner.naturalWidth) * rw;
+    ctx.save();
+    ctx.translate(RUNNER_X, round.runnerBottom);
+    if (round.airborne) ctx.rotate((-12 * Math.PI) / 180);
+    ctx.drawImage(runner, -rw / 2, -rh, rw, rh);
+    if (round.haloOn) {
+      const halo = s.art.get("halo");
+      if (halo?.complete && halo.naturalWidth > 0) {
+        const hw = rw * 1.1;
+        const hh = (halo.naturalHeight / halo.naturalWidth) * hw;
+        ctx.drawImage(halo, -hw / 2, -rh - hh * 0.7, hw, hh);
+      }
+    }
+    ctx.restore();
+  }
+}
+
+/** A hurdle as a standing mini sticker card; smashed ones topple over and fade. */
+function hurdleCard(ctx: CanvasRenderingContext2D, h: Hurdle) {
+  const topple = h.toppleT / 0.8;
+  ctx.save();
+  if (topple > 0) {
+    ctx.globalAlpha = Math.max(0, 1 - topple);
+    ctx.translate(h.x + h.w, GROUND_Y);
+    ctx.rotate((topple * 105 * Math.PI) / 180);
+    ctx.translate(-(h.x + h.w), -GROUND_Y);
+  }
+  const y = GROUND_Y - h.h;
+  ctx.fillStyle = INK;
+  roundRect(ctx, h.x + 7, y + 7, h.w, h.h, 18);
+  ctx.fill();
+  ctx.fillStyle = h.stereotype ? "#FAD9CE" : NOTE_MINT;
+  roundRect(ctx, h.x, y, h.w, h.h, 18);
+  ctx.fill();
+  ctx.strokeStyle = INK;
+  ctx.lineWidth = 6;
+  roundRect(ctx, h.x, y, h.w, h.h, 18);
+  ctx.stroke();
+
+  ctx.font = `600 ${h.stereotype ? 42 : 38}px ${HAND}`;
+  ctx.fillStyle = h.stereotype ? CHIP_MYTH : NOTE_TEXT;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  const lines = wrap(ctx, h.label, h.w - 36);
+  const lh = h.stereotype ? 48 : 44;
+  const cy = y + h.h / 2 - ((lines.length - 1) * lh) / 2;
+  lines.forEach((line, i) => ctx.fillText(line, h.x + h.w / 2, cy + i * lh));
+  ctx.restore();
 }
 
 function paintReaction(ctx: CanvasRenderingContext2D, s: PaintState, dt: number) {

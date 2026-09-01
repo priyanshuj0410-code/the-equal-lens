@@ -11,16 +11,18 @@ import type { Myth } from "@/lib/knowledge";
 import { ExpressionAnalyzer, type Emotion } from "@/lib/play/analyzer";
 import { MythRound } from "@/lib/play/round";
 import { ShakeRound, SHAKE_PROPS } from "@/lib/play/shake";
+import { WalkRound } from "@/lib/play/walk";
 import { paint, setHandFont, W, H, type PaintState } from "@/lib/play/draw";
 import { saveReel, listReels, deleteReel, reelDate, type Reel } from "@/lib/play/reels";
 
 type View = "landing" | "capture" | "reels";
 type CameraStage = "idle" | "starting" | "live" | "denied" | "failed";
-type Game = "myth" | "shake";
+type Game = "myth" | "shake" | "walk";
 
 const GAMES: { id: Game; label: string }[] = [
   { id: "myth", label: "MYTH BUSTER" },
   { id: "shake", label: "SHAKE IT OFF" },
+  { id: "walk", label: "WALK A MILE" },
 ];
 
 export default function PlayClient({ myths }: { myths: Myth[] }) {
@@ -52,10 +54,12 @@ export default function PlayClient({ myths }: { myths: Myth[] }) {
     raf: 0,
     lastT: 0,
     gen: 0,
+    frameFails: 0,
     paint: {
       game: "myth",
       mythRound: new MythRound(myths),
       shakeRound: new ShakeRound(),
+      walkRound: new WalkRound(),
       emotion: "neutral" as Emotion,
       emotionAlpha: 0,
       forehead: null,
@@ -76,6 +80,7 @@ export default function PlayClient({ myths }: { myths: Myth[] }) {
     }
     SHAKE_PROPS.forEach((p, i) => load(`prop${i}`, p.src));
     load("halo", "/play/props/prop_halo.png");
+    load("runner", "/play/emojis/Party.png");
 
     // Resolve the hashed next/font family for the canvas painter.
     const probe = document.createElement("span");
@@ -101,37 +106,65 @@ export default function PlayClient({ myths }: { myths: Myth[] }) {
     const dt = Math.min(0.1, (now - st.lastT) / 1000);
     st.lastT = now;
 
-    if (video.readyState >= 2) {
-      const result = st.landmarker.detectForVideo(video, now);
-      const shapes = result.faceBlendshapes?.[0]?.categories;
-      if (shapes?.length) {
-        const map = new Map<string, number>();
-        for (const c of shapes) map.set(c.categoryName, c.score);
-        st.paint.emotion = st.analyzer.step(map).best;
+    // A single bad frame must not end the take: detectForVideo can throw transiently
+    // (GPU context loss is the real case), and rescheduling only happens further down.
+    try {
+      if (video.readyState >= 2) {
+        const result = st.landmarker.detectForVideo(video, now);
+        const shapes = result.faceBlendshapes?.[0]?.categories;
+        if (shapes?.length) {
+          const map = new Map<string, number>();
+          for (const c of shapes) map.set(c.categoryName, c.score);
+          st.paint.emotion = st.analyzer.step(map).best;
 
-        const lm = result.faceLandmarks?.[0];
-        if (lm) {
-          // Landmark 10 is the forehead; 234 and 454 span the face.
-          st.paint.forehead = { x: lm[10].x, y: lm[10].y };
-          st.paint.faceWidth = Math.hypot(lm[454].x - lm[234].x, lm[454].y - lm[234].y);
+          const lm = result.faceLandmarks?.[0];
+          if (lm) {
+            // Landmark 10 is the forehead; 234 and 454 span the face.
+            st.paint.forehead = { x: lm[10].x, y: lm[10].y };
+            st.paint.faceWidth = Math.hypot(lm[454].x - lm[234].x, lm[454].y - lm[234].y);
+          }
+        } else {
+          st.paint.emotion = st.analyzer.noFace().best;
+          st.paint.forehead = null;
         }
-      } else {
-        st.paint.emotion = st.analyzer.noFace().best;
-        st.paint.forehead = null;
-      }
 
-      st.paint.mythRound.step(dt, st.paint.emotion);
-      paint(canvas, video, st.paint, dt);
+        st.paint.mythRound.step(dt, st.paint.emotion);
+        paint(canvas, video, st.paint, dt);
 
-      if (st.recorder?.state === "recording") {
-        setElapsed(Math.floor((now - st.startedAt) / 1000));
+        if (st.recorder?.state === "recording") {
+          setElapsed(Math.floor((now - st.startedAt) / 1000));
+        }
+        // Myth Buster is endless (never graded against a target); Shake It Off and Walk a
+        // Mile have real denominators (props and hurdles on the track).
+        const g = st.paint.game;
+        const done =
+          g === "myth"
+            ? st.paint.mythRound.mythsBusted
+            : g === "shake"
+              ? st.paint.shakeRound.score
+              : st.paint.walkRound.score;
+        const total =
+          g === "myth" ? null : g === "shake" ? st.paint.shakeRound.total : st.paint.walkRound.total;
+        setScore((p) => (p.done === done && p.total === total ? p : { done, total }));
       }
-      // Myth Buster is endless (never graded against a target); only Shake It Off has a
-      // real denominator (three props).
-      const done =
-        st.paint.game === "myth" ? st.paint.mythRound.mythsBusted : st.paint.shakeRound.score;
-      const total = st.paint.game === "myth" ? null : st.paint.shakeRound.total;
-      setScore((p) => (p.done === done && p.total === total ? p : { done, total }));
+      st.frameFails = 0;
+    } catch (e) {
+      // Log once per failure streak, not sixty times a second.
+      st.frameFails++;
+      if (st.frameFails === 1) console.error("[play] frame skipped", e);
+      if (st.frameFails >= 60) {
+        // A full second of dead frames: salvage the take (chunks flush on stop) instead
+        // of silently recording a frozen frame, and stop the loop until a retry.
+        if (st.recorder?.state === "recording") {
+          st.recorder.stop();
+          st.paint.mythRound.stop();
+          st.paint.shakeRound.stop();
+          st.paint.walkRound.stop();
+          setRecording(false);
+        }
+        setCamera("failed");
+        return;
+      }
     }
 
     st.raf = requestAnimationFrame(tick);
@@ -193,6 +226,7 @@ export default function PlayClient({ myths }: { myths: Myth[] }) {
       setCamera("live");
       goFullscreen();
       st.lastT = performance.now();
+      st.frameFails = 0;
       cancelAnimationFrame(st.raf);
       loop();
     } catch (e) {
@@ -256,7 +290,8 @@ export default function PlayClient({ myths }: { myths: Myth[] }) {
     setRecording(true);
 
     if (st.paint.game === "myth") st.paint.mythRound.start();
-    else st.paint.shakeRound.start();
+    else if (st.paint.game === "shake") st.paint.shakeRound.start();
+    else st.paint.walkRound.start();
   }, []);
 
   const stopRecording = useCallback(() => {
@@ -265,6 +300,7 @@ export default function PlayClient({ myths }: { myths: Myth[] }) {
     st.recorder.stop();
     st.paint.mythRound.stop();
     st.paint.shakeRound.stop();
+    st.paint.walkRound.stop();
     setRecording(false);
   }, []);
 
@@ -290,6 +326,7 @@ export default function PlayClient({ myths }: { myths: Myth[] }) {
       s.current.paint.game = g;
       s.current.paint.mythRound.stop();
       s.current.paint.shakeRound.stop();
+      s.current.paint.walkRound.stop();
     },
     [recording],
   );
@@ -381,7 +418,10 @@ export default function PlayClient({ myths }: { myths: Myth[] }) {
                       <p>The camera said no. Allow it in the browser bar, then try again.</p>
                     )}
                     {camera === "failed" && (
-                      <p>Could not start. Chrome or Edge on a laptop works best.</p>
+                      <p>
+                        The camera stopped. If you were recording, your reel so far is
+                        saved. Chrome or Edge on a laptop works best.
+                      </p>
                     )}
                   </div>
                 )}
@@ -524,8 +564,8 @@ function Landing({
     },
     {
       art: "/play/emojis/LOL.png",
-      head: "Pull a face - any face",
-      sub: "There is no wrong one. Or shake your head to fling a stereotype away.",
+      head: "Play it your way",
+      sub: "Pull a face, shake a stereotype off your head, or hop the hurdles - there is no wrong move.",
       tone: "note--peach",
     },
     {
