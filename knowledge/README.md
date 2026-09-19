@@ -20,7 +20,12 @@ knowledge/
   team/          one JSON file per team member  → About page
   jobs/          one JSON file per job listing   → Join page
   blog/          one Markdown file per article    → Blog
+  fundraising/   case for support, funder map, readiness, budget, pipeline (not read by the site)
 ```
+
+## Fundraising
+
+The [fundraising kit](fundraising/README.md) is the source for every proposal, pitch and appeal. Start with its README.
 
 ## How a myth becomes an easter egg
 
