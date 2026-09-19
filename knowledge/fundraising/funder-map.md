@@ -7,6 +7,7 @@ updated: 2026-09-19
 verified: 2026-09-19
 plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/cf3d8d9f-4410-4aa6-a46f-8e5b9c69706b
+  - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/c7ac099a-c031-4bcd-9e22-8abedb73c3d2
 ---
 
 # Funder map
@@ -40,6 +41,8 @@ The short version: for the next year, our money comes from Indian individuals, I
 **Watch out.** Record every donor's identity. Once 80G arrives, their PAN and address go in the yearly statement. Take nothing from anyone who is not an Indian citizen, including relatives abroad on foreign passports, until we have FCRA.
 
 ## 2. Donation and grant platforms
+
+Platform by platform, with fees, sign-up documents and the Daan Utsav plan: [platforms.md](platforms.md).
 
 **Our own donate page first.** It is the cheapest channel, and every other appeal points to it. Until the payment gateway is live, a UPI ID and bank details with a "request a receipt" email let people give today.
 

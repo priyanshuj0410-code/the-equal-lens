@@ -6,6 +6,7 @@ status: structure-ready
 updated: 2026-09-19
 plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/cf3d8d9f-4410-4aa6-a46f-8e5b9c69706b
+  - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/c7ac099a-c031-4bcd-9e22-8abedb73c3d2
 ---
 
 # Funder pipeline
@@ -45,6 +46,6 @@ Empty until prospect research is done. The target is 30 named prospects across t
 
 | Campaign | When | Channel | Status |
 |---|---|---|---|
-| Daan Utsav 2026 | 2 to 8 October 2026 | Own network, WhatsApp, UPI or /donate | Decide by 1 October |
+| Daan Utsav 2026 | 2 to 8 October 2026 | Ketto campaign to the founders' networks, mainly WhatsApp. UPI as fallback | Apply to Ketto by 23 September. Target from budget by 29 September, or skip ([plan](platforms.md#daan-utsav-2026-recommendation)) |
 | GivingTuesday 2026 | 1 December 2026 | Own network, social | Not started |
 | Tax season | January to March 2027 | Own network, /donate | Only if 80G has arrived |

@@ -6,6 +6,7 @@ status: draft
 updated: 2026-09-19
 plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/cf3d8d9f-4410-4aa6-a46f-8e5b9c69706b
+  - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/c7ac099a-c031-4bcd-9e22-8abedb73c3d2
 ---
 
 # Fundraising kit
@@ -28,6 +29,7 @@ The children's programmes are free to delivery partners, so every rupee that run
 |---|---|---|
 | [case-for-support.md](case-for-support.md) | Why fund us | Draft. Track record section needs figures |
 | [funder-map.md](funder-map.md) | Who to ask, in what order, and when each door opens | Draft |
+| [platforms.md](platforms.md) | Which giving platforms we can use now, what they cost, and the Daan Utsav plan | Draft |
 | [readiness.md](readiness.md) | What funders check, and what we still lack | Draft |
 | [budget.md](budget.md) | What it costs per child, per class and per year | Model built. Needs our rates |
 | [pipeline.md](pipeline.md) | Who we are talking to, and what happens next | Structure ready. No prospects yet |
