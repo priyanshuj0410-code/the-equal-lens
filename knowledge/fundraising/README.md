@@ -30,6 +30,7 @@ The children's programmes are free to delivery partners, so every rupee that run
 | [case-for-support.md](case-for-support.md) | Why fund us | Draft. Track record section needs figures |
 | [funder-map.md](funder-map.md) | Who to ask, in what order, and when each door opens | Draft |
 | [platforms.md](platforms.md) | Which giving platforms we can use now, what they cost, and the campaign calendar | Draft |
+| [donatekart-listing.md](donatekart-listing.md) | Title, story and items for the DonateKart listing, reusable for other platforms | Draft, ready to submit |
 | [readiness.md](readiness.md) | What funders check, and what we still lack | Draft |
 | [budget.md](budget.md) | What it costs per child, per class and per year | Model built. Needs our rates |
 | [pipeline.md](pipeline.md) | Who we are talking to, and what happens next | Structure ready. No prospects yet |
