@@ -44,17 +44,62 @@ The Equal Lens helps children unlearn bias and relearn empathy through play, bef
 
 ## Items to list
 
-Confirm with DonateKart's campaign manager before submitting. DonateKart sells catalogue products, so custom printing may not be possible. If it is not, list the raw materials and print in house.
+Derived from the session structure: Story Time, Big Question, a 60 minute game, Reflect and Share, a Mission Card at the end of each session, the Ask-It jar from session 1, and certificates in session 8. No written session plans exist yet, so the game props in group D stay open.
 
-- Colour pencils, crayons and sketch pens
-- A4 paper and chart paper
-- Glue sticks, and scissors for facilitators to use, not children
-- Card stock for certificates
-- A lidded box or bag to hold one class kit
-- A jar with a lid for each group, used as the Ask-It jar where children post questions
-- Printed activity and mission cards, if DonateKart can supply printing
+Sell it in two units a donor understands: **one child's kit** and **one class kit**. Ask DonateKart whether it can bundle products that way, or whether donors buy each item separately.
 
-Quantities follow class size, which is one of the three numbers still missing from [budget.md](budget.md#inputs-needed).
+### A. Per child, used up each programme
+
+| Item | Why |
+|---|---|
+| Wax crayons for ages 5 to 7, colour pencils for 8 to 12 | Reflect and Share, and the drawing in early sessions. Crayons for the youngest band because sketch pens stain clothes and skin |
+| Pencil, eraser and sharpener | Every session |
+| A small notebook or scrapbook | Somewhere to keep drawings and the mission cards they take home |
+| Mission cards, eight per child | One at the end of each session. Printing, see the note below |
+| Certificate on card stock | Session 8, with the pledge on the back |
+
+### B. Per class, reused across programmes
+
+| Item | Why |
+|---|---|
+| A wide-mouth jar with a lid | The Ask-It jar, open in every session. One per group, kept between sessions |
+| Slips of paper or small sticky note pads | Questions for the jar, and the promise wall in session 8 |
+| Chart paper pad or roll | The Big Question and the promise wall |
+| Thick markers | Ground rules, chart work |
+| Masking tape | Marking game areas on the floor, and putting chart paper on a wall. Never on a child's body |
+| Glue sticks, and one pair of scissors for the facilitator | Print and cut activities are cut by adults, not children |
+| A lidded plastic box or duffel bag | Holds one class kit between sessions |
+| Activity card decks, laminated if possible | They are handled by thirty pairs of hands, eight weeks running |
+
+### C. Facilitator and safety, per facilitator or per site
+
+| Item | Why |
+|---|---|
+| Trolley bag or sturdy backpack | The kit travels to the partner on public transport |
+| First aid kit | Any session with children, especially one with an hour of movement |
+| Hand wipes or sanitiser | Play sessions |
+| A visible timer or small clock | The beats are timed: 10, 15, 60, 10, 5. A facilitator cannot hold that on a phone while running a game |
+| Spare paper, pens and name stickers | Session 1, and replacements |
+
+### D. Only if the session plans call for them
+
+Soft foam ball, bean bags, floor markers or cones, large foam dice. List these only once the written plans name them, because buying props for games that do not need them wastes a donor's money.
+
+### What not to list
+
+- **No blindfolds.** Blindfold games simulate disability, which our own rules forbid.
+- **No camera, phone or printer for documenting sessions.** We do not photograph children.
+- **Nothing that is stuck or taped to a child.**
+- **No sweets or edible prizes.** Allergies, and they change why a child takes part.
+
+### Quantities and delivery
+
+- Per child items: class size × classes planned in the year.
+- Per class items: one set per class, plus one spare set.
+- Facilitator items: one per facilitator.
+- Class size is one of the three numbers still missing from [budget.md](budget.md#inputs-needed), so quantities wait on it.
+- Printing and lamination are probably not catalogue products. Ask DonateKart. If they are not, list card stock and paper and print in house.
+- Goods arrive physically. Name one delivery address and one person to receive and store them before the listing goes live.
 
 ## Rules for the listing
 
