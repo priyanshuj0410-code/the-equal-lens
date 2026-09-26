@@ -3,7 +3,7 @@ type: index
 title: Fundraising kit
 description: Everything The Equal Lens needs to raise money, in build order. Start here before writing any proposal, pitch or appeal.
 status: draft
-updated: 2026-09-19
+updated: 2026-09-26
 plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/cf3d8d9f-4410-4aa6-a46f-8e5b9c69706b
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/c7ac099a-c031-4bcd-9e22-8abedb73c3d2
@@ -29,7 +29,7 @@ The children's programmes are free to delivery partners, so every rupee that run
 |---|---|---|
 | [case-for-support.md](case-for-support.md) | Why fund us | Draft. Track record section needs figures |
 | [funder-map.md](funder-map.md) | Who to ask, in what order, and when each door opens | Draft |
-| [platforms.md](platforms.md) | Which giving platforms we can use now, what they cost, and the Daan Utsav plan | Draft |
+| [platforms.md](platforms.md) | Which giving platforms we can use now, what they cost, and the campaign calendar | Draft |
 | [readiness.md](readiness.md) | What funders check, and what we still lack | Draft |
 | [budget.md](budget.md) | What it costs per child, per class and per year | Model built. Needs our rates |
 | [pipeline.md](pipeline.md) | Who we are talking to, and what happens next | Structure ready. No prospects yet |
@@ -37,7 +37,7 @@ The children's programmes are free to delivery partners, so every rupee that run
 ## Critical path
 
 1. **Now.** Register on NGO Darpan. Record the entity details. Fill the [budget inputs](budget.md#inputs-needed). Complete the case for support's track record. Fix the website items in [readiness](readiness.md#5-what-funders-see-on-our-website).
-2. **By 1 October.** Decide whether to run a small Daan Utsav appeal (2 to 8 October) to our own network. Without 80G there is no tax benefit, and the appeal should say so.
+2. **Daan Utsav 2026: skipped,** decided 26 September. The next giving moment is GivingTuesday on 1 December (THEEQ-53), and it needs the three budget numbers by 2 November (THEEQ-52). See [platforms](platforms.md#giving-moments-decisions).
 3. **When 12A and 80G arrive.** Open /donate for Indian payments only, file CSR-1, put registration details on the site, and start applying to Indian foundations.
 4. **Every year after 31 March.** Close the books and get them audited. Direct CSR grants and FCRA are both measured in audited years, so each audit is a fundraising asset.
 

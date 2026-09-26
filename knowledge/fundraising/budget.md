@@ -3,9 +3,10 @@ type: model
 title: Programme budget and cost per child
 description: The cost of each programme per child, per class and per year, built from explicit inputs so every figure in a proposal can be traced back to its source.
 status: needs-inputs
-updated: 2026-09-19
+updated: 2026-09-26
 plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/cf3d8d9f-4410-4aa6-a46f-8e5b9c69706b
+  - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/d4b077be-6fac-476e-ae2b-b39175bed3d3
 ---
 
 # Programme budget and cost per child

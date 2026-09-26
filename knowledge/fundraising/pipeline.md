@@ -3,10 +3,11 @@ type: tracker
 title: Funder pipeline
 description: Every organisation we are researching, talking to or reporting to, with stage, next action and owner, plus the giving campaigns on the calendar. Update after every contact.
 status: structure-ready
-updated: 2026-09-19
+updated: 2026-09-26
 plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/cf3d8d9f-4410-4aa6-a46f-8e5b9c69706b
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/c7ac099a-c031-4bcd-9e22-8abedb73c3d2
+  - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/3e4ddd8d-03ff-4afb-8e22-ee6d69fd01f0
 ---
 
 # Funder pipeline
@@ -46,6 +47,6 @@ Empty until prospect research is done. The target is 30 named prospects across t
 
 | Campaign | When | Channel | Status |
 |---|---|---|---|
-| Daan Utsav 2026 | 2 to 8 October 2026 | Ketto campaign to the founders' networks, mainly WhatsApp. UPI as fallback | Apply to Ketto by 23 September. Target from budget by 29 September, or skip ([plan](platforms.md#daan-utsav-2026-recommendation)) |
-| GivingTuesday 2026 | 1 December 2026 | Own network, social | Not started |
+| Daan Utsav 2026 | 2 to 8 October 2026 | Not run | **Skipped** on 26 September 2026: no costed target, 80G pending, site not ready ([why](platforms.md#giving-moments-decisions)) |
+| GivingTuesday 2026 | 1 December 2026 | Own network and social, platform still to be chosen | THEEQ-53. Target and platform decided by 2 November ([timeline](platforms.md#giving-moments-decisions)) |
 | Tax season | January to March 2027 | Own network, /donate | Only if 80G has arrived |

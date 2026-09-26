@@ -3,10 +3,11 @@ type: playbook
 title: Donation and grant platforms
 description: Which donation, crowdfunding, payment and grant-discovery platforms The Equal Lens can use now, which open after 12A and 80G, what each costs and asks for, and the plan for Daan Utsav 2026.
 status: draft
-updated: 2026-09-19
+updated: 2026-09-26
 verified: 2026-09-19
 plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/c7ac099a-c031-4bcd-9e22-8abedb73c3d2
+  - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/3e4ddd8d-03ff-4afb-8e22-ee6d69fd01f0
 ---
 
 # Donation and grant platforms
@@ -120,16 +121,24 @@ Most platforms ask for the same documents. Keep them in the restricted Drive fol
 - **Post an update** during the campaign, and report what the money did within two weeks of it closing.
 - **Book the gross donation and the platform's fees separately.** Platforms pay out net of fees.
 
-## Daan Utsav 2026: recommendation
+## Giving moments: decisions
 
-Daan Utsav runs Friday 2 October to Thursday 8 October. We have 13 days, 12A and 80G are pending, and there is no budget yet.
+**Daan Utsav 2026 (2 to 8 October): skipped.** Decided 26 September 2026. The target depends on costs from [budget.md](budget.md#inputs-needed), which were not in. 80G had not arrived, so no donor would have got a deduction. The site still carries unsourced statistics that donors would have read. Two weeks was not enough lead time. Daan Utsav returns 2 to 8 October 2027, and the lead time to plan for is four weeks, not two.
 
-1. **Apply to Ketto by Wednesday 23 September.** Its two-business-day review then clears by Friday 25 September.
-2. **Set one target from real costs by Tuesday 29 September.** If the budget inputs aren't in by then, skip the campaign. Send the founders' networks a short "founding supporters" message with the UPI details instead.
-3. **Fix the homepage statistics before launch.** Donors will click through to the site. See [readiness](readiness.md#5-what-funders-see-on-our-website).
-4. **Launch on 2 October** to the founders' own networks, mainly on WhatsApp. Post one update mid-week. Close on 8 October, and thank every donor personally within a week.
+**GivingTuesday, Tuesday 1 December 2026: the next target.** Working backwards:
 
-Ketto over Milaap for this, because Ketto accepts NGOs without 80G.
+| By | What | Waiting on |
+|---|---|---|
+| Mon 2 November | Three budget numbers in and a target set. Platform chosen: Ketto, or our own page if 80G and the gateway are live | Founders (THEEQ-52) |
+| Mon 9 November | Copy and images approved, with no photographs of children. Homepage statistics fixed. /donate able to take money, or a UPI block live | Founders, site ticket |
+| Mon 16 November | Campaign page drafted. Platform application submitted, since its review takes two business days. Donor list split between people who get a personal message and people who get a broadcast | |
+| Week of 23 November | Quiet asks to the ten closest supporters, so the campaign opens with money already on the board | |
+| Tue 1 December | Launch, with one update mid-week | |
+| Tue 15 December | Every donor thanked and told what their money will do. All donors recorded in the donor records sheet | |
+
+**If 80G arrives first,** January to March is the larger moment, because old-regime donors can deduct then. In that case the tax-season appeal becomes the main ask and GivingTuesday is the warm-up.
+
+Ketto over Milaap when the time comes, because Ketto accepts NGOs without 80G.
 
 ## Sources
 
