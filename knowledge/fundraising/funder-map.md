@@ -3,7 +3,7 @@ type: strategy
 title: Funder map
 description: The seven kinds of funder The Equal Lens will approach, what each needs from us, when each becomes open to us, and the order to work them in.
 status: draft
-updated: 2026-09-19
+updated: 2026-09-26
 verified: 2026-09-19
 plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/cf3d8d9f-4410-4aa6-a46f-8e5b9c69706b
@@ -37,6 +37,8 @@ The short version: for the next year, our money comes from Indian individuals, I
 **What they need.** A specific ask in units ("this takes one class through Discovery"), the founders in person, and updates that show the money at work without showing children's faces.
 
 **On 80G.** It matters only to donors who file under the old tax regime. Donors on the new regime, which is the default, get no deduction under s.133 of the Income-tax Act 2025. Mention it, but don't lead with it.
+
+**What works, by the evidence.** GivingTuesday India's UDARTA study of everyday giving found that existing donor networks are the top-rated channel, named most effective by 60% of nonprofits, and that friends and family networks are used by 95%. WhatsApp engagement is associated with roughly double the odds of raising from individuals. Website donate buttons are used by 86%. Automated tax receipts go with more recurring donors, and segmenting donors with a much higher share of income from them. Two warnings from the same study: nearly 60% of nonprofits say fewer than a quarter of everyday givers ever give again, so budget effort for the second ask, not just the first. Recurring payment mandates fail around 60% of the time under RBI rules, so do not build the plan on monthly subscriptions.
 
 **Watch out.** Record every donor's identity. Once 80G arrives, their PAN and address go in the yearly statement. Take nothing from anyone who is not an Indian citizen, including relatives abroad on foreign passports, until we have FCRA.
 
@@ -130,4 +132,5 @@ Checked 19 September 2026. Re-check before quoting to a funder.
 
 - CSR Rule 4 as amended in 2021: [ca2013.com](https://ca2013.com/rule-4-companies-corporate-social-responsibility-rules-2014/), [give.do](https://give.do/discover/news/mandatory-criteria-for-csr-implementing-agency/)
 - FCRA registration thresholds: [India TV News on the MHA rules](https://www.indiatvnews.com/news/india/ngos-foreign-funding-rules-fcra-modi-government-mha-664493). Confirm on fcraonline.nic.in before applying
+- What works with Indian individual givers: GivingTuesday India's UDARTA study of everyday giving, [detailed findings on fundraising](https://www.givingtuesday.org/india/udarta-eg/report/fundraising/)
 - Donor deductions under s.133 of the Income-tax Act 2025, not available under the new regime: [Indian Kanoon, s.133](https://indiankanoon.org/doc/36734448/), [eztax.in](https://eztax.in/donations-under-section-80g)

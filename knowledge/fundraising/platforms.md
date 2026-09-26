@@ -136,6 +136,8 @@ Most platforms ask for the same documents. Keep them in the restricted Drive fol
 | Tue 1 December | Launch, with one update mid-week | |
 | Tue 15 December | Every donor thanked and told what their money will do. All donors recorded in the donor records sheet | |
 
+**On giving days generally.** GivingTuesday falls on the Tuesday after American Thanksgiving, so 1 December in 2026. It has no central platform and runs no central matching pool, though companies sometimes match around the day. Its recognition in India is much thinner than Daan Utsav's, which has run since 2009, and sources differ on whether the Indian chapter marks the global December date or rides along with Daan Utsav in October. GivingTuesday India's own UDARTA study found that 40% of nonprofits rate festivals as their most effective fundraising period, while one in four uses no giving days at all. So treat 1 December as our internal deadline for having the machinery working, and Daan Utsav 2027 as the first public campaign. India Giving Day is not open to us: it is a United States initiative for 501(c)(3) organisations, and its money would be foreign contribution.
+
 **If 80G arrives first,** January to March is the larger moment, because old-regime donors can deduct then. In that case the tax-season appeal becomes the main ask and GivingTuesday is the warm-up.
 
 Ketto over Milaap when the time comes, because Ketto accepts NGOs without 80G.
@@ -150,4 +152,5 @@ Checked 19 September 2026. Fees and criteria change, so confirm each one at sign
 - DonateKart: [FAQ](https://www.donatekart.com/faqs)
 - Razorpay: [KYC guide, April 2026](https://razorpay.com/blog/payment-gateway-kyc-onboarding-india/), [international payments FAQ](https://razorpay.com/docs/payments/international-payments/faqs/), [80G receipts on Payment Pages](https://razorpay.com/blog/automated-80g-receipts-ngo/)
 - Danamojo: [pricing](https://danamojo.org/pricing/)
+- Giving days and what works with individual givers: GivingTuesday India's UDARTA study, [detailed findings on fundraising](https://www.givingtuesday.org/india/udarta-eg/report/fundraising/). GivingTuesday's own [participation page](https://www.givingtuesday.org/participate/) on matching, and [India Giving Day FAQ](https://www.indiagivingday.org/info/faq)
 - CSRBOX: [FAQ](https://www.csrbox.org/FAQ). NGOBox: [RFPs and EOIs](https://ngobox.org/rfp_eoi_listing.php). GuideStar India: [certification](https://resources.guidestarindia.org/)
