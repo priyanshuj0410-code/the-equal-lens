@@ -1,0 +1,52 @@
+# Publishes the brand design system (brand/design-system) to GitHub Packages (THEEQ-55).
+# Push a tag named brand-v<version>, where <version> is the version in brand/design-system/package.json:
+#   git tag brand-v0.1.0 && git push origin brand-v0.1.0
+# GitHub Packages only accepts npm packages scoped to the owning account, so the package is published as
+# @priyanshuj0410-code/equal-lens-brand. Apps install it under its own name with an npm alias:
+#   "@equal-lens/brand": "npm:@priyanshuj0410-code/equal-lens-brand@0.1.0"
+name: Publish brand package
+
+on:
+  push:
+    tags: ["brand-v*"]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: brand/design-system
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://npm.pkg.github.com
+          scope: "@priyanshuj0410-code"
+
+      - name: Check the tag matches the package version
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if [ "$GITHUB_REF_NAME" != "brand-v$version" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match package version $version"; exit 1
+          fi
+
+      - name: Install build tools
+        run: npm install --no-audit --no-fund --no-package-lock
+
+      - name: Build and type-check
+        run: npm run build && npm run typecheck
+
+      - name: Publish under the account scope
+        run: |
+          npm pkg set name="@priyanshuj0410-code/equal-lens-brand"
+          npm pkg set publishConfig.registry="https://npm.pkg.github.com"
+          npm pkg set repository.type=git repository.url="https://github.com/${GITHUB_REPOSITORY}.git" repository.directory=brand/design-system
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
