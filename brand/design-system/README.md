@@ -12,12 +12,31 @@ components need only React.
 > project at once.
 
 ## Install
-```sh
-npm i @equal-lens/brand        # or: pnpm add @equal-lens/brand
+The package is published to **GitHub Packages**. GitHub only accepts npm packages scoped to the owning
+account, so it is published as `@priyanshuj0410-code/equal-lens-brand`; install it under its own name with an
+npm alias, so every import stays `@equal-lens/brand`:
+
+```jsonc
+// package.json
+"dependencies": { "@equal-lens/brand": "npm:@priyanshuj0410-code/equal-lens-brand@0.1.0" }
 ```
+```ini
+# .npmrc (GitHub Packages needs a token even to install: a classic token with read:packages)
+@priyanshuj0410-code:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NPM_TOKEN}
+```
+Set `NPM_TOKEN` in your shell (`export NPM_TOKEN=$(gh auth token)` once `gh` has the `read:packages` scope) and
+in the host's build environment (on Vercel, a project environment variable).
+
 React is a peer dependency (>=18). Inside this monorepo the site links it as a
 workspace package (`"@equal-lens/brand": "workspace:*"`); `pnpm install` builds
 it automatically (`prepare` script).
+
+## Versions and publishing
+Versions follow semantic versioning and are listed in [CHANGELOG.md](CHANGELOG.md). To publish one: bump
+`version` in `package.json`, add the changelog entry, merge to `main`, then push a matching tag
+(`git tag brand-v0.2.0 && git push origin brand-v0.2.0`). The **Publish brand package** workflow
+(`.github/workflows/publish-brand.yml`) checks the tag against the version, builds, type-checks and publishes.
 
 ## What's in here
 | Entry | Use |

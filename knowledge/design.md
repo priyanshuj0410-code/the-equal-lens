@@ -7,12 +7,18 @@ plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/8556ff32-8b15-4eaa-bcd7-0a7bdb147c59
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/1cd87d2c-bfd2-4f5e-b34b-e7afa1247107
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/0bc71a77-fc5d-4725-ba22-cf1333f84670
+  - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/85b1e374-6638-408e-a0fe-edd5dbba1f8d  # THEEQ-55
 ---
 
 > **Source of truth:** the installable package `@equal-lens/brand` at
 > [`brand/design-system/`](../brand/design-system/) (`tokens.css`, `components.css`,
 > React components). This doc summarises it - when they disagree, the package wins.
 > Update this doc whenever the package changes.
+>
+> **Versions:** the package is versioned with semantic versioning and published to GitHub Packages as
+> `@priyanshuj0410-code/equal-lens-brand` on a `brand-v<version>` tag ([THEEQ-55](https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/85b1e374-6638-408e-a0fe-edd5dbba1f8d));
+> the changelog is [`brand/design-system/CHANGELOG.md`](../brand/design-system/CHANGELOG.md). Apps outside this
+> repo, such as SwipeEd, install a pinned version from there; the site keeps the workspace link.
 
 ## Brand palette
 
