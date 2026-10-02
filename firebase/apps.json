@@ -1,0 +1,18 @@
+{
+  "project": "the-equal-lens",
+  "database": "https://the-equal-lens-default-rtdb.asia-southeast1.firebasedatabase.app",
+  "apps": [
+    {
+      "name": "Spot the Stereotype",
+      "repo": "priyanshuj0410-code/spot-the-stereotype",
+      "rules": "database.rules.json",
+      "nodes": ["spot", "spot-keys", "spot-anytime"]
+    },
+    {
+      "name": "The Keepers",
+      "repo": "priyanshuj0410-code/the-keepers",
+      "rules": "database.rules.json",
+      "nodes": ["rooms"]
+    }
+  ]
+}

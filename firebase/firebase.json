@@ -1,0 +1,9 @@
+{
+  "database": {
+    "rules": "database.rules.json",
+    "predeploy": ["bash \"$PROJECT_DIR/deploy-guard.sh\"", "node \"$PROJECT_DIR/build-rules.mjs\""]
+  },
+  "emulators": {
+    "database": { "port": 9000 }
+  }
+}
