@@ -577,8 +577,14 @@ function Landing({
   ];
   return (
     <div className="mx-auto max-w-2xl px-5 py-10">
-      <p className="text-sm font-semibold uppercase tracking-wide text-brandsoft">the equal lens</p>
-      <h1 className="mt-1 font-hand text-5xl font-bold text-brand">Surface Quest</h1>
+      <div className="flex items-center gap-4">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/play/logo.png" alt="Surface Quest" className="h-24 w-24 shrink-0 object-contain" />
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-wide text-brandsoft">the equal lens</p>
+          <h1 className="mt-1 font-hand text-5xl font-bold text-brand">Surface Quest</h1>
+        </div>
+      </div>
       <p className="mt-2 text-lg text-ink/75">Pull a face. Bust a myth. Keep the clip.</p>
 
       {/* .sticker + note tone, not .note: the brand .note pins width/column layout, and

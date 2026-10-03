@@ -133,6 +133,14 @@ Authors can drop a self-contained interactive HTML data-viz into a post body (Sa
 
 ## Surface Quest capture surface (/play)
 
+- **Logo (THEEQ-59)**: the camera-aperture mark with the leaping figure (ink outline,
+  violet iris, coral swoosh, sun spark). Masters in `Solutions/` (`Surface - Logo*.svg/png`,
+  transparent / white bg / black bg). Deployed: `src/app/play/icon.svg` + `apple-icon.png`
+  (route-scoped favicon, Next convention), `/play/logo.png` (landing header, 80px beside
+  the title), `/play/og.png` (OG image from the Lensy-out-of-the-phone hero), and the five
+  PWA icons in `surface-quest-ar/web/public/icons/`. Use the transparent variant on paper
+  tones, the white-bg variant wherever the surface is opaque or maskable.
+
 The browser game's shooting UI (THEEQ-42). Three views in `src/app/play/PlayClient.tsx`;
 the in-recording graphics live in `src/lib/play/draw.ts`.
 
