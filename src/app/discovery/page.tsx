@@ -491,7 +491,7 @@ export default function DiscoveryPage() {
                 </span>
                 <div>
                   <h3 className="font-display text-base font-bold text-ink">{item.t}</h3>
-                  <p className="text-sm text-ink/60">{item.d}</p>
+                  <p className="text-sm text-ink/70">{item.d}</p>
                 </div>
               </li>
             ))}
@@ -506,7 +506,7 @@ export default function DiscoveryPage() {
             <p className="mx-auto mt-1 w-2/3 border-b-2 border-dashed border-ink/30 pb-1 font-hand text-base font-bold text-ink/70">
               Child&rsquo;s Name
             </p>
-            <p className="mt-2 text-sm text-ink/60">has completed all 8 sessions of the Life Skills Journey.</p>
+            <p className="mt-2 text-sm text-ink/70">has completed all 8 sessions of the Life Skills Journey.</p>
           </div>
         </div>
       </Slide>

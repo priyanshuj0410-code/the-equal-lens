@@ -66,7 +66,7 @@ export default function VoucherClient({ content }: { content: Content }) {
               <p className="font-hand text-6xl font-extrabold leading-none text-brand">
                 ₹{content.amount}
               </p>
-              <p className="mt-1 font-hand text-sm font-bold text-ink/60">voucher</p>
+              <p className="mt-1 font-hand text-sm font-bold text-ink/70">voucher</p>
             </div>
           </ScratchCard>
         </div>

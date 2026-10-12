@@ -47,7 +47,7 @@ export default function ContactForm() {
         Send message
       </button>
       {sent && (
-        <p ref={sentRef} className="text-sm text-ink/60">
+        <p ref={sentRef} className="text-sm text-ink/70">
           Thanks! Your email app should have opened - hit send and we&rsquo;ll be
           in touch.
         </p>

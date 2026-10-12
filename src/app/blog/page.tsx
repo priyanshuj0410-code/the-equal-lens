@@ -51,7 +51,7 @@ export default async function BlogPage() {
 
       <section className="mx-auto max-w-5xl px-5 py-10">
         {posts.length === 0 ? (
-          <p className="text-center text-ink/60">{c.emptyState}</p>
+          <p className="text-center text-ink/70">{c.emptyState}</p>
         ) : (
           <div className="grid gap-8 md:grid-cols-2">
             {posts.map((p, i) => (

@@ -133,7 +133,7 @@ export default async function CareersPage() {
       <section className="mx-auto max-w-4xl px-5 py-8">
         <h2 className="font-hand text-3xl font-extrabold">{c.openRolesHeading}</h2>
         {jobs.length === 0 ? (
-          <p className="mt-4 text-ink/60">
+          <p className="mt-4 text-ink/70">
             {c.noOpenRolesFallback}
           </p>
         ) : (

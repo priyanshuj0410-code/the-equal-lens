@@ -115,7 +115,7 @@ export default function BlogCarousel({
       </div>
 
       {images[current].caption && (
-        <figcaption className="mt-3 text-center text-sm text-ink/60">
+        <figcaption className="mt-3 text-center text-sm text-ink/70">
           {images[current].caption}
         </figcaption>
       )}

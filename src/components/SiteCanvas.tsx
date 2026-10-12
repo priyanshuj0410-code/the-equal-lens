@@ -477,7 +477,7 @@ export default function SiteCanvas({
           <h2 className="text-center font-hand text-2xl font-extrabold text-ink">
             Bust these myths
           </h2>
-          <p className="mt-1 text-center text-sm text-ink/60">
+          <p className="mt-1 text-center text-sm text-ink/70">
             Tap <strong className="text-brand">UN</strong> below, then a card to
             erase it - then <strong className="text-brand">RE</strong> to reveal
             the truth.
