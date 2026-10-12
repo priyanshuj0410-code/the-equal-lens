@@ -10,6 +10,7 @@ Keep the values in step with brand/design-system/tokens.css and src/app/globals.
 Modelled on the AI Crew contrast script.
 """
 import sys
+from pathlib import Path
 
 def hx(h):
     h = h.lstrip("#")
@@ -32,19 +33,20 @@ def ratio(fg, bg, alpha=1.0):
 LIGHT = {
     "paper": "#FBF9FF", "surface": "#FFFFFF", "mist": "#E7E0F1",
     "ink": "#221436", "brand": "#553286", "brandsoft": "#735997", "band": "#553286",
+    "error": "#A9442F",
 }
 DARK = {
     "paper": "#15101F", "surface": "#221A30", "mist": "#3A2E4D",
     "ink": "#F1ECFA", "brand": "#C9B8E6", "brandsoft": "#B3A4D6", "band": "#241B38",
+    "error": "#FF8A6E",
 }
 # do not flip with the theme
 FIXED = {
     "violet-100": "#E5E0ED", "violet-600": "#553286", "violet-800": "#331E50", "violet-900": "#221436",
     "deep-ink": "#221436", "white": "#FFFFFF",
     "insight": "#2DD4BF", "grow": "#FF7A5C", "sun": "#FFC94D", "sky": "#4FB0E8",
-    "error": "#E64520",
     "myth-rust": "#993C1D", "truth-green": "#0F6E56",
-    "play-red": "#FA383E",
+    "spot-cream": "#FAF2E4", "play-red": "#A9442F",
 }
 
 fails = []
@@ -66,7 +68,7 @@ def themed(name, T):
         check(f"brandsoft on {s} (labels, 12px bubble text)", T["brandsoft"], T[s], 4.5)
         check(f"focus ring brand on {s}", T["brand"], T[s], 3.0)
         check(f"ink border on {s}", T["ink"], T[s], 3.0)
-        check(f"invalid border (error) on {s}", FIXED["error"], T[s], 3.0)
+        check(f"danger red as text and invalid border on {s}", T["error"], T[s], 4.5)
         check(f"chevron ink 50% on {s} (icon)", T["ink"], T[s], 3.0, 0.5)
     check("white on band", FIXED["white"], T["band"], 4.5)
     check("white 70% on band (secondary)", FIXED["white"], T["band"], 4.5, 0.7)
@@ -83,20 +85,49 @@ def fixed():
     check("violet-900 70% on white (polaroid caption)", FIXED["violet-900"], FIXED["white"], 4.5, 0.7)
     check("violet-800 on violet-100 (active tab, nav)", FIXED["violet-800"], FIXED["violet-100"], 4.5)
     check("pause button icon ink on surface (light)", LIGHT["ink"], LIGHT["surface"], 3.0)
+    check("brandsoft dark on deep-ink (voucher email footer tagline)", DARK["brandsoft"], FIXED["deep-ink"], 4.5)
+    print("\n=== Family danger red (light value is fixed; dark companion is for dark grounds) ===")
+    check("danger red as text on white", LIGHT["error"], FIXED["white"], 4.5)
+    check("danger red as text on Spot cream", LIGHT["error"], FIXED["spot-cream"], 4.5)
+    check("white on danger red (/play timer pill, 14px bold)", FIXED["white"], FIXED["play-red"], 4.5)
+    check("danger red on white (/play record square, graphic)", FIXED["play-red"], FIXED["white"], 3.0)
+    check("deep-ink on dark danger fill", FIXED["deep-ink"], DARK["error"], 4.5)
 
 def known_gaps():
     print("\n=== Known gaps, not yet fixed (reported, not counted) ===")
     for label, fg, bg, target in (
         ("default field border mist on surface (light), WCAG 1.4.11", LIGHT["mist"], LIGHT["surface"], 3.0),
         ("default field border mist on surface (dark)", DARK["mist"], DARK["surface"], 3.0),
-        ("white on play-red #FA383E (/play timer pill, 14px bold)", FIXED["white"], FIXED["play-red"], 4.5),
     ):
         r = ratio(fg, bg)
         print(f"{'ok  ' if r >= target else 'GAP '}  {r:5.2f}  (>= {target})  {label}")
 
+DASH_SCOPE = (
+    "knowledge/design.md", "knowledge/specs", "knowledge/pages", "knowledge/programs", "knowledge/blog",
+    "knowledge/myths", "knowledge/team", "knowledge/testimonials", "src", "voucher-email.html",
+)
+
+def dashes():
+    print("\n=== Dash rule: no U+2013 or U+2014 in the design docs and site copy ===")
+    root = Path(__file__).resolve().parent.parent
+    found = 0
+    for entry in DASH_SCOPE:
+        p = root / entry
+        for f in sorted([p] if p.is_file() else p.rglob("*")):
+            if not f.is_file() or f.suffix not in (".md", ".json", ".ts", ".tsx", ".css", ".html"):
+                continue
+            for n, line in enumerate(f.read_text(encoding="utf-8").splitlines(), 1):
+                if "\u2013" in line or "\u2014" in line:
+                    print(f"FAIL  {f.relative_to(root)}:{n}")
+                    fails.append(f"dash in {f.relative_to(root)}:{n}")
+                    found += 1
+    if not found:
+        print("PASS  no en or em dashes")
+
 themed("Light", LIGHT)
 themed("Dark (data-audience=adult)", DARK)
 fixed()
+dashes()
 known_gaps()
 
 print()
