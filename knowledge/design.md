@@ -9,6 +9,7 @@ plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/0bc71a77-fc5d-4725-ba22-cf1333f84670
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/85b1e374-6638-408e-a0fe-edd5dbba1f8d  # THEEQ-55
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/ef8e57fd-1d05-4d18-bb70-3df06aed59f0  # THEEQ-63
+  - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/bef1ea95-31e5-4954-a27c-3ee9cb2166cc  # THEEQ-64 (decision)
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/13c4989f-5160-4de9-8202-66a2cf497cd2  # THEEQ-61 (P1 accessibility gaps, CLAUD-17)
 ---
 
@@ -54,7 +55,7 @@ deep indigo `#221436` (`text-violet-900`, or the literal hex), never white, and 
 (3) accent as a status or emphasis cue uses a fill (a disc, a dot, a `border-b-4` or `border-l-4` bar) next to
 `ink` text. Decorative doodles and strike-through lines (`aria-hidden`) may use accent colours.
 
-**Error** (site token in `src/app/globals.css`, not in the brand package; same value in both themes): `--color-error #E64520`, the coral hue of `grow` darkened until it reaches 3:1 on all six surfaces (light 3.84 paper, 4.01 surface, 3.12 mist; dark 4.65, 4.16, 3.12). Border and bar only: the message is `ink` text, and `error` is never a text colour or a fill behind text. The family-wide danger red is an open decision (see Family rule); this value stands until that is settled.
+**Error** (site token in `src/app/globals.css`, not in the brand package; same value in both themes): `--color-error #E64520`, the coral hue of `grow` darkened until it reaches 3:1 on all six surfaces (light 3.84 paper, 4.01 surface, 3.12 mist; dark 4.65, 4.16, 3.12). Border and bar only: the message is `ink` text, and `error` is never a text colour or a fill behind text. The family-wide danger red is an open decision (see Open decisions); this value stands until that is settled.
 
 **Violet ramp:** `--color-violet-50 #F3F0F6 · 100 #E5E0ED · 200 #C5B6DE · 400 #7F65A4 · 600 #553286 (brand) · 700 #44288B · 800 #331E50 · 900 #221436 (Deep Indigo)`.
 
@@ -331,6 +332,10 @@ Placeholder text is `ink` at 70% too, set once by the global `::placeholder` rul
 Add `.bg-band` or `.on-dark` on any container whose ground does not flip (the /play stage and reel modal carry
 `.on-dark`; a `.card` or `.popover` inside one resets the ring to violet). Do not add `outline-none` to interactive elements: the unlayered package rule outranks Tailwind's
 `focus:outline-none`, so form fields show the ring plus the violet border.
+
+## Open decisions
+
+- **Equal Lens family rule** ([THEEQ-64](https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/bef1ea95-31e5-4954-a27c-3ee9cb2166cc)): whether the family fixes a core (violet, ink, sentence case, one dash rule, Lensy's rules, a Devanagari-capable face, one danger red) and lets each product choose its register with a reason. Until it is decided, this doc sets no family rule, the site keeps `--color-error #E64520` and Latin-only fonts, and the open drift (two reds, Baloo 2 headlines, The Keepers' violet) stands.
 
 ## Component library
 
