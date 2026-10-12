@@ -8,6 +8,7 @@ plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/1cd87d2c-bfd2-4f5e-b34b-e7afa1247107
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/0bc71a77-fc5d-4725-ba22-cf1333f84670
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/85b1e374-6638-408e-a0fe-edd5dbba1f8d  # THEEQ-55
+  - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/ef8e57fd-1d05-4d18-bb70-3df06aed59f0  # THEEQ-63
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/13c4989f-5160-4de9-8202-66a2cf497cd2  # THEEQ-61 (P1 accessibility gaps, CLAUD-17)
 ---
 
@@ -101,6 +102,7 @@ Section heading is **"Gallery"** (was "Testimonials"). Backed by Testimonial doc
 - Polaroid strip: centered `tag` caption (`text-xs italic text-violet-900/70`, 6.42 on the strip). The strip is literal white in both themes, so the caption uses the non-flipping `violet-900`, not `ink`
 - Parallax: bubble `translateX(dist * 5px)`, polaroid `translateX(dist * -4px) rotate(tilt)`
 - Animation: `550ms cubic-bezier(0.25, 0.46, 0.45, 0.94)` on track + inner elements
+- Autoplays every 5.5s with the same hook, hold rules and pause button as the [Blog carousel](#blog-carousel); the pause button sits first in the dots row.
 
 ## Canvas myth interaction
 
@@ -127,7 +129,9 @@ Add `.btn--sm` for the compact size. In React: `<Button variant size href>`.
 Optional image carousel on a blog post, rendered between the `<h1>` heading and the body (`src/components/BlogCarousel.tsx`).
 - Framed sticker container: `rounded-2xl border-2 border-ink bg-mist shadow-[4px_4px_0_var(--color-ink)]`, `aspect-[3/2]` image.
 - Crossfade between slides (stacked, opacity), round ink nav arrows (`border-2 border-ink bg-surface shadow-[2px_2px_0]`), pill dots (active = `w-6 bg-brand`).
-- Autoplays every 6s, pauses on hover/focus, respects `prefers-reduced-motion`.
+- Autoplays every 6s through the shared `useAutoplay` hook (`src/components/Autoplay.tsx`). Three things stop it: the visible pause button (stays stopped until pressed again, WCAG 2.2.2), a hold while the pointer, touch or focus is inside the carousel (lifts on leave), and `prefers-reduced-motion` (never starts, no button).
+- **Pause button** (`AutoplayToggle`): 44px round sticker (`h-11 w-11 border-2 border-ink bg-surface shadow-[2px_2px_0_var(--color-ink)]`), first in the dots row. Pause bars while playing, play triangle when stopped; label "Pause slide show" / "Play slide show". Pressing Play resumes at once, even with the pointer or focus on the carousel. The slide area is `aria-live="off"` while playing and `polite` otherwise.
+- Checked against real products (Lazyweb, 2026-10-12): the Canva design studio (a play button beside a thumbnail strip) and the Airbnb photo viewer (play and pause in a control bar next to a "1 / 19" counter). Lazyweb holds few carousel-pause screens, so the pattern also follows the WAI-ARIA Authoring Practices carousel (a rotation control, rotation held while focus is inside).
 - Optional per-image `caption` shown centered below; optional `alt`.
 - Data: Sanity `post.carousel` (image array with `alt`/`caption`) → resolved to `BlogSlide[]` (`{ url, alt?, caption? }`) in `getPost`.
 

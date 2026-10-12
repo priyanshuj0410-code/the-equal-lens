@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Bubble } from "@equal-lens/brand";
 import type { Testimonial } from "@/lib/knowledge";
+import { AutoplayToggle, useAutoplay } from "./Autoplay";
 
 const CAP = 10;
 const INTERVAL_MS = 5500;
@@ -42,14 +43,7 @@ export default function Testimonials({
   const shown = items.slice(0, CAP);
   const count = shown.length;
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-
-  useEffect(() => {
-    if (paused || count <= 1) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = window.setInterval(() => setIndex((i) => (i + 1) % count), INTERVAL_MS);
-    return () => window.clearInterval(id);
-  }, [paused, count]);
+  const auto = useAutoplay(count, INTERVAL_MS, () => setIndex((i) => (i + 1) % count));
 
   if (count === 0) return null;
 
@@ -67,15 +61,9 @@ export default function Testimonials({
         className="relative mt-4"
         aria-roledescription="carousel"
         aria-label={heading}
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-        onFocusCapture={() => setPaused(true)}
-        onBlurCapture={() => setPaused(false)}
-        onTouchStart={() => setPaused(true)}
-        onTouchEnd={() => setPaused(false)}
-        onTouchCancel={() => setPaused(false)}
+        {...auto.holdProps}
       >
-        <div className="overflow-hidden">
+        <div className="overflow-hidden" aria-live={auto.running ? "off" : "polite"}>
           {/* Track - same EASE as inner elements so the whole card moves as one unit */}
           <div
             className="flex"
@@ -215,19 +203,22 @@ export default function Testimonials({
       </div>
 
       {count > 1 && (
-        <div className="mt-6 flex justify-center gap-2">
-          {shown.map((_, i) => (
-            <button
-              key={shown[i].id}
-              type="button"
-              onClick={() => go(i)}
-              aria-label={`Go to testimonial ${i + 1}`}
-              aria-current={i === current}
-              className={`h-2.5 rounded-full border-2 border-ink transition-all ${
-                i === current ? "w-6 bg-brand" : "w-2.5 bg-surface"
-              }`}
-            />
-          ))}
+        <div className="mt-6 flex items-center justify-center gap-3">
+          {auto.showToggle && <AutoplayToggle stopped={auto.stopped} onToggle={auto.toggle} noun="gallery slide show" />}
+          <div className="flex gap-2">
+            {shown.map((_, i) => (
+              <button
+                key={shown[i].id}
+                type="button"
+                onClick={() => go(i)}
+                aria-label={`Go to testimonial ${i + 1}`}
+                aria-current={i === current}
+                className={`h-2.5 rounded-full border-2 border-ink transition-all ${
+                  i === current ? "w-6 bg-brand" : "w-2.5 bg-surface"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       )}
     </section>
