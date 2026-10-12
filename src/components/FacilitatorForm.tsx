@@ -167,7 +167,7 @@ export default function FacilitatorForm() {
         </div>
         <div>
           <label className={label}>Age *</label>
-          <input name="age" type="number" min={16} max={100} onChange={() => clearError("age")} className={`${field} ${errors.age ? fieldErr : fieldOk}`} />
+          <input name="age" type="number" min={18} max={100} onChange={() => clearError("age")} className={`${field} ${errors.age ? fieldErr : fieldOk}`} />
           {errors.age && <p className={errText}>{errors.age}</p>}
         </div>
         <div>
@@ -209,7 +209,7 @@ export default function FacilitatorForm() {
       <div>
         <p className={label}>Pick your preferred day *</p>
         <p className="mb-3 text-xs text-ink/70">
-          Weekend mornings in Mumbai, 22 Aug – 29 Nov 2026. Pick any morning you can help.
+          Weekend mornings in Mumbai, 22 Aug to 29 Nov 2026. Pick any morning you can help.
         </p>
         <div className="mx-auto max-w-sm rounded-2xl border border-mist bg-surface p-3">
           <div className="mb-2 flex items-center justify-between">

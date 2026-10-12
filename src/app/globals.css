@@ -16,7 +16,7 @@
   --color-grow: #FF7A5C;
   --color-sun: #FFC94D;
   --color-sky: #4FB0E8;
-  --color-error: #E64520; /* invalid field border and error bar; 3.1:1 or more on every surface in both themes */
+  --color-error: #A9442F; /* the family danger red: 4.59 or more as text or border on paper, surface and mist */
   --color-ink: #221436;
   --color-brand: #553286;
   --color-brandsoft: #735997;
@@ -37,6 +37,7 @@
   --color-ink: #F1ECFA;
   --color-brand: #C9B8E6;
   --color-brandsoft: #B3A4D6;
+  --color-error: #FF8A6E; /* the family danger red lightened for dark grounds: 5.43 or more */
   --color-band: #241B38;
   --dot: #2A2140;
 }

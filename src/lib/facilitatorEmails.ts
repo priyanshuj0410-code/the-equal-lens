@@ -67,7 +67,7 @@ export function teamNotificationEmail(args: {
 }): { subject: string; html: string } {
   const row = (label: string, value: string) =>
     `<tr>
-<td style="padding:8px 0;font-size:13px;color:#7F65A4;width:150px;vertical-align:top;">${label}</td>
+<td style="padding:8px 0;font-size:13px;color:#735997;width:150px;vertical-align:top;">${label}</td>
 <td style="padding:8px 0;font-size:14px;color:#221436;">${value}</td></tr>`;
   const linkedin = args.linkedin
     ? `<a href="${esc(args.linkedin)}" style="color:#553286;">${esc(args.linkedin)}</a>`
@@ -75,7 +75,7 @@ export function teamNotificationEmail(args: {
   const inner = `
 <tr><td style="padding:30px 32px 4px;"><div style="font-size:17px;font-weight:bold;color:#221436;">
 New facilitator application</div>
-<div style="font-size:14px;color:#7F65A4;margin-top:2px;">${esc(args.slotLabel)} &middot; morning</div></td></tr>
+<div style="font-size:14px;color:#735997;margin-top:2px;">${esc(args.slotLabel)} &middot; morning</div></td></tr>
 <tr><td style="padding:12px 32px 30px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #E7E0F1;">
 ${row("Name", esc(args.name))}

@@ -34,7 +34,7 @@ export function validateFacilitator(v: FacilitatorInput): Record<string, string>
   const age = Number.parseInt(String(v.age ?? ""), 10);
 
   if (!name) e.name = "Please enter your name.";
-  if (!Number.isFinite(age) || age < 16 || age > 100) e.age = "Enter an age between 16 and 100.";
+  if (!Number.isFinite(age) || age < 18 || age > 100) e.age = "Volunteers need to be 18 or older. Enter an age from 18 to 100.";
   if (!(SEX_OPTIONS as readonly string[]).includes(sex)) e.sexAssignedAtBirth = "Please select an option.";
   if (!EMAIL_RE.test(email)) e.email = "Enter a valid email address.";
   const pd = phoneDigits(phone);

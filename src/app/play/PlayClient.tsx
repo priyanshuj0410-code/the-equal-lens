@@ -439,7 +439,7 @@ export default function PlayClient({ myths }: { myths: Myth[] }) {
                   </span>
                 )}
                 {recording && (
-                  <span className="absolute bottom-16 left-1/2 -translate-x-1/2 rounded-full bg-[#FA383E] px-4 py-1 font-mono text-sm font-bold text-white">
+                  <span className="absolute bottom-16 left-1/2 -translate-x-1/2 rounded-full bg-[#A9442F] px-4 py-1 font-mono text-sm font-bold text-white">
                     {String(Math.floor(elapsed / 60)).padStart(2, "0")}:
                     {String(elapsed % 60).padStart(2, "0")}
                   </span>
@@ -454,7 +454,7 @@ export default function PlayClient({ myths }: { myths: Myth[] }) {
                 className="absolute bottom-0 left-1/2 flex h-[72px] w-[72px] -translate-x-1/2 translate-y-1/2 items-center justify-center rounded-full bg-white shadow-lg disabled:opacity-40"
               >
                 {recording ? (
-                  <span className="h-7 w-7 rounded-lg bg-[#FA383E]" />
+                  <span className="h-7 w-7 rounded-lg bg-[#A9442F]" />
                 ) : (
                   <span className="h-16 w-16 rounded-full border-4 border-black/15 bg-white" />
                 )}

@@ -4,7 +4,11 @@ Versions follow semantic versioning: a patch fixes, a minor adds without breakin
 Each version is published to GitHub Packages as `@priyanshuj0410-code/equal-lens-brand` by pushing a tag
 `brand-v<version>` (see `.github/workflows/publish-brand.yml`).
 
-## 0.1.1 (unreleased)
+## Unreleased
+
+Docs and demo pages only, no token, class or component change: the README, `preview.html` and `components.html` follow the Equal Lens dash rule (no em or en dashes). Nothing to publish until another change needs a version.
+
+## 0.1.1 (2026-10-12)
 
 Accessibility fixes from the cross-project design audit (Plane THEEQ-61, umbrella CLAUD-17). No class or token
 was removed or renamed; one token value moved.
