@@ -123,6 +123,39 @@ Curious, warm, brave; playful, not preachy. Sentence case.
   strings, and these docs. Reword, or use a comma / period / colon, instead of a dash.
 - One line summary lives in the package: `@equal-lens/brand` README "Voice".
 
+### Reading level (THEEQ-63)
+
+Adopted from SwipeEd's UX copy standard (`swipeed-equal-lens/knowledge/playbooks/ux-copy-standard.md`, word limits by age band), Spot the Stereotype's `knowledge/design-system/writing.md` (clear, crisp, concise; reading for second-language readers) and Even Ground's voice section (`knowledge/design.md` section 2, Year 8 target). The public site is read by children, parents, teachers, funders and volunteers, many for whom English is a second language.
+
+| Page or audience | Reading level | Words a sentence, at most |
+|---|---|---|
+| Kid mode, ages 9-12 | Everything explained in the same line; no idiom | 14 |
+| Kid mode, ages 12-18 | About Grade 6 | 20 |
+| Adult mode: parents, teachers, partners, funders, volunteers | About Year 8, plain English | 25 |
+
+- One idea a sentence, the point first, the reason after. Everyday, literal Indian English: "lakh" and "crore" for big figures, no British or American product words and no idiom.
+- Buttons are a verb and its object, one to three words, naming the result ("Join as a volunteer"), never "Click here" or "Learn more".
+- One word for one thing, on every page. Numbers are digits. No `&`, `+`, `/` or `·` in running text. Strings are typed in sentence case; capitals come from CSS.
+- Errors say what happened and what to do, in one sentence, with no blame and no "oops", "invalid" or "wrong".
+- Read a line aloud. If it needs a breath in the middle, split it.
+
+### Sensitive topics (THEEQ-63)
+
+The site is the public face of an organisation whose subjects include gender-based violence, abuse, consent and body safety, and part of its audience is under 18. These rules come from SwipeEd's safety rules, the "heavy" register in Spot the Stereotype's tone table, Even Ground's refusal list and the house `child-safe-content` rules. They apply to every page, blog post, social post and form, and they outrank every other voice rule.
+
+1. **Facts, never invitations.** Give facts, stories and figures. Never ask a reader about their own life ("Has this happened to you?"). Put scenarios on a character. Ask where a feeling is, never why.
+2. **Harm belongs to whoever caused it.** Never imply a person could have prevented it. Freezing, going along or staying silent is never the wrong answer. Wherever a harm scenario appears, say it is never the person's fault.
+3. **Words that carry no shame.** "Safe touch" and "unsafe touch", never "good touch" or "bad touch". Feelings are "hard" or "uh-oh", never "bad". Say anatomical words plainly.
+4. **The heavy register is plain, slow and warm.** No joke, pun, emoji, exclamation mark or playful line in or beside content about violence, abuse or body safety. Lensy wonders and asks; Lensy is never the authority, a counsellor or a lecturer. The Tone by moment table in Spot the Stereotype's `writing.md` is the model.
+5. **No verdicts.** Never "wrong", "incorrect", "fail" or "oops". Replace a myth with the truth, never just negate it. Praise the action, never the person.
+6. **Never promise privacy without its limit.** "Private unless someone is being hurt." Never promise confidentiality the organisation cannot keep.
+7. **Refer, do not treat.** No medical, legal or clinical advice, and no claim of treatment, counselling or cure. Name where to go.
+8. **Helplines are exact.** A helpline line uses only a number from `child-safe-content` `references/helplines.md`, re-verified by web search before publishing, says who the line is for and when to call, and has one number a sentence. Childline 1098 is for under-18s only; say so. No page may name a help control that is not visible at every width.
+9. **Claim only what is true.** No statistic, law or organisation unless it is grounded and attributed on the page.
+10. **No identifiable child.** No photograph, name, school or quote that could identify a child.
+
+Status: drafted by the audit fix, for the owner to review. The site shows no helpline today, and the Gallery's photo content lives in Sanity, so rule 10 and rule 8 may need a content pass.
+
 ## Sticker / card pattern
 
 All interactive cards use the "sticker" treatment:
