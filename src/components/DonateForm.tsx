@@ -20,7 +20,7 @@ export default function DonateForm({
       <div>
         <label className={label}>{labels.amount}</label>
         <div className="relative">
-          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink/60">₹</span>
+          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink/70">₹</span>
           <input
             name="amount"
             type="number"

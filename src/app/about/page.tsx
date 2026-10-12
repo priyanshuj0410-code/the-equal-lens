@@ -141,7 +141,7 @@ export default async function AboutPage() {
                       <span className="font-normal text-ink/70"> · {m.pronouns}</span>
                     )}
                   </p>
-                  <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink/65">
+                  <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink/70">
                     {m.bio}
                   </p>
                   {links.length > 0 && (

@@ -8,6 +8,8 @@ plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/1cd87d2c-bfd2-4f5e-b34b-e7afa1247107
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/0bc71a77-fc5d-4725-ba22-cf1333f84670
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/85b1e374-6638-408e-a0fe-edd5dbba1f8d  # THEEQ-55
+  - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/ef8e57fd-1d05-4d18-bb70-3df06aed59f0  # THEEQ-63
+  - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/bef1ea95-31e5-4954-a27c-3ee9cb2166cc  # THEEQ-64 (decision)
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/13c4989f-5160-4de9-8202-66a2cf497cd2  # THEEQ-61 (P1 accessibility gaps, CLAUD-17)
 ---
 
@@ -53,6 +55,8 @@ deep indigo `#221436` (`text-violet-900`, or the literal hex), never white, and 
 (3) accent as a status or emphasis cue uses a fill (a disc, a dot, a `border-b-4` or `border-l-4` bar) next to
 `ink` text. Decorative doodles and strike-through lines (`aria-hidden`) may use accent colours.
 
+**Error** (site token in `src/app/globals.css`, not in the brand package; same value in both themes): `--color-error #E64520`, the coral hue of `grow` darkened until it reaches 3:1 on all six surfaces (light 3.84 paper, 4.01 surface, 3.12 mist; dark 4.65, 4.16, 3.12). Border and bar only: the message is `ink` text, and `error` is never a text colour or a fill behind text. The family-wide danger red is an open decision (see Open decisions); this value stands until that is settled.
+
 **Violet ramp:** `--color-violet-50 #F3F0F6 · 100 #E5E0ED · 200 #C5B6DE · 400 #7F65A4 · 600 #553286 (brand) · 700 #44288B · 800 #331E50 · 900 #221436 (Deep Indigo)`.
 
 **Dark theme:** put `data-audience="adult"` on a parent (usually `<html>`); default is light ("kid"). Only `paper, surface, mist, ink, brand, brandsoft, band, dot` flip.
@@ -63,8 +67,54 @@ Three families (loaded via the package `fonts.css`):
 - `--font-display` **Poppins** - wordmark, UI labels
 - `--font-body` **Nunito Sans** - body paragraphs, descriptions
 - `--font-hand` **Baloo 2** - headlines + playful / mascot voice
-- Heading scale: `text-4xl` (h2 sections), `text-5xl-6xl` (hero h1)
-- Eyebrow: `.eyebrow` utility - small caps, `text-brand`, letter-spaced
+- Eyebrow: `.eyebrow` utility - uppercase, `brandsoft`, letter-spaced
+- Sizes, leading, weights and the 12px floor: see Scales below.
+- Latin only: `layout.tsx` loads the `latin` subset of all three families, so Devanagari falls back to the system font. Poppins and Baloo 2 both have Devanagari glyphs; loading them is part of the open family-rule decision.
+
+## Scales: type, space, radius (THEEQ-63)
+
+Sizes are Tailwind's rem scale, so they follow the reader's browser text size and reflow at 200% zoom. Every type size is `font-body` unless the table names a face.
+
+| Role | Classes | Size / leading | Face and weight |
+|---|---|---|---|
+| Hero h1 (home only) | `text-4xl sm:text-6xl leading-[1.05]` | 36/40 then 60/60 | `font-hand` 800. The Discovery deck hero is `font-display` 800 on the dark band and goes to `lg:text-7xl` (72/72) |
+| Page h1 | `text-4xl sm:text-5xl` | 36/40 then 48/48 | `font-hand` 800 |
+| Section h2 | `text-4xl` (`text-3xl` or `text-2xl` for a sub-section) | 36/40, 30/36, 24/32 | `font-hand` 800 |
+| Card h3 | `text-2xl` or `text-xl` (dense cards: `font-display text-lg` or `text-base`) | 24/32, 20/28, 18/28, 16/24 | `font-hand` 700, or `font-display` 700 |
+| Lead paragraph | `text-lg text-ink/70` | 18/28 | 400 |
+| Body | `text-base` (the default) | 16/24, `leading-relaxed` (1.625) for long reads | 400 |
+| Secondary | `text-sm text-ink/70` | 14/20 | 400 |
+| Caption, date, chip, field error | `text-xs` | 12/16 | 400 body face, 700 labels |
+| Eyebrow | `.eyebrow` | 14px, uppercase, 0.1em tracking | `font-hand` 700, `brandsoft` |
+
+- **Floor: 12px.** Paragraph text is 14px or more; 12px is for captions, dates, chips, calendar labels and field errors. Nothing is set below 12px except the myth and truth chip on a note (11px, in `SiteCanvas` and the package `.note__chip`).
+- Uppercase and `tracking-widest` are for labels only, and only at 12px or more. Strings are typed in sentence case; capitals come from CSS.
+- Line length: body copy sits in `max-w-xl` to `max-w-3xl` (36 to 48rem, about 60 to 75 characters).
+- Weights: Baloo 2 loads 500 to 800 (800 for h1 and h2, 700 for h3 and UI labels); Nunito Sans loads 400, 600 and 700, so `font-medium` renders as 400.
+
+**Space** is Tailwind's 4px scale; use these steps and no others for layout.
+
+| Use | Step |
+|---|---|
+| Page gutter | `px-5` (20px) |
+| Section rhythm | `py-16` (64px); `py-20` around a hero, `py-10` compact |
+| Between cards | `gap-6` or `gap-8` |
+| Inside a card, grid cells | `gap-3` or `gap-4`; card padding `p-5` or `p-6` (`.card` is 2rem) |
+| Chip, dot and icon rows | `gap-2` |
+| Control hit area | 44px (`h-11 w-11`) for anything new. Today the carousel arrows are 40px and the calendar month arrows 32px, over WCAG 2.5.8's 24px minimum |
+| Page width | `max-w-5xl` (64rem); article text `max-w-3xl`; forms and lead text `max-w-xl`; the voucher and modal forms `max-w-sm` |
+
+**Radius** says what a shape is.
+
+| Radius | Class | Used for |
+|---|---|---|
+| Pill | `rounded-full` | buttons, tags, dots, chips, avatars |
+| 24px | `rounded-3xl` | `.card`, `.popover`, the biggest panels |
+| 16px | `rounded-2xl` | sticker cards, frames, embeds, the carousel, `.bubble` (with a 4px tail corner) |
+| 12px | `rounded-xl` | tiles, thumbnails, `.note` |
+| 8px | `rounded-lg` | form fields, the select menu, calendar days |
+
+The /play stage card is the one custom value (`rounded-[28px]`, an Instagram card). Do not mix two radii on one edge.
 
 ## Voice
 
@@ -73,6 +123,39 @@ Curious, warm, brave; playful, not preachy. Sentence case.
 - **Hyphens, not em dashes** (and not en dashes). This applies to all product copy, UI
   strings, and these docs. Reword, or use a comma / period / colon, instead of a dash.
 - One line summary lives in the package: `@equal-lens/brand` README "Voice".
+
+### Reading level (THEEQ-63)
+
+Adopted from SwipeEd's UX copy standard (`swipeed-equal-lens/knowledge/playbooks/ux-copy-standard.md`, word limits by age band), Spot the Stereotype's `knowledge/design-system/writing.md` (clear, crisp, concise; reading for second-language readers) and Even Ground's voice section (`knowledge/design.md` section 2, Year 8 target). The public site is read by children, parents, teachers, funders and volunteers, many for whom English is a second language.
+
+| Page or audience | Reading level | Words a sentence, at most |
+|---|---|---|
+| Kid mode, ages 9-12 | Everything explained in the same line; no idiom | 14 |
+| Kid mode, ages 12-18 | About Grade 6 | 20 |
+| Adult mode: parents, teachers, partners, funders, volunteers | About Year 8, plain English | 25 |
+
+- One idea a sentence, the point first, the reason after. Everyday, literal Indian English: "lakh" and "crore" for big figures, no British or American product words and no idiom.
+- Buttons are a verb and its object, one to three words, naming the result ("Join as a volunteer"), never "Click here" or "Learn more".
+- One word for one thing, on every page. Numbers are digits. No `&`, `+`, `/` or `·` in running text. Strings are typed in sentence case; capitals come from CSS.
+- Errors say what happened and what to do, in one sentence, with no blame and no "oops", "invalid" or "wrong".
+- Read a line aloud. If it needs a breath in the middle, split it.
+
+### Sensitive topics (THEEQ-63)
+
+The site is the public face of an organisation whose subjects include gender-based violence, abuse, consent and body safety, and part of its audience is under 18. These rules come from SwipeEd's safety rules, the "heavy" register in Spot the Stereotype's tone table, Even Ground's refusal list and the house `child-safe-content` rules. They apply to every page, blog post, social post and form, and they outrank every other voice rule.
+
+1. **Facts, never invitations.** Give facts, stories and figures. Never ask a reader about their own life ("Has this happened to you?"). Put scenarios on a character. Ask where a feeling is, never why.
+2. **Harm belongs to whoever caused it.** Never imply a person could have prevented it. Freezing, going along or staying silent is never the wrong answer. Wherever a harm scenario appears, say it is never the person's fault.
+3. **Words that carry no shame.** "Safe touch" and "unsafe touch", never "good touch" or "bad touch". Feelings are "hard" or "uh-oh", never "bad". Say anatomical words plainly.
+4. **The heavy register is plain, slow and warm.** No joke, pun, emoji, exclamation mark or playful line in or beside content about violence, abuse or body safety. Lensy wonders and asks; Lensy is never the authority, a counsellor or a lecturer. The Tone by moment table in Spot the Stereotype's `writing.md` is the model.
+5. **No verdicts.** Never "wrong", "incorrect", "fail" or "oops". Replace a myth with the truth, never just negate it. Praise the action, never the person.
+6. **Never promise privacy without its limit.** "Private unless someone is being hurt." Never promise confidentiality the organisation cannot keep.
+7. **Refer, do not treat.** No medical, legal or clinical advice, and no claim of treatment, counselling or cure. Name where to go.
+8. **Helplines are exact.** A helpline line uses only a number from `child-safe-content` `references/helplines.md`, re-verified by web search before publishing, says who the line is for and when to call, and has one number a sentence. Childline 1098 is for under-18s only; say so. No page may name a help control that is not visible at every width.
+9. **Claim only what is true.** No statistic, law or organisation unless it is grounded and attributed on the page.
+10. **No identifiable child.** No photograph, name, school or quote that could identify a child.
+
+Status: drafted by the audit fix, for the owner to review. The site shows no helpline today, and the Gallery's photo content lives in Sanity, so rule 10 and rule 8 may need a content pass.
 
 ## Sticker / card pattern
 
@@ -101,6 +184,7 @@ Section heading is **"Gallery"** (was "Testimonials"). Backed by Testimonial doc
 - Polaroid strip: centered `tag` caption (`text-xs italic text-violet-900/70`, 6.42 on the strip). The strip is literal white in both themes, so the caption uses the non-flipping `violet-900`, not `ink`
 - Parallax: bubble `translateX(dist * 5px)`, polaroid `translateX(dist * -4px) rotate(tilt)`
 - Animation: `550ms cubic-bezier(0.25, 0.46, 0.45, 0.94)` on track + inner elements
+- Autoplays every 5.5s with the same hook, hold rules and pause button as the [Blog carousel](#blog-carousel); the pause button sits first in the dots row.
 
 ## Canvas myth interaction
 
@@ -122,12 +206,38 @@ Section heading is **"Gallery"** (was "Testimonials"). Backed by Testimonial doc
 
 Add `.btn--sm` for the compact size. In React: `<Button variant size href>`.
 
+## States (THEEQ-63)
+
+What each interactive component does in each state today. A dash means the state is not styled, on purpose.
+Hover and press motion turns off under `prefers-reduced-motion` (`transition: none !important`).
+
+| Component | Hover | Focus | Selected or pressed | Disabled | Loading | Error | Empty |
+|---|---|---|---|---|---|---|---|
+| Button `.btn` | Lifts `translateY(-2px)`. `--solid` darkens to `violet-800`, `--ghost` text goes to `brand`; neither lifts | Ring (below) | - | `opacity: .4`, `cursor: not-allowed`, no lift | Label changes ("Submitting...", "Checking...") and the button is `disabled`; no spinner | - | - |
+| Field (input, textarea, `BrandSelect`) | - | `border-violet-400` plus the ring | - | Not used | - | `border-error` and a message (below) | Placeholder at `ink` 70% |
+| Sticker card (`hover-pop`) | `translateY(-4px) rotate(-1.5deg) scale(1.03)` | Ring on the card or its link | - | - | - | - | - |
+| Nav link `.nav-link` | `mist` fill, `brand` text | Ring | `aria-current`: `violet-100` fill, `violet-800` text | - | - | - | - |
+| Tab `.tab` | Ink border, lifts 2px | Ring | `.is-active` (BiasChannels also sets `aria-pressed`): ink border, 3px ink shadow, lifts 2px, tint from the channel | - | - | - | - |
+| Toolbar button | Lifts 2px, `mist` border | Ring | `aria-pressed`: `sun` fill, ink border, `#221436` text | - | - | - | - |
+| Carousel arrow, dot, pause | Arrows scale 1.1; blog arrows show on hover, focus-within or touch | Ring; blog arrows become visible | Current dot is `w-6 bg-brand`, `aria-current`; pause button swaps its glyph | Calendar month arrows only (`disabled:opacity-40`) | - | - | No slides: nothing renders |
+| Calendar day (volunteer form) | `brand` at 15% fill | Ring | `bg-brand text-surface`, `aria-pressed` | Closed day: `aria-disabled`, `ink` 25%, struck through | - | Message under the grid | - |
+| Donate submit | - | Ring | - | Always `disabled` until Razorpay is wired | - | - | - |
+
+- **Focus** is one global rule (see Accessibility). No component removes it; `outline-none` is not used.
+- **Pressed** has no style beyond what the table shows: there is no `:active` rule. The hover lift is the only motion cue.
+- **Disabled** controls are exempt from the contrast rule, so `opacity` is fine, but nothing a reader needs may sit in a disabled control: say why in text beside it.
+- **Error**: the field swaps `border-mist` for `border-error`; the message sits below it as `ink` text (`text-xs`) with a `border-l-4 border-error pl-2` bar. A form-level message is the same at `text-sm`. The message says what to do, in the Voice register, never "invalid" or "wrong". Known gap: field errors are not linked to their field (`aria-describedby`) and are not announced (`role="alert"`); only `BrandSelect` sets `aria-invalid`.
+- **Loading**: forms and the /play camera are the only things that load. Content pages are static, read from `knowledge/` at build time, so there are no skeletons.
+- **Empty**: the blog list shows `emptyState` centred in `ink` 70%; no testimonials means no Gallery section; a photo-only Gallery item renders no bubble; a carousel with no images renders nothing. An empty state says what is missing and what happens next.
+
 ## Blog carousel
 
 Optional image carousel on a blog post, rendered between the `<h1>` heading and the body (`src/components/BlogCarousel.tsx`).
 - Framed sticker container: `rounded-2xl border-2 border-ink bg-mist shadow-[4px_4px_0_var(--color-ink)]`, `aspect-[3/2]` image.
 - Crossfade between slides (stacked, opacity), round ink nav arrows (`border-2 border-ink bg-surface shadow-[2px_2px_0]`), pill dots (active = `w-6 bg-brand`).
-- Autoplays every 6s, pauses on hover/focus, respects `prefers-reduced-motion`.
+- Autoplays every 6s through the shared `useAutoplay` hook (`src/components/Autoplay.tsx`). Three things stop it: the visible pause button (stays stopped until pressed again, WCAG 2.2.2), a hold while the pointer, touch or focus is inside the carousel (lifts on leave), and `prefers-reduced-motion` (never starts, no button).
+- **Pause button** (`AutoplayToggle`): 44px round sticker (`h-11 w-11 border-2 border-ink bg-surface shadow-[2px_2px_0_var(--color-ink)]`), first in the dots row. Pause bars while playing, play triangle when stopped; label "Pause slide show" / "Play slide show". Pressing Play resumes at once, even with the pointer or focus on the carousel. The slide area is `aria-live="off"` while playing and `polite` otherwise.
+- Checked against real products (Lazyweb, 2026-10-12): the Canva design studio (a play button beside a thumbnail strip) and the Airbnb photo viewer (play and pause in a control bar next to a "1 / 19" counter). Lazyweb holds few carousel-pause screens, so the pattern also follows the WAI-ARIA Authoring Practices carousel (a rotation control, rotation held while focus is inside).
 - Optional per-image `caption` shown centered below; optional `alt`.
 - Data: Sanity `post.carousel` (image array with `alt`/`caption`) → resolved to `BlogSlide[]` (`{ url, alt?, caption? }`) in `getPost`.
 
@@ -193,17 +303,19 @@ the in-recording graphics live in `src/lib/play/draw.ts`.
 ## Accessibility (THEEQ-61, CLAUD-17)
 
 Targets: text 4.5:1 on every surface it sits on; control boundaries and focus indicators 3:1 against adjacent colours.
-Ratios below are computed in sRGB with any alpha composited over its real ground.
+Ratios below are computed in sRGB with any alpha composited over its real ground. Run `python3 knowledge/contrast.py` after changing any colour: it checks every token pair below on paper, surface and mist in both themes and exits 1 on a failure.
 
 **Secondary text.** Use `brandsoft` (4.53 on mist, 5.57 on paper, 5.83 on surface; dark 5.48 to 8.17) or
 `ink` at 70% (light 6.29 on paper, 6.42 on surface, 5.68 on mist; dark 8.23, 7.65, 6.17). Never `ink` at
-50% or below (light 3.31). `ink` at 60% clears 4.5 only on paper and surface (4.51, 4.58), not on `mist` (4.19), so use 70%.
+50% or below (light 3.31). `ink` at 60% clears 4.5 only on paper and surface (4.51, 4.58), not on `mist` (4.19), so use 70%: the site has no `text-ink/60` or `text-ink/65` left (THEEQ-63). Stronger text uses 80% or `ink`.
 On a band, `white` at 70% (5.61 on the light band, 8.56 on the dark band); 50% fails (3.67).
 On a literal-white ground (polaroid strip) use `violet-900` at 70%, because `ink` flips light in dark mode.
+Placeholder text is `ink` at 70% too, set once by the global `::placeholder` rule in `globals.css`; Tailwind's default (50% of the text colour) is 3.35 on white.
 
 **Accents** are fills only (see Brand palette). Patterns in use:
 - Stat number (home): `text-ink` with a `border-b-4` bar in the accent (`border-grow`, `border-sky`, `border-insight`).
-- Form and status errors: `text-ink` with a `border-l-4 border-grow pl-2` bar; the message text carries the meaning.
+- Form and status errors: `text-ink` with a `border-l-4 border-error pl-2` bar; the message text carries the meaning.
+- Invalid field: the border swaps from `border-mist` to `border-error` (`FacilitatorForm`, `BrandSelect`). The two classes are alternatives, never both: `border-mist` wins the cascade and hid the error border on every text input before THEEQ-63. The focus colour (`border-violet-400` plus the ring) still wins while the field has focus.
 - List markers (careers, programs): a `bg-insight` disc with a `text-violet-900` check, or a `bg-grow` dot.
 - Check icon inside a proof chip: `text-brand`.
 
@@ -220,6 +332,10 @@ On a literal-white ground (polaroid strip) use `violet-900` at 70%, because `ink
 Add `.bg-band` or `.on-dark` on any container whose ground does not flip (the /play stage and reel modal carry
 `.on-dark`; a `.card` or `.popover` inside one resets the ring to violet). Do not add `outline-none` to interactive elements: the unlayered package rule outranks Tailwind's
 `focus:outline-none`, so form fields show the ring plus the violet border.
+
+## Open decisions
+
+- **Equal Lens family rule** ([THEEQ-64](https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/bef1ea95-31e5-4954-a27c-3ee9cb2166cc)): whether the family fixes a core (violet, ink, sentence case, one dash rule, Lensy's rules, a Devanagari-capable face, one danger red) and lets each product choose its register with a reason. Until it is decided, this doc sets no family rule, the site keeps `--color-error #E64520` and Latin-only fonts, and the open drift (two reds, Baloo 2 headlines, The Keepers' violet) stands.
 
 ## Component library
 

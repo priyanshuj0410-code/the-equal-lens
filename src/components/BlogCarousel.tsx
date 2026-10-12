@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { BlogSlide } from "@/lib/knowledge";
+import { AutoplayToggle, useAutoplay } from "./Autoplay";
 
 const INTERVAL_MS = 6000;
 
@@ -13,18 +14,12 @@ export default function BlogCarousel({
   className?: string;
 }) {
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
   const frameRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const [ratios, setRatios] = useState<Record<number, number>>({});
   const count = images.length;
 
-  useEffect(() => {
-    if (paused || count <= 1) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = window.setInterval(() => setIndex((i) => (i + 1) % count), INTERVAL_MS);
-    return () => window.clearInterval(id);
-  }, [paused, count]);
+  const auto = useAutoplay(count, INTERVAL_MS, () => setIndex((i) => (i + 1) % count));
 
   // Track the frame's width so the height can be derived from the current
   // image's aspect ratio (deterministic - the height changes the instant the
@@ -63,16 +58,14 @@ export default function BlogCarousel({
     <figure
       className={`group not-prose ${className}`}
       aria-roledescription="carousel"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocusCapture={() => setPaused(true)}
-      onBlurCapture={() => setPaused(false)}
+      {...auto.holdProps}
     >
       <div className="relative overflow-hidden rounded-2xl border-2 border-ink bg-surface shadow-[4px_4px_0_var(--color-ink)]">
         {/* Frame hugs the current image (no crop, no letterbox) and animates its
             height smoothly between differently shaped slides. */}
         <div
           ref={frameRef}
+          aria-live={auto.running ? "off" : "polite"}
           className="relative w-full"
           style={{
             height: frameHeight,
@@ -122,25 +115,28 @@ export default function BlogCarousel({
       </div>
 
       {images[current].caption && (
-        <figcaption className="mt-3 text-center text-sm text-ink/60">
+        <figcaption className="mt-3 text-center text-sm text-ink/70">
           {images[current].caption}
         </figcaption>
       )}
 
       {count > 1 && (
-        <div className="mt-3 flex justify-center gap-2">
-          {images.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => go(i)}
-              aria-label={`Go to image ${i + 1}`}
-              aria-current={i === current}
-              className={`h-2.5 rounded-full border-2 border-ink transition-all ${
-                i === current ? "w-6 bg-brand" : "w-2.5 bg-surface"
-              }`}
-            />
-          ))}
+        <div className="mt-3 flex items-center justify-center gap-3">
+          {auto.showToggle && <AutoplayToggle stopped={auto.stopped} onToggle={auto.toggle} noun="slide show" />}
+          <div className="flex gap-2">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => go(i)}
+                aria-label={`Go to image ${i + 1}`}
+                aria-current={i === current}
+                className={`h-2.5 rounded-full border-2 border-ink transition-all ${
+                  i === current ? "w-6 bg-brand" : "w-2.5 bg-surface"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       )}
     </figure>

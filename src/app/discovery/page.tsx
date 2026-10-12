@@ -214,7 +214,7 @@ function Slide({
         </div>
 
         <div
-          className={`flex items-center justify-between border-t-2 pt-3 font-display text-[0.7rem] font-bold ${
+          className={`flex items-center justify-between border-t-2 pt-3 font-display text-xs font-bold ${
             band ? "border-white/15 text-white/70" : "border-mist text-ink/70"
           }`}
         >
@@ -491,7 +491,7 @@ export default function DiscoveryPage() {
                 </span>
                 <div>
                   <h3 className="font-display text-base font-bold text-ink">{item.t}</h3>
-                  <p className="text-sm text-ink/60">{item.d}</p>
+                  <p className="text-sm text-ink/70">{item.d}</p>
                 </div>
               </li>
             ))}
@@ -499,14 +499,14 @@ export default function DiscoveryPage() {
           <div className="rotate-2 rounded-2xl border-2 border-ink bg-surface p-6 text-center shadow-[4px_4px_0_var(--color-ink)]">
             <p className="font-hand text-xl tracking-widest text-sun">★ ★ ★ ★ ★</p>
             <p className="mt-3 font-display text-xl font-extrabold text-ink">Certificate of Completion</p>
-            <p className="mt-1 text-[0.65rem] font-bold uppercase tracking-widest text-brandsoft">
+            <p className="mt-1 text-xs font-bold uppercase tracking-widest text-brandsoft">
               The Equal Lens · Life Skills Programme
             </p>
             <p className="mt-4 text-sm text-ink/70">This certifies that</p>
             <p className="mx-auto mt-1 w-2/3 border-b-2 border-dashed border-ink/30 pb-1 font-hand text-base font-bold text-ink/70">
               Child&rsquo;s Name
             </p>
-            <p className="mt-2 text-sm text-ink/60">has completed all 8 sessions of the Life Skills Journey.</p>
+            <p className="mt-2 text-sm text-ink/70">has completed all 8 sessions of the Life Skills Journey.</p>
           </div>
         </div>
       </Slide>

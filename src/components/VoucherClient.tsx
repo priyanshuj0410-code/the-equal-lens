@@ -66,7 +66,7 @@ export default function VoucherClient({ content }: { content: Content }) {
               <p className="font-hand text-6xl font-extrabold leading-none text-brand">
                 ₹{content.amount}
               </p>
-              <p className="mt-1 font-hand text-sm font-bold text-ink/60">voucher</p>
+              <p className="mt-1 font-hand text-sm font-bold text-ink/70">voucher</p>
             </div>
           </ScratchCard>
         </div>
@@ -97,9 +97,9 @@ export default function VoucherClient({ content }: { content: Content }) {
       >
         {status === "loading" ? "Checking…" : content.gateButton}
       </button>
-      {status === "invalid" && <p className="border-l-4 border-grow pl-2 text-sm font-medium text-ink">{content.notFound}</p>}
+      {status === "invalid" && <p className="border-l-4 border-error pl-2 text-sm font-medium text-ink">{content.notFound}</p>}
       {status === "error" && (
-        <p className="border-l-4 border-grow pl-2 text-sm font-medium text-ink">Something went wrong. Please try again.</p>
+        <p className="border-l-4 border-error pl-2 text-sm font-medium text-ink">Something went wrong. Please try again.</p>
       )}
     </form>
   );

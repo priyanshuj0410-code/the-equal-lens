@@ -48,7 +48,7 @@ export default async function ContactPage() {
       <section className="mx-auto grid max-w-4xl gap-8 px-5 py-10 md:grid-cols-2">
         <div className="card">
           <h2 className="font-hand text-2xl font-bold">{c.sayHelloHeading}</h2>
-          <p className="mt-4 text-sm font-medium text-ink/60">{c.emailLabel}</p>
+          <p className="mt-4 text-sm font-medium text-ink/70">{c.emailLabel}</p>
           <a href={`mailto:${c.emailAddress}`} className="text-brand hover:underline">
             {c.emailAddress}
           </a>
