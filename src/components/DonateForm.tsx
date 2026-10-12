@@ -52,7 +52,7 @@ export default function DonateForm({
         Donations opening soon
       </button>
 
-      <p className="text-center text-xs text-ink/50">
+      <p className="text-center text-xs text-ink/70">
         Want to give now?{" "}
         <a
           href="mailto:support@theequallens.com?subject=I%20want%20to%20donate"

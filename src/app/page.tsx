@@ -47,7 +47,7 @@ type Content = {
   testimonials: { eyebrow: string; heading: string };
 };
 
-const STAT_COLORS = ["text-grow", "text-sky", "text-insight"];
+const STAT_COLORS = ["border-grow", "border-sky", "border-insight"];
 const LOOP_COLORS = ["bg-sun", "bg-insight", "bg-sky", "bg-grow"];
 
 export default async function Home() {
@@ -121,7 +121,7 @@ export default async function Home() {
               className="card hover-pop text-center"
             >
               <div
-                className={`font-hand font-extrabold leading-tight ${STAT_COLORS[i]} ${
+                className={`inline-block border-b-4 font-hand font-extrabold leading-tight text-ink ${STAT_COLORS[i]} ${
                   audience === "adult" ? "text-3xl" : "text-6xl"
                 }`}
               >

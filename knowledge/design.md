@@ -8,6 +8,7 @@ plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/1cd87d2c-bfd2-4f5e-b34b-e7afa1247107
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/0bc71a77-fc5d-4725-ba22-cf1333f84670
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/85b1e374-6638-408e-a0fe-edd5dbba1f8d  # THEEQ-55
+  - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/13c4989f-5160-4de9-8202-66a2cf497cd2  # THEEQ-61 (P1 accessibility gaps, CLAUD-17)
 ---
 
 > **Source of truth:** the installable package `@equal-lens/brand` at
@@ -28,7 +29,7 @@ Surface/text tokens flip in dark ("adult") mode; the violet ramp and accents do 
 | Token | Light | Dark | Usage |
 |---|---|---|---|
 | `--color-brand` | `#553286` | `#C9B8E6` | Primary violet - accents, active states |
-| `--color-brandsoft` | `#7F65A4` | `#B3A4D6` | Muted violet - secondary text, labels |
+| `--color-brandsoft` | `#735997` | `#B3A4D6` | Muted violet - secondary text, labels (5.57 on paper, 4.53 on mist; dark 8.17 and 5.48) |
 | `--color-paper` | `#FBF9FF` | `#15101F` | Page background |
 | `--color-surface` | `#FFFFFF` | `#221A30` | Cards / notes |
 | `--color-mist` | `#E7E0F1` | `#3A2E4D` | Hairlines, hover fills, Lensy bubbles |
@@ -41,9 +42,16 @@ Surface/text tokens flip in dark ("adult") mode; the violet ramp and accents do 
 | Token | Value | Usage |
 |---|---|---|
 | `--color-insight` | `#2DD4BF` | Teal - "unlearn" |
-| `--color-grow` | `#FF7A5C` | Coral - "relearn" / CTA |
-| `--color-sun` | `#FFC94D` | Yellow - CTA on dark bands (always with `ink` text) |
+| `--color-grow` | `#FF7A5C` | Coral - "relearn" |
+| `--color-sun` | `#FFC94D` | Yellow - CTA on dark bands |
 | `--color-sky` | `#4FB0E8` | Blue - support / info |
+
+**Accents are fills only.** They fail as text on paper (insight 1.78, grow 2.45, sky 2.31, sun 1.47) and
+white on grow is 2.56. Rules: (1) never set an accent as a text colour; (2) text on an accent fill is
+deep indigo `#221436` (`text-violet-900`, or the literal hex), never white, and never the flipping `ink`
+(light ink on an accent is 1.61 to 2.21 in dark mode): insight 9.24, grow 6.71, sky 7.13, sun 11.23;
+(3) accent as a status or emphasis cue uses a fill (a disc, a dot, a `border-b-4` or `border-l-4` bar) next to
+`ink` text. Decorative doodles and strike-through lines (`aria-hidden`) may use accent colours.
 
 **Violet ramp:** `--color-violet-50 #F3F0F6 · 100 #E5E0ED · 200 #C5B6DE · 400 #7F65A4 · 600 #553286 (brand) · 700 #44288B · 800 #331E50 · 900 #221436 (Deep Indigo)`.
 
@@ -76,7 +84,7 @@ All interactive cards use the "sticker" treatment:
 
 ## Lensy bubble
 
-`.bubble` class (from `brand/design-system/components.css`):
+`.bubble` class (from `brand/design-system/components.css`; 12px text, so every colour on it must reach 4.5:1 on `mist`):
 - `border-radius: 1rem; border-bottom-left-radius: 0.25rem` - flat bottom-left corner = chat tail
 - `background: var(--color-mist)`
 - `padding: 0.5rem 0.75rem; font-size: 0.75rem`
@@ -88,9 +96,9 @@ Section heading is **"Gallery"** (was "Testimonials"). Backed by Testimonial doc
 
 - Polaroid card: `border-2 border-ink bg-white shadow-[5px_5px_0_var(--color-ink)]`, `aspect-[4/3]` photo, white strip at bottom
 - Chat bubble: Lensy `.bubble` style, overlaps top-right corner of polaroid (`bottom: calc(100% - 32px)`)
-- Bubble contains: sender name (top, `text-xs text-brand`), quote (`text-sm font-bold`), role (`text-xs text-brandsoft`)
+- Bubble contains: sender name (top, `text-xs text-brand`), quote (`text-sm font-bold`), role (`text-xs text-brandsoft`). All three read on `mist` in both themes (brand 7.47 and 6.84, ink 13.37 and 10.80, brandsoft 4.53 and 5.48)
 - **Name and quote are optional.** Each bubble line renders only if present; a photo-only item (no name/quote/role) renders **no bubble at all** - just the polaroid. Slide top-padding (`pt-48`) stays uniform so carousel height never jumps.
-- Polaroid strip: centered `tag` caption (`text-xs italic text-ink/40`)
+- Polaroid strip: centered `tag` caption (`text-xs italic text-violet-900/70`, 6.42 on the strip). The strip is literal white in both themes, so the caption uses the non-flipping `violet-900`, not `ink`
 - Parallax: bubble `translateX(dist * 5px)`, polaroid `translateX(dist * -4px) rotate(tilt)`
 - Animation: `550ms cubic-bezier(0.25, 0.46, 0.45, 0.94)` on track + inner elements
 
@@ -180,7 +188,38 @@ the in-recording graphics live in `src/lib/play/draw.ts`.
   `btn--band`, plus an inline `.sticker note--peach` "Really delete?" confirm.
 - **Dark pinning**: the stage and modal backdrops use the literal `#221436`, never `bg-ink`
   - ink flips light in adult mode and a camera surface stays dark in both. Same rule for
-  on-stage text (white, not `text-paper`).
+  on-stage text (white, not `text-paper`). Both carry `.on-dark` so the focus ring is white.
+
+## Accessibility (THEEQ-61, CLAUD-17)
+
+Targets: text 4.5:1 on every surface it sits on; control boundaries and focus indicators 3:1 against adjacent colours.
+Ratios below are computed in sRGB with any alpha composited over its real ground.
+
+**Secondary text.** Use `brandsoft` (4.53 on mist, 5.57 on paper, 5.83 on surface; dark 5.48 to 8.17) or
+`ink` at 70% (light 6.29 on paper, 6.42 on surface, 5.68 on mist; dark 8.23, 7.65, 6.17). Never `ink` at
+50% or below (light 3.31). `ink` at 60% clears 4.5 only on paper and surface (4.51, 4.58), not on `mist` (4.19), so use 70%.
+On a band, `white` at 70% (5.61 on the light band, 8.56 on the dark band); 50% fails (3.67).
+On a literal-white ground (polaroid strip) use `violet-900` at 70%, because `ink` flips light in dark mode.
+
+**Accents** are fills only (see Brand palette). Patterns in use:
+- Stat number (home): `text-ink` with a `border-b-4` bar in the accent (`border-grow`, `border-sky`, `border-insight`).
+- Form and status errors: `text-ink` with a `border-l-4 border-grow pl-2` bar; the message text carries the meaning.
+- List markers (careers, programs): a `bg-insight` disc with a `text-violet-900` check, or a `bg-grow` dot.
+- Check icon inside a proof chip: `text-brand`.
+
+**Focus ring.** `components.css` (package 0.1.1) sets `:focus-visible { outline: 2px solid var(--focus-ring, var(--color-brand)); outline-offset: 2px }`.
+
+| Ground | Ring | Ratio |
+|---|---|---|
+| paper / surface / mist (light) | `brand` `#553286` | 9.19 / 9.60 / 7.47 |
+| paper / surface / mist (dark) | `brand` `#C9B8E6` | 10.20 / 9.12 / 6.84 |
+| `bg-band` light `#553286` | white | 9.60 |
+| `bg-band` dark `#241B38` | white | 16.29 |
+| pinned dark stage `#221436` (`.on-dark`) | white | 17.19 |
+
+Add `.bg-band` or `.on-dark` on any container whose ground does not flip (the /play stage and reel modal carry
+`.on-dark`; a `.card` or `.popover` inside one resets the ring to violet). Do not add `outline-none` to interactive elements: the unlayered package rule outranks Tailwind's
+`focus:outline-none`, so form fields show the ring plus the violet border.
 
 ## Component library
 

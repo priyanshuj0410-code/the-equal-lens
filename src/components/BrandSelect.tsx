@@ -86,7 +86,7 @@ export default function BrandSelect({ options, value, onChange, placeholder = "S
         onKeyDown={onKeyDown}
         className={`flex w-full items-center justify-between rounded-lg border bg-surface px-3 py-2 text-left focus:border-violet-400 focus:outline-none ${
           invalid ? "border-grow" : "border-mist"
-        } ${value ? "text-ink" : "text-ink/50"}`}
+        } ${value ? "text-ink" : "text-ink/70"}`}
       >
         <span>{value || placeholder}</span>
         <svg

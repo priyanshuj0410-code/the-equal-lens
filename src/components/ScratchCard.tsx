@@ -114,7 +114,7 @@ export default function ScratchCard({
         <button
           type="button"
           onClick={reveal}
-          className="mt-2 block w-full text-center text-xs text-ink/50 underline"
+          className="mt-2 block w-full text-center text-xs text-ink/70 underline"
         >
           Can&rsquo;t scratch? Tap to reveal
         </button>

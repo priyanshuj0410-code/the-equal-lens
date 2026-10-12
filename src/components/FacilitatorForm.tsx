@@ -15,7 +15,7 @@ const field =
   "w-full rounded-lg border border-mist bg-surface px-3 py-2 text-ink focus:border-violet-400 focus:outline-none";
 const fieldErr = "border-grow";
 const label = "mb-1 block text-sm font-medium text-ink/80";
-const errText = "mt-1 text-xs font-medium text-grow";
+const errText = "mt-1 w-fit border-l-4 border-grow pl-2 text-xs font-medium text-ink";
 const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
 const SLOT_IDS = new Set(FACILITATOR_SLOTS.map((s) => s.id));
 
@@ -207,7 +207,7 @@ export default function FacilitatorForm() {
 
       <div>
         <p className={label}>Pick your preferred day *</p>
-        <p className="mb-3 text-xs text-ink/50">
+        <p className="mb-3 text-xs text-ink/70">
           Weekend mornings in Mumbai, 22 Aug – 29 Nov 2026. Pick any morning you can help.
         </p>
         <div className="mx-auto max-w-sm rounded-2xl border border-mist bg-surface p-3">
@@ -234,7 +234,7 @@ export default function FacilitatorForm() {
           </div>
           <div className="grid grid-cols-7 gap-1 text-center">
             {WEEKDAYS.map((d, i) => (
-              <span key={i} className="pb-1 text-[10px] font-bold text-ink/40">
+              <span key={i} className="pb-1 text-[10px] font-bold text-ink/70">
                 {d}
               </span>
             ))}
@@ -292,14 +292,14 @@ export default function FacilitatorForm() {
             Selected: <strong>{selected.label}</strong> morning
           </p>
         )}
-        {errors.slot && <p className={`${errText} text-center`}>{errors.slot}</p>}
+        {errors.slot && <p className={`${errText} mx-auto`}>{errors.slot}</p>}
       </div>
 
       <button type="submit" disabled={status === "sending"} className="btn btn--primary">
         {status === "sending" ? "Submitting…" : "Submit registration"}
       </button>
 
-      {status === "error" && errMsg && <p className="text-sm font-medium text-grow">{errMsg}</p>}
+      {status === "error" && errMsg && <p className="border-l-4 border-grow pl-2 text-sm font-medium text-ink">{errMsg}</p>}
     </form>
   );
 }

@@ -177,7 +177,7 @@ export default function Testimonials({
 
                       <div className="flex items-center justify-center px-5 py-4">
                         {t.tag && (
-                          <span className="font-hand text-xs italic text-ink/40">{t.tag}</span>
+                          <span className="font-hand text-xs italic text-violet-900/70">{t.tag}</span>
                         )}
                       </div>
                     </div>

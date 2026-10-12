@@ -99,7 +99,7 @@ export default async function ProgramsPage() {
               <ul className="mt-4 space-y-2">
                 {p.items.map((item) => (
                   <li key={item} className="flex gap-2 text-sm text-ink/80">
-                    <span className="mt-0.5 text-insight">✓</span>
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-insight text-xs font-bold text-violet-900">✓</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -122,13 +122,13 @@ export default async function ProgramsPage() {
 
         <div className="mt-10 grid items-center gap-4 md:grid-cols-[1fr_auto_1fr]">
           <div className="rounded-3xl border-2 border-dashed border-violet-200 bg-surface/50 p-7">
-            <span className="font-hand text-xs font-bold uppercase tracking-widest text-ink/40">
+            <span className="font-hand text-xs font-bold uppercase tracking-widest text-ink/70">
               {c.oldWay.label}
             </span>
-            <p className="mt-3 font-hand text-xl font-bold text-ink/45 line-through decoration-grow decoration-2">
+            <p className="mt-3 font-hand text-xl font-bold text-ink/70 line-through decoration-grow decoration-2">
               {c.oldWay.text[audience]}
             </p>
-            <p className="mt-3 text-sm text-ink/45">{c.oldWay.outcome[audience]}</p>
+            <p className="mt-3 text-sm text-ink/70">{c.oldWay.outcome[audience]}</p>
           </div>
 
           <Doodle name="arrow" className="mx-auto w-12 rotate-90 text-brandsoft md:rotate-0" />
@@ -168,7 +168,7 @@ export default async function ProgramsPage() {
               key={p}
               className="flex items-center gap-1.5 rounded-full border-2 border-ink bg-surface px-3 py-1.5 font-hand text-xs font-bold text-ink"
             >
-              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-insight" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-brand" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12l5 5L20 6" />
               </svg>
               {p}
