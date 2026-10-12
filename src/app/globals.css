@@ -61,6 +61,12 @@ body {
   font-family: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
 }
 
+/* placeholder text is text: ink at 70% (Tailwind's default 50% is 3.35:1 on white) */
+::placeholder {
+  color: color-mix(in srgb, var(--color-ink) 70%, transparent);
+  opacity: 1;
+}
+
 /* canvas dot texture - adapts to the active theme */
 .canvas-dots {
   background-image: radial-gradient(var(--dot) 1.1px, transparent 1.1px);

@@ -206,6 +206,7 @@ Ratios below are computed in sRGB with any alpha composited over its real ground
 50% or below (light 3.31). `ink` at 60% clears 4.5 only on paper and surface (4.51, 4.58), not on `mist` (4.19), so use 70%: the site has no `text-ink/60` or `text-ink/65` left (THEEQ-63). Stronger text uses 80% or `ink`.
 On a band, `white` at 70% (5.61 on the light band, 8.56 on the dark band); 50% fails (3.67).
 On a literal-white ground (polaroid strip) use `violet-900` at 70%, because `ink` flips light in dark mode.
+Placeholder text is `ink` at 70% too, set once by the global `::placeholder` rule in `globals.css`; Tailwind's default (50% of the text colour) is 3.35 on white.
 
 **Accents** are fills only (see Brand palette). Patterns in use:
 - Stat number (home): `text-ink` with a `border-b-4` bar in the accent (`border-grow`, `border-sky`, `border-insight`).
