@@ -105,6 +105,9 @@ def known_gaps():
 DASH_SCOPE = (
     "knowledge/design.md", "knowledge/specs", "knowledge/pages", "knowledge/programs", "knowledge/blog",
     "knowledge/myths", "knowledge/team", "knowledge/testimonials", "src", "voucher-email.html",
+    "dotted-paper.html", "README.md", "SANITY.md", "brand/guidelines.html", "brand/guidelines-v2.html",
+    "brand/design-system/README.md", "brand/design-system/CHANGELOG.md", "brand/design-system/preview.html",
+    "brand/design-system/components.html",
 )
 
 def dashes():

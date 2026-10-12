@@ -59,7 +59,7 @@ How to build an interactive data visualisation for a blog post using the
 |---|---|
 | Ink (text, borders) | `#221436` |
 | Brand violet | `#553286` |
-| Soft violet (muted text) | `#7F65A4` |
+| Soft violet (muted text) | `#735997` |
 | Deep violet (headings) | `#44288B` |
 | Paper (soft bg) | `#FBF9FF` |
 | Mist (fills, tracks) | `#E7E0F1` |
@@ -75,7 +75,7 @@ only renders if you load it inside the embed; otherwise it falls back to system-
 
 ```html
 <style>
-  :root { --ink:#221436; --brand:#553286; --soft:#7F65A4; --sun:#FFC94D; --mist:#E7E0F1; }
+  :root { --ink:#221436; --brand:#553286; --soft:#735997; --sun:#FFC94D; --mist:#E7E0F1; }
   body { margin:0; padding:20px; font-family:system-ui,-apple-system,sans-serif; color:var(--ink); background:#fff; }
   h3 { margin:0 0 4px; font-size:18px; }
   p.sub { margin:0 0 16px; color:var(--soft); font-size:13px; }

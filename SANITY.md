@@ -1,4 +1,4 @@
-# Sanity CMS — setup
+# Sanity CMS setup
 
 Team members, jobs, and blog posts are editable in Sanity. Until it's configured,
 the site reads the in-repo files under `knowledge/` (nothing breaks). Once the env
@@ -7,7 +7,7 @@ vars below are set, the site reads from Sanity automatically.
 The editor UI (Sanity Studio) is **hosted free by Sanity** at
 `https://<your-name>.sanity.studio` (deployed from the config in this repo). It's
 run standalone rather than embedded, because the Studio doesn't yet build under
-Next.js 16's Turbopack — this keeps the site fast and the Studio reliable. We can
+Next.js 16's Turbopack, so this keeps the site fast and the Studio reliable. We can
 revisit embedding it at `/studio` later if that compatibility lands.
 
 ## One-time setup (you do this)
@@ -17,7 +17,7 @@ revisit embedding it at `/studio` later if that compatibility lands.
    - Create a project and a dataset named **`production`** (public).
    - Note the **Project ID** (in project settings; not secret).
 
-2. **Add environment variables** — locally copy `.env.local.example` → `.env.local`,
+2. **Add environment variables**: locally copy `.env.local.example` → `.env.local`,
    and add the same in **Vercel → Settings → Environment Variables** (Production + Preview):
    ```
    NEXT_PUBLIC_SANITY_PROJECT_ID=<your project id>

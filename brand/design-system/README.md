@@ -8,7 +8,7 @@ components need only React.
 
 > This is the single source of truth. The Equal Lens site **consumes** this
 > package (`import { Button } from "@equal-lens/brand"`) rather than defining
-> these styles internally — so a change here updates the site and any other
+> these styles internally, so a change here updates the site and any other
 > project at once.
 
 ## Install
@@ -45,9 +45,9 @@ Versions follow semantic versioning and are listed in [CHANGELOG.md](CHANGELOG.m
 | `@equal-lens/brand/styles.css` | one-file plain-CSS bundle (fonts + tokens + utilities + components) |
 | `@equal-lens/brand/components.css` | just the atoms & molecules (the UI-kit classes) |
 | `@equal-lens/brand/tokens.css` | the colour + font CSS variables (+ the dark-theme flip) |
-| `@equal-lens/brand/tailwind.css` | **Tailwind v4 version** — registers the palette as `bg-brand`, `text-ink`, `font-hand`, … |
+| `@equal-lens/brand/tailwind.css` | **Tailwind v4 version**: registers the palette as `bg-brand`, `text-ink`, `font-hand`, … |
 | `@equal-lens/brand/tokens.json` | the tokens as data (design tools) |
-| `@equal-lens/brand/assets/*` | **the brand SVGs** — logo, mascots, Lensy poses, ship, doodles (see below) |
+| `@equal-lens/brand/assets/*` | **the brand SVGs**: logo, mascots, Lensy poses, ship, doodles (see below) |
 | `preview.html` / `components.html` | open in a browser to see the palette + assets + the live UI kit |
 
 ## Quick start
@@ -60,7 +60,7 @@ import { Button, Card, Tabs, navLinkClass } from "@equal-lens/brand";
 <Button variant="primary" onClick={…}>Get started</Button>
 <Card soft>…</Card>
 ```
-The components are stateless/presentational — safe in React Server Components;
+The components are stateless/presentational, safe in React Server Components;
 add `"use client"` in your own file when you pass handlers. See **Atoms &
 molecules** below for the full list.
 
@@ -126,17 +126,17 @@ Full violet ramp: `--color-violet-50…900`.
   add `.bg-band` or `.on-dark` and the ring turns white (9.60 on the light band, 16.29 on the dark band).
 
 ## Type
-- `--font-display` **Poppins** — wordmark, UI labels
-- `--font-body` **Nunito Sans** — body copy
-- `--font-hand` **Baloo 2** — headlines + playful / mascot voice
+- `--font-display` **Poppins**: wordmark, UI labels
+- `--font-body` **Nunito Sans**: body copy
+- `--font-hand` **Baloo 2**: headlines + playful / mascot voice
 
 ## Utility classes
-- `.sticker` — chunky 2.5px outline + hard 4px offset shadow (the cut-out card look). `.sticker-soft` is the violet variant.
+- `.sticker`: chunky 2.5px outline + hard 4px offset shadow (the cut-out card look). `.sticker-soft` is the violet variant.
 - dotted-paper background is applied to `body`; `.canvas-dots` puts the same texture on any element.
 - motion: `.anim-float` `.anim-wobble` `.anim-bob` `.anim-pop` and `.hover-pop` (lift + tilt on hover). All respect `prefers-reduced-motion`.
 
 ## Atoms & molecules
-Two ways to use the same kit — **React components** (import from
+Two ways to use the same kit: **React components** (import from
 `@equal-lens/brand`) or the underlying **CSS classes** (`components.css`). The
 components just apply the classes, so they're interchangeable.
 **Open `components.html` to see them all rendered.**
@@ -157,25 +157,25 @@ components just apply the classes, so they're interchangeable.
 Prefer to style your **own** element (e.g. a Next.js `<Link>`)? Use the class
 helpers instead of the components: `buttonClass({ variant, size })`,
 `navLinkClass(active)`, `tabClass(active)`, `cardClass(soft)`, `noteClass(tone)`,
-`segmentedOptionClass(active)`, `toolbarButtonClass(active)` — that's exactly how
+`segmentedOptionClass(active)`, `toolbarButtonClass(active)`: that's exactly how
 the site styles its router links. Active/selected states map to ARIA
 (`aria-pressed`/`aria-selected`/`aria-current`) or an `.is-active` class, so the
 raw classes work in any framework.
 
 ### CSS class reference
 **Atoms**
-- `.btn` + `.btn--primary` (violet) · `.btn--sun` · `.btn--outline` (violet sticker) · `.btn--band` (white outline, for dark CTA bands) · `.btn--solid` (flat fill, no sticker — forms) · `.btn--ghost` (text only); add `.btn--sm` for compact. Pill shape, hand font, lift-on-hover, `:disabled` dims.
-- `.tag` — the shadowed pill label that sits above headings. `.eyebrow` — the uppercase mini-label (no box).
-- `.card` — the signature sticker card; `.card--soft` is the violet-shadow variant.
-- `.note` — a sticky note; pair with a tone: `.note--yellow` `.note--mint` `.note--peach` `.note--violet` (each flips in dark). `.note__chip` / `.note__chip--truth` is the status chip.
+- `.btn` + `.btn--primary` (violet) · `.btn--sun` · `.btn--outline` (violet sticker) · `.btn--band` (white outline, for dark CTA bands) · `.btn--solid` (flat fill, no sticker, for forms) · `.btn--ghost` (text only); add `.btn--sm` for compact. Pill shape, hand font, lift-on-hover, `:disabled` dims.
+- `.tag`: the shadowed pill label that sits above headings. `.eyebrow`: the uppercase mini-label (no box).
+- `.card`: the signature sticker card; `.card--soft` is the violet-shadow variant.
+- `.note`: a sticky note; pair with a tone: `.note--yellow` `.note--mint` `.note--peach` `.note--violet` (each flips in dark). `.note__chip` / `.note__chip--truth` is the status chip.
 
 **Molecules**
-- `.segmented` + `.segmented__option` — the Kids / Adult (light/dark) toggle. Mark the on option `aria-pressed="true"` or `.is-active`.
-- `.nav-link` — header nav pills; current page = `aria-current="page"` or `.is-active`.
-- `.tabs` + `.tab` (+ `.tab__icon`) — the pill-tab row that switches a panel. Selected = `aria-selected="true"` or `.is-active`.
-- `.toolbar` (+ `.toolbar--dock` to pin it bottom-centre) with `.toolbar__btn` and `.toolbar__sep` — the floating bottom tool pill.
-- `.ship-bubble` — Lensy's round ship dock (drop a `ship-*.svg` inside).
-- `.popover` + `.bubble` — Lensy's chat card and its speech bubble.
+- `.segmented` + `.segmented__option`: the Kids / Adult (light/dark) toggle. Mark the on option `aria-pressed="true"` or `.is-active`.
+- `.nav-link`: header nav pills; current page = `aria-current="page"` or `.is-active`.
+- `.tabs` + `.tab` (+ `.tab__icon`): the pill-tab row that switches a panel. Selected = `aria-selected="true"` or `.is-active`.
+- `.toolbar` (+ `.toolbar--dock` to pin it bottom-centre) with `.toolbar__btn` and `.toolbar__sep`: the floating bottom tool pill.
+- `.ship-bubble`: Lensy's round ship dock (drop a `ship-*.svg` inside).
+- `.popover` + `.bubble`: Lensy's chat card and its speech bubble.
 
 ```html
 <button class="btn btn--primary">Get started</button>
@@ -187,20 +187,20 @@ raw classes work in any framework.
 ```
 
 > **Using Tailwind?** These class names are plain CSS and don't depend on
-> Tailwind — just `@import "@equal-lens/brand/components.css";` in your entry
+> Tailwind, just `@import "@equal-lens/brand/components.css";` in your entry
 > stylesheet (order doesn't matter; they read the same tokens).
 
-## Brand assets — `assets/`
+## Brand assets (`assets/`)
 All SVG, transparent background, recolorable. Bundled here so the package is
 self-contained (no need to reach back into the main site repo).
 
 | Folder | Files | What |
 |---|---|---|
-| `assets/logo/` | `logo-primary.svg` · `logo-reversed.svg` · `logo-mono.svg` · `avatar-violet.svg` · `avatar-light.svg` | the **eQ mark** — violet, white (for dark bg), black, and two square avatar lockups |
+| `assets/logo/` | `logo-primary.svg` · `logo-reversed.svg` · `logo-mono.svg` · `avatar-violet.svg` · `avatar-light.svg` | the **eQ mark**: violet, white (for dark bg), black, and two square avatar lockups |
 | `assets/mascots/` | `un.svg` · `re.svg` | the **Unlearn / Relearn** character pair |
 | `assets/lensy/` | `lensy-wave.svg` · `lensy-stand.svg` · `lensy-think.svg` · `lensy-idea.svg` · `lensy-icon.svg` | **Lensy**, the magnifying-glass mascot, in five poses (`-icon` is the compact face) |
 | `assets/ship/` | `ship-closed.svg` · `ship-flying.svg` · `ship-front.svg` · `ship-diagonal.svg` · `ship-flame.svg` | the **ship** (four angles) + its **rocket flame** (overlay under `ship-flying`) |
-| `assets/doodles/` | `squiggle` · `sparkle` · `spiral` · `arrow` · `heart` · `star` · `zigzag` · `swirl` `.svg` | the hand-drawn **doodle set** (filled in brand violet `#553286` — change `fill`/`stroke` to recolor) |
+| `assets/doodles/` | `squiggle` · `sparkle` · `spiral` · `arrow` · `heart` · `star` · `zigzag` · `swirl` `.svg` | the hand-drawn **doodle set** (filled in brand violet `#553286`; change `fill`/`stroke` to recolor) |
 
 Drop them in with a plain `<img>` (`<img src="assets/lensy/lensy-wave.svg" alt="" />`),
 inline the markup, or import as a component. The doodles are also available as a
@@ -209,7 +209,7 @@ React component (`<Doodle name="star" />`) in the main site at
 
 **Animated ship flame.** `ship-flame.svg` is the rocket exhaust. Overlay it under
 the ship and add the `.flame-flicker` class (from `styles.css` / `tailwind.css`)
-for the gentle flicker. Centre it with positioning — not a transform — so the
+for the gentle flicker. Centre it with positioning (not a transform) so the
 scale animation stays put:
 ```html
 <div style="position: relative; width: 120px;">
@@ -223,4 +223,4 @@ Full brand guidelines (the PDF) live in the main repo at
 `brand/The-Equal-Lens-Brand-Guidelines-v2.pdf`.
 
 ## Voice (one line)
-Curious, warm, brave — playful not preachy. Sentence case, hyphens not em dashes.
+Curious, warm, brave; playful, not preachy. Sentence case. One dash rule: no em dash and no en dash, a range takes a hyphen.

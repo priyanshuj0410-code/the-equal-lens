@@ -26,7 +26,7 @@ The site is a canvas seeded with myth "easter eggs". Switch your cursor to **Unl
 
 - **Phase 0 (done):** scaffold, brand tokens, knowledge base, deploy pipeline.
 - **Phase 1:** pages wired to the KB - About (vision/mission/values/team), Blog, Join (volunteer + jobs).
-- **Phase 2:** the canvas / Unlearn–Relearn cursor / easter-egg engine, with mobile + accessibility fallbacks.
+- **Phase 2:** the canvas / Unlearn-Relearn cursor / easter-egg engine, with mobile + accessibility fallbacks.
 - **Phase 3:** games reskin and polish.
 
 Unlearn. Relearn. Grow.
