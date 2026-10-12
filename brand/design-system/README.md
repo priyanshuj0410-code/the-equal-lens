@@ -100,19 +100,30 @@ or `[data-theme="dark"]` in `tokens.css` / `tailwind.css`.
 | Token | Light | Dark | Use |
 |---|---|---|---|
 | `--color-brand` | `#553286` | `#C9B8E6` | primary violet |
-| `--color-brandsoft` | `#7F65A4` | `#B3A4D6` | muted violet |
+| `--color-brandsoft` | `#735997` | `#B3A4D6` | muted violet (text-safe: 5.57 on paper, 4.53 on mist) |
 | `--color-paper` | `#FBF9FF` | `#15101F` | page background |
 | `--color-surface` | `#FFFFFF` | `#221A30` | cards |
 | `--color-mist` | `#E7E0F1` | `#3A2E4D` | lines / hover |
 | `--color-ink` | `#221436` | `#F1ECFA` | text + outlines |
 | `--color-band` | `#553286` | `#241B38` | footer / CTA band |
 | `--dot` | `#ECE6F6` | `#2A2140` | dotted-paper texture |
-| `--color-insight` | `#2DD4BF` | — | teal · "unlearn" |
-| `--color-grow` | `#FF7A5C` | — | coral · "relearn" / CTA |
-| `--color-sun` | `#FFC94D` | — | yellow · CTA (always with `ink` text) |
-| `--color-sky` | `#4FB0E8` | — | blue · support |
+| `--color-insight` | `#2DD4BF` | same | teal · "unlearn" |
+| `--color-grow` | `#FF7A5C` | same | coral · "relearn" |
+| `--color-sun` | `#FFC94D` | same | yellow · CTA |
+| `--color-sky` | `#4FB0E8` | same | blue · support |
 
 Full violet ramp: `--color-violet-50…900`.
+
+### Using the accents and soft text safely
+- **Accents are fills only.** `insight`, `grow`, `sun` and `sky` fail as text on paper (1.78, 2.45, 1.47 and 2.31).
+  Put deep-indigo `#221436` text on them (6.71 to 11.23), never white (2.56 on grow), and never use an accent
+  as a text colour. Decorative doodles and rules may use accent colours.
+- **Soft text.** `brandsoft` is text-safe on paper, surface and mist in both themes (4.53 or better).
+  For captions and secondary copy use `ink` at 70% or more (5.68 or better on paper, surface and mist, light and dark).
+  `ink` at 60% passes only on paper and surface (4.51), so do not use it on mist.
+- **Focus ring.** `components.css` draws a 2px solid ring with a 2px offset on `:focus-visible`, in `brand`
+  (light 7.42 to 9.60, dark 6.84 to 10.20 on paper, surface and mist). On dark grounds that do not flip,
+  add `.bg-band` or `.on-dark` and the ring turns white (9.60 on the light band, 16.29 on the dark band).
 
 ## Type
 - `--font-display` **Poppins** — wordmark, UI labels
