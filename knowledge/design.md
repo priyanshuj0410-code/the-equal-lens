@@ -290,9 +290,9 @@ This is the position on 12 October 2026, taken from the design-systems audit; ea
 
 **This site's reasons.**
 - **Register: sticker.** The site is a canvas the visitor draws on (Unlearn erases a myth, Relearn writes the truth), so surfaces read as hand-placed paper objects: an ink border, a hard offset shadow and a slight tilt.
-- **Ground: lavender paper, with a dark theme for adults.** Visitors choose Kids mode or Adult mode on arrival. Adult mode flips the surfaces and keeps the brand, so parents, teachers and funders see the same organisation in a calmer ground.
+- **Ground: lavender paper, with a dark theme for adults.** Visitors choose Kids mode or Adult mode on arrival. Adult mode runs dark: the same brand on flipped surfaces, so one site serves children and adults without a second design.
 - **Type: Poppins, Nunito Sans, Baloo 2.** Poppins is the display and UI face, Nunito Sans the body, Baloo 2 the playful voice (see Open decisions for headlines).
-- **Depth: hard offset shadow.** Depth is drawn, not simulated, so a card reads the same at any size and in both themes. No blurred shadows.
+- **Depth: hard offset shadow.** The shadow is a hard offset, not a blur, so a card reads the same at any size and in both themes.
 
 ### Danger red
 
