@@ -111,7 +111,7 @@ export default async function CareersPage() {
             <ol className="mt-2 space-y-1.5 text-sm text-ink/70">
               {f.process.map((p, i) => (
                 <li key={p} className="flex items-start gap-2.5">
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand text-[11px] font-bold text-surface">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand text-xs font-bold text-surface">
                     {i + 1}
                   </span>
                   <span>{p}</span>

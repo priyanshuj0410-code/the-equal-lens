@@ -214,7 +214,7 @@ function Slide({
         </div>
 
         <div
-          className={`flex items-center justify-between border-t-2 pt-3 font-display text-[0.7rem] font-bold ${
+          className={`flex items-center justify-between border-t-2 pt-3 font-display text-xs font-bold ${
             band ? "border-white/15 text-white/70" : "border-mist text-ink/70"
           }`}
         >
@@ -499,7 +499,7 @@ export default function DiscoveryPage() {
           <div className="rotate-2 rounded-2xl border-2 border-ink bg-surface p-6 text-center shadow-[4px_4px_0_var(--color-ink)]">
             <p className="font-hand text-xl tracking-widest text-sun">★ ★ ★ ★ ★</p>
             <p className="mt-3 font-display text-xl font-extrabold text-ink">Certificate of Completion</p>
-            <p className="mt-1 text-[0.65rem] font-bold uppercase tracking-widest text-brandsoft">
+            <p className="mt-1 text-xs font-bold uppercase tracking-widest text-brandsoft">
               The Equal Lens · Life Skills Programme
             </p>
             <p className="mt-4 text-sm text-ink/70">This certifies that</p>

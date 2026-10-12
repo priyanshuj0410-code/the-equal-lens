@@ -66,8 +66,54 @@ Three families (loaded via the package `fonts.css`):
 - `--font-display` **Poppins** - wordmark, UI labels
 - `--font-body` **Nunito Sans** - body paragraphs, descriptions
 - `--font-hand` **Baloo 2** - headlines + playful / mascot voice
-- Heading scale: `text-4xl` (h2 sections), `text-5xl-6xl` (hero h1)
-- Eyebrow: `.eyebrow` utility - small caps, `text-brand`, letter-spaced
+- Eyebrow: `.eyebrow` utility - uppercase, `brandsoft`, letter-spaced
+- Sizes, leading, weights and the 12px floor: see Scales below.
+- Latin only: `layout.tsx` loads the `latin` subset of all three families, so Devanagari falls back to the system font. Poppins and Baloo 2 both have Devanagari glyphs; loading them is part of the open family-rule decision.
+
+## Scales: type, space, radius (THEEQ-63)
+
+Sizes are Tailwind's rem scale, so they follow the reader's browser text size and reflow at 200% zoom. Every type size is `font-body` unless the table names a face.
+
+| Role | Classes | Size / leading | Face and weight |
+|---|---|---|---|
+| Hero h1 (home only) | `text-4xl sm:text-6xl leading-[1.05]` | 36/40 then 60/60 | `font-hand` 800. The Discovery deck hero is `font-display` 800 on the dark band and goes to `lg:text-7xl` (72/72) |
+| Page h1 | `text-4xl sm:text-5xl` | 36/40 then 48/48 | `font-hand` 800 |
+| Section h2 | `text-4xl` (`text-3xl` or `text-2xl` for a sub-section) | 36/40, 30/36, 24/32 | `font-hand` 800 |
+| Card h3 | `text-2xl` or `text-xl` (dense cards: `font-display text-lg` or `text-base`) | 24/32, 20/28, 18/28, 16/24 | `font-hand` 700, or `font-display` 700 |
+| Lead paragraph | `text-lg text-ink/70` | 18/28 | 400 |
+| Body | `text-base` (the default) | 16/24, `leading-relaxed` (1.625) for long reads | 400 |
+| Secondary | `text-sm text-ink/70` | 14/20 | 400 |
+| Caption, date, chip, field error | `text-xs` | 12/16 | 400 body face, 700 labels |
+| Eyebrow | `.eyebrow` | 14px, uppercase, 0.1em tracking | `font-hand` 700, `brandsoft` |
+
+- **Floor: 12px.** Paragraph text is 14px or more; 12px is for captions, dates, chips, calendar labels and field errors. Nothing is set below 12px except the myth and truth chip on a note (11px, in `SiteCanvas` and the package `.note__chip`).
+- Uppercase and `tracking-widest` are for labels only, and only at 12px or more. Strings are typed in sentence case; capitals come from CSS.
+- Line length: body copy sits in `max-w-xl` to `max-w-3xl` (36 to 48rem, about 60 to 75 characters).
+- Weights: Baloo 2 loads 500 to 800 (800 for h1 and h2, 700 for h3 and UI labels); Nunito Sans loads 400, 600 and 700, so `font-medium` renders as 400.
+
+**Space** is Tailwind's 4px scale; use these steps and no others for layout.
+
+| Use | Step |
+|---|---|
+| Page gutter | `px-5` (20px) |
+| Section rhythm | `py-16` (64px); `py-20` around a hero, `py-10` compact |
+| Between cards | `gap-6` or `gap-8` |
+| Inside a card, grid cells | `gap-3` or `gap-4`; card padding `p-5` or `p-6` (`.card` is 2rem) |
+| Chip, dot and icon rows | `gap-2` |
+| Control hit area | 44px (`h-11 w-11`) for anything new. Today the carousel arrows are 40px and the calendar month arrows 32px, over WCAG 2.5.8's 24px minimum |
+| Page width | `max-w-5xl` (64rem); article text `max-w-3xl`; forms and lead text `max-w-xl`; the voucher and modal forms `max-w-sm` |
+
+**Radius** says what a shape is.
+
+| Radius | Class | Used for |
+|---|---|---|
+| Pill | `rounded-full` | buttons, tags, dots, chips, avatars |
+| 24px | `rounded-3xl` | `.card`, `.popover`, the biggest panels |
+| 16px | `rounded-2xl` | sticker cards, frames, embeds, the carousel, `.bubble` (with a 4px tail corner) |
+| 12px | `rounded-xl` | tiles, thumbnails, `.note` |
+| 8px | `rounded-lg` | form fields, the select menu, calendar days |
+
+The /play stage card is the one custom value (`rounded-[28px]`, an Instagram card). Do not mix two radii on one edge.
 
 ## Voice
 

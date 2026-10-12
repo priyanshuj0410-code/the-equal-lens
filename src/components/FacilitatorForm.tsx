@@ -235,7 +235,7 @@ export default function FacilitatorForm() {
           </div>
           <div className="grid grid-cols-7 gap-1 text-center">
             {WEEKDAYS.map((d, i) => (
-              <span key={i} className="pb-1 text-[10px] font-bold text-ink/70">
+              <span key={i} className="pb-1 text-xs font-bold text-ink/70">
                 {d}
               </span>
             ))}
