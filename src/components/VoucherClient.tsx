@@ -97,9 +97,9 @@ export default function VoucherClient({ content }: { content: Content }) {
       >
         {status === "loading" ? "Checking…" : content.gateButton}
       </button>
-      {status === "invalid" && <p className="border-l-4 border-grow pl-2 text-sm font-medium text-ink">{content.notFound}</p>}
+      {status === "invalid" && <p className="border-l-4 border-error pl-2 text-sm font-medium text-ink">{content.notFound}</p>}
       {status === "error" && (
-        <p className="border-l-4 border-grow pl-2 text-sm font-medium text-ink">Something went wrong. Please try again.</p>
+        <p className="border-l-4 border-error pl-2 text-sm font-medium text-ink">Something went wrong. Please try again.</p>
       )}
     </form>
   );

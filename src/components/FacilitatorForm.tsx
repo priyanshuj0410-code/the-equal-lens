@@ -12,10 +12,11 @@ import {
 import { validateFacilitator } from "@/lib/facilitatorValidation";
 
 const field =
-  "w-full rounded-lg border border-mist bg-surface px-3 py-2 text-ink focus:border-violet-400 focus:outline-none";
-const fieldErr = "border-grow";
+  "w-full rounded-lg border bg-surface px-3 py-2 text-ink focus:border-violet-400 focus:outline-none";
+const fieldOk = "border-mist";
+const fieldErr = "border-error";
 const label = "mb-1 block text-sm font-medium text-ink/80";
-const errText = "mt-1 w-fit border-l-4 border-grow pl-2 text-xs font-medium text-ink";
+const errText = "mt-1 w-fit border-l-4 border-error pl-2 text-xs font-medium text-ink";
 const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
 const SLOT_IDS = new Set(FACILITATOR_SLOTS.map((s) => s.id));
 
@@ -161,12 +162,12 @@ export default function FacilitatorForm() {
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label className={label}>Full name *</label>
-          <input name="name" onChange={() => clearError("name")} className={`${field} ${errors.name ? fieldErr : ""}`} />
+          <input name="name" onChange={() => clearError("name")} className={`${field} ${errors.name ? fieldErr : fieldOk}`} />
           {errors.name && <p className={errText}>{errors.name}</p>}
         </div>
         <div>
           <label className={label}>Age *</label>
-          <input name="age" type="number" min={16} max={100} onChange={() => clearError("age")} className={`${field} ${errors.age ? fieldErr : ""}`} />
+          <input name="age" type="number" min={16} max={100} onChange={() => clearError("age")} className={`${field} ${errors.age ? fieldErr : fieldOk}`} />
           {errors.age && <p className={errText}>{errors.age}</p>}
         </div>
         <div>
@@ -184,24 +185,24 @@ export default function FacilitatorForm() {
         </div>
         <div>
           <label className={label}>Email *</label>
-          <input name="email" type="email" autoComplete="email" onChange={() => clearError("email")} className={`${field} ${errors.email ? fieldErr : ""}`} />
+          <input name="email" type="email" autoComplete="email" onChange={() => clearError("email")} className={`${field} ${errors.email ? fieldErr : fieldOk}`} />
           {errors.email && <p className={errText}>{errors.email}</p>}
         </div>
         <div>
           <label className={label}>Phone *</label>
-          <input name="phone" type="tel" autoComplete="tel" onChange={() => clearError("phone")} className={`${field} ${errors.phone ? fieldErr : ""}`} />
+          <input name="phone" type="tel" autoComplete="tel" onChange={() => clearError("phone")} className={`${field} ${errors.phone ? fieldErr : fieldOk}`} />
           {errors.phone && <p className={errText}>{errors.phone}</p>}
         </div>
         <div>
           <label className={label}>LinkedIn</label>
-          <input name="linkedin" placeholder="linkedin.com/in/…" onChange={() => clearError("linkedin")} className={`${field} ${errors.linkedin ? fieldErr : ""}`} />
+          <input name="linkedin" placeholder="linkedin.com/in/…" onChange={() => clearError("linkedin")} className={`${field} ${errors.linkedin ? fieldErr : fieldOk}`} />
           {errors.linkedin && <p className={errText}>{errors.linkedin}</p>}
         </div>
       </div>
 
       <div>
         <label className={label}>Why do you want to volunteer? *</label>
-        <textarea name="why" rows={4} onChange={() => clearError("why")} className={`${field} ${errors.why ? fieldErr : ""}`} />
+        <textarea name="why" rows={4} onChange={() => clearError("why")} className={`${field} ${errors.why ? fieldErr : fieldOk}`} />
         {errors.why && <p className={errText}>{errors.why}</p>}
       </div>
 
@@ -299,7 +300,7 @@ export default function FacilitatorForm() {
         {status === "sending" ? "Submitting…" : "Submit registration"}
       </button>
 
-      {status === "error" && errMsg && <p className="border-l-4 border-grow pl-2 text-sm font-medium text-ink">{errMsg}</p>}
+      {status === "error" && errMsg && <p className="border-l-4 border-error pl-2 text-sm font-medium text-ink">{errMsg}</p>}
     </form>
   );
 }

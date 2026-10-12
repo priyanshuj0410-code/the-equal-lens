@@ -54,6 +54,8 @@ deep indigo `#221436` (`text-violet-900`, or the literal hex), never white, and 
 (3) accent as a status or emphasis cue uses a fill (a disc, a dot, a `border-b-4` or `border-l-4` bar) next to
 `ink` text. Decorative doodles and strike-through lines (`aria-hidden`) may use accent colours.
 
+**Error** (site token in `src/app/globals.css`, not in the brand package; same value in both themes): `--color-error #E64520`, the coral hue of `grow` darkened until it reaches 3:1 on all six surfaces (light 3.84 paper, 4.01 surface, 3.12 mist; dark 4.65, 4.16, 3.12). Border and bar only: the message is `ink` text, and `error` is never a text colour or a fill behind text. The family-wide danger red is an open decision (see Family rule); this value stands until that is settled.
+
 **Violet ramp:** `--color-violet-50 #F3F0F6 · 100 #E5E0ED · 200 #C5B6DE · 400 #7F65A4 · 600 #553286 (brand) · 700 #44288B · 800 #331E50 · 900 #221436 (Deep Indigo)`.
 
 **Dark theme:** put `data-audience="adult"` on a parent (usually `<html>`); default is light ("kid"). Only `paper, surface, mist, ink, brand, brandsoft, band, dot` flip.
@@ -207,7 +209,8 @@ On a literal-white ground (polaroid strip) use `violet-900` at 70%, because `ink
 
 **Accents** are fills only (see Brand palette). Patterns in use:
 - Stat number (home): `text-ink` with a `border-b-4` bar in the accent (`border-grow`, `border-sky`, `border-insight`).
-- Form and status errors: `text-ink` with a `border-l-4 border-grow pl-2` bar; the message text carries the meaning.
+- Form and status errors: `text-ink` with a `border-l-4 border-error pl-2` bar; the message text carries the meaning.
+- Invalid field: the border swaps from `border-mist` to `border-error` (`FacilitatorForm`, `BrandSelect`). The two classes are alternatives, never both: `border-mist` wins the cascade and hid the error border on every text input before THEEQ-63. The focus colour (`border-violet-400` plus the ring) still wins while the field has focus.
 - List markers (careers, programs): a `bg-insight` disc with a `text-violet-900` check, or a `bg-grow` dot.
 - Check icon inside a proof chip: `text-brand`.
 

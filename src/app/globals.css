@@ -16,6 +16,7 @@
   --color-grow: #FF7A5C;
   --color-sun: #FFC94D;
   --color-sky: #4FB0E8;
+  --color-error: #E64520; /* invalid field border and error bar; 3.1:1 or more on every surface in both themes */
   --color-ink: #221436;
   --color-brand: #553286;
   --color-brandsoft: #735997;
