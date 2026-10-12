@@ -73,7 +73,7 @@ Three families (loaded via the package `fonts.css`):
 - Eyebrow: `.eyebrow` utility - uppercase, `brandsoft`, letter-spaced
 - Sizes, leading, weights and the 12px floor: see Scales below.
 - Latin only today: `layout.tsx` loads the `latin` subset of all three families, and the site has no Hindi copy, so nothing falls back to the system font. When Hindi copy is added, the [family rule](#devanagari-pairings) applies: add the `devanagari` subset of Baloo 2 and Poppins, which carry the glyphs, and Mukta for body text (the canon pairing with Baloo 2), since Nunito Sans has none. Load them with `unicode-range` so Latin pages do not pay for them.
-- Baloo 2 headlines (`font-hand`) are the site's playful voice for children. The canon skill reserves Baloo 2 for Lensy and says never a headline, so the site departs from it: see Open decisions.
+- Baloo 2 headlines (`font-hand`) are the site's playful voice for children. The canon skill reserves Baloo 2 for Lensy and says never a headline; the owner kept the site's Baloo 2 headlines on 12 October 2026 as the site's own type pairing, which the family rule lets each product choose (see Decided departures).
 
 ## Scales: type, space, radius (THEEQ-63)
 
@@ -291,7 +291,7 @@ This is the position on 12 October 2026, taken from the design-systems audit; ea
 **This site's reasons.**
 - **Register: sticker.** The site is a canvas the visitor draws on (Unlearn erases a myth, Relearn writes the truth), so surfaces read as hand-placed paper objects: an ink border, a hard offset shadow and a slight tilt.
 - **Ground: lavender paper, with a dark theme for adults.** Visitors choose Kids mode or Adult mode on arrival. Adult mode runs dark: the same brand on flipped surfaces, so one site serves children and adults without a second design.
-- **Type: Poppins, Nunito Sans, Baloo 2.** Poppins is the display and UI face, Nunito Sans the body, Baloo 2 the playful voice (see Open decisions for headlines).
+- **Type: Poppins, Nunito Sans, Baloo 2.** Poppins is the display and UI face, Nunito Sans the body, Baloo 2 the playful voice and the headlines (see Decided departures).
 - **Depth: hard offset shadow.** The shadow is a hard offset, not a blur, so a card reads the same at any size and in both themes.
 
 ### Danger red
@@ -334,9 +334,9 @@ One red for error and destructive states: **`#A9442F`** on light grounds and **`
 
 The Gallery, the blog carousel and embed, the myth canvas and the /play capture surface are specified in [`specs/site-features.md`](specs/site-features.md). They use the tokens, scales and patterns in this doc and do not define them.
 
-## Open decisions
+## Decided departures
 
-- **Baloo 2 headlines on this site.** The site sets headlines in Baloo 2 (`font-hand`) for the children's register. The canon skill reserves Baloo 2 for Lensy and says never a headline. The owner has ruled on SwipeEd's Baloo 2 headings, not on this site's, so the site stays as built until the owner decides.
+- **Baloo 2 headlines on this site (owner, 12 October 2026).** The site sets headlines in Baloo 2 (`font-hand`) for the children's register, and keeps them. The canon skill reserves Baloo 2 for Lensy and says never a headline; this site departs from that on purpose. The reason: the site speaks to children and the adults around them in the same register as SwipeEd, whose Baloo 2 headings the owner also kept, and the family rule lets each product pick its own type pairing with a written reason.
 
 ## Component library
 
