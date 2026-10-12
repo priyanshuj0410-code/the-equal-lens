@@ -172,6 +172,30 @@ Section heading is **"Gallery"** (was "Testimonials"). Backed by Testimonial doc
 
 Add `.btn--sm` for the compact size. In React: `<Button variant size href>`.
 
+## States (THEEQ-63)
+
+What each interactive component does in each state today. A dash means the state is not styled, on purpose.
+Hover and press motion turns off under `prefers-reduced-motion` (`transition: none !important`).
+
+| Component | Hover | Focus | Selected or pressed | Disabled | Loading | Error | Empty |
+|---|---|---|---|---|---|---|---|
+| Button `.btn` | Lifts `translateY(-2px)`. `--solid` darkens to `violet-800`, `--ghost` text goes to `brand`; neither lifts | Ring (below) | - | `opacity: .4`, `cursor: not-allowed`, no lift | Label changes ("Submitting...", "Checking...") and the button is `disabled`; no spinner | - | - |
+| Field (input, textarea, `BrandSelect`) | - | `border-violet-400` plus the ring | - | Not used | - | `border-error` and a message (below) | Placeholder at `ink` 70% |
+| Sticker card (`hover-pop`) | `translateY(-4px) rotate(-1.5deg) scale(1.03)` | Ring on the card or its link | - | - | - | - | - |
+| Nav link `.nav-link` | `mist` fill, `brand` text | Ring | `aria-current`: `violet-100` fill, `violet-800` text | - | - | - | - |
+| Tab `.tab` | Ink border, lifts 2px | Ring | `.is-active` (BiasChannels also sets `aria-pressed`): ink border, 3px ink shadow, lifts 2px, tint from the channel | - | - | - | - |
+| Toolbar button | Lifts 2px, `mist` border | Ring | `aria-pressed`: `sun` fill, ink border, `#221436` text | - | - | - | - |
+| Carousel arrow, dot, pause | Arrows scale 1.1; blog arrows show on hover, focus-within or touch | Ring; blog arrows become visible | Current dot is `w-6 bg-brand`, `aria-current`; pause button swaps its glyph | Calendar month arrows only (`disabled:opacity-40`) | - | - | No slides: nothing renders |
+| Calendar day (volunteer form) | `brand` at 15% fill | Ring | `bg-brand text-surface`, `aria-pressed` | Closed day: `aria-disabled`, `ink` 25%, struck through | - | Message under the grid | - |
+| Donate submit | - | Ring | - | Always `disabled` until Razorpay is wired | - | - | - |
+
+- **Focus** is one global rule (see Accessibility). No component removes it; `outline-none` is not used.
+- **Pressed** has no style beyond what the table shows: there is no `:active` rule. The hover lift is the only motion cue.
+- **Disabled** controls are exempt from the contrast rule, so `opacity` is fine, but nothing a reader needs may sit in a disabled control: say why in text beside it.
+- **Error**: the field swaps `border-mist` for `border-error`; the message sits below it as `ink` text (`text-xs`) with a `border-l-4 border-error pl-2` bar. A form-level message is the same at `text-sm`. The message says what to do, in the Voice register, never "invalid" or "wrong". Known gap: field errors are not linked to their field (`aria-describedby`) and are not announced (`role="alert"`); only `BrandSelect` sets `aria-invalid`.
+- **Loading**: forms and the /play camera are the only things that load. Content pages are static, read from `knowledge/` at build time, so there are no skeletons.
+- **Empty**: the blog list shows `emptyState` centred in `ink` 70%; no testimonials means no Gallery section; a photo-only Gallery item renders no bubble; a carousel with no images renders nothing. An empty state says what is missing and what happens next.
+
 ## Blog carousel
 
 Optional image carousel on a blog post, rendered between the `<h1>` heading and the body (`src/components/BlogCarousel.tsx`).
