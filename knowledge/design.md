@@ -1,7 +1,7 @@
 ---
 type: design-system
 title: Design system reference
-description: Visual language, component patterns, and token usage for The Equal Lens website.
+description: Visual language, component patterns, token usage and the Equal Lens family rule for The Equal Lens website. Feature specs live in specs/site-features.md.
 plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/fad4697c-b7e8-44f4-9976-1feb67c1a7b9
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/8556ff32-8b15-4eaa-bcd7-0a7bdb147c59
@@ -11,6 +11,7 @@ plane_issues:
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/ef8e57fd-1d05-4d18-bb70-3df06aed59f0  # THEEQ-63
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/bef1ea95-31e5-4954-a27c-3ee9cb2166cc  # THEEQ-64 (decision)
   - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/13c4989f-5160-4de9-8202-66a2cf497cd2  # THEEQ-61 (P1 accessibility gaps, CLAUD-17)
+  - https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/a2255819-9c27-4992-9440-1fd577afa1f0  # THEEQ-65 (wave 3: family rule, danger red, feature specs, voice rules)
 ---
 
 > **Source of truth:** the installable package `@equal-lens/brand` at
@@ -55,11 +56,13 @@ deep indigo `#221436` (`text-violet-900`, or the literal hex), never white, and 
 (3) accent as a status or emphasis cue uses a fill (a disc, a dot, a `border-b-4` or `border-l-4` bar) next to
 `ink` text. Decorative doodles and strike-through lines (`aria-hidden`) may use accent colours.
 
-**Error** (site token in `src/app/globals.css`, not in the brand package; same value in both themes): `--color-error #E64520`, the coral hue of `grow` darkened until it reaches 3:1 on all six surfaces (light 3.84 paper, 4.01 surface, 3.12 mist; dark 4.65, 4.16, 3.12). Border and bar only: the message is `ink` text, and `error` is never a text colour or a fill behind text. The family-wide danger red is an open decision (see Open decisions); this value stands until that is settled.
+**Error and danger** (site token in `src/app/globals.css`, not in the brand package): `--color-error` is the [family danger red](#danger-red): `#A9442F` on light grounds and `#FF8A6E` in the dark theme, so it clears 4.5:1 as text on every site surface (light 5.65 paper, 5.91 surface, 4.59 mist; dark 8.09, 7.24, 5.43). The site pattern is unchanged: the message is `ink` text beside an error bar or border, so colour is never the only cue (see Accessibility). A fill in the light value carries white text (5.91); a fill in the dark value carries `#221436` text (7.46).
 
 **Violet ramp:** `--color-violet-50 #F3F0F6 · 100 #E5E0ED · 200 #C5B6DE · 400 #7F65A4 · 600 #553286 (brand) · 700 #44288B · 800 #331E50 · 900 #221436 (Deep Indigo)`.
 
-**Dark theme:** put `data-audience="adult"` on a parent (usually `<html>`); default is light ("kid"). Only `paper, surface, mist, ink, brand, brandsoft, band, dot` flip.
+**Dark theme:** put `data-audience="adult"` on a parent (usually `<html>`); default is light ("kid"). Only `paper, surface, mist, ink, brand, brandsoft, error, band, dot` flip.
+
+**Dotted paper:** the body carries `.canvas-dots` (radial `--dot` grid, 28px, over `bg-paper`), so the texture is the site-wide ground in both audiences. A page section that wants plain paper paints its own background; /play deliberately stays transparent.
 
 ## Typography
 
@@ -69,7 +72,8 @@ Three families (loaded via the package `fonts.css`):
 - `--font-hand` **Baloo 2** - headlines + playful / mascot voice
 - Eyebrow: `.eyebrow` utility - uppercase, `brandsoft`, letter-spaced
 - Sizes, leading, weights and the 12px floor: see Scales below.
-- Latin only: `layout.tsx` loads the `latin` subset of all three families, so Devanagari falls back to the system font. Poppins and Baloo 2 both have Devanagari glyphs; loading them is part of the open family-rule decision.
+- Latin only today: `layout.tsx` loads the `latin` subset of all three families, and the site has no Hindi copy, so nothing falls back to the system font. When Hindi copy is added, the [family rule](#devanagari-pairings) applies: add the `devanagari` subset of Baloo 2 and Poppins, which carry the glyphs, and Mukta for body text (the canon pairing with Baloo 2), since Nunito Sans has none. Load them with `unicode-range` so Latin pages do not pay for them.
+- Baloo 2 headlines (`font-hand`) are the site's playful voice for children. The canon skill reserves Baloo 2 for Lensy and says never a headline, so the site departs from it: see Open decisions.
 
 ## Scales: type, space, radius (THEEQ-63)
 
@@ -118,10 +122,10 @@ The /play stage card is the one custom value (`rounded-[28px]`, an Instagram car
 
 ## Voice
 
-Curious, warm, brave; playful, not preachy. Sentence case.
+Curious, warm, brave; playful, not preachy. Sentence case. Decided 12 October 2026: this section, Reading level and Sensitive topics are the owner's accepted voice rules for the site and its docs.
 
-- **Hyphens, not em dashes** (and not en dashes). This applies to all product copy, UI
-  strings, and these docs. Reword, or use a comma / period / colon, instead of a dash.
+- **Spelling is British** (colour, behaviour, organise, programme). Vocabulary is plain Indian English (see Reading level).
+- **One dash rule: no em dash (U+2014) and no en dash (U+2013), anywhere.** This covers product copy, UI strings, these docs and commit messages. A range takes a hyphen (3-6, 2-4px, 18-35s); a date range with month names is written with "to". Elsewhere reword, or use a comma, colon, full stop or parentheses. `knowledge/contrast.py` fails on either character in the design docs and the site copy.
 - One line summary lives in the package: `@equal-lens/brand` README "Voice".
 
 ### Reading level (THEEQ-63)
@@ -155,7 +159,7 @@ The site is the public face of an organisation whose subjects include gender-bas
 9. **Claim only what is true.** No statistic, law or organisation unless it is grounded and attributed on the page.
 10. **No identifiable child.** No photograph, name, school or quote that could identify a child.
 
-Status: drafted by the audit fix, for the owner to review. The site shows no helpline today, and the Gallery's photo content lives in Sanity, so rule 10 and rule 8 may need a content pass.
+Decided 12 October 2026: the owner accepted these ten rules. Where they apply today: the site shows no helpline, so rule 8 applies the day one is added; Gallery photos live in Sanity, so rule 10 applies to every photo published there.
 
 ## Sticker / card pattern
 
@@ -173,25 +177,12 @@ All interactive cards use the "sticker" treatment:
 - `padding: 0.5rem 0.75rem; font-size: 0.75rem`
 - No border, no shadow - intentionally soft/lightweight vs card stickers
 
-## Gallery (testimonial carousel)
+## Autoplay control
 
-Section heading is **"Gallery"** (was "Testimonials"). Backed by Testimonial documents; the Sanity object/field key stays `testimonials`.
-
-- Polaroid card: `border-2 border-ink bg-white shadow-[5px_5px_0_var(--color-ink)]`, `aspect-[4/3]` photo, white strip at bottom
-- Chat bubble: Lensy `.bubble` style, overlaps top-right corner of polaroid (`bottom: calc(100% - 32px)`)
-- Bubble contains: sender name (top, `text-xs text-brand`), quote (`text-sm font-bold`), role (`text-xs text-brandsoft`). All three read on `mist` in both themes (brand 7.47 and 6.84, ink 13.37 and 10.80, brandsoft 4.53 and 5.48)
-- **Name and quote are optional.** Each bubble line renders only if present; a photo-only item (no name/quote/role) renders **no bubble at all** - just the polaroid. Slide top-padding (`pt-48`) stays uniform so carousel height never jumps.
-- Polaroid strip: centered `tag` caption (`text-xs italic text-violet-900/70`, 6.42 on the strip). The strip is literal white in both themes, so the caption uses the non-flipping `violet-900`, not `ink`
-- Parallax: bubble `translateX(dist * 5px)`, polaroid `translateX(dist * -4px) rotate(tilt)`
-- Animation: `550ms cubic-bezier(0.25, 0.46, 0.45, 0.94)` on track + inner elements
-- Autoplays every 5.5s with the same hook, hold rules and pause button as the [Blog carousel](#blog-carousel); the pause button sits first in the dots row.
-
-## Canvas myth interaction
-
-- The `+ myth` toolbar button appends a sticky-note card. On desktop it floats at a free spot on the canvas; on mobile it flows into the "Bust these myths" section above the footer.
-- **Mobile feedback rule:** because the toolbar is fixed at the bottom and the myth section is usually off-screen, adding a myth on mobile smooth-scrolls the new card into view (`block: center`, respects `prefers-reduced-motion`). Without this the tap reads as a no-op. Guarded so route-change seeding never auto-scrolls.
-- **Content-aware placement (THEEQ-43):** desktop cards re-place whenever `main` mutates or resizes (async loads, same-route view switches), not just on route change. Dragged cards stay put and count as obstacles. Cards never layer over content or each other; when the page has no free spot, the extras hide (`hidden` flag) until room opens. There is no overflow stack fallback.
-- **Dotted paper:** the body carries `.canvas-dots` (radial `--dot` grid, 28px, over `bg-paper`), so the texture is the site-wide ground in both audiences. Page sections that want plain paper must paint their own background; /play deliberately stays transparent.
+Every auto-advancing carousel (the Gallery and the Blog carousel, specified in [site-features](specs/site-features.md)) uses the shared `useAutoplay` hook (`src/components/Autoplay.tsx`) and the `AutoplayToggle` button.
+- Three things stop it: the visible pause button (stays stopped until pressed again, WCAG 2.2.2), a hold while the pointer, touch or focus is inside the carousel (lifts on leave), and `prefers-reduced-motion` (never starts, no button).
+- **Pause button** (`AutoplayToggle`): 44px round sticker (`h-11 w-11 border-2 border-ink bg-surface shadow-[2px_2px_0_var(--color-ink)]`), first in the dots row. Pause bars while playing, play triangle when stopped; label "Pause slide show" / "Play slide show". Pressing Play resumes at once, even with the pointer or focus on the carousel.
+- Checked against real products (Lazyweb, 2026-10-12): the Canva design studio (a play button beside a thumbnail strip) and the Airbnb photo viewer (play and pause in a control bar next to a "1 / 19" counter). Lazyweb holds few carousel-pause screens, so the pattern also follows the WAI-ARIA Authoring Practices carousel (a rotation control, rotation held while focus is inside).
 
 ## Button variants
 
@@ -230,80 +221,10 @@ Hover and press motion turns off under `prefers-reduced-motion` (`transition: no
 - **Loading**: forms and the /play camera are the only things that load. Content pages are static, read from `knowledge/` at build time, so there are no skeletons.
 - **Empty**: the blog list shows `emptyState` centred in `ink` 70%; no testimonials means no Gallery section; a photo-only Gallery item renders no bubble; a carousel with no images renders nothing. An empty state says what is missing and what happens next.
 
-## Blog carousel
-
-Optional image carousel on a blog post, rendered between the `<h1>` heading and the body (`src/components/BlogCarousel.tsx`).
-- Framed sticker container: `rounded-2xl border-2 border-ink bg-mist shadow-[4px_4px_0_var(--color-ink)]`, `aspect-[3/2]` image.
-- Crossfade between slides (stacked, opacity), round ink nav arrows (`border-2 border-ink bg-surface shadow-[2px_2px_0]`), pill dots (active = `w-6 bg-brand`).
-- Autoplays every 6s through the shared `useAutoplay` hook (`src/components/Autoplay.tsx`). Three things stop it: the visible pause button (stays stopped until pressed again, WCAG 2.2.2), a hold while the pointer, touch or focus is inside the carousel (lifts on leave), and `prefers-reduced-motion` (never starts, no button).
-- **Pause button** (`AutoplayToggle`): 44px round sticker (`h-11 w-11 border-2 border-ink bg-surface shadow-[2px_2px_0_var(--color-ink)]`), first in the dots row. Pause bars while playing, play triangle when stopped; label "Pause slide show" / "Play slide show". Pressing Play resumes at once, even with the pointer or focus on the carousel. The slide area is `aria-live="off"` while playing and `polite` otherwise.
-- Checked against real products (Lazyweb, 2026-10-12): the Canva design studio (a play button beside a thumbnail strip) and the Airbnb photo viewer (play and pause in a control bar next to a "1 / 19" counter). Lazyweb holds few carousel-pause screens, so the pattern also follows the WAI-ARIA Authoring Practices carousel (a rotation control, rotation held while focus is inside).
-- Optional per-image `caption` shown centered below; optional `alt`.
-- Data: Sanity `post.carousel` (image array with `alt`/`caption`) → resolved to `BlogSlide[]` (`{ url, alt?, caption? }`) in `getPost`.
-
-## Blog interactive embed
-
-Authors can drop a self-contained interactive HTML data-viz into a post body (Sanity `post.body` gets an `htmlEmbed` block: `code` + optional `caption`/`height`).
-- Rendered by the `htmlEmbed` serializer (`src/sanity/portableText.ts`) into an `<iframe srcdoc>` with `sandbox="allow-scripts allow-popups"` - the embed's JS runs but is isolated from the page (no same-origin), safe for arbitrary HTML.
-- Frame styling: `border-2 border-ink`, `rounded-2xl` (1rem), white background, full width.
-- A height-reporter script is injected into each embed; `EmbedResizer` (client, mounted on the post page) listens for its `postMessage` and sizes the iframe to fit - no cropping/scroll.
-- Embeds must be self-contained (inline `<style>`/`<script>`); the sandbox has no page access.
-
-## Surface Quest capture surface (/play)
-
-- **Logo (THEEQ-59)**: the camera-aperture mark with the leaping figure (ink outline,
-  violet iris, coral swoosh, sun spark). Masters in `Solutions/` (`Surface - Logo*.svg/png`,
-  transparent / white bg / black bg). Deployed: `src/app/play/icon.svg` + `apple-icon.png`
-  (route-scoped favicon, Next convention), `/play/logo.png` (landing header, 80px beside
-  the title), `/play/og.png` (OG image from the Lensy-out-of-the-phone hero), and the five
-  PWA icons in `surface-quest-ar/web/public/icons/`. Use the transparent variant on paper
-  tones, the white-bg variant wherever the surface is opaque or maskable.
-
-The browser game's shooting UI (THEEQ-42). Three views in `src/app/play/PlayClient.tsx`;
-the in-recording graphics live in `src/lib/play/draw.ts`.
-
-- **Stage**: fixed fullscreen overlay `z-[70]` on `bg-ink` (site toolbar and Lensy launcher
-  are `z-50`; anything on the capture stage must sit above them). Reel modal is `z-[80]`.
-  `requestFullscreen` is progressive - declined/unsupported still gets the fixed overlay.
-- **Card**: the 9:16 composite canvas as a floating `rounded-[28px]` card, Instagram idiom.
-  Chrome rides its edges: close (`h-11 w-11` black/40 disc, top-left), counter pill
-  ("n of m", black/40, top-right), timer pill (`#FA383E`, `font-mono`, canvas-bottom-16),
-  shutter (72px white disc riding the bottom edge via `translate-y-1/2`; recording state
-  is a 28px `#FA383E` rounded square), last-reel thumbnail (56px, `rounded-xl`,
-  `border-white/60`, bottom-left on the shutter's line, opens reels).
-- **Game switcher**: label strip below the card (`tracking-[0.2em]`, active white,
-  inactive white/45), locked while recording. Scales to future games. Entries: MYTH
-  BUSTER, SHAKE IT OFF, WALK A MILE.
-- **Walk a Mile (THEEQ-48)**: side-scrolling track band (white with ink top edge) at
-  canvas y=0.84H; the runner is Party Lensy riding the player's head bob (rolling
-  baseline, lift-only, tips -12 degrees airborne). Hurdles are standing mini sticker
-  cards: everyday ones in mint with note text, stereotype ones larger in peach
-  (`#FAD9CE`) with myth-chip rust text. Hitting one is never a fail - it topples and
-  fades, the flash celebrates, and the counter advances either way. Structure carries
-  the message: your run (3 everyday hurdles), then Sam's run = the same track with
-  stereotype hurdles added, finish copy "same track. double the hurdles." The corner
-  reaction Lensy is suppressed in this game - the runner is the Lensy.
-- **In-canvas note card** (recorded into the reel): the `.note`/`.sticker` recipe drawn in
-  canvas at 1080x1920 - tone fill (`#FFF3C2` myth / `#D7F5EC` mint truth), 7px ink border
-  (2.5px at CSS scale), hard 9px offset ink shadow, -2 degree tilt, white chip pill with
-  `#993C1D` myth / `#0F6E56` truth text, body in Baloo 2 (family resolved from a `.font-hand`
-  probe so canvas text uses the real next/font face).
-- **Prompt capsules**: black/45 pills, white Baloo text, centred; the band starts at canvas
-  y=265 so it clears the on-card chrome row. Idle hint: "press the round button to play!".
-- **Reels library**: IndexedDB (`equal-lens-reels`), tiles are `.sticker rounded-xl` cards
-  in the four `note--*` tones (never `.note` itself - it pins `width: 14rem` and column
-  layout; `.sticker` + a tone class composes with utilities and keeps the adult flip) with
-  9:16 posters and alternating `rotate-1`/`-rotate-1`. Modal player on `#221436`/95 with
-  published button variants: Save `btn--sun`, Share `btn--primary`, Delete and Close
-  `btn--band`, plus an inline `.sticker note--peach` "Really delete?" confirm.
-- **Dark pinning**: the stage and modal backdrops use the literal `#221436`, never `bg-ink`
-  - ink flips light in adult mode and a camera surface stays dark in both. Same rule for
-  on-stage text (white, not `text-paper`). Both carry `.on-dark` so the focus ring is white.
-
 ## Accessibility (THEEQ-61, CLAUD-17)
 
 Targets: text 4.5:1 on every surface it sits on; control boundaries and focus indicators 3:1 against adjacent colours.
-Ratios below are computed in sRGB with any alpha composited over its real ground. Run `python3 knowledge/contrast.py` after changing any colour: it checks every token pair below on paper, surface and mist in both themes and exits 1 on a failure.
+Ratios below are computed in sRGB with any alpha composited over its real ground. Run `python3 knowledge/contrast.py` after changing any colour: it checks every token pair below on paper, surface and mist in both themes, and the dash rule (no U+2013 or U+2014 in the design docs and site copy), and exits 1 on a failure. The `design-checks` workflow runs it on every pull request.
 
 **Secondary text.** Use `brandsoft` (4.53 on mist, 5.57 on paper, 5.83 on surface; dark 5.48 to 8.17) or
 `ink` at 70% (light 6.29 on paper, 6.42 on surface, 5.68 on mist; dark 8.23, 7.65, 6.17). Never `ink` at
@@ -333,9 +254,89 @@ Add `.bg-band` or `.on-dark` on any container whose ground does not flip (the /p
 `.on-dark`; a `.card` or `.popover` inside one resets the ring to violet). Do not add `outline-none` to interactive elements: the unlayered package rule outranks Tailwind's
 `focus:outline-none`, so form fields show the ring plus the violet border.
 
+**Pinned dark.** A surface that stays dark in both themes (the /play stage and reel modal) uses the literal `#221436` and white text, never `ink`, `paper` or `bg-ink`, which flip in the dark theme. Danger on such a surface uses the literal light value `#A9442F` with white text.
+
+## Equal Lens family rule
+
+Decided 12 October 2026 by the owner ([THEEQ-64](https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/bef1ea95-31e5-4954-a27c-3ee9cb2166cc)). It binds every Equal Lens product: this site, SwipeEd, Spot the Stereotype, The Keepers, Surface Quest AR, Nivel and Sexism in Movies. A fixed core keeps them one family. Everything else each product chooses and explains in its own `knowledge/design.md`.
+
+### Fixed core
+
+| Fixed | The rule |
+|---|---|
+| Equal Violet | `#553286` is the brand anchor. A product may add accents but does not swap in another violet. |
+| Ink | `#221436` for text and borders on light grounds ([Brand palette](#brand-palette)). |
+| Sentence case | Headings, buttons and labels are typed in sentence case; capitals come from CSS. |
+| One dash rule | No em dash and no en dash. A range takes a hyphen (3-6). See [Voice](#voice). |
+| Lensy's rules | Lensy asks and wonders. Lensy is never a teacher, superhero, activist, counsellor or voice of authority, and never in or beside heavy content ([Sensitive topics](#sensitive-topics-theeq-63), rule 4). Whether a product shows Lensy at all is its choice: Spot keeps Lensy silent and The Keepers has no cartoons. |
+| Devanagari | A product with Hindi readers loads a Devanagari face, with `unicode-range` ([pairings](#devanagari-pairings)). |
+| One danger red | `#A9442F` on light grounds, `#FF8A6E` on dark ([why](#danger-red)). |
+
+### Chosen per product, with a written reason
+
+Each product picks four things and writes the reason for each in its own `design.md`: its register, its ground and theme, its type pairing and its depth model. A choice with no written reason is a defect. The pairings in this table are the approved list; a product that wants another adds a row here, with the reason, in the same change.
+
+| Product | Register | Ground | Latin type | Depth |
+|---|---|---|---|---|
+| The Equal Lens site | Sticker | Lavender paper `#FBF9FF`, adult dark | Poppins, Nunito Sans, Baloo 2 headlines | 2px ink border, hard 4px offset shadow, tilt |
+| SwipeEd | Sticker | Brand paper, adult dark | Baloo 2 headings, Nunito, Poppins labels | 2.5px ink border, "lip" elevation |
+| Spot the Stereotype | Reflective | Cream `#FAF2E4`, no dark | Gloock, Instrument Sans | 2px ink outline, hard 4px shadow |
+| The Keepers | Ceremonial | Dark only | Cormorant Garamond, Inter | None |
+| Surface Quest AR | Camera chrome | Dark only `#15101F` | Inter | Glass cells, pills |
+| Nivel | Minimal | Warm paper, dark theme | Poppins, Nunito Sans | None |
+| Sexism in Movies | Evidence essay | Lavender paper | Baloo 2 | 1px line borders, sparing shadow |
+
+This is the position on 12 October 2026, taken from the design-systems audit; each product's own `design.md` is the authority for its choices.
+
+**This site's reasons.**
+- **Register: sticker.** The site is a canvas the visitor draws on (Unlearn erases a myth, Relearn writes the truth), so surfaces read as hand-placed paper objects: an ink border, a hard offset shadow and a slight tilt.
+- **Ground: lavender paper, with a dark theme for adults.** Visitors choose Kids mode or Adult mode on arrival. Adult mode flips the surfaces and keeps the brand, so parents, teachers and funders see the same organisation in a calmer ground.
+- **Type: Poppins, Nunito Sans, Baloo 2.** Poppins is the display and UI face, Nunito Sans the body, Baloo 2 the playful voice (see Open decisions for headlines).
+- **Depth: hard offset shadow.** Depth is drawn, not simulated, so a card reads the same at any size and in both themes. No blurred shadows.
+
+### Danger red
+
+One red for error and destructive states: **`#A9442F`** on light grounds and **`#FF8A6E`** on dark grounds. Chosen from the reds the products already use, by computing each as text on the family's light grounds:
+
+| Red | Where it is used | White | Paper | Mist | Spot cream | 4.5:1 on all four |
+|---|---|---|---|---|---|---|
+| `#A9442F` | Nivel `--bad`; now this site | 5.91 | 5.65 | 4.59 | 5.31 | Yes |
+| `#C2553F` | Sexism in Movies coral | 4.50 | 4.31 | 3.50 | 4.05 | No |
+| `#E64520` | This site, until 12 October 2026 | 4.01 | 3.84 | 3.12 | 3.61 | No |
+| `#FA383E` | `/play`, until 12 October 2026 | 3.68 | 3.53 | 2.86 | 3.31 | No |
+| `#FF453A` | Surface Quest AR | 3.41 | 3.26 | 2.65 | 3.06 | No |
+| `#B56B72` | The Keepers `--danger` | 3.95 | 3.78 | 3.07 | 3.56 | No |
+
+- **Why this one.** It is the only red in use that carries a short error line as text, not only a border, on every light ground. The true reds (`#FA383E`, `#FF453A`, hue near 0 degrees) fail as text, and darkening them until they pass turns them maroon. `#A9442F` keeps the hue (about 10 degrees) of this site's old `#E64520` and Sexism in Movies' `#C2553F`, only darker.
+- **Why it flips.** No one red reaches 4.5:1 on both white and a dark ground: it would need a luminance of at most 0.18 against white and at least 0.20 against `#15101F`. So the red flips with the theme, as `brand` does. `#FF8A6E` (Nivel's dark `--bad`) gives 8.09 on `#15101F`, 7.24 on `#221A30` and 5.43 on `#3A2E4D`. A dark-only product uses `#FF8A6E` alone.
+- **How to use it.** Red marks an error or a destructive action, and always sits beside text or an icon, never alone. A fill in the light value carries white text (5.91); a fill in the dark value carries `#221436` text (7.46). `knowledge/contrast.py` checks each pair.
+
+### Devanagari pairings
+
+| Product | Latin faces | Devanagari display | Devanagari UI and body | Devanagari labels |
+|---|---|---|---|---|
+| Spot the Stereotype | Gloock, Instrument Sans | Rozha One (with Gloock) | Hind 400, 500, 700 | |
+| The Keepers | Cormorant Garamond, Inter, Plex Mono labels | Halant 600 (with Cormorant) | Hind 400, 600 (with Inter) | IBM Plex Sans Devanagari (with Plex Mono) |
+| Surface Quest AR | Inter | | Hind, after a one-screen Unity shaping spike | |
+| Sexism in Movies | Baloo 2 | Mukta (canon pairing with Baloo 2) | Mukta | |
+| This site (no Hindi copy yet) | Poppins, Nunito Sans, Baloo 2 | Baloo 2 and Poppins, which carry the glyphs | Mukta | |
+
+- Load every Devanagari face with `unicode-range` (the Devanagari block, U+0900 to U+097F), so a Latin-only page downloads nothing extra.
+- Test each stack with conjuncts and top marks (for example क्ष, ज्ञ and द्वारा) before shipping: a line box that suits Latin clips them.
+- Surface Quest AR renders text in Unity. Prove Hind there on one screen with conjuncts and vowel signs before committing to it.
+
+### Not in the family
+
+- **RUMOAR** is not a family product. It has its own brand (volt `#6152F0`) and takes its own design decisions.
+- **PhD** is not a family product. It follows the owner's portfolio system (IMPJ: Gloock with Instrument Sans, monochrome, scholar accent `#FFC46A`), not the family violet.
+
+## Feature specs
+
+The Gallery, the blog carousel and embed, the myth canvas and the /play capture surface are specified in [`specs/site-features.md`](specs/site-features.md). They use the tokens, scales and patterns in this doc and do not define them.
+
 ## Open decisions
 
-- **Equal Lens family rule** ([THEEQ-64](https://app.plane.so/the-equal-lens/projects/131d7f73-411c-4a57-a1d3-3147617b2de9/issues/bef1ea95-31e5-4954-a27c-3ee9cb2166cc)): whether the family fixes a core (violet, ink, sentence case, one dash rule, Lensy's rules, a Devanagari-capable face, one danger red) and lets each product choose its register with a reason. Until it is decided, this doc sets no family rule, the site keeps `--color-error #E64520` and Latin-only fonts, and the open drift (two reds, Baloo 2 headlines, The Keepers' violet) stands.
+- **Baloo 2 headlines on this site.** The site sets headlines in Baloo 2 (`font-hand`) for the children's register. The canon skill reserves Baloo 2 for Lensy and says never a headline. The owner has ruled on SwipeEd's Baloo 2 headings, not on this site's, so the site stays as built until the owner decides.
 
 ## Component library
 

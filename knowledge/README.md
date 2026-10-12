@@ -15,6 +15,7 @@ The Next.js app in `../web` reads these files at **build time** and renders them
 ```
 knowledge/
   schema/        JSON Schemas describing each content type
+  specs/         how the site's interactive features behave (not read by the site)
   myths/         one JSON file per myth → truth pair (powers the easter eggs)
   stereotypes/   (reserved) broader stereotype entries
   team/          one JSON file per team member  → About page
