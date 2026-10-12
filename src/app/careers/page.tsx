@@ -84,7 +84,7 @@ export default async function CareersPage() {
               <p className="font-hand text-sm font-bold text-ink/80">{f.whatYouDoLabel}</p>
               <ul className="mt-2 space-y-1 text-sm text-ink/70">
                 {f.whatYouDo.map((r) => (
-                  <li key={r} className="flex gap-2"><span className="text-insight">✓</span><span>{r}</span></li>
+                  <li key={r} className="flex gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-insight text-xs font-bold text-violet-900">✓</span><span>{r}</span></li>
                 ))}
               </ul>
             </div>
@@ -92,7 +92,7 @@ export default async function CareersPage() {
               <p className="font-hand text-sm font-bold text-ink/80">{f.whatWeLookLabel}</p>
               <ul className="mt-2 space-y-1 text-sm text-ink/70">
                 {f.whatWeLook.map((r) => (
-                  <li key={r} className="flex gap-2"><span className="text-grow">•</span><span>{r}</span></li>
+                  <li key={r} className="flex gap-2"><span aria-hidden className="mt-2 h-2 w-2 shrink-0 rounded-full bg-grow" /><span>{r}</span></li>
                 ))}
               </ul>
             </div>
@@ -145,7 +145,7 @@ export default async function CareersPage() {
                   <span className="rounded-full border-2 border-ink bg-sun px-3 py-0.5 font-hand text-xs font-bold text-[#221436]">
                     {j.type}
                   </span>
-                  {j.location && <span className="text-xs text-ink/50">{j.location}</span>}
+                  {j.location && <span className="text-xs text-ink/70">{j.location}</span>}
                 </div>
                 <p className="mt-2 text-ink/70">{j.summary}</p>
                 <div className="mt-4 grid gap-6 sm:grid-cols-2">
@@ -154,7 +154,7 @@ export default async function CareersPage() {
                       <p className="font-hand text-sm font-bold text-ink/80">{c.jobCardLabels.responsibilitiesLabel}</p>
                       <ul className="mt-2 space-y-1 text-sm text-ink/70">
                         {j.responsibilities.map((r) => (
-                          <li key={r} className="flex gap-2"><span className="text-insight">✓</span><span>{r}</span></li>
+                          <li key={r} className="flex gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-insight text-xs font-bold text-violet-900">✓</span><span>{r}</span></li>
                         ))}
                       </ul>
                     </div>
@@ -164,7 +164,7 @@ export default async function CareersPage() {
                       <p className="font-hand text-sm font-bold text-ink/80">{c.jobCardLabels.requirementsLabel}</p>
                       <ul className="mt-2 space-y-1 text-sm text-ink/70">
                         {j.requirements.map((r) => (
-                          <li key={r} className="flex gap-2"><span className="text-grow">•</span><span>{r}</span></li>
+                          <li key={r} className="flex gap-2"><span aria-hidden className="mt-2 h-2 w-2 shrink-0 rounded-full bg-grow" /><span>{r}</span></li>
                         ))}
                       </ul>
                     </div>

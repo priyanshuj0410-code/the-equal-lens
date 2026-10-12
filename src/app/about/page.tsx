@@ -138,7 +138,7 @@ export default async function AboutPage() {
                   <p className="mt-0.5 text-sm font-semibold text-brand">
                     {m.role}
                     {m.pronouns && (
-                      <span className="font-normal text-ink/40"> · {m.pronouns}</span>
+                      <span className="font-normal text-ink/70"> · {m.pronouns}</span>
                     )}
                   </p>
                   <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink/65">

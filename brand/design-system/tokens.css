@@ -20,14 +20,16 @@
   --color-mist: #e7e0f1; /* hairlines / hover */
   --color-ink: #221436; /* text + outlines */
   --color-brand: #553286; /* primary violet in use */
-  --color-brandsoft: #7f65a4; /* muted violet */
+  --color-brandsoft: #735997; /* muted violet: 5.57 on paper, 4.53 on mist (text-safe) */
   --color-band: #553286; /* footer / CTA band */
   --dot: #ece6f6; /* dotted-paper texture */
 
-  /* accents (shared by both themes) */
+  /* accents (shared by both themes): FILLS ONLY, always with deep-indigo
+     (#221436) text, never white on grow, never accent-coloured text.
+     Fail as text on paper: insight 1.78, grow 2.45, sky 2.31. */
   --color-insight: #2dd4bf; /* teal · "unlearn" */
-  --color-grow: #ff7a5c; /* coral · "relearn" / CTA */
-  --color-sun: #ffc94d; /* yellow · highlight / CTA (use ink text on it) */
+  --color-grow: #ff7a5c; /* coral · "relearn" */
+  --color-sun: #ffc94d; /* yellow · highlight / CTA */
   --color-sky: #4fb0e8; /* blue · support */
 
   /* type */

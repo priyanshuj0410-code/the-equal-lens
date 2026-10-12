@@ -192,7 +192,7 @@ function Slide({
           >
             {kicker}
           </span>
-          <span className="font-display text-xs font-bold opacity-40">
+          <span className="font-display text-xs font-bold opacity-70">
             {String(n).padStart(2, "0")} / {TOTAL}
           </span>
         </div>
@@ -215,7 +215,7 @@ function Slide({
 
         <div
           className={`flex items-center justify-between border-t-2 pt-3 font-display text-[0.7rem] font-bold ${
-            band ? "border-white/15 text-white/50" : "border-mist text-ink/40"
+            band ? "border-white/15 text-white/70" : "border-mist text-ink/70"
           }`}
         >
           <span>The Equal Lens</span>
@@ -290,7 +290,7 @@ export default function DiscoveryPage() {
           </h2>
           <div className="mt-7 grid gap-5 sm:grid-cols-2">
             <div>
-              <p className="font-display text-xs font-bold uppercase tracking-widest text-white/50">
+              <p className="font-display text-xs font-bold uppercase tracking-widest text-white/70">
                 What school teaches
               </p>
               <ul className="mt-3 space-y-2">
@@ -371,7 +371,7 @@ export default function DiscoveryPage() {
                 <span className={`flex h-8 w-8 items-center justify-center rounded-lg text-base ${TILE[i % TILE.length]}`}>{s.emoji}</span>
               </div>
               <h3 className="font-display text-base font-bold leading-tight text-ink">{s.title}</h3>
-              <p className="text-xs text-ink/55">{s.sub}</p>
+              <p className="text-xs text-ink/70">{s.sub}</p>
             </div>
           ))}
         </div>
@@ -391,14 +391,14 @@ export default function DiscoveryPage() {
             <div key={f.title} className="flex flex-col gap-2 rounded-2xl border-2 border-ink bg-surface p-4 shadow-[3px_3px_0_var(--color-ink)]">
               <span className="self-start rounded-full bg-mist px-2.5 py-0.5 font-display text-xs font-bold text-brand">{f.min}</span>
               <h3 className="font-display text-sm font-bold leading-tight text-ink">{f.title}</h3>
-              <p className="text-xs leading-snug text-ink/55">{f.desc}</p>
+              <p className="text-xs leading-snug text-ink/70">{f.desc}</p>
             </div>
           ))}
         </div>
         <p className="mt-4 font-display text-sm font-bold text-ink">
           10 + 15 + 60 + 10 + 5 <span className="text-brandsoft">=</span> 100 minutes.
         </p>
-        <p className="mt-1 text-xs text-ink/55">
+        <p className="mt-1 text-xs text-ink/70">
           Your facilitator gets a full, step by step guide before every session.
         </p>
       </Slide>
@@ -464,7 +464,7 @@ export default function DiscoveryPage() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-3 border-t-2 border-mist pt-2 text-xs text-ink/50">
+              <p className="mt-3 border-t-2 border-mist pt-2 text-xs text-ink/70">
                 <span className="font-bold text-brandsoft">How:</span> {a.how}
               </p>
             </div>
@@ -502,8 +502,8 @@ export default function DiscoveryPage() {
             <p className="mt-1 text-[0.65rem] font-bold uppercase tracking-widest text-brandsoft">
               The Equal Lens · Life Skills Programme
             </p>
-            <p className="mt-4 text-sm text-ink/50">This certifies that</p>
-            <p className="mx-auto mt-1 w-2/3 border-b-2 border-dashed border-ink/30 pb-1 font-hand text-base font-bold text-ink/40">
+            <p className="mt-4 text-sm text-ink/70">This certifies that</p>
+            <p className="mx-auto mt-1 w-2/3 border-b-2 border-dashed border-ink/30 pb-1 font-hand text-base font-bold text-ink/70">
               Child&rsquo;s Name
             </p>
             <p className="mt-2 text-sm text-ink/60">has completed all 8 sessions of the Life Skills Journey.</p>
@@ -524,7 +524,7 @@ export default function DiscoveryPage() {
                 ✓
               </span>
               <h3 className="mt-0.5 font-display text-base font-bold leading-tight text-ink">{r.title}</h3>
-              <p className="text-xs text-ink/55">{r.desc}</p>
+              <p className="text-xs text-ink/70">{r.desc}</p>
             </div>
           ))}
         </div>
@@ -570,7 +570,7 @@ export default function DiscoveryPage() {
                   </span>
                   <div>
                     <p className="font-display text-sm font-bold text-ink">{nd.label}</p>
-                    <p className="text-xs text-ink/55">{nd.note}</p>
+                    <p className="text-xs text-ink/70">{nd.note}</p>
                   </div>
                 </li>
               ))}

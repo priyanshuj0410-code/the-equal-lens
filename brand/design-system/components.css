@@ -8,6 +8,21 @@
    utilities on shared properties; use the `.sticker` primitive (not `.card`)
    when you need a non-standard padding/radius. */
 
+/* Focus ring: 2px solid, 2px offset, on every keyboard-focused element.
+   Violet (--color-brand) is 7.4:1 or more on paper, surface and mist in light
+   and 6.8:1 or more in dark, so it clears 3:1 in both themes. On grounds where
+   violet vanishes (the .bg-band footer/CTA band and any dark stage that does not
+   flip), add .bg-band or .on-dark and the ring turns white; a .card or .popover
+   inside one has a surface ground, so the ring goes back to violet there. */
+:focus-visible {
+  outline: 2px solid var(--focus-ring, var(--color-brand));
+  outline-offset: 2px;
+}
+.bg-band,
+.on-dark { --focus-ring: #fff; }
+.card :focus-visible,
+.popover :focus-visible { --focus-ring: var(--color-brand); }
+
 /* ─────────────────────────  ATOMS  ───────────────────────── */
 
 /* Buttons — pill shape, hand font, lift on hover.

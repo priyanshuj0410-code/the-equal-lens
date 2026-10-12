@@ -64,7 +64,7 @@ export default async function BlogPage() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={p.cover || "/blog/placeholder.svg"} alt="" className="h-44 w-full border-b-2 border-ink object-cover" />
                 <div className="p-6">
-                  <p className="text-xs text-ink/50">{formatDate(p.date)}</p>
+                  <p className="text-xs text-ink/70">{formatDate(p.date)}</p>
                   <h2 className="mt-1 font-hand text-2xl font-bold text-ink">{p.title}</h2>
                   {p.excerpt && <p className="mt-2 text-sm text-ink/70">{p.excerpt}</p>}
                 </div>

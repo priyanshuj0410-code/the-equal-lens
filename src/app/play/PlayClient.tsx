@@ -399,7 +399,7 @@ export default function PlayClient({ myths }: { myths: Myth[] }) {
       )}
 
       {view === "capture" && (
-        <div ref={stageRef} className="fixed inset-0 z-[70] bg-[#221436]">
+        <div ref={stageRef} className="on-dark fixed inset-0 z-[70] bg-[#221436]">
           <div className="flex h-full flex-col items-center justify-center py-4">
             {/* The recorded frame as a rounded floating card; chrome rides its edges. */}
             <div className="relative">
@@ -495,7 +495,7 @@ export default function PlayClient({ myths }: { myths: Myth[] }) {
       )}
 
       {openReel && (
-        <div className="fixed inset-0 z-[80] flex items-center justify-center bg-[#221436]/95 p-4">
+        <div className="on-dark fixed inset-0 z-[80] flex items-center justify-center bg-[#221436]/95 p-4">
           <div className="flex max-h-full flex-col items-center gap-4">
             <video src={openReel.url} controls autoPlay loop playsInline className="max-h-[70vh] rounded-2xl" />
             <p className="text-sm text-white/70">{reelDate(openReel.reel)}</p>
@@ -626,7 +626,7 @@ function Landing({
           My reels{reelCount > 0 ? ` (${reelCount})` : ""}
         </button>
       </div>
-      <p className="mt-6 text-xs text-ink/50">
+      <p className="mt-6 text-xs text-ink/70">
         Everything happens on this computer. Your clips - picture and sound - stay here unless
         you choose to save or share them.
       </p>

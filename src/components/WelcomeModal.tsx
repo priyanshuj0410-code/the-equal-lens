@@ -127,7 +127,7 @@ export default function WelcomeModal() {
           </button>
         </div>
 
-        <p className="mt-5 text-center text-xs text-ink/45">
+        <p className="mt-5 text-center text-xs text-ink/70">
           psst - you&rsquo;re never locked in. Toggle whenever you like.
         </p>
       </div>

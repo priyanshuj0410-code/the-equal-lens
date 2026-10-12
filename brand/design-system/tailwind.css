@@ -29,10 +29,11 @@
   --color-mist: #e7e0f1;
   --color-ink: #221436;
   --color-brand: #553286;
-  --color-brandsoft: #7f65a4;
+  --color-brandsoft: #735997;
   --color-band: #553286;
   --dot: #ece6f6;
 
+  /* accents: fills only, with #221436 text; never as text colour, no white on grow */
   --color-insight: #2dd4bf;
   --color-grow: #ff7a5c;
   --color-sun: #ffc94d;

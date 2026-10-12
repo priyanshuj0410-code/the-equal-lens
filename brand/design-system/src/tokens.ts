@@ -11,11 +11,11 @@ export const violet = {
   900: "#221436", // Deep Indigo
 } as const;
 
-/** shared accents (same in light + dark) */
+/** shared accents (same in light + dark). Fills only: put #221436 text on them, never white on grow, never as a text colour. */
 export const accent = {
   insight: "#2DD4BF", // teal · "unlearn"
-  grow: "#FF7A5C", // coral · "relearn" / CTA
-  sun: "#FFC94D", // yellow · highlight / CTA (use ink text on it)
+  grow: "#FF7A5C", // coral · "relearn"
+  sun: "#FFC94D", // yellow · highlight / CTA
   sky: "#4FB0E8", // blue · support
 } as const;
 
@@ -26,7 +26,7 @@ export const light = {
   mist: "#E7E0F1",
   ink: "#221436",
   brand: "#553286",
-  brandsoft: "#7F65A4",
+  brandsoft: "#735997",
   band: "#553286",
   dot: "#ECE6F6",
 } as const;
